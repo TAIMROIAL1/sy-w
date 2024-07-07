@@ -6,7 +6,7 @@ const handleCastingErrorDB = function(err, res) {
 }
 
 const handleDuplicateFieldsDB = function(err, res) {
-  err.message = `The field must be unique`;
+  err.message = `Validation Error: The field must be unique`;
   return Object.keys(err.keyValue)[0]
 }
 
@@ -45,7 +45,6 @@ const sendErrorProd = function(err, res) {
     status: 'fail',
     message: err.message,
     path,
-    err
   })
 }
 

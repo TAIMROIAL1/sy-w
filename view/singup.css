@@ -267,6 +267,7 @@ form .btn input[type="submit"]{
  .error-message{
   margin-left: 5px;
   color: red;
+  font-size: 13px;
  }
  .red{
   color: red;

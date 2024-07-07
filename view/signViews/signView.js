@@ -9,8 +9,11 @@ class SignView {
   #signupPassword = document.querySelector(".password-singup");
   #signupConfirmPassword = document.querySelector(".Cpassword-singup");
   #signupBtnClick = document.querySelector(".btn-signup");
-  // #parent = document.querySelector("");
-  // #spinner = document.querySelector("");
+  #login = document.querySelector(".login");
+  #signup = document.querySelector(".signup");
+  #formContainer = document.querySelector(".form-container");
+  #check = document.querySelector(".wrappeer");
+  #spinner = document.querySelector('.spinner');
 
   constructor() {
     this.#setMoveListeners();
@@ -36,6 +39,9 @@ class SignView {
     this.#signupBtnClick.addEventListener('click', handler);
   }
 
+  setSignUpHandler(handler) {
+    this.#signupBtnClick.addEventListener('click', handler);
+  }
   getInputData() {
     const Obj = {};
     Obj.name = this.#signupFullName.value;
@@ -46,9 +52,30 @@ class SignView {
   }
 
   toggleSpinner() {
-    // this.#parent.classList.toggle('hidden');
-    // this.#spinner.classList.toggle('hidden')
+    this.#login.classList.toggle('hidden');
+    this.#signup.classList.toggle('hidden');
+    this.#formContainer.classList.toggle('hidden');
+    this.#check.classList.add('hidden');
+    this.#spinner.classList.toggle('hidden');
   }
-}
+
+  showScucessMessage() {
+    this.#check.classList.remove('hidden');
+    this.#login.classList.toggle('hidden');
+    this.#signup.classList.toggle('hidden');
+    this.#formContainer.classList.toggle('hidden');
+  }
+
+  showError(response) {
+    const errs = [...document.querySelectorAll('.error')];
+    errs.forEach(err => {
+      err.classList.add('hidden');
+    })
+      const errDiv = document.querySelector(`.error-${response.path}`);
+      errDiv.classList.remove('hidden');
+      const msgDiv = errDiv.querySelector('.error-message');
+      msgDiv.textContent = response.message.slice(17).split(',')[0];
+    }
+  }
 
 export default new SignView();

@@ -13,18 +13,26 @@ const signUpHandler = async function(e) {
   signView.toggleSpinner();
 
   if(response.status === 'success'){
-    // signView.showScucessMessage(); //TODO
+    signView.showScucessMessage(); //TODO
     setTimeout(() => {
       //TODO Login user
     }, 2000);
 }
   if(response.status === 'fail') {
-    // signView.showError(response); //TODO
+    signView.showError(response); //TODO
   }
 }
 
 const setSignUpBtnClickListener = function() {
   signView.setSignUpHandler(signUpHandler);
+}
+
+const loginHandler = async function(e) {
+
+}
+
+const setLoginClickListener = function() {
+  
 }
 
 const init = function() {
