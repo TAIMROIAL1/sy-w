@@ -12,6 +12,49 @@ html,body{
   place-items: center;
   background: -webkit-linear-gradient(left, #5045b2, #42fa9e);
 }
+
+* {
+  padding: 0;
+  margin: 0
+}
+
+.wrappeer {
+  border:  solid hsl(94, 51%, 51%);
+  border-radius: 900px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:#ffffff;
+ position: relative;
+ top: 0;
+}
+
+.animated-check {
+  height: 100px;
+  width: 100px;
+}
+
+.animated-check path {
+  fill: none;
+  stroke: hsl(94, 51%, 51%);
+  stroke-width: 4;
+  stroke-dasharray: 23;
+  stroke-dashoffset: 23;
+  animation: draw 1s linear forwards;
+  stroke-linecap: round;
+  stroke-linejoin: round
+}
+
+@keyframes draw {
+  to {
+      stroke-dashoffset: 0
+  }
+}
+
+.hidden{
+  display: none;
+}
 ::selection{
   background: #5442f3;
   color: #fff;
@@ -179,4 +222,8 @@ form .btn input[type="submit"]{
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
+}
+.created{
+ margin-left: 20px;
+  color: #b3b3b3;
 }
