@@ -12,6 +12,9 @@ html,body{
   place-items: center;
   background: -webkit-linear-gradient(left, #5045b2, #42fa9e);
 }
+.hidden{
+  display: none;
+}
 ::selection{
   background: #5442f3;
   color: #fff;
