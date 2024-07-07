@@ -9,10 +9,12 @@ class SignView {
   #signupPassword = document.querySelector(".password-singup");
   #signupConfirmPassword = document.querySelector(".Cpassword-singup");
   #signupBtnClick = document.querySelector(".btn-signup");
-  
+  // #parent = document.querySelector("");
+  // #spinner = document.querySelector("");
 
   constructor() {
     this.#setMoveListeners();
+
   }
 
   #setMoveListeners() {
@@ -41,6 +43,11 @@ class SignView {
     Obj.password = this.#signupPassword.value;
     Obj.passwordConfirm = this.#signupConfirmPassword.value;
     return Obj;
+  }
+
+  toggleSpinner() {
+    // this.#parent.classList.toggle('hidden');
+    // this.#spinner.classList.toggle('hidden')
   }
 }
 
