@@ -1,33 +1,20 @@
-class SignView {
-  #loginText = document.querySelector(".title-text .login");
-  #loginForm = document.querySelector("form.login");
-  #loginBtn = document.querySelector("label.login");
-  #signupBtn = document.querySelector("label.signup");
-  #signupLink = document.querySelector("form .signup-link a");
+import signView from "../signViews/signView.js";
+import { ajaxToServer } from "../signModels/signupModel.js";
 
-  constructor() {
-    this.#setMoveListeners();
-    console.log(this.#loginBtn);
-  }
+const signUpHandler = async function(e) {
+  e.preventDefault();
 
-  #setMoveListeners() {
-    this.#signupBtn.onclick = (() => {
-      this.#loginForm.style.marginLeft = "-50%";
-      this.#loginText.style.marginLeft = "-50%";
-    });
-    this.#loginBtn.onclick = (() => {
-      this.#loginForm.style.marginLeft = "0%";
-      this.#loginText.style.marginLeft = "0%";
-    });
-    this.#signupLink.onclick = (() => {
-      this.#signupBtn.click();
-      return false;
-    });
-  }
+  const data = signView.getInputData();
 
-  getInputData() {
-
-  }
+  await ajaxToServer('http://127.0.0.1:3000/api/v1/users/signup', data);
 }
 
-const signView = new SignView();
+const setSignUpBtnClickListener = function() {
+  signView.setSignUpHandler(signUpHandler);
+}
+
+const init = function() {
+  setSignUpBtnClickListener();
+}
+
+init();
