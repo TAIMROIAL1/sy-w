@@ -33,7 +33,7 @@ const userSchema =  mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Please Enter your password'],
-    min: [8, 'Your password should be at least 8 characters long'],
+    minLength: [8, 'Your password should be at least 8 characters long'],
     validate: {
       validator: checkString,
       message: 'Your password should contain characters'

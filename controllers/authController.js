@@ -8,9 +8,7 @@ const crypto = require('crypto');
 
 const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_EXPIRES_IN});
 
-exports.signup = catchAsync(async function(req, res, next) {
-  console.log(req.body);
-  
+exports.signup = catchAsync(async function(req, res, next) {  
     const { name, email, password, passwordConfirm } = req.body;
     
     const user = await User.create({name, email, password, passwordConfirm});

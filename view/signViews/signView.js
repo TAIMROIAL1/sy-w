@@ -13,7 +13,6 @@ class SignView {
 
   constructor() {
     this.#setMoveListeners();
-    console.log(this.#signupBtnClick);
   }
 
   #setMoveListeners() {
