@@ -5,11 +5,12 @@
       <meta charset="utf-8">
       <title>Login and Registration </title>
       <link rel="stylesheet" href="singup.css">
-
+      <link href='https://unpkg.com/css.gg@2.0.0/icons/css/danger.css' rel='stylesheet'>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script type="module"  defer src="signControllers/signController.js"></script>
    </head>
    <body>
+      
       <div class="wrapper ">
          <div class="title-text">
             <div class="title login">
@@ -48,18 +49,36 @@
                </form> 
                
                 <form action="#" class="signup " >
-                  <div class="field">
-                     <input type="text" placeholder="FULL NAME" required  class="full-name-singup">
+                  <div class="field ">
+                     <input type="text" placeholder="FULL NAME"  class=" full-name-singup "  required>
+                   <div class="error hidden">
+                      <div class="gg-danger "></div>
+                      <div class="error-message">eroor</div>
+                   </div>
+                     
+                    
                   </div>
                   <div class="field">
                      <input type="text" placeholder="Email Address" required class="email-singup">
+                     <div class="error hidden">
+                        <div class="gg-danger"></div>
+                        <div class="error-message">eroor</div>
+                     </div>
                   </div>
                   <div class="field">
                      <input type="password" placeholder="Password" required class="password-singup">
+                     <div class="error hidden">
+                        <div class="gg-danger"></div>
+                        <div class="error-message">eroor</div>
+                     </div>
                
                   </div>
                   <div class="field">
                      <input type="password" placeholder="confirm password" required class="Cpassword-singup">
+                     <div class="error hidden">
+                        <div class="gg-danger"></div>
+                        <div class="error-message">eroor</div>
+                     </div>
                
                   </div>
                  

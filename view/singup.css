@@ -52,9 +52,7 @@ html,body{
   }
 }
 
-.hidden{
-  display: none;
-}
+
 ::selection{
   background: #5442f3;
   color: #fff;
@@ -211,7 +209,7 @@ form .btn:hover .btn-layer{
 }
 form .btn input[type="submit"]{
   height: 100%;
-  width: 100%;
+  width: 100%;  
   z-index: 1;
   position: relative;
   background: none;
@@ -226,4 +224,52 @@ form .btn input[type="submit"]{
 .created{
  margin-left: 20px;
   color: #b3b3b3;
+}
+.gg-danger {
+  color:#ff0000d7;  
+  box-sizing: border-box;
+  position: relative;
+  display:block;
+  transform: scale(var(--ggs,1));
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-radius: 40px
+ }
+ 
+ .gg-danger::after,
+ .gg-danger::before {
+  content: "";
+  display:block;
+  box-sizing: border-box;
+  
+  border-radius: 3px;
+  width: 2px;
+  background: currentColor;
+ 
+ }
+ 
+ .gg-danger::after {
+  top: 2px;
+  height: 8px
+ }
+ 
+ .gg-danger::before {
+  height: 2px;
+  bottom: 2px
+ } 
+ .error{
+  display: flex;
+  align-content: center;
+ }
+ 
+ .error-message{
+  margin-left: 5px;
+  color: red;
+ }
+ .red{
+  color: red;
+ }
+ .hidden{
+  display: none;
 }
