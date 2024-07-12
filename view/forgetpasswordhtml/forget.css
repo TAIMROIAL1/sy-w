@@ -75,4 +75,6 @@ margin-top: 10px;
   .hight{
     height: 320px;
   }
-  
+  .hidden {
+    display: none;
+  }

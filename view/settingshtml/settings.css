@@ -1,0 +1,107 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+html,body{
+    display: grid;
+    height: 100%;
+    width: 100%;
+    place-items: center;
+    
+  }
+
+.container{
+    width:70%;
+    height: 600px;
+   display: grid;
+   grid-template-columns:  repeat(1,1fr 3fr);
+   grid-auto-rows: 600px;
+    background-color: rgb(204, 204, 204);
+    column-gap: 6rem;
+}
+.list{
+    grid-column: 1/2;
+    background: -webkit-linear-gradient(left, #4574b2, #42fa9e    );
+    
+    height: 100%;
+}
+.btn{
+    font-size: 15px;
+    display: block;
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.377);
+    border-radius: 8px;
+    background: -webkit-linear-gradient(left, #4574b2, #42fa9e    );}
+.setting-info{
+    overflow-y: auto ;
+    grid-column: 2/3;
+    display: grid;
+grid-template-rows: repeat(1,1fr 1fr);
+padding-bottom: 100px;
+
+    position: relative;
+}
+.name-email{
+    position: relative;
+    padding-bottom: 100px;
+}
+.account-info{
+   color: rgba(126, 126, 126, 0.514);
+    font-size: 1.5rem;
+    font-family:monospace ;
+    margin-top: 10px;
+}
+.block{
+    padding: 8px;
+        width:50%;
+        height: 21px;
+    display: block;
+    border: 1px solid rgba(197, 197, 197, 0.562);
+    border-radius: 17px;
+}
+.block:focus{
+    outline: none;
+}
+
+.label{
+    margin-top: 20px;
+ 
+}
+.save{
+    position: absolute;
+    right: 10%;
+    bottom: 20px;
+    width: 120px;
+    height: 40px;
+    box-shadow: 2px 1px rgba(75, 75, 75, 0.15) ;
+    border-radius: 15px;
+    border: none;
+    background: -webkit-linear-gradient(left, #4574b2, #42fa9e    );
+
+}
+.password-update{
+    position: relative;
+    padding-bottom: 60px;
+    
+}
+.password-update-title{
+    text-transform: uppercase;
+   
+    font-size: 1.5rem;
+    font-family:monospace ;
+    margin-top: 10px;
+}
+.reset{
+    position: absolute;
+    right: 10%;
+    bottom: -30px  ;
+    width: 120px;
+    height: 40px;
+    box-shadow: 2px 1px rgba(75, 75, 75, 0.15) ;
+    border-radius: 15px;
+    border: none;
+    background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
+    
+}

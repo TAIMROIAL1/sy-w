@@ -5,19 +5,21 @@
       <meta charset="utf-8">
       <title>Login and Registration </title>
       <link rel="stylesheet" href="singup.css">
-      <link href='https://unpkg.com/css.gg@2.0.0/icons/css/danger.css' rel='stylesheet'>
+      <link href='https://unpkg.com/css.gg@2.0.0/icons/css/danger.css'
+         rel='stylesheet'>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script type="module"  defer src="signControllers/signController.js"></script>
+      <script type="module" defer
+         src="signControllers/signController.js"></script>
    </head>
    <body>
-      
+
       <div class="wrapper ">
          <div class="title-text ">
             <div class="title login ">
-               Login 
+               Login
             </div>
             <div class="title signup ">
-               Signup 
+               Signup
             </div>
          </div>
          <div class="form-container ">
@@ -31,7 +33,7 @@
             <div class="form-inner">
                <form action="#" class="login">
                   <div class="field">
-                     <input type="text"  placeholder="FULL NAME " required>
+                     <input type="text" placeholder="FULL NAME " required>
                      <div class="error hidden">
                         <div class="gg-danger"></div>
                         <div class="error-message"></div>
@@ -52,60 +54,63 @@
                      <input type="submit" value="Login" class="btn-login">
                   </div>
                   <div class="signup-link">
-                     Not a member? <a href="">Signup now</a>
+                     Not a member? <a href>Signup now</a>
                   </div>
-               </form> 
-               
-                <form action="#" class="signup " >
+               </form>
+
+               <form action="#" class="signup ">
                   <div class="field ">
-                     <input type="text" placeholder="FULL NAME"  class=" full-name-singup "  required>
-                   <div class="error hidden">
-                      <div class="gg-danger "></div>
-                      <div class="error-message"></div>
-                   </div>
-                     
-                    
+                     <input type="text" placeholder="FULL NAME"
+                        class=" full-name-singup " required>
+                     <div class="error hidden">
+                        <div class="gg-danger "></div>
+                        <div class="error-message"></div>
+                     </div>
+
                   </div>
                   <div class="field">
-                     <input type="text" placeholder="Email Address" required class="email-singup">
+                     <input type="text" placeholder="Email Address" required
+                        class="email-singup">
                      <div class="error hidden">
                         <div class="gg-danger"></div>
                         <div class="error-message"></div>
                      </div>
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="Password" required class="password-singup">
+                     <input type="password" placeholder="Password" required
+                        class="password-singup">
                      <div class="error hidden">
                         <div class="gg-danger"></div>
                         <div class="error-message"></div>
                      </div>
-               
+
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="confirm password" required class="Cpassword-singup">
+                     <input type="password" placeholder="confirm password"
+                        required class="Cpassword-singup">
                      <div class="error hidden">
                         <div class="gg-danger"></div>
                         <div class="error-message"></div>
                      </div>
-               
+
                   </div>
-                 
+
                   <div class="field btn">
                      <div class="btn-layer"></div>
                      <input type="submit" value="Signup" class="btn-signup">
                   </div>
-                </form>
-           </div>
-         
-           
+               </form>
+            </div>
+
          </div>
-         
-         <div class="wrappeer hidden" > <svg class="animated-check" viewBox="0 0 24 24">
-            <path d="M4.1 12.7L9 17.6 20.3 6.3" fill="none" /> </svg>
+
+         <div class="wrappeer hidden"> <svg class="animated-check"
+               viewBox="0 0 24 24">
+               <path d="M4.1 12.7L9 17.6 20.3 6.3" fill="none" /> </svg>
             <div class="created">your account has been created </div>
          </div>
-          <div class="spinner hidden">
-          <div class="loader"></div>
+         <div class="spinner hidden">
+            <div class="loader"></div>
          </div>
       </div>
    </body>
