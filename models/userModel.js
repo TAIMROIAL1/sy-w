@@ -73,7 +73,15 @@ const userSchema =  mongoose.Schema({
   passwordResetTokenExpiresIn: {
     type: Date,
     select: false
-  }
+  },
+  value: {
+    type: Number,
+    default: 0
+  },
+  subcourses: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Subcourse'
+  }]
 })
 
 userSchema.pre('save',async function(next) {
@@ -90,6 +98,15 @@ next();
 userSchema.methods.correctPassword = async function(enteredPassword, hashedPassword) {
   return await bcrypt.compare(enteredPassword, hashedPassword);
 }
+
+userSchema.methods.checkChangedPassword = function(JWTIsuuedIn) {
+  if(this.passwordChangedAt) {
+    const changeDate = parseInt(this.passwordChangedAt / 1000, 10);
+    if(changeDate > JWTIsuuedIn) return true;
+  }
+
+  return false;
+};
 
 userSchema.methods.createResetToken = async function() {
   const resetToken = crypto.randomBytes(32).toString('hex');

@@ -4,11 +4,18 @@ class SignView {
   #loginBtn = document.querySelector("label.login");
   #signupBtn = document.querySelector("label.signup");
   #signupLink = document.querySelector("form .signup-link a");
+
   #signupFullName = document.querySelector(".full-name-singup")
   #signupEmail = document.querySelector(".email-singup");
   #signupPassword = document.querySelector(".password-singup");
   #signupConfirmPassword = document.querySelector(".Cpassword-singup");
+
+  #loginFullName = document.querySelector('.full-name-login');
+  #loginPassword = document.querySelector('.password-login');
+
   #signupBtnClick = document.querySelector(".btn-signup");
+  #loginBtnClick = document.querySelector(".btn-login");
+
   #login = document.querySelector(".login");
   #signup = document.querySelector(".signup");
   #formContainer = document.querySelector(".form-container");
@@ -17,7 +24,6 @@ class SignView {
 
   constructor() {
     this.#setMoveListeners();
-
   }
 
   #setMoveListeners() {
@@ -39,15 +45,22 @@ class SignView {
     this.#signupBtnClick.addEventListener('click', handler);
   }
 
-  setSignUpHandler(handler) {
-    this.#signupBtnClick.addEventListener('click', handler);
+  setLoginHandler(handler) {
+    this.#loginBtnClick.addEventListener('click', handler);
   }
-  getInputData() {
+  getInputDataSignup() {
     const Obj = {};
     Obj.name = this.#signupFullName.value;
     Obj.email = this.#signupEmail.value;
     Obj.password = this.#signupPassword.value;
     Obj.passwordConfirm = this.#signupConfirmPassword.value;
+    return Obj;
+  }
+
+  getInputDataLogin() {
+    const Obj = {};
+    Obj.name = this.#loginFullName.value;
+    Obj.password = this.#loginPassword.value;
     return Obj;
   }
 
@@ -59,19 +72,21 @@ class SignView {
     this.#spinner.classList.toggle('hidden');
   }
 
-  showScucessMessage() {
+  showScucessMessage(msg = 'Your account has been created') {
     this.#check.classList.remove('hidden');
+    this.#check.querySelector('.created').textContent = msg;
     this.#login.classList.toggle('hidden');
     this.#signup.classList.toggle('hidden');
     this.#formContainer.classList.toggle('hidden');
   }
 
-  showError(response) {
+  showError(response, type) {
     const errs = [...document.querySelectorAll('.error')];
     errs.forEach(err => {
       err.classList.add('hidden');
     })
-      const errDiv = document.querySelector(`.error-${response.path}`);
+    console.log(`.error-${response.path}${type === 'login'? '-login' : ''}`);
+      const errDiv = document.querySelector(`.error-${response.path}${type === 'login'? '-login' : ''}`);
       errDiv.classList.remove('hidden');
       const msgDiv = errDiv.querySelector('.error-message');
       msgDiv.textContent = response.message.slice(17).split(',')[0];

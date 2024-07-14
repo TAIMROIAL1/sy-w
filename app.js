@@ -14,9 +14,12 @@ app.use(morgan('dev'));
 app.use(cors());
 
 const userRouter = require('./routes/userRoutes');
+const classRouter = require('./routes/classesRoutes');
+const codeRouter = require('./routes/codeRoutes');
 
 app.use('/api/v1/users', userRouter);
-
+app.use('/api/v1/classes', classRouter);
+app.use('/api/v1/codes', codeRouter);
 
 app.use(errorController);
 
