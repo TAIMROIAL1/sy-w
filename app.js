@@ -4,6 +4,17 @@ const morgan = require('morgan');
 const errorController = require('./controllers/errorController');
 const cors = require('cors');
 
+//TODO Hash codes
+//TODO Activate subcourse
+//TODO update 
+//TODO unique fields
+//TODO check for invalid data
+//TODO Handle casting errors
+//TODO security
+//TODO rendering
+
+
+
 const app = express();
 
 dotenv.config({path: './config.env'});
