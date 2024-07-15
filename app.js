@@ -13,8 +13,6 @@ const cors = require('cors');
 //TODO security
 //TODO rendering
 
-
-
 const app = express();
 
 dotenv.config({path: './config.env'});
