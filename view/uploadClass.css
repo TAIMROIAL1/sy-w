@@ -1,0 +1,38 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+html{box-sizing: border-box;
+  width: 100%;
+  height: 100%;}
+body{
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+ display: grid;
+ justify-content: center;
+ align-items: center;
+}
+.center{
+  display: grid;
+justify-content: center;
+align-items: center;
+height: auto;
+width: auto;
+}
+.header{
+ 
+ display: flex;
+ justify-content: center;
+ margin-bottom: 70px;
+}
+.container{
+ background-color: blanchedalmond;
+ 
+
+}
+label{
+  display: block;
+ margin-bottom: 6px;
+}
