@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const errorController = require('./controllers/errorController');
 const cors = require('cors');
 const viewRouter = require('./routes/viewRoutes')
+const cookieParser = require('cookie-parser');
 
 //TODO Hash codes
 //TODO Activate subcourse
@@ -24,10 +25,16 @@ dotenv.config({path: './config.env'});
 
 //SEC Middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')))
+
+// app.use((req, res, next) => {
+//   console.log(req.cookies);
+//   next();
+// })
 
 const userRouter = require('./routes/userRoutes');
 const classRouter = require('./routes/classesRoutes');

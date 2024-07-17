@@ -11,42 +11,43 @@ const userSchema =  mongoose.Schema({
   name: {
     type: String,
     unique: true,
-    required: [true, 'Please Enter your name'],
-    minLength: [4, 'A name must be at least 4 character long'],
-    maxLength: [16, 'A name can`t be longer than 16 characters'],
+    required: [true, 'الرجاء ادخال الاسم'],
+    minLength: [4, 'الاسم قصير جدا'],
+    maxLength: [16, 'الاسم طويل جدا'],
     validate: {
       validator: checkString,
-      message: 'A name must contain characters'
+      message: 'يجب ان يحتوي الاسم على حروف'
     }
   },
   email: {
     type: String,
     unique: true,
-    required: [true, 'Please enter your email'],
+    required: [true, 'الرجاء ادخال البريد الالكتروني'],
     validate: {
       validator: function(val) {
         return validator.isEmail(val);
       },
-      message: 'Unvalid email'
+      message: 'هذا البريد غير صالح'
     }
   },
   password: {
     type: String,
-    required: [true, 'Please Enter your password'],
-    minLength: [8, 'Your password should be at least 8 characters long'],
+    required: [true, 'الرجاء ادخال كلمة السر'],
+    minLength: [8, 'يجب ان تكون كلمة السر اطول من ثمانية احرف'],
+    maxLength: [30, 'كلمة السر طويلة جدا'],
     validate: {
       validator: checkString,
-      message: 'Your password should contain characters'
+      message: 'يجب ان تحتوي كلمة السر على احرف'
     }
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please Confirm your password'],
+    required: [true, 'الرجاء تأكيد كلمة السر'],
     validate: {
       validator: function(val) {
         return this.password === val;
       },
-      message: 'Passwords don`t match'
+      message: 'كلمات السر غير متطابقة'
     }
   },
   passwordChangedAt: {
@@ -56,7 +57,7 @@ const userSchema =  mongoose.Schema({
     type: String,
     enum: {
       values: ['user', 'admin'],
-      message: 'Can`t change your role!'
+      message: 'لا يمكنك تغيير دورك'
     },
     default: 'user',
     select: false

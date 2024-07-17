@@ -1,5 +1,5 @@
 process.on('uncaughtException', (err) => {
-  console.log('ERROR: ', err.message);
+  console.log('ERROR: ', err);
   process.exit(1);
 })
 
