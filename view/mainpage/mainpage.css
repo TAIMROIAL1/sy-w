@@ -1,13 +1,13 @@
-/* ||small|| */
+ @media screen and (max-width:700px) {
+    
 
-
-    *{
+ *{
       margin: -1px;
       padding: 0;
     box-sizing: border-box;
    }
   
-   body{   
+body{   
       margin: 0;
       font-family: monospace;
       font-size:1rem;
@@ -19,7 +19,7 @@
   cursor: auto; 
   }
   
-   button{
+button{
     cursor: pointer;
    }
     .hidden-list{
@@ -31,7 +31,7 @@
      justify-content: end;
       align-items:center  ;
     }
-  .atp-coin{
+.atp-coin{
     margin-right: 20px;
     display: flex;
     align-items: center;
@@ -49,11 +49,13 @@
   }
     .nav-bar{
    background-color: rgba(177, 175, 175, 0.301);
-   position: relative;
+  position: relative;
       width: 80%;
+      
       height: 80px;
       display: flex;
-    justify-content:end;
+    justify-content:space-evenly;
+    align-items: center;
     border: 2px solid black;
     border-radius:0  0 0 30px ;
     
@@ -66,8 +68,8 @@
     }
     .account{
       position: absolute;
-      left: 50px;
-      top:25%;
+      left: 20px;
+     
     }
     .links{
       background-color: #1cceb4;
@@ -187,9 +189,7 @@
       position: absolute;
       bottom:1rem;
       
-     
-     /*  min-width: auto;
-      min-height: auto; */
+   
     }
     
     @keyframes first-articl-an{
@@ -302,116 +302,6 @@
     right:0%;
       }
     }
-    /* .teachers-header{
-      color:rgb(0, 4, 58) ;
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-     padding: 5px;
-      font-size: 2rem;
-    position:relative;
-    top: 12rem;
-    left:10px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    border:5px solid rgb(0, 4, 58) ;
-    border-bottom: none;
-    border-top: none;
-    border-right: none;
-    }
-    
-    .cont{
-     background-color: #ffffff00;
-      margin: 5px auto;
-      width: 300px;
-      height: 250px;
-      display: flex;
-    position: relative;
-    top: 12rem;
-    border: 1px ;
-    border-radius: 20px;
-    overflow: hidden;
-    
-    
-    
-    }
-    .teacher{ 
-      background-color: #ffffff00;
-      margin: 5px auto;
-      width: 300px;
-      height: 250px;
-      position: absolute;
-    
-    border-radius: 20px;
-    transition: all 0.7s;
-    
-    }
-    
-    
-    .teacher-img{
-    
-      width: 30%;
-      height: 40%;
-      position: absolute;
-    left: 32%;
-    top: 0.5rem;
-    
-    
-    }
-    .teacher-name{
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      font-size: 1rem;
-      color: #fff;
-      position: absolute;
-      top:7rem;
-      left:27%;
-    
-    
-    }
-    .about-teacher{
-      font-size: 12px;
-      width: 200px;
-      height: 100px;
-      color: #fff;
-      position: absolute;
-      bottom: 5px;
-      left: 13%;
-    }
-    
-    .teacher::before{ 
-      content: " ";
-     filter: blur(2px);
-      background: linear-gradient(to right,rgba(0, 248, 207, 0.226) ,rgba(1, 0, 82, 0.322));
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
-      margin: -10px;
-       border-radius:20px ;
-    }
-    .btn1{
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      background-color: #2c353a5b;
-      width: 30px;;
-      height: 30px;
-      border: 1px;
-      border-radius: 10px;
-      position: absolute;
-      top: 50%;
-    
-    }
-    .btn2{
-      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-      background-color: #2c353a5b;
-      width: 30px;;
-      height: 30px;
-      border: 1px;
-      border-radius: 10px;
-      position: absolute;
-      top: 50%;
-      right:0px;
-      
-    } */
     
     .courses{
      display: flex;
@@ -439,7 +329,7 @@
      height: 170px;
      border-left:none ;
      border-radius: 10px;
-     margin-top: 100px;
+     margin-top: 50px;
      
     }
     .first-cours-img{
@@ -502,27 +392,16 @@
      border-radius: 10px;
      
     }
-   
-    
-    /* .footer{
+ }
+ @media screen and (min-width:650px) {
   
-      margin-top: 200px;
-      position: relative;
-      background-color: #00283a;
-      bottom: 0;
-    } */
-  
-    
-  
-  
-  /* ||med|| */
-  *{
+ *{
     margin: -1px;
     padding: 0;
   box-sizing: border-box;
  }
 
- body{   
+body{   
     margin: 0;
     font-family: monospace;
     font-size:1rem;
@@ -534,21 +413,24 @@
 cursor: auto; 
 }
 
- button{
+button{
   cursor: pointer;
  }
   .hidden-list{
     display: none;
   }
+  
+  
   .big-nav{
     
     display: flex;
-   justify-content: end;
+   justify-content: center;
     align-items:center  ;
   }
 .atp-coin{
-  margin-right: 20px;
+  
   display: flex;
+  justify-content: end;
   align-items: center;
  
 }
@@ -564,13 +446,15 @@ cursor: auto;
 }
   .nav-bar{
  background-color: rgba(177, 175, 175, 0.301);
- position: relative;
+position: relative;
     width: 80%;
+    
     height: 80px;
     display: flex;
-  justify-content:end;
+  justify-content:space-evenly;
+  align-items: center;
   border: 2px solid black;
-  border-radius:0  0 0 30px ;
+  border-radius:0  0 30px 30px ;
   
   }
   .nav-bar-img{
@@ -581,8 +465,8 @@ cursor: auto;
   }
   .account{
     position: absolute;
-    left: 50px;
-    top:25%;
+    left: 20px;
+   
   }
   .links{
     background-color: #1cceb4;
@@ -702,9 +586,7 @@ cursor: auto;
     position: absolute;
     bottom:1rem;
     
-   
-   /*  min-width: auto;
-    min-height: auto; */
+ 
   }
   
   @keyframes first-articl-an{
@@ -817,116 +699,6 @@ cursor: auto;
   right:0%;
     }
   }
-  /* .teachers-header{
-    color:rgb(0, 4, 58) ;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-   padding: 5px;
-    font-size: 2rem;
-  position:relative;
-  top: 12rem;
-  left:10px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  border:5px solid rgb(0, 4, 58) ;
-  border-bottom: none;
-  border-top: none;
-  border-right: none;
-  }
-  
-  .cont{
-   background-color: #ffffff00;
-    margin: 5px auto;
-    width: 300px;
-    height: 250px;
-    display: flex;
-  position: relative;
-  top: 12rem;
-  border: 1px ;
-  border-radius: 20px;
-  overflow: hidden;
-  
-  
-  
-  }
-  .teacher{ 
-    background-color: #ffffff00;
-    margin: 5px auto;
-    width: 300px;
-    height: 250px;
-    position: absolute;
-  
-  border-radius: 20px;
-  transition: all 0.7s;
-  
-  }
-  
-  
-  .teacher-img{
-  
-    width: 30%;
-    height: 40%;
-    position: absolute;
-  left: 32%;
-  top: 0.5rem;
-  
-  
-  }
-  .teacher-name{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 1rem;
-    color: #fff;
-    position: absolute;
-    top:7rem;
-    left:27%;
-  
-  
-  }
-  .about-teacher{
-    font-size: 12px;
-    width: 200px;
-    height: 100px;
-    color: #fff;
-    position: absolute;
-    bottom: 5px;
-    left: 13%;
-  }
-  
-  .teacher::before{ 
-    content: " ";
-   filter: blur(2px);
-    background: linear-gradient(to right,rgba(0, 248, 207, 0.226) ,rgba(1, 0, 82, 0.322));
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    margin: -10px;
-     border-radius:20px ;
-  }
-  .btn1{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color: #2c353a5b;
-    width: 30px;;
-    height: 30px;
-    border: 1px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-  
-  }
-  .btn2{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color: #2c353a5b;
-    width: 30px;;
-    height: 30px;
-    border: 1px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    right:0px;
-    
-  } */
   
   .courses{
    display: flex;
@@ -954,7 +726,7 @@ cursor: auto;
    height: 170px;
    border-left:none ;
    border-radius: 10px;
-   margin-top: 100px;
+   margin-top: 50px;
    
   }
   .first-cours-img{
@@ -1017,245 +789,6 @@ cursor: auto;
    border-radius: 10px;
    
   }
- 
-  
-  /* .footer{
-
-    margin-top: 200px;
-    position: relative;
-    background-color: #00283a;
-    bottom: 0;
-  } */
-
-  
-  
-  @keyframes first-articl-an1{
-    from{
-  right:75%;
-    }
-    to{
-  right:0%;
-    }
-  }
-  
-  
-  .first-articl3{
-    color: #fff;
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: 130px;
-    min-width: 700px;
-   height:300px;
-    display: flex;
-    position: relative;
-    top:10rem;
-    flex-grow: 1;
-    animation-name:first-articl-an ;
-    animation-duration: 2s;
-    animation-timing-function: ease-out;
-    border: 1px solid rgba(44, 44, 44, 0.719);
-    border-left: none;
-    border-right: 3px solid rgba(44, 44, 44, 0.719);
-    border-radius: 40px;
-    box-shadow: 6px 6px 10px #0c0c0c,
-     -6px -6px 5px #000000;
-  }
-  .first-articl-imag3{
-    width: 300px;
-    height: 200px;
-    position: absolute;
-    top:60px  ;
-    right: 8rem;
-    box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-  }
-  .first-bargragh-div3{
-  
-    margin-right: 30px;
-    width:200px;
-    height: 100px;
-    position: absolute;
-    top: 100px;
-    left: 80px;
-   
-   /*  min-width: auto;
-    min-height: auto; */
-  }
-  
-  @keyframes first-articl-an{
-    from{
-  right:75%;
-    }
-    to{
-  right:0%;
-    }
-  }
-  .teachers-header{
-    color:rgb(0, 4, 58) ;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-   padding: 5px;
-    font-size: 3rem;
-  position:relative;
-  top: 12rem;
-  left:10px;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  border:5px solid rgb(0, 4, 58) ;
-  border-bottom: none;
-  border-top: none;
-  border-right: none;
-  }
-  
-  .cont{
-   background-color: #ffffff00;
-    margin: 5px auto;
-    width: 700px;
-    height: 300px;
-    
-  position: relative;
-  top: 12rem;
-  border: 1px ;
-  border-radius: 20px;
-  overflow: hidden;
-  
-  
-  
-  }
-  .teacher{ 
-    background-color: #ffffff00;
-    margin: 5px auto;
-    width: 700px;
-    height: 300px;
-    position: absolute;
-  
-  border-radius: 20px;
-  transition: all 0.7s;
-  
-  }
-  
-  
-  .teacher-img{
-  
-    width: 30%;
-    height: 40%;
-    position: absolute;
-  left: 33%;
-  top: 0.5rem;
-  
-  
-  }
-  .teacher-name{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    font-size: 2rem;
-    color: #fff;
-    position: absolute;
-    top:8rem;
-    left:27%;
-  
-  
-  }
-  .about-teacher{
-    color: #fff;
-    position: absolute;
-    bottom: 3rem;
-  }
-  
-  .teacher::before{ 
-    content: " ";
-   filter: blur(2px);
-    background: linear-gradient(to right,rgba(0, 248, 207, 0.226) ,rgba(1, 0, 82, 0.322));
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    margin: -10px;
-     border-radius:20px ;
-  }
-  .btn1{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color: #2c353a5b;
-    width: 30px;;
-    height: 30px;
-    border: 1px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-  
-  }
-  .btn2{
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    background-color: #2c353a5b;
-    width: 30px;;
-    height: 30px;
-    border: 1px;
-    border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    right:0px;
-    
-  }
-  
-  .custom-link {
-    text-decoration: none;
-  cursor: auto; 
-  }
-  
-   button{
-    cursor: pointer;
-   }
-   .footer{
-     
-    display: flex;
-    flex-grow: 1;
-    background-color: #00283a;
-    margin-top: 240px;
-    display: flex;
-    justify-content: center;
-    width:100%;
-    height: 200px;
-    position: relative;
-    animation-name: tran;
-    animation-duration: 1.2s;
-   }
-   @keyframes tran {
-    from{
-      height: 0px;
-    }
-    to{
-      height: 200px;
-    }
-    
-   }
-  .foot-par{
-    font-family: 'Courier New', Courier, monospace;
-    margin: 1px auto;
-    text-transform: uppercase;
-    font-size: 3rem;
-    color: aliceblue;
-  }
-  .about-school{
-  
-    position: absolute;
-    top: 30%;
-  }
-  .foot-btn1{
-    width:10px;
-    height: 10px;
-    font-size: 2rem;
-    position: absolute;
-    top: 10px;
-   left: 10px;
-  }
-  .foot-btn2{
-    font-size: 2rem;
-    position: absolute;
-    top: 10px;
-   left: 60px;
-  }
-  }
-  
-  
-  
+ }
   
   
