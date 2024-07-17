@@ -6,7 +6,7 @@ const handleCastingErrorDB = function(err, res) {
 }
 
 const handleDuplicateFieldsDB = function(err, res) {
-  err.message = `The field must be unique`;
+  err.message = `Validation Error: The field must be unique`;
   return Object.keys(err.keyValue)[0]
 }
 
@@ -24,7 +24,9 @@ const handleValidationErrorDB = function(err, res) {
  return error[1].path;
 }
 
-
+const handleValidationErrorDB2 = function(err, res) {
+  return err.path;
+}
 const sendErrorDev = function(err, res) {
   res.status(500).json({
     status: 'fail',
@@ -38,9 +40,10 @@ const sendErrorProd = function(err, res) {
   if(err.name === 'CastError') path = handleCastingErrorDB(err, res);
     if(err.code === 11000) path = handleDuplicateFieldsDB(err, res);
     if(err.name === 'ValidationError') path = handleValidationErrorDB(err, res);
+    if(err.name === 'ValidationError2') path = handleValidationErrorDB2(err, res);
     if(err.name === 'JsonWebTokenError') handleJsonWebTokenError(err, res);
     if(err.name ==='TokenExpiredError') handleJsonWebTokenExpired(err, res);
-
+  
   res.status(400).json({
     status: 'fail',
     message: err.message,

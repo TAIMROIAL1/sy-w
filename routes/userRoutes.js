@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-const { signup, login, forgotPassword, resetPassword, checkFingerPrint } = require('./../controllers/authController');
+const { signup, login, forgotPassword, resetPassword, checkFingerPrint, checkJWT, restrictTo } = require('./../controllers/authController');
 
 router.post('/signup', signup);
 router.post('/login', login);

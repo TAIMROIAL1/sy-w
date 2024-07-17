@@ -1,0 +1,74 @@
+doctype html
+// Created By CodingNepal
+html(lang='en', dir='ltr')
+  head
+    meta(charset='utf-8')
+    title Login and Registration 
+    link(rel='stylesheet', href='/signStyle.css')
+    link(href='https://unpkg.com/css.gg@2.0.0/icons/css/danger.css', rel='stylesheet')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    //- script(type='module', defer='', src='signControllers/signController.js')
+  body
+    .wrapper
+      .title-text
+        .title.login
+          | تسجيل الدخول
+        .title.signup
+          | انشاء حساب 
+      .form-container
+        .slide-controls
+          input#login(type='radio', name='slide', checked='')
+          input#signup(type='radio', name='slide')
+          label.slide.login(for='login') تسجيل الدخول
+          label.slide.signup(for='signup') انشاءحساب 
+          .slider-tab
+        .form-inner
+          form.login(action='#')
+            .field
+              input.full-name-login(type='text', placeholder='الاسم الكامل  ', required='')
+              .error.error-name-login.hidden
+                .gg-danger
+                .error-message
+            .field
+              input.password-login(type='password', placeholder='كلمة المرور', required='')
+              .error.error-password-login.hidden
+                .gg-danger
+                .error-message
+            .pass-link
+            .field.btn
+              .btn-layer
+              input.btn-login(type='submit', value='تسجيل الدخول')
+            .signup-link
+              | ليس لديك حساب؟ 
+              a(href='') انشاء حساب الان
+          |  
+          form.signup(action='#')
+            .field
+              input.full-name-singup(type='text', placeholder='الاسم الكامل ', required='')
+              .error.error-name.hidden
+                .gg-danger
+                .error-message
+            .field
+              input.email-singup(type='text', placeholder='البريد الالكتروني', required='')
+              .error.error-email.hidden
+                .gg-danger
+                .error-message
+            .field
+              input.password-singup(type='password', placeholder='كلمة المرور ', required='')
+              .error.error-password.hidden
+                .gg-danger
+                .error-message
+            .field
+              input.Cpassword-singup(type='password', placeholder='تاكيد كلمة المرور', required='')
+              .error.error-passwordConfirm.hidden
+                .gg-danger
+                .error-message
+            .field.btn
+              .btn-layer
+              input.btn-signup(type='submit', value='انشاء حساب')
+      .wrappeer.hidden
+        svg.animated-check(viewBox='0 0 24 24')
+          path(d='M4.1 12.7L9 17.6 20.3 6.3', fill='none')
+        .created your account has been created 
+      .spinner.hidden
+        .loader

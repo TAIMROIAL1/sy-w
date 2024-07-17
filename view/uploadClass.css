@@ -1,0 +1,83 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+html{box-sizing: border-box;
+  width: 100%;
+  height: 100%;}
+body{
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+ display: grid;
+ justify-content: center;
+ align-items: center;
+ background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
+}
+.container{
+  width: 350px;
+  height: 300px;
+  display: grid;
+  justify-content: center;
+ align-items: center;
+
+}
+.center{
+  display: grid;
+justify-content: center;
+align-items: center;
+height: auto;
+width: auto;
+}
+.label-input{
+  display: flex;
+  justify-content: end;
+  
+}
+
+.header{
+ 
+ display: flex;
+ justify-content: center;
+ margin-bottom: 70px;
+ 
+}
+
+.container{
+ background-color: rgba(151, 151, 151, 0.288);
+}
+label{
+ display: block;
+margin-top: 10px;
+margin-bottom: 10px;
+ width: 70px;
+ 
+}
+
+.input{
+  border: none;
+  width: 250px;
+  height: 30px;
+  border-radius: 50px;
+}
+.upload-class{
+ padding: 20px;
+ padding-left: 40px;
+ padding-right: 40px;
+ border: none;
+  border: 2px solid rgba(133, 131, 131, 0.315);
+  border-radius: 50px;
+  box-shadow: 10px;
+}
+.btn{
+  display: flex;
+  justify-content: center;
+}
+.btn-sub{
+  width: 100px;
+  height: 30px;
+  border-radius: 20px;
+  background-color: rgba(151, 151, 151, 0.288);
+ 
+}

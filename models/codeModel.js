@@ -1,0 +1,58 @@
+const mongoose = require('mongoose');
+const User = require('./userModel');
+
+const codeSchema = new mongoose.Schema({
+  code: {
+    type: String,
+    required: [true, 'Please enter the code'],
+    unique: [true, 'The code must be unique']
+  },
+  value: {
+    type: Number,
+    required: [true, 'Please enter the value of the code']
+  },
+  activatedBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
+  activated: {
+    type: Boolean,
+    default: false
+  }
+})
+//TODO
+codeSchema.methods.activateCode = async function(userId) {
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  try {
+    const user = await User.findById(userId);
+  
+  const activatioinCode = this.constructor.findOneAndUpdate({_id: this._id}, {activated: true, activatedBy: userId}, {new: true,session});
+  if(!activatioinCode) {
+    throw new Error('Couldn`t be activated');
+  }
+
+  user.value += this.value;
+  await user.save({validateBeforeSave: false});
+  
+  this.activated = true;
+  this.activatedBy = userId;
+  await this.save({validateBeforeSave: false});
+
+  session.commitTransaction();
+  session.endSession();
+
+  return true;
+  } catch(err) {
+    session.abortTransaction();
+    session.endSession();
+
+    throw err;
+  }
+  
+}
+
+const Code = mongoose.model('Code', codeSchema);
+
+module.exports = Code;
