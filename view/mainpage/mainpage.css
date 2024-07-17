@@ -401,6 +401,10 @@ button{
   box-sizing: border-box;
  }
 
+.taim {
+    
+}
+
 body{   
     margin: 0;
     font-family: monospace;
