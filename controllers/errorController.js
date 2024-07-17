@@ -1,12 +1,10 @@
-const AppError = require('./../utils/AppError');
-
 const handleCastingErrorDB = function(err, res) {
   err.message = `Casting error, value: ${err.stringValue}`;
   return err.path;
 }
 
 const handleDuplicateFieldsDB = function(err, res) {
-  err.message = `Validation Error: The field must be unique`;
+  err.message = `Validation Error: غير صالح`;
   return Object.keys(err.keyValue)[0]
 }
 
@@ -35,25 +33,28 @@ const sendErrorDev = function(err, res) {
   })
 }
 
-const sendErrorProd = function(err, res) {
+const handlerUnauthorized = function(res) {
+  res.status(400).render('sign');
+}
+
+const sendErrorProd = function(err, res, req) {
   let path;
   if(err.name === 'CastError') path = handleCastingErrorDB(err, res);
     if(err.code === 11000) path = handleDuplicateFieldsDB(err, res);
     if(err.name === 'ValidationError') path = handleValidationErrorDB(err, res);
     if(err.name === 'ValidationError2') path = handleValidationErrorDB2(err, res);
+    if(err.statusCode === 401 && !req.originalUrl.startsWith('/api')) return handlerUnauthorized(res);
     if(err.name === 'JsonWebTokenError') handleJsonWebTokenError(err, res);
     if(err.name ==='TokenExpiredError') handleJsonWebTokenExpired(err, res);
-  
   res.status(400).json({
     status: 'fail',
     message: err.message,
-    path,
-    err
+    path: path ?? undefined
   })
 }
 
 module.exports = function(err, req, res, next) {
   if(process.env.NODE_ENV === 'development') return sendErrorDev(err, res);
-  if(process.env.NODE_ENV === 'production') return sendErrorProd(err, res);
+  if(process.env.NODE_ENV === 'production') return sendErrorProd(err, res, req);
 
 }

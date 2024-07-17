@@ -1,5 +1,7 @@
 import signView from "../signViews/signView.js";
 import { ajaxToServer } from "../signModels/signupModel.js";
+import 'core-js/stable';
+import 'regenerator-runtime/runtime.js'
 
 const signUpHandler = async function(e) {
   e.preventDefault();
@@ -15,7 +17,7 @@ const signUpHandler = async function(e) {
   if(response.status === 'success'){
     signView.showScucessMessage(); //TODO
     setTimeout(() => {
-      //TODO Login user
+      location.assign('/');
     }, 2000);
 }
   if(response.status === 'fail') {
@@ -40,7 +42,9 @@ const loginHandler = async function(e) {
 
   if(response.status === 'success') {
     signView.showScucessMessage('You have been logged into your account');
-    // TODO Log user in
+      setTimeout(() => {
+        location.assign('/');
+      }, 2500)
   }
   if(response.status === 'fail') {
     signView.showError(response, 'login');
