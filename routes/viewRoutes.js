@@ -9,4 +9,8 @@ router.get('/sign-up', checkJWT, (req, res) => {
   res.status(200).render('sign');
 });
 
+router.get('/', checkJWT, (req, res) => {
+  res.status(200).render('mainpage');
+})
+
 module.exports = router;

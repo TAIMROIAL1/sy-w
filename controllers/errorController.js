@@ -4,8 +4,9 @@ const handleCastingErrorDB = function(err, res) {
 }
 
 const handleDuplicateFieldsDB = function(err, res) {
-  err.message = `Validation Error: غير صالح`;
-  return Object.keys(err.keyValue)[0]
+  const path = Object.keys(err.keyValue)[0];
+  err.message = `Validation Error: هئا ${path === 'name' ? 'الاسم' : 'البريد'} غير صالح`;
+  return path;
 }
 
 const handleJsonWebTokenError = function(err, res) {  
