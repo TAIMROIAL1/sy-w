@@ -7,7 +7,7 @@ html,body{
     height: 100%;
     width: 100%;
     place-items: center;
-    
+    background: -webkit-linear-gradient(left, #4574b2, #42fa9e    );
   }
 
 .container{
@@ -46,9 +46,10 @@ padding-bottom: 100px;
 .name-email{
     position: relative;
     padding-bottom: 100px;
+    border-bottom: 1px solid gray ;
 }
 .account-info{
-   color: rgba(126, 126, 126, 0.514);
+   color: rgba(0, 0, 0, 0.952);
     font-size: 1.5rem;
     font-family:monospace ;
     margin-top: 10px;
@@ -75,7 +76,7 @@ padding-bottom: 100px;
     bottom: 20px;
     width: 120px;
     height: 40px;
-    box-shadow: 2px 1px rgba(75, 75, 75, 0.15) ;
+    box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
     border-radius: 15px;
     border: none;
     background: -webkit-linear-gradient(left, #4574b2, #42fa9e    );
@@ -99,9 +100,43 @@ padding-bottom: 100px;
     bottom: -30px  ;
     width: 120px;
     height: 40px;
-    box-shadow: 2px 1px rgba(75, 75, 75, 0.15) ;
+    box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
     border-radius: 15px;
     border: none;
     background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
     
+}
+.setting-btn{
+    display: none;
+}
+@media screen and (max-width:500px) {
+    .container{
+        width:100%;
+        height: 600px;
+       display: grid;
+       grid-template-columns: 0;
+       grid-auto-rows: 600px;
+        background-color: rgba(245, 245, 245, 0.411);
+        column-gap: 0;
+        padding-left: 20px;
+    }
+    .list{
+        display: none;
+    }
+    .setting-btn{
+        border: none;
+        background: none;
+        font-size: 2rem;
+        display: block;
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        right: 20px;
+        z-index: 1;
+    }
+    .setting-btn:hover{
+        transition: all 0.1s;
+       color: gray;
+
+    }
 }
