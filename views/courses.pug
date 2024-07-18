@@ -5,10 +5,13 @@ block content
     p.cours courses:
   .courses
     each c in courses
-      button.btn-clases
+      button.btn-clases(data-courseid= `${c._id}`)
         .first-cours
           .class-img-container
             img.first-cours-img(src=`/imgs/courses/${c.photoUrl}`, alt=`course card`)
           .class-info 
             .asab= c.title
             .about-cours= c.description
+
+block scripts
+  script(src='/js/courses.js')

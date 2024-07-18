@@ -1,8 +1,8 @@
-const classesContainer = document.querySelector('.courses');
+const coursesContainer = document.querySelector('.courses');
 
-classesContainer.addEventListener('click', (e) => {
+coursesContainer.addEventListener('click', (e) => {
   const clicked = e.target.closest('.btn-clases');
-  location.assign(`/classes/${clicked.dataset.classid}/courses`)
+  location.assign(`/courses/${clicked.dataset.courseid}/subcourses`)
 })
 
 const userImg = document.querySelector('.nav-bar-img');

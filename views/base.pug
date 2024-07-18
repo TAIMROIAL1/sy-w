@@ -9,16 +9,15 @@ html(lang='en')
     link(href="https://fonts.googleapis.com/css2?family=Lalezar&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet")
     title= title
     link(rel='stylesheet', href='/css/main.css')
-    script(defer, type='module', src='/js/main.js')
   body
     .big-nav
       .nav-bar
-        img.nav-bar-img(src='/imgs/default.jpg', alt='')
+        img.nav-bar-img(src='/imgs/default.jpg')
         .account= user.name
         .atp-coin
           .atp= user.value 
           |  
           .atp1 ATP
     block content
-    
+    block scripts
     

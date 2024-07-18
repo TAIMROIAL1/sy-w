@@ -30,10 +30,12 @@ block content
     p.cours(dir='rtl' lang='ar') الصفوف :
   .courses
     each c in classes
-      button.btn-clases
+      button.btn-clases(data-classid=`${c._id}`)
         .first-cours
           .class-img-container
             img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
           .class-info 
             .asab(dir='rtl' lang='ar')= c.title
             .about-cours(dir='rtl' lang='ar')= c.description
+block scripts
+      script(defer, type='module', src='/js/main.js')
