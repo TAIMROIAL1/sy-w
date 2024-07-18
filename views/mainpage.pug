@@ -1,38 +1,38 @@
 extends base
 
 block content
-    article.articl
-      .homs
-        span.home home
-      .first-articl
-        img.first-articl-imag(src='/imgs/teacher.jpg', alt='')
-        .first-bargragh-div
-          p.first-bargragh
-            | Lorem ipsum, dolor sit amet consectetur
-            | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
-            | nulla maxime ipsam perspiciatis dignissimos error?
-      .first-articl
-        img.first-articl-imag(src='/imgs/a2.jpg', alt='')
-        .first-bargragh-div
-          p.first-bargragh
-            | Lorem ipsum, dolor sit amet consectetur
-            | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
-            | nulla maxime ipsam perspiciatis dignissimos error?
-      .first-articl
-        img.first-articl-imag(src='/imgs/a3.jpg', alt='')
-        .first-bargragh-div
-          p.first-bargragh
-            | Lorem ipsum, dolor sit amet consectetur
-            | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
-            | nulla maxime ipsam perspiciatis dignissimos error?
+  article.articl
+    .homs
+      span.home(dir='rtl' lang='ar') الواجهة الرئيسية
+    .first-articl
+      img.first-articl-imag(src='/imgs/teacher.jpg', alt='')
+      .first-bargragh-div
+        p.first-bargragh(dir='rtl' lang='ar')
+          | العلوم كلمة تدل على المعرفة الإنسانية المتشكلة عن طريق
+          | الملاحظة ورصد الظواهر الطبيعية والإنسانية ووضع
+          | الفرضيات وإجراء التجارب، إضافة للمحاكمة المنطقية
+    .first-articl
+      img.first-articl-imag(src='/imgs/a2.jpg', alt='')
+      .first-bargragh-div
+        p.first-bargragh(dir='rtl' lang='ar')
+          | العلوم كلمة تدل على المعرفة الإنسانية المتشكلة عن طريق
+          | الملاحظة ورصد الظواهر الطبيعية والإنسانية ووضع
+          | الفرضيات وإجراء التجارب، إضافة للمحاكمة المنطقية
+    .first-articl
+      img.first-articl-imag(src='/imgs/a3.jpg', alt='')
+      .first-bargragh-div
+        p.first-bargragh(dir='rtl' lang='ar')
+          | العلوم كلمة تدل على المعرفة الإنسانية المتشكلة عن طريق
+          | الملاحظة ورصد الظواهر الطبيعية والإنسانية ووضع
+          | الفرضيات وإجراء التجارب، إضافة للمحاكمة المنطقية
 
-    .div-cours
-      p.cours classes:
-    .courses
-      each c in classes
-        .first-cours
-          .class-img-container
-            img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
-          .class-info 
-            .asab= c.title
-            .about-cours= c.description
+  .div-cours
+    p.cours(dir='rtl' lang='ar') الصفوف :
+  .courses
+    each c in classes
+      .first-cours
+        .class-img-container
+          img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
+        .class-info 
+          .asab(dir='rtl' lang='ar')= c.title
+          .about-cours(dir='rtl' lang='ar')= c.description

@@ -1,0 +1,13 @@
+extends base
+
+block content
+  .div-cours
+    p.cours courses:
+  .courses
+    each c in courses
+      .first-cours
+        .class-img-container
+          img.first-cours-img(src=`/imgs/courses/${c.photoUrl}`, alt=`course card`)
+        .class-info 
+          .asab= c.title
+          .about-cours= c.description

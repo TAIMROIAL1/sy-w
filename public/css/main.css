@@ -42,8 +42,8 @@ body{
  .home{
    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
    font-size: 2.5rem;
-  color: #1cceb4;
-  
+  color:rgb(0, 0, 0);
+  font-weight: bold;
    text-transform: uppercase;
   
    
@@ -127,7 +127,9 @@ body{
  }
 .cours{
 font-size: 3rem;
+font-weight: bold;
 font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+color:rgb(0, 0, 0);
  }
  .first-cours{
    display: grid;
@@ -149,7 +151,7 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   display: grid;
   justify-content: center;
   
-  grid-template-rows: repeat(1, 1fr 2fr); 
+  grid-template-rows: repeat(1, 1fr 1fr); 
  }
  .first-cours-img{
    width: 110px;
@@ -167,11 +169,11 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   text-align: center;
    text-transform: uppercase;
    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
-   font-size: 2rem;
+   font-size: 25px;
   width:100%;
  }
  .about-cours{
-  text-align: start;
+  text-align: center;
    height:auto ;
  }
  
@@ -219,7 +221,7 @@ font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
      .account{
        position: absolute;
        left: 20px;
-      
+      color: rgb(85, 85, 85);
      }
      
      
