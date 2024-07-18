@@ -5,36 +5,36 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(href='https://unpkg.com/css.gg@2.0.0/icons/css/profile.css', rel='stylesheet')
     title sama alashrafea schools
-    link(rel='stylesheet', href='/main.css')
-    script(defer='', type='module', src='index.js')
+    link(rel='stylesheet', href='/css/main.css')
+    script(defer, type='module', src='/js/main.js')
   body
     .big-nav
       .nav-bar
-        img.nav-bar-img(src='img.jpg', alt='')
-        .account  rayan salameh
+        img.nav-bar-img(src='/imgs/default.jpg', alt='')
+        .account= user.name
         .atp-coin
-          .atp 100 
+          .atp= user.value 
           |  
           .atp1 ATP
     article.articl
       .homs
         span.home home
       .first-articl
-        img.first-articl-imag(src='img.jpg', alt='')
+        img.first-articl-imag(src='/imgs/teacher.jpg', alt='')
         .first-bargragh-div
           p.first-bargragh
             | Lorem ipsum, dolor sit amet consectetur
             | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
             | nulla maxime ipsam perspiciatis dignissimos error?
       .first-articl2
-        img.first-articl-imag2(src='img.jpg', alt='')
+        img.first-articl-imag2(src='/imgs/a2.jpg', alt='')
         .first-bargragh-div2
           p.first-bargragh2
             | Lorem ipsum, dolor sit amet consectetur
             | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
             | nulla maxime ipsam perspiciatis dignissimos error?
       .first-articl3
-        img.first-articl-imag3(src='img.jpg', alt='')
+        img.first-articl-imag3(src='/imgs/a3.jpg', alt='')
         .first-bargragh-div3
           p.first-bargragh3
             | Lorem ipsum, dolor sit amet consectetur
@@ -44,8 +44,8 @@ html(lang='en')
     .div-cours
       p.cours classes:
     .courses
-      .first-cours
-        img.first-cours-img(src='img.jpg', alt='')
-        p.asab blood
-        p.about-cours
-          | Lorem ipsum dolor, sit amet consectetur
+      each c in classes
+        .first-cours
+          img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
+          p.asab= c.title
+          p.about-cours= c.description

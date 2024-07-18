@@ -12,14 +12,14 @@ const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {
 exports.checkJWT = catchAsync(async function(req, res, next) {
   //1) Check if a token exists: PT 
   let token;
-  console.log(req.cookies);
   if(req.cookies.jwt){
     token = req.cookies.jwt;
   } else if((req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) {
     token = req.headers.authorization.split(' ')[1];
     } else {
-  if(req.originalUrl === '/sign-up') return next();
-  return next(new AppError('You are not logged in! Please login to gain access', 401));
+  if(!req.originalUrl.startsWith('/api')){ 
+    return next();
+  }return next(new AppError('You are not logged in! Please login to gain access', 401));
 }
   // if(!token) return next(new AppError('You are not logged in! Please login to gain access', 401));
   //2) Validate the token PT
@@ -27,15 +27,15 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   try {
     decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET_KEY);
   } catch(err) {
-    if(req.originalUrl === '/sign-up'){
+    if(!req.originalUrl.startsWith('/api') ){
       return next();
     }
     return next(new AppError('You are not logged in! Please login to gain access', 401));
   }
   const { id } = decoded;
 
-  if(!id && req.originalUrl === '/sign-up') {
-    if(req.originalUrl === '/sign-up') return next();    
+  if(!id && !req.originalUrl.startsWith('/api') ) {
+    if(!req.originalUrl.startsWith('/api') ) return next();    
     return next(new AppError('You are not logged in! Please login to gain access', 401))
   }
 
@@ -44,18 +44,18 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
 
     const user = await User.findById(id).select('+role');
     if(!user) {
-      if(req.originalUrl === '/sign-up') return next();
+      if(!req.originalUrl.startsWith('/api') ) return next();
       return next(new AppError('You are not logged in! Please login to gain access', 401));
     }
 
   //4) Check if user changed password after the token was issued PT
 
   if(user.checkChangedPassword(decoded.iat)) {
-    if(req.originalUrl === '/sign-up') return next();
+    if(!req.originalUrl.startsWith('/api') ) return next();
     return next(new AppError('Password has been changed, please login again', 401))
 }
   //5) If valid token, call next(); PT
-    if(req.originalUrl === '/sign-up') res.locals.user = user;
+    if(!req.originalUrl.startsWith('/api') ) res.locals.user = user;
     else req.user = user;
     next();
 })
@@ -63,7 +63,6 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
 exports.restrictTo = function(...roles) {
   return async function(req, res, next) {
     const { user } = req;
-    console.log(roles, user.role);
     if(!roles.includes(user.role)) return next(new AppError('You don`t have permission to perform this action!', 403));
 
     next();
@@ -96,7 +95,7 @@ exports.login = catchAsync(async function(req, res, next) {
 
   if(!name) return next(new AppError('Validation Error: الرجاء ادخال الاسم الكامل', 400, 'name'));
   if(!password) return next(new AppError('Validation Error: الرجاء ادخال كلمة السر', 400, 'password'));
-    console.log(name);
+
   const user = await User.findOne({name});
   if(!user) return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'));
 
@@ -144,7 +143,7 @@ exports.login = catchAsync(async function(req, res, next) {
 //   const user = await User.findOne({passwordResetToken: hashedResetToken, passwordResetTokenExpiresIn: {$gt: Date.now()}});
 
 //   if(!user) return next(new AppError('Reset Token unvalid or outdated', 400));
-//   console.log('Hi');
+
 //   const { curPassword, password, passwordConfirm } = req.body;
 //   if(!(await user.correctPassword((curPassword + ''), user.password))) return next(new AppError('Sorry, your password is incorrect, please try again', 400));
 
@@ -171,6 +170,6 @@ exports.login = catchAsync(async function(req, res, next) {
 
 exports.checkFingerPrint = function(req, res, next) {
   const userAgent = req.headers['user-agent'];
-  console.log(userAgent);
+
   next();
 }
