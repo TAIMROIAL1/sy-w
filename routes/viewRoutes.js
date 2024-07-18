@@ -60,4 +60,14 @@ router.get('/courses/:courseId/subcourses', checkJWT, catchAsync(async (req, res
   });
 }))
 
+router.get('/settings', checkJWT, catchAsync(async (req, res) => {
+  if(!res.locals.user) {
+    return res.status(200).render('sign');
+  }
+  const { user } = res.locals;
+  res.status(200).render('settings', {
+    user
+  });
+}))
+
 module.exports = router;
