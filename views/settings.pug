@@ -1,0 +1,38 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='settings.css')
+    title settings
+  body
+    .container
+      button.setting-btn &#x2699;
+      .list
+        ul.btn-list
+          button.btn My account
+          button.btn My courses
+          button.btn Help
+      .setting-info
+        .name-email
+          .account-info my account info
+          .label
+            label(for='name') Name:
+            input#name.block(type='text')
+          .label
+            label(for='email') Email:
+            input#email.block(type='email')
+          button.save save changes
+        .password-update
+          .password-update-title update my passsword
+          .label
+            label(for='Current-password') Password:
+            |  
+            input#Current-password.block(type='password')
+          .label
+            label.label(for='password')  New Password:
+            input#password.block(type='password')
+          .label
+            label.label(for='confirm-password') confirm password:
+            input#confirm-password.block(type='password')
+          button.reset reset

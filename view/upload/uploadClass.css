@@ -68,7 +68,7 @@ margin-bottom: 10px;
  border: none;
   border: 2px solid rgba(133, 131, 131, 0.315);
   border-radius: 50px;
-  box-shadow: 10px;
+  box-shadow: 2px 1px 3px rgba(85, 85, 85, 0.637) ;
 }
 .btn{
   display: flex;
@@ -79,5 +79,6 @@ margin-bottom: 10px;
   height: 30px;
   border-radius: 20px;
   background-color: rgba(151, 151, 151, 0.288);
+  box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
  
 }
