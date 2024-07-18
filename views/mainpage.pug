@@ -30,9 +30,10 @@ block content
     p.cours(dir='rtl' lang='ar') الصفوف :
   .courses
     each c in classes
-      .first-cours
-        .class-img-container
-          img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
-        .class-info 
-          .asab(dir='rtl' lang='ar')= c.title
-          .about-cours(dir='rtl' lang='ar')= c.description
+      button.btn-clases
+        .first-cours
+          .class-img-container
+            img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
+          .class-info 
+            .asab(dir='rtl' lang='ar')= c.title
+            .about-cours(dir='rtl' lang='ar')= c.description

@@ -13,7 +13,17 @@ body{
     background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
  
  }
-
+ .btn-clases{
+  background: none;
+  border: none;
+  margin-top:30px ;
+ }
+ .btn-clases:hover{
+  transition: all 0.1s;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
+ }
  .account{
   font-family: Lalezar;
   font-size: 2rem;
@@ -140,7 +150,7 @@ color:rgb(0, 0, 0);
   border-left:none ;
   border-radius: 10px;
   padding-left: 10px;
-  margin-top:20px ;
+  
   box-shadow: inset -5px -5px 10px 0px rgba(255, 255, 255, 0.5),
   inset 5px 5px 10px 0px rgba(0,0,0,0.3);
 
@@ -176,76 +186,234 @@ color:rgb(0, 0, 0);
   text-align: center;
    height:auto ;
  }
+ @media screen and (min-width:401px ) and ( max-width:500px){
+  .account{
+    font-size: 25px;
+  }
+  .atp{
+    font-size: 17px;
+  }
+  .atp1{
+    font-size: 22px;
+  }
+  .nav-bar-img{
+    width: 40px;
+    height: 40px;
+  }
+  .first-cours-img{
+    width: 99px;
+    height: 126px;
+  }
+  .asab{
+    font-size: 22px;
+  }
+  .about-cours{
+    font-size: 14px;
+  }
+
+  .big-nav{
+     
+    display: flex;
+   justify-content: end;
+    align-items:center  ;
+  }
+.atp-coin{
+  margin-left: ;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+ 
+}
+.atp{
+  font: 20px impact;
+  margin-right:8px ;
+  margin-left: 10px;
+}
+.atp1{
+  font: 25px impact;
+  color: #5045b2dc;
+  margin-right: 5px;
+}
+  .nav-bar{
+ background-color: rgba(177, 175, 175, 0.301);
+position: relative;
+    width: 80%;
+    
+    height: 80px;
+    display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  border: 2px solid black;
+  border-radius:0  0 30px 30px ;
+  
+  }
+  
+  .account{
+    position: absolute;
+    left: 20px;
+   
+  }
+  
+  
+  .articl{
+   
+   
+    position: relative;
+  margin-top: 30px;
+    margin-bottom: 20px;
+  
+  }
  
 
-@media screen and (max-width:700px) {
+ }
+ @media screen and (max-width:400px){
+  
+  .big-nav{
+       
+    display: flex;
+   justify-content: end;
+    align-items:center  ;
+  }
+  
+  .account{
+    font-size: 22px;
+  }
+  .atp{
+    font-size: 14px;
+  }
+  .atp1{
+    font-size: 19px;
+  }
+  .nav-bar-img{
+    width: 35px;
+    height: 35px;
+  }
+  .first-cours-img{
+    width: 95px;
+    height: 120px;
+  }
+  .asab{
+    font-size: 20px;
+  }
+  .about-cours{
+    font-size: 13px;
+  }
 
-
+  .big-nav{
+     
+    display: flex;
+   justify-content: end;
+    align-items:center  ;
+  }
+.atp-coin{
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ margin-left: 30px;
+}
+.atp{
+  font: 20px impact;
+  margin-right:8px ;
+  margin-left: 10px;
+}
+.atp1{
+  font: 25px impact;
+  color: #5045b2dc;
+  margin-right: 5px;
+}
+  .nav-bar{
+ background-color: rgba(177, 175, 175, 0.301);
+ position: relative;
+    width: 80%;
+    height: 80px;
+    display: grid;
+  justify-content:space-evenly;
+  align-items: center;
+  border: 2px solid black;
+  border-radius:0  0 30px 30px ;
+  
+  }
+  
+  .account{
+    position: absolute;
+    left: 20px;
    
-     .big-nav{
-       
-       display: flex;
-      justify-content: end;
-       align-items:center  ;
-     }
- .atp-coin{
-     margin-right: 20px;
-     display: flex;
-     align-items: center;
+  }
+  
+  
+  .articl{
+   
+   
+    position: relative;
+  margin-top: 30px;
+    margin-bottom: 20px;
+  
+  }
+ 
+
+ }
+
+@media screen and (min-width:500px ) and ( max-width:700px) {
+
+
+  .big-nav{
+     
+    display: flex;
+   justify-content: center;
+    align-items:center  ;
+  }
+.atp-coin{
+  
+  display: flex;
+  justify-content: end;
+  align-items: center;
+ 
+}
+.atp{
+  font: 20px impact;
+  margin-right:8px ;
+  margin-left: 10px;
+}
+.atp1{
+  font: 25px impact;
+  color: #5045b2dc;
+  margin-right: 5px;
+}
+  .nav-bar{
+ background-color: rgba(177, 175, 175, 0.301);
+position: relative;
+    width: 80%;
     
-   }
-   .atp{
-     font: 20px impact;
-     margin-right:8px ;
-     margin-left: 10px;
-   }
-   .atp1{
-     font: 25px impact;
-     color: #5045b2dc;
-     margin-right: 5px;
-   }
-     .nav-bar{
-    background-color: rgba(177, 175, 175, 0.301);
-   position: relative;
-       width: 80%;
-       
-       height: 80px;
-       display: flex;
-     justify-content:space-evenly;
-     align-items: center;
-     border: 2px solid black;
-     border-radius:0  0 0 30px ;
-     
-     }
-     
-     .account{
-       position: absolute;
-       left: 20px;
-      color: rgb(85, 85, 85);
-     }
-     
-     
-    
-     
-     .navbar-btn{
-       display: block;
-       padding: 3px;
-       background-color:#1cceb4 ;
-       font-size: 20px;
-       text-transform: uppercase;
-       text-decoration: none;
-       color: black;
-       margin: 8px;
-      border: none ;
-      border-radius: 6px;
-      transition-property: all;
-      transition-duration:0.6s ;
-     }
-     
+    height: 80px;
+    display: flex;
+  justify-content:space-evenly;
+  align-items: center;
+  border: 2px solid black;
+  border-radius:0  0 30px 30px ;
+  
+  }
+  
+  .account{
+    position: absolute;
+    left: 20px;
+   
+  }
+  
+  
+  .articl{
+   
+   
+    position: relative;
+  margin-top: 30px;
+    margin-bottom: 20px;
+  
+  }
+ 
     } 
      
      
-  @media screen and (min-width:650px) {
+  @media screen and (min-width:700px) {
    
  
    
