@@ -1,54 +1,36 @@
-doctype html
-html(lang='en')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    link(href='https://unpkg.com/css.gg@2.0.0/icons/css/profile.css', rel='stylesheet')
-    link(rel="preconnect" href="https://fonts.googleapis.com")
-    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
-    link(href="https://fonts.googleapis.com/css2?family=Lalezar&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet")
-    title= title
-    link(rel='stylesheet', href='/css/main.css')
-    script(defer, type='module', src='/js/main.js')
-  body
-    .big-nav
-      .nav-bar
-        img.nav-bar-img(src='/imgs/default.jpg', alt='')
-        .account= user.name
-        .atp-coin
-          .atp= user.value 
-          |  
-          .atp1 ATP
-    article.articl
-      .homs
-        span.home home
-      .first-articl
-        img.first-articl-imag(src='/imgs/teacher.jpg', alt='')
-        .first-bargragh-div
-          p.first-bargragh
-            | Lorem ipsum, dolor sit amet consectetur
-            | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
-            | nulla maxime ipsam perspiciatis dignissimos error?
-      .first-articl2
-        img.first-articl-imag2(src='/imgs/a2.jpg', alt='')
-        .first-bargragh-div2
-          p.first-bargragh2
-            | Lorem ipsum, dolor sit amet consectetur
-            | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
-            | nulla maxime ipsam perspiciatis dignissimos error?
-      .first-articl3
-        img.first-articl-imag3(src='/imgs/a3.jpg', alt='')
-        .first-bargragh-div3
-          p.first-bargragh3
-            | Lorem ipsum, dolor sit amet consectetur
-            | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
-            | nulla maxime ipsam perspiciatis dignissimos error?
+extends base
 
-    .div-cours
-      p.cours classes:
-    .courses
-      each c in classes
-        .first-cours
-          img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
-          p.asab= c.title
-          p.about-cours= c.description
+block content
+  article.articl
+    .homs
+      span.home home
+    .first-articl
+      img.first-articl-imag(src='/imgs/teacher.jpg', alt='')
+      .first-bargragh-div
+        p.first-bargragh
+          | Lorem ipsum, dolor sit amet consectetur
+          | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
+          | nulla maxime ipsam perspiciatis dignissimos error?
+    .first-articl2
+      img.first-articl-imag2(src='/imgs/a2.jpg', alt='')
+      .first-bargragh-div2
+        p.first-bargragh2
+          | Lorem ipsum, dolor sit amet consectetur
+          | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
+          | nulla maxime ipsam perspiciatis dignissimos error?
+    .first-articl3
+      img.first-articl-imag3(src='/imgs/a3.jpg', alt='')
+      .first-bargragh-div3
+        p.first-bargragh3
+          | Lorem ipsum, dolor sit amet consectetur
+          | adipisicing elit. Quos reprehenderit suscipit dolor fugiat neque
+          | nulla maxime ipsam perspiciatis dignissimos error?
+
+  .div-cours
+    p.cours classes:
+  .courses
+    each c in classes
+      .first-cours
+        img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
+        p.asab= c.title
+        p.about-cours= c.description
