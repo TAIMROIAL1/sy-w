@@ -1,30 +1,185 @@
-@media screen and (max-width:700px) {
-    
-
+ 
   *{
-       margin: -1px;
-       padding: 0;
-     box-sizing: border-box;
-    }
+    margin: -1px;
+    padding: 0;
+  box-sizing: border-box;
+ }
+ 
+
+body{   
+    margin: 0;
+    font-family: monospace;
+    font-size:1rem;
+    background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
+ 
+ }
+
+ .account{
+  font-family: Lalezar;
+  font-size: 2rem;
+}
+.nav-bar-img{
+  width: 50px;
+  height:50px;
+   position: absolute;
+  right:10px; 
+  border-radius: 50%;
+  
+  
+}
+.articl{
+      
+  display: grid;
+ row-gap: 22px;
+   position: relative;
+   margin-top: 20px;
+  
+ }
+ .homs{
+   display: flex;
+   justify-content: center;
+ }
+ .home{
+   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+   font-size: 2.5rem;
+  color: #1cceb4;
+  
+   text-transform: uppercase;
+  
    
- body{   
-       margin: 0;
-       font-family: monospace;
-       font-size:1rem;
-       background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
-    
-    }
-    .custom-link {
-     text-decoration: none;
-   cursor: auto; 
+  
+ }
+ .first-articl{
+   color: #fff;
+  
+   min-width:350px;
+  height:300px;
+   display: flex;
+   justify-content: center;
+   position: relative;
+ 
+   flex-grow: 1;
+   animation-name:first-articl-an ;
+   animation-duration: 2s;
+   animation-timing-function: ease-out;
+   border: 1px solid rgba(44, 44, 44, 0.719);
+   border-left: none;
+   border-right: 3px solid rgba(44, 44, 44, 0.719);
+   border-radius: 40px;
+   box-shadow: 6px 6px 10px #0c0c0c,
+    -6px -6px 5px #000000;
+
+ }
+ .first-articl-imag{
+   width:200px;
+   height:150px;
+   position: absolute;
+   top:10px  ;
+   border-radius: 20%;
+   
+   box-shadow: 6px 3px 6px rgba(218, 217, 217, 0.400);
+   
+ }
+ .first-bargragh-div{
+
+   width:320px;
+   height: 100px;
+   position: absolute;
+   bottom:1rem;
+   
+
+ }
+ 
+ @keyframes first-articl-an{
+   from{
+ right:75%;
    }
+   to{
+ right:0%;
+   }
+ }
+ 
+
+ 
+ @keyframes first-articl-an{
+   from{
+ right:75%;
+   }
+   to{
+ right:0%;
+   }
+ }
+ 
+ .courses{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+  height: auto;
+  position: relative;
+  bottom: 0;
+ }
+ .div-cours{
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:150px ;
+ }
+.cours{
+font-size: 3rem;
+font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+ }
+ .first-cours{
+   display: grid;
+   grid-template-columns: repeat(1, 1fr 2fr);
+   background-color: rgba(255, 255, 255, 0.616);
+  min-width: 320px;
+  height: 170px;
+  border-left:none ;
+  border-radius: 10px;
+  padding-left: 10px;
+  margin-top:20px ;
+  box-shadow: inset -5px -5px 10px 0px rgba(255, 255, 255, 0.5),
+  inset 5px 5px 10px 0px rgba(0,0,0,0.3);
+
+
+ }
+ .class-info{
+  margin-top: 15px;
+  display: grid;
+  justify-content: center;
+  
+  grid-template-rows: repeat(1, 1fr 2fr); 
+ }
+ .first-cours-img{
+   width: 110px;
+   height:140px;
+  
+
+
+ }
+ .class-img-container{
+  display: grid;
+  justify-content: center;
+  align-items: center;
+ }
+ .asab{
+  text-align: center;
+   text-transform: uppercase;
+   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
+   font-size: 2rem;
+  width:100%;
+ }
+ .about-cours{
+  text-align: start;
+   height:auto ;
+ }
+ 
+
+@media screen and (max-width:700px) {
+
+
    
- button{
-     cursor: pointer;
-    }
-     .hidden-list{
-       display: none;
-     }
      .big-nav{
        
        display: flex;
@@ -60,52 +215,15 @@
      border-radius:0  0 0 30px ;
      
      }
-     .nav-bar-img{
-       width: 80px;
-       height:70px;
-        position: absolute;
-       right:0%; 
-     }
+     
      .account{
        position: absolute;
        left: 20px;
       
      }
-     .links{
-       background-color: #1cceb4;
-       opacity: 0.8;
-      /*  position: absolute;  */
-       z-index: 100;
-       /* top: 2rem;
-      right:0rem;
-      */
-     }
-     .btn-list{
-      z-index: 101;
-       /* position: absolute;
-       right: 0;
-       top:2rem; */
-     }
-     .logo-test{
-       display: none;
-     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-     text-transform: uppercase;
-     position: absolute;
-     top: 10px;
-     right: 50px;  
-     color: rgba(214, 214, 214, 0.767);
-     text-shadow: 4px 4px 4px rgba(70, 70, 70, 0.568);
-     }
-     h3{
-       display: none;
-       margin-top: 10px;
-       position: absolute;
-     top:2rem;
-     right: 25px;
-     text-transform: uppercase;
-     color: rgba(255, 153, 0, 0.815);
-     text-shadow: 4px 4px 4px rgba(70, 70, 70, 0.568);
-     }
+     
+     
+    
      
      .navbar-btn{
        display: block;
@@ -122,308 +240,12 @@
       transition-duration:0.6s ;
      }
      
-     
-     .navbar-btn:hover{
-       
-     background-image: linear-gradient(90deg, #2272FF, rgba(0, 0, 0, 0.568));
-     color: #fff;
-     background-clip: border-box;
-       transform: translateY(-10px);
-     /*   border-bottom: 1px solid rgba(3, 241, 162, 0.795);;
-     } */}
-     
-     .articl{
-      
-      
-       position: relative;
-     margin-top: 30px;
-       margin-bottom: 20px;
-     
-     }
-     .homs{
-       display: flex;
-       justify-content: center;
-     }
-     .home{
-       font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-       font-size: 2.5rem;
-      color: #1cceb4;
-      
-       text-transform: uppercase;
-      
-       
-      
-     }
-     .first-articl{
-       color: #fff;
-      
-       min-width:350px;
-      height:300px;
-       display: flex;
-       justify-content: center;
-       position: relative;
-       top:4rem;
-       flex-grow: 1;
-       animation-name:first-articl-an ;
-       animation-duration: 2s;
-       animation-timing-function: ease-out;
-       border: 1px solid rgba(44, 44, 44, 0.719);
-       border-left: none;
-       border-right: 3px solid rgba(44, 44, 44, 0.719);
-       border-radius: 40px;
-       box-shadow: 6px 6px 10px #0c0c0c,
-        -6px -6px 5px #000000
-     }
-     .first-articl-imag{
-       width:150px;
-       height:150px;
-       position: absolute;
-       top:10px  ;
-       
-       box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-     }
-     .first-bargragh-div{
-   
-       width:320px;
-       height: 100px;
-       position: absolute;
-       bottom:1rem;
-       
-    
-     }
-     
-     @keyframes first-articl-an{
-       from{
-     right:75%;
-       }
-       to{
-     right:0%;
-       }
-     }
-     
-     .first-articl2{
-     color: #fff;
-       margin-right: 10px;
-       min-width: 350px;
-      height:300px;
-       display: flex;
-       justify-content: center;
-       position: relative;
-       top:5rem;
-       flex-grow: 1;
-       animation-name:first-articl-an1 ;
-       animation-duration: 2s;
-       animation-timing-function: ease-out;
-       border: 1px solid rgba(44, 44, 44, 0.719);
-       border-left: none;
-       border-right: 3px solid rgba(44, 44, 44, 0.719);
-       border-radius: 40px;
-       box-shadow: 6px 6px 10px #0c0c0c,
-       -6px -6px 5px #000000;
-       
-     }
-     .first-articl-imag2{
-       width: 150px;
-       height: 150px;
-       position: absolute;
-       top:10px  ;
-      
-       box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-     }
-     .first-bargragh-div2{
-     
-       width:320px;
-       height: 100px;
-       position: absolute;
-       bottom: 1rem;
-      
-      
-      /*  min-width: auto;
-       min-height: auto; */
-     }
-     
-     @keyframes first-articl-an1{
-       from{
-     right:75%;
-       }
-       to{
-     right:0%;
-       }
-     }
+    } 
      
      
-     .first-articl3{
-       color: #fff;
-       display: flex;
-       flex-wrap: wrap;
-       margin-right: 10px;
-       min-width: 350px;
-      height:300px;
-       display: flex;
-       justify-content: center;
-       position: relative;
-       top:6rem;
-       flex-grow: 1;
-       animation-name:first-articl-an ;
-       animation-duration: 2s;
-       animation-timing-function: ease-out;
-       border: 1px solid rgba(44, 44, 44, 0.719);
-       border-left: none;
-       border-right: 3px solid rgba(44, 44, 44, 0.719);
-       border-radius: 40px;
-       box-shadow: 6px 6px 10px #0c0c0c,
-        -6px -6px 5px #000000;
-     }
-     .first-articl-imag3{
-       width:150px;
-       height: 150px;
-       position: absolute;
-       top:10px  ;
-       
-       box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-     }
-     .first-bargragh-div3{
-     
-       width:320px;
-       height: 100px;
-       position: absolute;
-       bottom:1rem;
-       
-      
-      /*  min-width: auto;
-       min-height: auto; */
-     }
-     
-     @keyframes first-articl-an{
-       from{
-     right:75%;
-       }
-       to{
-     right:0%;
-       }
-     }
-     
-     .courses{
-      display: grid;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 100px;
-      height: auto;
-      position: relative;
-      bottom: 0;
-     }
-     .div-cours{
-       display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top:150px ;
-     }
-    .cours{
-    font-size: 3rem;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-     }
-     .first-cours{
-       position: relative;
-       background-color: aliceblue;
-      min-width: 320px;
-      height: 170px;
-      border-left:none ;
-      border-radius: 10px;
-      margin-top: 50px;
-      
-     }
-     .first-cours-img{
-       width: 110px;
-       height:130px;
-       position: absolute;
-       left: 2px;
-       top: 12%;
-   
-   
-     }
-     .asab{
-       text-transform: uppercase;
-       font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
-       font-size: 2rem;
-       position: absolute;
-       left:24%;
-       top: 8px;
-       margin-left: 50px;
-     }
-     .about-cours{
-       position: absolute;
-       bottom:8px;
-       width: 55%;
-       height:auto ;
-       left:24%;
-       margin-left: 50px;
-       
-      
-     }
-     .first-cours2{
-       background-color: aliceblue;
-       position: absolute;
-      top: 300px;
-     
-      min-width: 320px;
-      height: 170px;
-      border-left:none ;
-      border-radius: 10px;
-      
-     }
-     .first-cours3{
-       background-color: aliceblue;
-       position: absolute;
-      top: 500px;
-      
-      min-width: 320px;
-      height: 170px;
-      border-left:none ;
-      border-radius: 10px;
-      
-     }
-     .first-cours4{
-       background-color: aliceblue;
-       position: absolute;
-      top: 700px;
-      min-width: 320px;
-      height: 170px;
-      border-left:none ;
-      border-radius: 10px;
-      
-     }
-  }
   @media screen and (min-width:650px) {
    
-  *{
-     margin: -1px;
-     padding: 0;
-   box-sizing: border-box;
-  }
  
- .taim {
-     
- }
- 
- body{   
-     margin: 0;
-     font-family: monospace;
-     font-size:1rem;
-     background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
-  
-  }
-  .custom-link {
-   text-decoration: none;
- cursor: auto; 
- }
- 
- button{
-   cursor: pointer;
-  }
-   .hidden-list{
-     display: none;
-   }
-   
    
    .big-nav{
      
@@ -461,77 +283,13 @@
    border-radius:0  0 30px 30px ;
    
    }
-   .nav-bar-img{
-     width: 80px;
-     height:70px;
-      position: absolute;
-     right:0%; 
-   }
+   
    .account{
      position: absolute;
      left: 20px;
     
    }
-   .links{
-     background-color: #1cceb4;
-     opacity: 0.8;
-    /*  position: absolute;  */
-     z-index: 100;
-     /* top: 2rem;
-    right:0rem;
-    */
-   }
-   .btn-list{
-    z-index: 101;
-     /* position: absolute;
-     right: 0;
-     top:2rem; */
-   }
-   .logo-test{
-     display: none;
-   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-   text-transform: uppercase;
-   position: absolute;
-   top: 10px;
-   right: 50px;  
-   color: rgba(214, 214, 214, 0.767);
-   text-shadow: 4px 4px 4px rgba(70, 70, 70, 0.568);
-   }
-   h3{
-     display: none;
-     margin-top: 10px;
-     position: absolute;
-   top:2rem;
-   right: 25px;
-   text-transform: uppercase;
-   color: rgba(255, 153, 0, 0.815);
-   text-shadow: 4px 4px 4px rgba(70, 70, 70, 0.568);
-   }
    
-   .navbar-btn{
-     display: block;
-     padding: 3px;
-     background-color:#1cceb4 ;
-     font-size: 20px;
-     text-transform: uppercase;
-     text-decoration: none;
-     color: black;
-     margin: 8px;
-    border: none ;
-    border-radius: 6px;
-    transition-property: all;
-    transition-duration:0.6s ;
-   }
-   
-   
-   .navbar-btn:hover{
-     
-   background-image: linear-gradient(90deg, #2272FF, rgba(0, 0, 0, 0.568));
-   color: #fff;
-   background-clip: border-box;
-     transform: translateY(-10px);
-   /*   border-bottom: 1px solid rgba(3, 241, 162, 0.795);;
-   } */}
    
    .articl{
     
@@ -541,226 +299,7 @@
      margin-bottom: 20px;
    
    }
-   .homs{
-     display: flex;
-     justify-content: center;
-   }
-   .home{
-     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-     font-size: 2.5rem;
-    color: #1cceb4;
-    
-     text-transform: uppercase;
-    
-     
-    
-   }
-   .first-articl{
-     color: #fff;
-    
-     min-width:350px;
-    height:300px;
-     display: flex;
-     justify-content: center;
-     position: relative;
-     top:4rem;
-     flex-grow: 1;
-     animation-name:first-articl-an ;
-     animation-duration: 2s;
-     animation-timing-function: ease-out;
-     border: 1px solid rgba(44, 44, 44, 0.719);
-     border-left: none;
-     border-right: 3px solid rgba(44, 44, 44, 0.719);
-     border-radius: 40px;
-     box-shadow: 6px 6px 10px #0c0c0c,
-      -6px -6px 5px #000000
-   }
-   .first-articl-imag{
-     width:150px;
-     height:150px;
-     position: absolute;
-     top:10px  ;
-     
-     box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-   }
-   .first-bargragh-div{
- 
-     width:320px;
-     height: 100px;
-     position: absolute;
-     bottom:1rem;
-     
   
-   }
-   
-   @keyframes first-articl-an{
-     from{
-   right:75%;
-     }
-     to{
-   right:0%;
-     }
-   }
-   
-   .first-articl2{
-   color: #fff;
-     margin-right: 10px;
-     min-width: 350px;
-    height:300px;
-     display: flex;
-     justify-content: center;
-     position: relative;
-     top:5rem;
-     flex-grow: 1;
-     animation-name:first-articl-an1 ;
-     animation-duration: 2s;
-     animation-timing-function: ease-out;
-     border: 1px solid rgba(44, 44, 44, 0.719);
-     border-left: none;
-     border-right: 3px solid rgba(44, 44, 44, 0.719);
-     border-radius: 40px;
-     box-shadow: 6px 6px 10px #0c0c0c,
-     -6px -6px 5px #000000;
-     
-   }
-   .first-articl-imag2{
-     width: 150px;
-     height: 150px;
-     position: absolute;
-     top:10px  ;
-    
-     box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-   }
-   .first-bargragh-div2{
-   
-     width:320px;
-     height: 100px;
-     position: absolute;
-     bottom: 1rem;
-    
-    
-    /*  min-width: auto;
-     min-height: auto; */
-   }
-   
-   @keyframes first-articl-an1{
-     from{
-   right:75%;
-     }
-     to{
-   right:0%;
-     }
-   }
-   
-   
-   .first-articl3{
-     color: #fff;
-     display: flex;
-     flex-wrap: wrap;
-     margin-right: 10px;
-     min-width: 350px;
-    height:300px;
-     display: flex;
-     justify-content: center;
-     position: relative;
-     top:6rem;
-     flex-grow: 1;
-     animation-name:first-articl-an ;
-     animation-duration: 2s;
-     animation-timing-function: ease-out;
-     border: 1px solid rgba(44, 44, 44, 0.719);
-     border-left: none;
-     border-right: 3px solid rgba(44, 44, 44, 0.719);
-     border-radius: 40px;
-     box-shadow: 6px 6px 10px #0c0c0c,
-      -6px -6px 5px #000000;
-   }
-   .first-articl-imag3{
-     width:150px;
-     height: 150px;
-     position: absolute;
-     top:10px  ;
-     
-     box-shadow:5px 8px 2px rgba(73, 73, 73, 0.575);
-   }
-   .first-bargragh-div3{
-   
-     width:320px;
-     height: 100px;
-     position: absolute;
-     bottom:1rem;
-     
-    
-    /*  min-width: auto;
-     min-height: auto; */
-   }
-   
-   @keyframes first-articl-an{
-     from{
-   right:75%;
-     }
-     to{
-   right:0%;
-     }
-   }
-   
-   .courses{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 100px;
-    height: auto;
-    position: relative;
-    bottom: 0;
-   }
-   .div-cours{
-     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top:150px ;
-   }
-  .cours{
-  font-size: 3rem;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-   }
-   .first-cours{
-     position: relative;
-     background-color: aliceblue;
-    min-width: 320px;
-    height: 170px;
-    border-left:none ;
-    border-radius: 10px;
-    margin-top: 50px;
-    
-   }
-   .first-cours-img{
-     width: 110px;
-     height:130px;
-     position: absolute;
-     left: 2px;
-     top: 12%;
- 
- 
-   }
-   .asab{
-     text-transform: uppercase;
-     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif ;
-     font-size: 2rem;
-     position: absolute;
-     left:24%;
-     top: 8px;
-     margin-left: 50px;
-   }
-   .about-cours{
-     position: absolute;
-     bottom:8px;
-     width: 55%;
-     height:auto ;
-     left:24%;
-     margin-left: 50px;
-     
-    
-   }
   }
    
    
