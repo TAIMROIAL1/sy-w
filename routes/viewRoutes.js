@@ -18,7 +18,8 @@ router.get('/', checkJWT, async (req, res) => {
   const { user } = res.locals;
   res.status(200).render('mainpage', {
     user,
-    classes
+    classes,
+    title: "Studyou"
   });
 })
 
