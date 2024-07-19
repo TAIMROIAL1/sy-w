@@ -12,8 +12,8 @@ const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {
 exports.checkJWT = catchAsync(async function(req, res, next) {
   //1) Check if a token exists: PT 
   let token;
-  if(req.cookies.jwt){
-    token = req.cookies.jwt;
+  if(req.cookies.jwtStudyou){
+    token = req.cookies.jwtStudyou;
   } else if((req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) {
     token = req.headers.authorization.split(' ')[1];
     } else {
@@ -83,7 +83,7 @@ exports.signup = catchAsync(async function(req, res, next) {
 
     // if(process.env.NODE_ENV === 'production') cookieOptions.secure = true; 
 
-    res.cookie('jwt', token, cookieOptions);
+    res.cookie('jwtStudyou', token, cookieOptions);
 
     res.status(201).json({
       status: 'success'
@@ -110,7 +110,7 @@ exports.login = catchAsync(async function(req, res, next) {
 
   // if(process.env.NODE_ENV === 'production') cookieOptions.secure = true; 
 
-  res.cookie('jwt', token, cookieOptions);
+  res.cookie('jwtStudyou', token, cookieOptions);
 
   res.status(200).json({
     status: 'success',

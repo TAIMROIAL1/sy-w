@@ -15,7 +15,7 @@ router.get('/sign-up', checkJWT, (req, res) => {
 
 router.get('/', checkJWT, catchAsync(async (req, res) => {
   if(!res.locals.user) {
-    return res.status(200).render('sign');
+    return res.status(200).render('toSign');
   }
   const classes = await Class.find();
   console.log(classes)
@@ -30,7 +30,7 @@ router.get('/', checkJWT, catchAsync(async (req, res) => {
 
 router.get('/classes/:classId/courses', checkJWT, catchAsync(async (req, res) => {
   if(!res.locals.user) {
-    return res.status(200).render('sign');
+    return res.status(200).render('toSign');
   }
   const {classId} = req.params;
   const courses = await Course.find({ class: classId});
@@ -45,7 +45,7 @@ router.get('/classes/:classId/courses', checkJWT, catchAsync(async (req, res) =>
 
 router.get('/courses/:courseId/subcourses', checkJWT, catchAsync(async (req, res) => {
   if(!res.locals.user) {
-    return res.status(200).render('sign');
+    return res.status(200).render('toSign');
   }
 
   const {courseId} = req.params;
@@ -62,7 +62,7 @@ router.get('/courses/:courseId/subcourses', checkJWT, catchAsync(async (req, res
 
 router.get('/settings', checkJWT, catchAsync(async (req, res) => {
   if(!res.locals.user) {
-    return res.status(200).render('sign');
+    return res.status(200).render('toSign');
   }
   const { user } = res.locals;
   res.status(200).render('settings', {

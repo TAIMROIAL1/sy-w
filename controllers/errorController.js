@@ -34,9 +34,9 @@ const sendErrorDev = function(err, res) {
   })
 }
 
-const handlerUnauthorized = function(res) {
-  res.status(400).render('sign');
-}
+// const handlerUnauthorized = function(res) {
+//   res.status(400).render('sign');
+// }
 
 const sendErrorProd = function(err, res, req) {
   let path;
@@ -44,7 +44,7 @@ const sendErrorProd = function(err, res, req) {
     if(err.code === 11000) path = handleDuplicateFieldsDB(err, res);
     if(err.name === 'ValidationError') path = handleValidationErrorDB(err, res);
     if(err.name === 'ValidationError2') path = handleValidationErrorDB2(err, res);
-    if(err.statusCode === 401 && !req.originalUrl.startsWith('/api')) return handlerUnauthorized(res);
+    // if(err.statusCode === 401 && !req.originalUrl.startsWith('/api')) return handlerUnauthorized(res);
     if(err.name === 'JsonWebTokenError') handleJsonWebTokenError(err, res);
     if(err.name ==='TokenExpiredError') handleJsonWebTokenExpired(err, res);
   res.status(400).json({

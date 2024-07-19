@@ -11,7 +11,7 @@ const cookieParser = require('cookie-parser');
 //TODO Activate subcourse
 //TODO update 
 //TODO unique fields
-//TODO check for invalid data
+//TODO check for invalid data : In both rendering and api
 //TODO Handle casting errors
 //TODO security
 //TODO rendering
