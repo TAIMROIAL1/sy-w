@@ -1,9 +1,10 @@
 const express = require('express');
 const Class = require('./../models/classesModel');
 const Course = require('./../models/coursesModel');
+const Lesson = require('./../models/lessonModel');
 const Subourse = require('./../models/subcourseModel');
 const catchAsync = require('./../utils/catchAsync')
-const { checkJWT } = require('./../controllers/authController')
+const { checkJWT, restrictTo } = require('./../controllers/authController')
 const router = express.Router();
 
 router.get('/sign-up', checkJWT, (req, res) => {
@@ -60,6 +61,24 @@ router.get('/courses/:courseId/subcourses', checkJWT, catchAsync(async (req, res
   });
 }))
 
+router.get('/subcourses/:subcourseId/lessons', checkJWT, catchAsync(async (req, res) => {
+  if(!res.locals.user) {
+    return res.status(200).render('toSign');
+  }
+
+  const {subcourseId} = req.params;
+
+  const lessons = await Lesson.find({ subcourse: subcourseId});
+
+  const { user } = res.locals;
+
+  res.status(200).render('video', {
+    user,
+    lessons,
+    title: "Studyou | lessons"
+  });
+}))
+
 router.get('/settings', checkJWT, catchAsync(async (req, res) => {
   if(!res.locals.user) {
     return res.status(200).render('toSign');
@@ -69,5 +88,21 @@ router.get('/settings', checkJWT, catchAsync(async (req, res) => {
     user
   });
 }))
+
+router.get('/upload-class', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
+  const { user } = res.locals;
+  res.status(200).render('uploadClass', {
+    user
+  });
+}))
+
+router.get('/classes/:classId/upload-course', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
+  const { user } = res.locals;
+  res.status(200).render('uploadCourse', {
+    user
+  });
+}))
+
+
 
 module.exports = router;
