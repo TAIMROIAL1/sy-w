@@ -4,6 +4,13 @@ const interfaces = [...document.querySelectorAll('.setting-info')]
 const codeInput = document.getElementById('code');
 const activateCodeBtn = document.getElementById('activation-code-btn');
 
+const listBtn = document.querySelector('.setting-btn');
+const list = document.querySelector('.list');
+
+listBtn.addEventListener('click', (e) => {
+    list.classList.toggle('hidden');
+})
+
 const ajaxCall = async function(url, data) {
     const response = await fetch(url, {
         method: 'POST',

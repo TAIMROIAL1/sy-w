@@ -36,6 +36,7 @@ body{
     grid-row:2/3;
 }
 .container{
+    position: relative;
     width: 20%;
    background-color: aquamarine;
 }
@@ -55,6 +56,7 @@ body{
     
 }
 .check{
+    position: relative;
     width: 30%;
   flex-grow: 1;
     margin-top: 100px;
@@ -63,6 +65,20 @@ body{
 .check-box{
     display: block;
     margin-top: 20px;
+    width: 9px;
+    height: 9px;
+    border: 1px solid rgb(61, 61, 61);
+    border-radius: 50%;
+}
+.checked{
+    background-color: rgb(0, 183, 255);
+}
+.correct-answer{
+    background-color: rgb(69, 255, 13);
+
+}
+.wrong-answer{
+    background-color: red;
 }
 .question-container{  
     display: flex;
@@ -79,6 +95,73 @@ body{
     width: 20px;
     height: 20px;
 }
+.submit-answers-btn-container{
+    display: flex;
+    justify-content: center;
+}
+.submit-answers-btn{
+    width: 70px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+
+}
+.submit-answers-btn:hover{
+   background-color: rgb(172, 171, 171);
+}
+.submit-answers-btn:active{
+   background-color: rgb(90, 89, 89);
+}
+.upload-btn{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 2rem;
+    position: fixed;
+    left: 20px;
+    bottom: 30px;
+  }
+  .upload-video, .upload-questions{
+    margin-right: 10px;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid gray;
+    border-radius: 50%;
+
+  }
+ .upload-video:hover, .upload-questions:hover {
+    background-color: rgb(88, 87, 87);
+ } 
+ .bi-edit{
+    width: 20px;
+    height: 20px;
+ margin-right: 5px;
+
+ 
+ }
+
+ .btns-flex-container{
+    
+    display: inline-flex;
+    justify-content: space-evenly;
+    align-items: center;
+ }
+
+ p{
+    display: inline;
+ }
+ .delete-question-btn{
+position: absolute;
+top: -20px;
+right:35px;
+
+ }
+ .edit-question-btn{
+    position: absolute;
+    top: -20px;
+    right: 0;
+ }
 .hidden{
     display: none;
 }

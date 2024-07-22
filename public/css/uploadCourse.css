@@ -85,4 +85,53 @@
     box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
    
   }
+  .correct{
+    position: fixed;
+    top: -125px;
+    display: flex;
+   flex-direction: row;
+    background-color: #42fa9e;
+    width: 200px;
+    height: 125px;
+    z-index: 1;
+    animation: message 1s ease-out , message-return 1s ease-out 3s  ;
+    animation-fill-mode: forwards;
+   }
+   .correct-message{
+    width: auto;
+   position: absolute;
+   top:55px;
+   right: 5px;
+   }
+   .img-correct{
+   position: absolute;
+   left: 20px;
+   }
+   @keyframes message{
+    from{
+  top:-150px;
+    }
+    to{
+  top:15px;
+    }
+  }
+  @keyframes message-return{
+    from{
+  top:15px;
+    }
+    to{
+  top:-150px;
+    }
+  }
+  .c{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
+
   
+.hidden{
+  display: none;
+}
