@@ -19,23 +19,23 @@ html(lang='en')
           .account-info my account info
           .label
             label(for='name') Name:
-            input#name.block(type='text')
+            input#name.block(type='text', value=`${user.name}`)
           .label
             label(for='email') Email:
-            input#email.block(type='email')
+            input#email.block(type='email', value=`${user.email}`)
           button.save save changes
         .password-update
           .password-update-title update my passsword
           .label
             label(for='Current-password') Password:
             |  
-            input#Current-password.block(type='password')
+            input#Current-password.block(type='password', placeholder=`••••••••`)
           .label
             label.label(for='password')  New Password:
-            input#password.block(type='password')
+            input#password.block(type='password', placeholder=`••••••••`)
           .label
             label.label(for='confirm-password') confirm password:
-            input#confirm-password.block(type='password')
+            input#confirm-password.block(type='password', placeholder=`••••••••`)
           button.reset reset
       .setting-info.activate-code.hidden
         .name-email
