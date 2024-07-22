@@ -173,3 +173,79 @@ exports.checkFingerPrint = function(req, res, next) {
 
   next();
 }
+
+exports.updatePassword = catchAsync(async function(req, res, next) {
+  const { user } = req;
+
+  const { currentPassword, password, passwordConfirm} = req.body;
+
+  if(!currentPassword) return next(new AppError('الرجاء ادخال كلمة السر الحالية', 400, 'currentPassword'));
+  if(!password) return next(new AppError('الرجاء ادخال كلمة السر الجديدة', 400, 'password'));
+  if(!currentPassword) return next(new AppError('الرجاء تأكيد كلمة السر', 400, 'passwordConfirm'));
+  
+  if(! await user.correctPassword(currentPassword, user.password)) return next(new AppError('كلمة السر غير صحيحة', 400, 'currentPassword'));
+
+  user.password = password;
+  user.passwordConfirm = passwordConfirm;
+
+  const err1 = user.validateSync('password');
+  const err2 = user.validateSync('passwordConfirm')
+  if(err1) throw err1;
+  if(err2) throw err2;
+ 
+  await user.save({ validateBeforeSave: false});
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Password was updated successfully'
+  })
+})
+
+exports.updateEmailName = catchAsync(async function(req, res, next) {
+  const { user } = req;
+  
+  const { email, name } = req.body;
+  if(!email) return next(new AppError('الرجاء ادخال البريد الالكتروني', 400, 'email'));
+  if(!name) return next(new AppError('الرجاء ادخال الاسم', 400, 'name'));
+
+  const checkEmail = user.email === email;
+  const checkName = user.name === name;
+
+  if(checkEmail && checkName) return res.status(400).json({
+    status: 'fail',
+    message: 'لم تقم بتحديث اي شيء',
+    path: 'message'
+  })
+
+  if(!checkEmail) {
+    const exact = await User.findOne({email});
+    console.log(exact)
+    if(exact) return next(new AppError('هذا البريد غير صالح', 400, 'email'));
+  }
+
+  if(!checkName) {
+    const exact = await User.findOne({name});
+    if(exact) return next(new AppError('هذا الاسم غير صالح', 400, 'name'));
+  }
+
+  if(!checkEmail) {
+    user.email = email;
+    const err1 = user.validateSync('email');
+    if(err1) throw err1;
+  } 
+  if(!checkName) {
+    user.name = name;
+    const err2 = user.validateSync('name');
+    if(err2) throw err2;
+  } 
+
+  if(!checkEmail || !checkName) await user.save( { validateBeforeSave: false });
+
+
+
+  res.status(200).json({
+    status: 'success',
+    message: 'تم تحديث الاسم و البريد بنجاح',
+    path: 'message'
+  })
+})

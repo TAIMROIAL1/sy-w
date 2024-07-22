@@ -2,10 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-const { signup, login, forgotPassword, resetPassword, checkFingerPrint, checkJWT, restrictTo } = require('./../controllers/authController');
+const { signup, login, checkFingerPrint, checkJWT, restrictTo, updatePassword, updateEmailName } = require('./../controllers/authController');
 
 router.post('/signup', signup);
 router.post('/login', login);
+router.post('/update-password', checkJWT, updatePassword);
+router.post('/update-email-name', checkJWT, updateEmailName);
 // router.get('/forgot-password', checkFingerPrint, forgotPassword)
 // router.patch('/reset-password/:resetToken', resetPassword);
 

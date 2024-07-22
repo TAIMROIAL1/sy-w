@@ -30,3 +30,27 @@ exports.createSubcourse = catchAsync(async function(req, res, next) {
     }
   })
 });
+
+exports.activateSubcourse = catchAsync(async function(req, res, next) {
+  const { user } = req;
+
+  const { subcourseId } = req.body;
+  if(!subcourseId) return next(new AppError('الرجاء اختيار كورس', 400, 'message'));
+  
+  if(user.subcourses.includes(subcourseId)) return next(new AppError('لقد اشتريت هذا الكورس بالفعل', 400, 'message'));
+
+  const subcourse = await Subcourse.findById(subcourseId);
+  if(!subcourse) return next('هذا الكورس غير موجود', 400, 'message');
+
+  if(user.value < subcourse.price) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400, 'message'))
+
+  user.value -= subcourse.price;
+  user.subcourses.push(subcourseId);
+
+  await user.save({ validateBeforeSave: false });
+  res.status(200).json({
+    status: 'success',
+    message: 'لقد اشتريت الكورس بنجاح',
+    path: 'message'
+  })
+})

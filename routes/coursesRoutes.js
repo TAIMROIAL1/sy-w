@@ -11,6 +11,4 @@ router.route('/')
 
 router.route('/:courseId/activate-course').post(checkJWT, activateCourse);
 
-router.use('/:courseId/subcourses', subcourseRouter);
-
 module.exports = router;
