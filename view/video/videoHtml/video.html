@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+    <link rel="stylesheet" href="/css/video.css">
+  </head>
+  <body dir="rtl" lang="ar">
+  <button class="btn-open-list">list</button>
+    <div class="container">
+      <button class="btn-close-list">list</button>
+      <details class="mydetails">
+        
+        <summary>الدرس الاول</summary>
+        <p data-videoid="">الفيديو الاول </p>
+        <p>الفيديو الثاني </p>
+        <p>الفيديو الثالث </p>
+      </details>
+    </div>
+  <div class="body">
+    <div class="center-title">
+      <h1 class="title">المستقبلات الحسية </h1>
+    </div>
+    
+
+    <div class="video">
+      <video src="solo.webm" class="video-g" controls>rayan</video>
+    </div>
+    <div class="question-container">
+      <div class="check">
+        <p class="question"> اين يقع القلب؟</p>
+        <input type="checkbox"  class="check-box">
+        <input type="radio" class="check-box" >
+        <input type="radio" class="check-box">
+        <input type="radio" class="check-box">
+      </div>
+
+      <div class="check">
+        <p class="question"> اين يقع القلب؟</p>
+        <input type="checkbox"  class="check-box">
+        <input type="radio" class="check-box" >
+        <input type="radio" class="check-box">
+        <input type="radio" class="check-box">
+      </div>
+
+      <div class="check">
+        <p class="question"> اين يقع القلب؟</p>
+        <input type="checkbox"  class="check-box">
+        <input type="radio" class="check-box" >
+        <input type="radio" class="check-box">
+        <input type="radio" class="check-box">
+      </div>
+
+      <div class="check">
+        <p class="question"> اين يقع القلب؟ ين يقع القلب؟ ين يقع القلب؟ ين يقع القلب؟ ين يقع القلب؟ ين يقع القلب؟ </p>
+        <input type="checkbox"  class="check-box">
+        <input type="radio" class="check-box" >
+        <input type="radio" class="check-box">
+        <input type="radio" class="check-box">
+      </div>
+    </div>
+  </div>
+  <script>
+    const listOpnBtn = document.querySelector('.btn-open-list');
+    const listClsBtn = document.querySelector('.btn-close-list');
+    const list = document.querySelector('.container');
+    listOpnBtn.classList.add('hidden');
+    listClsBtn.addEventListener('click', (e) => {
+      list.classList.add('hidden');
+      listOpnBtn.classList.remove('hidden');
+      listClsBtn.classList.add('hidden');
+    });
+    listOpnBtn.addEventListener('click', (e) => {
+      list.classList.remove('hidden');
+      listClsBtn.classList.remove('hidden');
+      listOpnBtn.classList.add('hidden');
+    });
+
+    
+
+  </script>
+  </body>
+</html>
+

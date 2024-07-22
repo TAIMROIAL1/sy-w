@@ -1,0 +1,61 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    title Page title
+    link(rel='stylesheet', href='/css/video.css')
+  body(dir='rtl', lang='ar')
+    button.btn-open-list list
+    .container
+      button.btn-close-list list
+      details.mydetails
+        each lesson in lessons
+          summary= lesson.title
+          each vid in lesson.videos
+            p(data-videoid=`${vid._id}`)= vid.title 
+    .body
+      .center-title
+        h1.title &#x627;&#x644;&#x645;&#x633;&#x62A;&#x642;&#x628;&#x644;&#x627;&#x62A; &#x627;&#x644;&#x62D;&#x633;&#x64A;&#x629; 
+      .video
+        video.video-g(src='/solo.webm', controls='') rayan
+      .question-container
+        .check
+          p.question  &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
+          input.check-box(type='checkbox')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+        .check
+          p.question  &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
+          input.check-box(type='checkbox')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+        .check
+          p.question  &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
+          input.check-box(type='checkbox')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+        .check
+          p.question
+            | &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
+          input.check-box(type='checkbox')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+          input.check-box(type='radio')
+    script.
+      const listOpnBtn = document.querySelector('.btn-open-list');
+      const listClsBtn = document.querySelector('.btn-close-list');
+      const list = document.querySelector('.container');
+      listOpnBtn.classList.add('hidden');
+      listClsBtn.addEventListener('click', (e) => {
+      list.classList.add('hidden');
+      listOpnBtn.classList.remove('hidden');
+      listClsBtn.classList.add('hidden');
+      });
+      listOpnBtn.addEventListener('click', (e) => {
+      list.classList.remove('hidden');
+      listClsBtn.classList.remove('hidden');
+      listOpnBtn.classList.add('hidden');
+      });

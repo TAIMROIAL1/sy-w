@@ -9,3 +9,8 @@ const userImg = document.querySelector('.nav-bar-img');
 userImg.addEventListener('click', (e) =>{ 
   location.assign('/settings')
 })
+
+const uploadBtn = document.querySelector('.upload-btn');
+uploadBtn.addEventListener('click', (e) => {
+  location.assign('upload-course')
+})

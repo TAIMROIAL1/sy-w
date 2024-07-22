@@ -7,11 +7,52 @@
  
 
 body{   
+ position: relative;
     margin: 0;
     font-family: monospace;
     font-size:1rem;
     background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
+    padding-bottom: 40px;
  
+ }
+ .layer{
+  width: 100%;
+  height: 100%;
+  background-color: #ccc9c9cc;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+ .buy-container{
+ 
+  width: 50%;
+  height: 30%;
+  background-color: antiquewhite;
+  z-index: 2;
+  display: flex;
+ align-items: center;
+flex-direction: column;
+ }
+ .buy-par{
+  margin-top:50px;
+  font-size: 2rem;
+ }
+ .buy-btns-container{
+  margin-top: 50px;
+width: 100%;
+  
+ display: flex;
+ justify-content: space-evenly;
+ align-items: center;
+ 
+  
+ }
+ .buy-accept{
+  
+ }
+ .buy-btn{
+  font-size: 2rem;
  }
  .btn-clases{
   background: none;
@@ -27,6 +68,15 @@ body{
  .account{
   font-family: Lalezar;
   font-size: 2rem;
+}
+.upload-btn{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 2rem;
+  position: fixed;
+  right: 20px;
+  bottom: 30px;
 }
 .nav-bar-img{
   width: 50px;
@@ -471,4 +521,6 @@ position: relative;
   
   }
    
-   
+   .hidden{
+    display: none;
+   }

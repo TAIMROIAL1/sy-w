@@ -1,0 +1,29 @@
+doctype html
+html(lang='ar')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
+    link(rel='stylesheet', href='/css/uploadCourse.css')
+    title Document
+  body
+    .center
+      .header
+        .upload-class &#x627;&#x631;&#x641;&#x639; &#x643;&#x648;&#x631;&#x633; 
+      .container
+        .form
+          .label-input
+            label(for='class-name', dir='rtl', lang='ar') &#x627;&#x633;&#x645; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633; 
+          input#class-name.input(type='text')
+          .label-input
+            label.label(for='class-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
+          input#class-des.input(type='text')
+          .label-input
+            label(for='image', dir='rtl', lang='ar') &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
+          input#image.input(type='text')
+          .label-input
+            label(for='num', dir='rtl', lang='ar') &#x627;&#x644;&#x633;&#x639;&#x631;
+          input#num.input(type='number', dir='rtl', lang='en')
+        .btn
+          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
+    script(defer, src='/js/uploadCourse.js')

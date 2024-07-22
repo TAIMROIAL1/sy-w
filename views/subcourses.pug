@@ -3,12 +3,15 @@ extends base
 block content
   .courses
     each c in subcourses
-      button.btn-clases(data-subcourseid= '')
+      button.btn-clases(data-subcourseid= `${c._id}`)
         .first-cours
           .class-img-container
             img.first-cours-img(src=`/imgs/subcourses/${c.photoUrl}`, alt=`subcourse card`)
           .class-info 
             .asab= c.title
             .about-cours= c.description
+            .price-container
+              .price= c.price
+              buttton.buy شراء الكورس
 block scripts
   script(src=`/js/subcourses.js`)

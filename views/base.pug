@@ -10,6 +10,12 @@ html(lang='en')
     title= title
     link(rel='stylesheet', href='/css/main.css')
   body
+    .layer.hidden
+      .buy-container 
+        p.buy-par هل تريد شراء هذا الكورس
+        .buy-btns-container
+          button.buy-btn.buy-accept= 'تاكيد'
+          button.buy-btn.buy-cancel= 'الغاء'
     .big-nav
       .nav-bar
         img.nav-bar-img(src='/imgs/default.jpg')

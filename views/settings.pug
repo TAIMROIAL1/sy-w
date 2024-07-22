@@ -5,34 +5,43 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/css/settings.css')
     title settings
-  body
+  body(dir='rtl', lang='ar')
     .container
       button.setting-btn &#x2699;
       .list
         ul.btn-list
-          button.btn My account
-          button.btn My courses
-          button.btn Help
-      .setting-info
+          button.btn.my-account-btn &#x62D;&#x633;&#x627;&#x628;&#x64A; 
+          button.btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+          button.btn.activate-code-btn &#x62A;&#x63A;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x627;&#x643;&#x648;&#x627;&#x62F;
+          button.btn &#x627;&#x644;&#x645;&#x633;&#x627;&#x639;&#x62F;&#x629;
+      .setting-info.my-account
         .name-email
           .account-info my account info
           .label
             label(for='name') Name:
-            input#name.block(type='text' value=`${user.name}`)
+            input#name.block(type='text')
           .label
             label(for='email') Email:
-            input#email.block(type='email' value=`${user.email}`)
+            input#email.block(type='email')
           button.save save changes
         .password-update
           .password-update-title update my passsword
           .label
             label(for='Current-password') Password:
             |  
-            input#Current-password.block(type='password' placeholder='••••••••')
+            input#Current-password.block(type='password')
           .label
             label.label(for='password')  New Password:
-            input#password.block(type='password' placeholder='••••••••')
+            input#password.block(type='password')
           .label
             label.label(for='confirm-password') confirm password:
-            input#confirm-password.block(type='password' placeholder='••••••••')
+            input#confirm-password.block(type='password')
           button.reset reset
+      .setting-info.activate-code.hidden
+        .name-email
+          .account-info &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
+          .label
+            label(for='code') &#x627;&#x62F;&#x62E;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
+            input#code.block(type='text')
+          button#activation-code-btn.save &#x62A;&#x641;&#x639;&#x64A;&#x644; 
+    script(src='/js/settings.js')
