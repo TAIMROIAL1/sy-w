@@ -182,11 +182,11 @@ exports.updatePassword = catchAsync(async function(req, res, next) {
 
   const { currentPassword, password, passwordConfirm} = req.body;
 
-  if(!currentPassword) return next(new AppError('الرجاء ادخال كلمة السر الحالية', 400, 'currentPassword'));
+  if(!currentPassword) return next(new AppError('الرجاء ادخال كلمة السر الحالية', 400, 'current-password'));
   if(!password) return next(new AppError('الرجاء ادخال كلمة السر الجديدة', 400, 'password'));
-  if(!currentPassword) return next(new AppError('الرجاء تأكيد كلمة السر', 400, 'passwordConfirm'));
+  if(!currentPassword) return next(new AppError('الرجاء تأكيد كلمة السر', 400, 'password-confirm'));
   
-  if(! await user.correctPassword(currentPassword, user.password)) return next(new AppError('كلمة السر غير صحيحة', 400, 'currentPassword'));
+  if(! await user.correctPassword(currentPassword, user.password)) return next(new AppError('كلمة السر غير صحيحة', 400, 'current-password'));
 
   user.password = password;
   user.passwordConfirm = passwordConfirm;

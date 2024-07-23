@@ -4,6 +4,19 @@ const photoUrlInput = document.getElementById('image');
 const priceInput = document.getElementById('num');
 const uploadBtn = document.querySelector('.btn-sub');
 
+// The notifcation message
+const notifcation = document.querySelector('.correct');
+const notifcationMsg = document.querySelector('.correct-message')
+
+const showNotification = function(msg) {
+  notifcation.classList.toggle('hidden');
+  notifcationMsg.textContent = msg;
+  setTimeout(() => {
+      notifcation.classList.toggle('hidden');
+  }, 5000)
+}
+
+
 uploadBtn.addEventListener('click', async (e) => {
     const title = nameInput.value;
     const description = descriptionInput.value;
@@ -18,7 +31,10 @@ uploadBtn.addEventListener('click', async (e) => {
         },
         body: JSON.stringify({title, description, photoUrl, price})
     })
-    console.log(res)
+
     const data = await res.json();
-    console.log(data);
-})
+
+    if(data.status === 'success') {
+      showNotification(data.message);
+    }
+  })

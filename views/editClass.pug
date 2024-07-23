@@ -8,23 +8,23 @@ html(lang='ar')
     title Document
   body
     .c
-      .correct
+      .correct.hidden
         .correct-message you buy it 
         img.img-correct(src='a2.jpg')
     .center
       .header
-        .upload-class &#x627;&#x631;&#x641;&#x639; &#x635;&#x641; 
+        .upload-class تعديل صف 
       .container
         .form
           .label-input
             label(for='class-name', dir='rtl', lang='ar') &#x627;&#x633;&#x645; &#x627;&#x644;&#x635;&#x641; 
-          input#class-name.input(type='text')
+          input#class-name.input(type='text', value=`${cToEdit.title}`)
           .label-input
             label.label(for='class-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
-          input#class-des.input(type='text')
+          input#class-des.input(type='text', value=`${cToEdit.description}`)
           .label-input
             label(for='image', dir='rtl', lang='ar') &#x631;&#x641;&#x639; &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
-          input#image.input(type='text')
+          input#image.input(type='text', value=`${cToEdit.photoUrl}`)
         .btn
-          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
-    script(defer, src='/js/uploadClass.js')
+          button.btn-sub(dir='rtl', lang='ar') تعديل
+    script(defer, src='/js/editClass.js')

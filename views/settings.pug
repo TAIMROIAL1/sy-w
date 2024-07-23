@@ -8,13 +8,11 @@ html(lang='en')
          rel="stylesheet")
     title settings
   body(dir='rtl', lang='ar')
-    .correct 
+    .correct.hidden
       .correct-message you buy it 
-      img.img-correct(src='a2.jpg')
-      img.img-uncorrect(src='a2.jpg')
     .container
       button.setting-btn &#x2699;
-      .list.hidden
+      .list
         ul.btn-list
           button.btn.my-account-btn &#x62D;&#x633;&#x627;&#x628;&#x64A; 
           button.btn.my-courses-btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
@@ -26,45 +24,45 @@ html(lang='en')
           .label
             label(for='name') Name:
             input#name.block(type='text', value=`${user.name}`)
-            .error 
+            .error.error-name.hidden 
               .gg-danger
               .error-message ther is a problem
           .label
             label(for='email') Email:
             input#email.block(type='email', value=`${user.email}`)
-            .error 
+            .error.error-email.hidden
               .gg-danger
               .error-message ther is a problem
-          button.save save changes
+          button#name-email-update-btn.save save changes
         .password-update
           .password-update-title update my passsword
           .label
             label(for='Current-password') Password:
             |  
-            input#Current-password.block(type='password', placeholder=`••••••••`)
-            .error 
+            input#current-password.block(type='password', placeholder=`••••••••`)
+            .error.error-current-password.hidden
               .gg-danger
               .error-message ther is a problem
           .label
             label.label(for='password')  New Password:
             input#password.block(type='password', placeholder=`••••••••`)
-            .error 
+            .error.error-password.hidden
               .gg-danger
               .error-message ther is a problem
           .label
             label.label(for='confirm-password') confirm password:
-            input#confirm-password.block(type='password', placeholder=`••••••••`)
-            .error 
+            input#password-confirm.block(type='password', placeholder=`••••••••`)
+            .error.error-password-confirm.hidden
               .gg-danger
               .error-message ther is a problem
-          button.reset reset
+          button#password-update-btn.reset reset
       .setting-info.activate-code.hidden
         .name-email
           .account-info &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
           .label
             label(for='code') &#x627;&#x62F;&#x62E;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
             input#code.block(type='text')
-            .error 
+            .error.error-code.hidden
               .gg-danger
               .error-message ther is a problem
           button#activation-code-btn.save &#x62A;&#x641;&#x639;&#x64A;&#x644; 
@@ -73,7 +71,7 @@ html(lang='en')
           .account-info.center المساعدة
           .label
             textarea#help-input.block(cols='30', rows='10' placeholder='اكتب هنا....')
-            .error 
+            .error.hidden
               .gg-danger
               .error-message ther is a problem
           button#send-help-btn.save ارسال

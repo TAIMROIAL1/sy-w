@@ -103,6 +103,19 @@ router.get('/classes/:classId/upload-course', checkJWT, restrictTo('admin'), cat
   });
 }))
 
+router.get('/edit-class/:classId', checkJWT, restrictTo('admin'), catchAsync(async(req, res) => {
+  const { classId } = req.params;
+  const classToEdit = await Class.findById(classId);
+  res.status(200).render('editClass', {
+    cToEdit: classToEdit
+  })
+}));
 
-
+router.get('/classes/:classId/edit-course/:courseId', checkJWT, restrictTo('admin'), catchAsync(async(req, res) => {
+  const { courseId } = req.params;
+  const courseToEdit = await Course.findById(courseId);
+  res.status(200).render('editCourse', {
+    cToEdit: courseToEdit
+  })
+}))
 module.exports = router;

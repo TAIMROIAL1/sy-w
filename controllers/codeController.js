@@ -32,8 +32,8 @@ exports.createCode = catchAsync(async function(req, res, next) {
 exports.activateCode = catchAsync(async function(req, res, next) {
   const { code } = req.body;
   const c = await Code.findOne({code, activated: false});
-  console.log(c);
-  if(!c) return next(new AppError('Invalid code', 400));
+
+  if(!c) return next(new AppError('هذا الكود غير فعال', 400, 'code'));
 
   const { user } = req;
   await c.activateCode(user._id);

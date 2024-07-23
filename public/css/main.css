@@ -65,6 +65,15 @@ top:-150px;
   right: -20px;
   font-size: 2rem;
  }
+
+ .trash1{
+  color: rgb(128, 109, 0);
+ }
+
+ .trash2{
+  color: red;
+ }
+
  .bi-edit{
   position: absolute;
   right: -20px;
@@ -185,9 +194,9 @@ width: 100%;
    position: relative;
  
    flex-grow: 1;
-   animation-name:first-articl-an ;
+   /* animation-name:first-articl-an ;
    animation-duration: 2s;
-   animation-timing-function: ease-out;
+   animation-timing-function: ease-out; */
    border: 1px solid rgba(44, 44, 44, 0.719);
    border-left: none;
    border-right: 3px solid rgba(44, 44, 44, 0.719);
@@ -216,7 +225,7 @@ width: 100%;
 
  }
  
- @keyframes first-articl-an{
+ /* @keyframes first-articl-an{
    from{
  right:75%;
    }
@@ -234,7 +243,7 @@ width: 100%;
    to{
  right:0%;
    }
- }
+ } */
  
  .courses{
   display: grid;

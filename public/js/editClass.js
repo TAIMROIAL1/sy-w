@@ -1,7 +1,7 @@
 const nameInput = document.getElementById('class-name');
 const descriptionInput = document.getElementById('class-des');
 const photoUrlInput = document.getElementById('image');
-const uploadBtn = document.querySelector('.btn-sub');
+const editBtn = document.querySelector('.btn-sub');
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
@@ -15,13 +15,15 @@ const showNotification = function(msg) {
   }, 5000)
 }
 
-uploadBtn.addEventListener('click', async (e) => {
+editBtn.addEventListener('click', async (e) => {
     const title = nameInput.value;
     const description = descriptionInput.value;
     const photoUrl = photoUrlInput.value;
+    const id = location.href.split('/')[4];
 
     if(!title || !description || !photoUrl) return;
-    const res = await fetch('http://127.0.0.1:3000/api/v1/classes', {
+    console.log(`http://127.0.0.1:3000/api/v1/classes/${id}/edit-class`)
+    const res = await fetch(`http://127.0.0.1:3000/api/v1/classes/${id}/edit-class`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -31,6 +33,9 @@ uploadBtn.addEventListener('click', async (e) => {
 
     const data = await res.json();
     if(data.status === 'success') {
+      showNotification(data.message);
+    }
+    else if(data.status === 'fail') {
       showNotification(data.message);
     }
   })

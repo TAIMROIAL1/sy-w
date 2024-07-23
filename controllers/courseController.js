@@ -49,9 +49,7 @@ exports.createCourse = catchAsync(async function(req, res, next) {
   
   res.status(201).json({
     status: "success",
-    data: {
-      course
-    }
+    message: 'تم رفع الكورس بنجاح'
   })
 });
 
@@ -79,5 +77,49 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
   res.status(200).json({
     status: "success",
     message: 'Course has been bought successfully'
+  })
+})
+
+exports.deleteCourse = catchAsync(async function(req, res, next) {
+  const { courseId } = req.params;
+  await Course.findByIdAndDelete(courseId);
+  await Subcourse.deleteMany({course: courseId});
+  res.status(200).json({
+    status: 'success',
+    message: 'تم حذف الكورس بنجاح'
+  })
+})
+
+exports.editCourse = catchAsync(async function(req, res, next) {
+  const { courseId } = req.params;
+
+  const courseToEdit = await Course.findById(courseId);
+
+  const { title, description, photoUrl, price } = req.body;
+
+  if(!title) return next(new AppError('الرجاء ادخال عنوان الدرس', 400, 'message'));
+  if(!description) return next(new AppError('الرجاء ادخال الوصف', 400, 'message'));
+  if(!photoUrl) return next(new AppError('الرجاء ادخال الصورة', 400, 'message'));
+  if(!price) return next(new AppError('الرجاء ادخال سعر', 400, 'message'));
+
+  
+
+  const checkTitle = courseToEdit.title === title;
+  const checkDescription = courseToEdit.description === description;
+  const checkPhotoUrl = courseToEdit.photoUrl === photoUrl;
+  const checkPrice = courseToEdit.price === Number(price);
+
+  if(checkTitle && checkDescription && checkPhotoUrl && checkPrice) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+
+  courseToEdit.title = title;
+  courseToEdit.description = description;
+  courseToEdit.photoUrl = photoUrl;
+  courseToEdit.price = price;
+
+  await courseToEdit.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'تم تعديل الكورس بنجاح'
   })
 })
