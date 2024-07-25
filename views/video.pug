@@ -4,80 +4,45 @@ html(lang='en')
     meta(charset='UTF-8')
     title Page title
     link(rel='stylesheet', href='/css/video.css')
-  body(dir='rtl', lang='ar')
+  body(dir='rtl', lang='ar', data-role= `${user.role}`)
+    .c
+      .correct.hidden
+        .correct-message you buy it 
     button.btn-open-list list
     .container
       button.btn-close-list list
-      details.mydetails
-        //- each lesson in lessons
-        summary الدرس الاول
-          .btns-flex-container
-            - if(user.role === 'admin')
-              button.upload-questions +
-              i.bi-trash &#128465;
-              svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
-                path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z/')
-                path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z/') 
-        p(data-videoid=``) الجزء الاول
-          .btns-flex-container
-            - if(user.role === 'admin')
-              button.upload-questions +
-              i.bi-trash &#128465;
-              svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
-                path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z/')
-                path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z/')
+      - if(lessons)
+        each lesson in lessons
+          details.my-details(data-lessonid= `${lesson._id}`)
+            summary.lesson-title= lesson.title
+              .btns-flex-container.btns-flex-container1
+                - if(user.role === 'admin')
+                  button.list-btn.upload.upload-video +
+                  button.list-btn.btn.bi-trash-container
+                    i.bi-trash(data-deletecount= 0) &#128465;
+                  button.list-btn.btn
+                    svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
+                      path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z')
+                      path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z') 
+            - if(lesson.videos)
+              each video in lesson.videos
+                .video-container(data-videoid=`${video._id}`)
+                  p.video-title(data-videoid=`${video._id}`)= video.title
+                  .btns-flex-container.btns-flex-container2
+                    - if(user.role === 'admin')
+                      button.list-btn.upload.upload-questions +
+                      i.list-btn.bi-trash.bi-trash-container(data-deletecount= 0) &#128465;
+                      svg.list-btn.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
+                        path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z')
+                        path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z')
     .body
       .center-title
         h1.title &#x627;&#x644;&#x645;&#x633;&#x62A;&#x642;&#x628;&#x644;&#x627;&#x62A; &#x627;&#x644;&#x62D;&#x633;&#x64A;&#x629; 
       .video
-        video.video-g(src='/solo.webm', controls='') rayan
+        video.video-g(src='/rayan.mp4')
       .question-container
-        .check
-          p.question  &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
-          input.check-box(type='checkbox')
-          input.check-box(type='radio')
-          input.check-box(type='radio')
-          input.check-box(type='radio')
-        .check
-          p.question  &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
-          input.check-box(type='checkbox')
-          input.check-box(type='radio')
-          input.check-box(type='radio')
-          input.check-box(type='radio')
-        .check
-          p.question  &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
-          input.check-box(type='checkbox')
-          input.check-box(type='radio')
-          input.check-box(type='radio')
-          input.check-box(type='radio')
-        .check
-          - if(user.role === 'admin')
-            i.bi-trash.delete-question-btn &#128465;
-            svg.bi-edit.edit-question-btn(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
-              path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z/')
-              path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z/')
-          p.question
-            | &#x627;&#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F; &#x64A;&#x646; &#x64A;&#x642;&#x639; &#x627;&#x644;&#x642;&#x644;&#x628;&#x61F;
-          button.check-box.checked
-          button.check-box.correct-answer
-          button.check-box.wrong-answer
-          button.check-box
-      .submit-answers-btn-container
+      .submit-answers-btn-container.hidden
         button.submit-answers-btn تاكيدالاجابات 
       - if(user.role === 'admin')
-        button.upload-btn +  
-    script.
-      const listOpnBtn = document.querySelector('.btn-open-list');
-      const listClsBtn = document.querySelector('.btn-close-list');
-      const list = document.querySelector('.container');
-      listOpnBtn.classList.add('hidden');
-      listClsBtn.addEventListener('click', (e) => {
-      list.classList.add('hidden');
-      listOpnBtn.classList.remove('hidden');
-      listClsBtn.classList.add('hidden');
-      });
-      listOpnBtn.addEventListener('click', (e) => {
-      list.classList.remove('hidden');
-      listClsBtn.classList.remove('hidden');
-      listOpnBtn.classList.add('hidden');
-      });
+        button.upload-lesson-btn +  
+    script(src='/js/video.js')

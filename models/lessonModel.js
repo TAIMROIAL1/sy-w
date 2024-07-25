@@ -28,19 +28,7 @@ const lessonSchema = new mongoose.Schema({
     videoUrl: {
       type: String,
       required: [true, 'Please enter a video url']
-    },
-    questions: [{
-      text: {
-        type: String
-      },
-      answers: [{
-        type: String
-      }],
-      correctAnswer: {
-        type: Number
-      },
-      
-    }]
+    }
   }]
 })
 

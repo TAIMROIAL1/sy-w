@@ -8,26 +8,26 @@ html(lang='ar')
     title Document
   body
     .c
-      .correct
+      .correct.hidden
         .correct-message you buy it 
-        img.img-correct(src='a2.jpg')
     .center
       .header
-        .upload-class &#x627;&#x631;&#x641;&#x639; &#x643;&#x648;&#x631;&#x633; 
+        .upload-class تعديل الكورس 
       .container
         .form
           .label-input
             label(for='class-name', dir='rtl', lang='ar') &#x627;&#x633;&#x645; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633; 
-          input#class-name.input(type='text')
+          input#subcourse-name.input(type='text', value= `${cToEdit.title ? cToEdit.title : ' '}`)
           .label-input
             label.label(for='class-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
-          input#class-des.input(type='text')
+          - const des = cToEdit.description ? cToEdit.description : ' '
+          input#subcourse-des.input(type='text', value= `${des}`)
           .label-input
             label(for='image', dir='rtl', lang='ar') &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
-          input#image.input(type='text')
+          input#image.input(type='text', value= `${cToEdit.photoUrl ? cToEdit.photoUrl : ' '}`)
           .label-input
-            label(for='num', dir='rtl', lang='ar') &#x627;&#x644;&#x633;&#x639;&#x631;
-          input#num.input(type='number', dir='rtl', lang='en')
+            label(for='price', dir='rtl', lang='ar') &#x627;&#x644;&#x633;&#x639;&#x631;
+          input#price.input(type='number', dir='rtl', lang='en', value= `${cToEdit.price ? cToEdit.price : ' '}`)
         .btn
-          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
-    script(defer, src='/js/uploadCourse.js')
+          button.btn-sub(dir='rtl', lang='ar') تعديل
+    script(defer, src='/js/editSubcourse.js')

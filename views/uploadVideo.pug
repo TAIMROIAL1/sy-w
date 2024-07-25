@@ -1,0 +1,26 @@
+doctype html
+html(lang='ar')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
+    link(rel='stylesheet', href='/css/uploadVideo.css')
+    title Document
+  body
+    .c
+      .correct.hidden
+        .correct-message you buy it 
+    .center
+      .header
+        .upload-class ارفع فيديو
+      .container
+        .form
+          .label-input
+            label(for='video-name', dir='rtl', lang='ar') عنوان الفيديو
+          input#video-name.input(type='text')
+          .label-input
+            label(for='num', dir='rtl', lang='ar') رقم الفيديو
+          input#num.input(type='number', dir='rtl', lang='en')
+        .btn
+          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
+    script(defer, src='/js/uploadVideo.js')

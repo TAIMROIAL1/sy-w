@@ -48,7 +48,7 @@ classesContainer.addEventListener('click', async (e) => {
   }
   return setTimeout(() => {
     location.reload(true);
-  }, 2000);
+  }, 1500);
   }
 
   const clicked = e.target.closest('.btn-clases');

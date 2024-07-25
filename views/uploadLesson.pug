@@ -1,0 +1,29 @@
+doctype html
+html(lang='ar')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
+    link(rel='stylesheet', href='/css/uploadLesson.css')
+    title Document
+  body
+    .c
+      .correct.hidden
+        .correct-message you buy it 
+    .center
+      .header
+        .upload-class ارفع درس
+      .container
+        .form
+          .label-input
+            label(for='lesson-name', dir='rtl', lang='ar') عنوان الدرس
+          input#lesson-name.input(type='text')
+          .label-input
+            label(for='image', dir='rtl', lang='ar') صورة الدرس
+          input#image.input(type='text')
+          .label-input
+            label(for='num', dir='rtl', lang='ar') رقم الدرس
+          input#num.input(type='number', dir='rtl', lang='en')
+        .btn
+          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
+    script(defer, src='/js/uploadLesson.js')

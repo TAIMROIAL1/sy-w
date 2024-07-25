@@ -41,6 +41,8 @@ const classRouter = require('./routes/classesRoutes');
 const courseRouter = require('./routes/coursesRoutes');
 const subcourseRouter = require('./routes/subcourseRoutes');
 const lessonRouter = require('./routes/lessonRoutes');
+const videoRouter = require('./routes/videoRoutes');
+const questionRouter = require('./routes/questionRoutes');
 const codeRouter = require('./routes/codeRoutes');
 
 app.use('/', viewRouter);
@@ -49,6 +51,8 @@ app.use('/api/v1/classes', classRouter);
 app.use('/api/v1/classes/:classId/courses', courseRouter);
 app.use('/api/v1/courses/:courseId/subcourses', subcourseRouter);
 app.use('/api/v1/subcourses/:subcourseId/lessons', lessonRouter);
+app.use('/api/v1/lessons/:lessonId/videos', videoRouter);
+app.use('/api/v1/videos/:videoId/questions', questionRouter);
 app.use('/api/v1/codes', codeRouter);
 
 app.use(errorController);

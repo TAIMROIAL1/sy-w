@@ -33,10 +33,7 @@ body{
  top:55px;
  right: 5px;
  }
- .img-correct{
- position: absolute;
- left: 20px;
- }
+
  @keyframes message{
   from{
 top:-150px;

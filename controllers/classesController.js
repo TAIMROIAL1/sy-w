@@ -1,6 +1,7 @@
 const Class = require('./../models/classesModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
+const { deleteCourses } = require('./deleteChain');
 
 exports.getClasses = catchAsync(async function(req, res, next) {
   const classes = await Class.find();
@@ -56,6 +57,8 @@ exports.editClass = catchAsync(async function(req, res, next) {
 
 exports.deleteClass = catchAsync(async function(req, res, next) {
   const { classId } = req.params;
+  await deleteCourses(classId);
+
   await Class.findByIdAndDelete(classId);
 
   res.status(200).json({

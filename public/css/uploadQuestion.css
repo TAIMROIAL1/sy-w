@@ -1,0 +1,150 @@
+*{
+    margin: 0;
+    padding: 0;
+  
+  }
+  html{box-sizing: border-box;
+    width: 100%;
+    height: 100%;}
+  body{
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+   display: grid;
+   justify-content: center;
+   align-items: center;
+   background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
+  }
+  .container{
+    width: 320px;
+    height: 370px;
+    display: grid;
+    justify-content: center;
+   align-items: center;
+  
+  }
+  .center{
+    display: grid;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  width: auto;
+  }
+  .label-input{
+    display: flex;
+    justify-content: end;
+    
+  }
+  
+  .header{
+   
+   display: flex;
+   justify-content: center;
+   margin-bottom: 70px;
+   
+  }
+  
+  .container{
+
+   background-color: rgba(151, 151, 151, 0.288);
+   overflow-y: scroll;
+   scrollbar-width: thin    ;
+  }
+  label{
+   display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+   
+  }
+  
+  .input{
+    border: none;
+    width: 250px;
+    height: 20px;
+    border-radius: 50px;
+    padding-right: 8px;
+  }
+  .upload-class{
+   padding: 20px;
+   padding-left: 40px;
+   padding-right: 40px;
+   border: none;
+    border: 2px solid rgba(133, 131, 131, 0.315);
+    border-radius: 50px;
+    box-shadow: 2px 1px 3px rgba(85, 85, 85, 0.637) ;
+  }
+  .btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .btn-sub{
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: rgba(151, 151, 151, 0.288);
+    box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
+   
+  }
+  .input-question{
+    border: none;
+    width: 250px;
+    height: 30px;
+    border-radius: 50px;
+    padding-right: 8px;
+  }
+  .big{
+    font-size: 1.5rem;
+  }
+  .form{
+    margin-bottom: 10px;
+    padding-bottom: 23px;
+    border-bottom: 2px solid gray;
+  }
+
+  .c{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
+  .correct{
+    position: fixed;
+    top: -125px;
+    display: flex;
+   flex-direction: row;
+    background-color: #42fa9e;
+    width: 200px;
+    height: 125px;
+    z-index: 1;
+    animation: message 1s ease-out , message-return 1s ease-out 3s  ;
+    animation-fill-mode: forwards;
+   }
+   .correct-message{
+    width: auto;
+   position: absolute;
+   top:55px;
+   right: 5px;
+   }
+
+   @keyframes message{
+    from{
+  top:-150px;
+    }
+    to{
+  top:15px;
+    }
+  }
+  @keyframes message-return{
+    from{
+  top:15px;
+    }
+    to{
+  top:-150px;
+    }
+  }
+
+  .hidden{
+    display: none;
+  }

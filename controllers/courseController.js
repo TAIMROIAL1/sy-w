@@ -3,6 +3,7 @@ const Subcourse = require('./../models/subcourseModel')
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 const Class = require('./../models/classesModel');
+const { deleteSubcourses } = require('./deleteChain');
 
 exports.getCourses = catchAsync(async function(req, res, next) {
   const { classId } = req.params;
@@ -83,7 +84,8 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
 exports.deleteCourse = catchAsync(async function(req, res, next) {
   const { courseId } = req.params;
   await Course.findByIdAndDelete(courseId);
-  await Subcourse.deleteMany({course: courseId});
+  await deleteSubcourses(courseId);
+
   res.status(200).json({
     status: 'success',
     message: 'تم حذف الكورس بنجاح'
@@ -97,7 +99,7 @@ exports.editCourse = catchAsync(async function(req, res, next) {
 
   const { title, description, photoUrl, price } = req.body;
 
-  if(!title) return next(new AppError('الرجاء ادخال عنوان الدرس', 400, 'message'));
+  if(!title) return next(new AppError('الرجاء ادخال عنوان الكورس', 400, 'message'));
   if(!description) return next(new AppError('الرجاء ادخال الوصف', 400, 'message'));
   if(!photoUrl) return next(new AppError('الرجاء ادخال الصورة', 400, 'message'));
   if(!price) return next(new AppError('الرجاء ادخال سعر', 400, 'message'));

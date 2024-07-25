@@ -15,6 +15,8 @@ const passwordInput = document.getElementById('password');
 const passwordConfirmInput = document.getElementById('password-confirm');
 const passwordUpdateBtn = document.getElementById('password-update-btn')
 
+const coursesContainer = document.querySelector('.my-courses');
+
 // The correct/wrong message
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
@@ -132,4 +134,12 @@ passwordUpdateBtn.addEventListener('click', async (e) => {
         showError(data.path, data.message);
     }
 
+})
+
+coursesContainer.addEventListener('click', (e) => {
+    const clicked = e.target.closest('.course-container');
+    if(!clicked) return;
+
+    const subcourseId = clicked.dataset.subcourseid;
+    return location.assign(`/subcourses/${subcourseId}/lessons`);
 })

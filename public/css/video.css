@@ -1,13 +1,28 @@
 *{
     margin: 0;
     padding: 0;
-    
+    user-select: none;
 }
 html{
  width: 100%;
  
  scrollbar-width: thin;
 }
+@media screen and (max-width:500px) {
+    
+    .question-container{
+        display: block;
+    }
+    .video-g{
+        width:100%;
+    }
+    .container{
+        width: 50%;
+        position: relative;
+        background-color: aquamarine;
+    }
+ }
+
 body{
     
     width: 100%;
@@ -23,6 +38,20 @@ body{
     flex-direction: column;
 }
 
+.btn{
+    background: none;
+    border: none;
+}
+
+.lesson-title{
+    cursor: pointer;
+}
+
+.lesson-title:hover{
+    color: rgb(94, 92, 92);
+
+}
+
 .center-title{
     display: flex;
     justify-content: center;
@@ -35,19 +64,31 @@ body{
     margin-top: 10px;
     grid-row:2/3;
 }
-.container{
-    position: relative;
-    width: 20%;
-   background-color: aquamarine;
+
+.video-title{
+    cursor: pointer;
 }
-.video{
-    margin-top: 100px;
-    display: flex;
-    justify-content: center;
+
+.video-title:hover{
+    color: rgb(94, 92, 92);
 }
-.video-g{
-    width: 60%;
-    grid-row:2/3;
+
+
+@media screen and (min-width:500px) {
+    .video{
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+    }
+    .video-g{
+        width: 60%;
+        grid-row:2/3;
+    }
+    .container{
+        position: relative;
+        width: 20%;
+       background-color: aquamarine;
+    }
 }
 .question{
     text-align:start;
@@ -64,11 +105,11 @@ body{
 }
 .check-box{
     display: block;
-    margin-top: 20px;
     width: 9px;
     height: 9px;
     border: 1px solid rgb(61, 61, 61);
     border-radius: 50%;
+    margin-left: 5px;
 }
 .checked{
     background-color: rgb(0, 183, 255);
@@ -79,6 +120,9 @@ body{
 }
 .wrong-answer{
     background-color: red;
+}
+.expected-answer{
+    background-color: rgb(99, 99, 99);
 }
 .question-container{  
     display: flex;
@@ -98,6 +142,7 @@ body{
 .submit-answers-btn-container{
     display: flex;
     justify-content: center;
+    margin-top: 10px;
 }
 .submit-answers-btn{
     width: 70px;
@@ -112,7 +157,15 @@ body{
 .submit-answers-btn:active{
    background-color: rgb(90, 89, 89);
 }
-.upload-btn{
+.upload{
+    height: 16px;
+}
+
+.list-btn:hover{
+    opacity: 0.7;
+}
+
+.upload-lesson-btn{
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -122,27 +175,78 @@ body{
     bottom: 30px;
   }
   .upload-video, .upload-questions{
-    margin-right: 10px;
-    margin-left: 5px;
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     border: 1px solid gray;
     border-radius: 50%;
 
   }
- .upload-video:hover, .upload-questions:hover {
-    background-color: rgb(88, 87, 87);
- } 
- .bi-edit{
-    width: 20px;
-    height: 20px;
- margin-right: 5px;
 
- 
+  .trash1{
+    color: rgb(211, 180, 4);
+   }
+  
+   .trash2{
+    color: rgb(255, 0, 0);
+   }
+   .correct{
+    position: fixed;
+    top: -125px;
+    display: flex;
+   flex-direction: row;
+    background-color: #42fa9e;
+    width: 200px;
+    height: 125px;
+    z-index: 1;
+    animation: message 1s ease-out , message-return 1s ease-out 3s  ;
+    animation-fill-mode: forwards;
+   }
+   .correct-message{
+    width: auto;
+   position: absolute;
+   top:55px;
+   right: 5px;
+   }
+  
+   @keyframes message{
+    from{
+  top:-150px;
+    }
+    to{
+  top:15px;
+    }
+  }
+  @keyframes message-return{
+    from{
+  top:15px;
+    }
+    to{
+  top:-150px;
+    }
+  }
+   .c{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+  }
+
+ .bi-edit{
+    width: 16px;
+    height: 16px;
+    margin-top: 4px;
+ }
+ .bi-trash{
+    font-size: 1.3rem;
+ }
+
+ .bi-trash-container{
+    margin-bottom: 2px;
  }
 
  .btns-flex-container{
-    
+    width: 50%;
     display: inline-flex;
     justify-content: space-evenly;
     align-items: center;
@@ -162,6 +266,13 @@ right:35px;
     top: -20px;
     right: 0;
  }
+
+.answer-container{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
 .hidden{
     display: none;
 }

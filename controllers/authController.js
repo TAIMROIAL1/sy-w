@@ -252,3 +252,10 @@ exports.updateEmailName = catchAsync(async function(req, res, next) {
     path: 'message'
   })
 })
+
+exports.checkBoughtCourse = catchAsync(async function(req, res, next) {
+  const { subcourseId } = req.params;
+  const { user } = req;
+
+  
+})
