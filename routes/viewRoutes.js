@@ -6,7 +6,7 @@ const Lesson = require("./../models/lessonModel");
 const Question = require('./../models/questionModel')
 const Subourse = require("./../models/subcourseModel");
 const catchAsync = require("./../utils/catchAsync");
-const { checkJWT, restrictTo } = require("./../controllers/authController");
+const { checkJWT, restrictTo, checkActivatedSubcourse } = require("./../controllers/authController");
 const router = express.Router();
 
 router.get("/sign-up", checkJWT, (req, res) => {
@@ -43,10 +43,12 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
       for(const c of courses) {
         const foundSubcourses = await Subcourse.find({course: c._id});
         const ids = foundSubcourses.map(fsc => fsc._id.toString());
-        subcourses.push(...ids);
+        subcourses.push(ids);
       }
-
       const { user } = res.locals;
+      
+      console.log('Subcourses: ', subcourses);
+      console.log(user.subcourses.some(sc => subcourses.includes(sc.toString())));
 
     res.status(200).render("courses", {
       user,
@@ -78,7 +80,7 @@ router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res
   })
 );
 
-router.get("/subcourses/:subcourseId/lessons", checkJWT, catchAsync(async (req, res) => {
+router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse, catchAsync(async (req, res) => {
     if (!res.locals.user) {
       return res.status(200).render("toSign");
     }

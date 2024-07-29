@@ -183,6 +183,7 @@ body{
 .btn-close-list{
     width: 20px;
     height: 20px;
+    color: #42fa9e;
 }
 .submit-answers-btn-container{
     display: flex;

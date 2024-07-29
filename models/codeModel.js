@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('./userModel');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const codeSchema = new mongoose.Schema({
   code: {
@@ -20,7 +22,7 @@ const codeSchema = new mongoose.Schema({
     default: false
   }
 })
-//TODO
+
 codeSchema.methods.activateCode = async function(userId) {
   const session = await mongoose.startSession();
   session.startTransaction();
@@ -52,6 +54,8 @@ codeSchema.methods.activateCode = async function(userId) {
   }
   
 }
+
+
 
 const Code = mongoose.model('Code', codeSchema);
 

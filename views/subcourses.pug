@@ -18,7 +18,7 @@ block content
           .class-info 
             .asab= c.title
             .about-cours= c.description
-            - if(!user.subcourses.some(sc => subcoursesId.includes(sc.toString())))
+            - if(!user.subcourses.includes(c._id.toString()))
               .price-container
                 .price= c.price
                 buttton.buy شراء الكورس

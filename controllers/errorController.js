@@ -5,7 +5,7 @@ const handleCastingErrorDB = function(err, res) {
 
 const handleDuplicateFieldsDB = function(err, res) {
   const path = Object.keys(err.keyValue)[0];
-  err.message = `Validation Error: هئا ${path === 'name' ? 'الاسم' : 'البريد'} غير صالح`;
+  err.message = `Validation Error: هئا ${path === 'name' ? 'الاسم' : path === 'code'? 'الكود' : 'البريد'} غير صالح`;
   return path;
 }
 

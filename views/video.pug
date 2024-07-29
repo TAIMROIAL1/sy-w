@@ -10,7 +10,7 @@ html(lang='en')
         .correct-message you buy it 
     button.btn-open-list list
     .container
-      img.btn-close-list(src="public/out.png", alt="")
+      img.btn-close-list(src='/public/out.png' style='width=20px;height=20px;')
       - if(lessons)
         each lesson in lessons
           details.my-details(data-lessonid= `${lesson._id}`)
