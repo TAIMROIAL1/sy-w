@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { checkJWT, restrictTo } = require('./../controllers/authController');
+const { checkJWT, restrictTo, checkActivatedSubcourse } = require('./../controllers/authController');
 const { addVideo, editVideo, deleteVideo } = require('./../controllers/lessonController');
 
 const router = express.Router({mergeParams: true});

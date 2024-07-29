@@ -10,7 +10,7 @@ html(lang='en')
         .correct-message you buy it 
     button.btn-open-list list
     .container
-      button.btn-close-list list
+      button.btn-close-list
       - if(lessons)
         each lesson in lessons
           details.my-details(data-lessonid= `${lesson._id}`)

@@ -7,7 +7,7 @@ block content
   .div-cours
     p.cours courses:
   .courses
-    each c in courses
+    each c , i in courses
       button.btn-clases(data-courseid= `${c._id}`)
         .first-cours
           - if(user.role === 'admin')
@@ -20,7 +20,7 @@ block content
           .class-info 
             .asab= c.title
             .about-cours= c.description
-            - if(!user.subcourses.some(sc => subcourses.includes(sc.toString())))
+            - if(!user.subcourses.some(sc => subcourses[i].includes(sc.toString())))
               .price-container
                 .price= c.price
                 buttton.buy شراء الكورس

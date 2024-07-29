@@ -72,7 +72,8 @@ const createQuestions = async function(clicked) {
     videoTitle.textContent = videoElement.querySelector('.video-title').textContent;
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
-    const questionsToLoad = await ajaxCall(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions`, 'GET');
+    const subcourseId = location.href.split('/')[4];
+    const questionsToLoad = await ajaxCall(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions`, 'POST', {subcourseId});
     if(questionsToLoad.data.questions.length > 0){
     questionsToLoad.data.questions.forEach(q => createQuestionHTML(q.text, q.answers, q._id));
     submitBtnContainer.classList.remove('hidden');
@@ -275,12 +276,11 @@ const highlightAnswers = function(results) {
     const check = checks.find(ch => ch.dataset.questionid == result.questionId);
     const checked = check.querySelector('.checked');
     if(result.solvedRight == true) {
-      console.log('Hey')
+
       checked.classList.remove('checked');
       checked.classList.add('correct-answer');
     }
     else {
-      console.log('HI')
       if(checked) {
         checked.classList.remove('checked');
       checked.classList.add('wrong-answer');
@@ -293,7 +293,6 @@ const highlightAnswers = function(results) {
 }
 
 const handleSubmit = async function() {
-
     const solvedQuestions = questions.map(q => {
       const questionId = q.closest('.check').dataset.questionid;
       let answer = -1;
@@ -301,10 +300,14 @@ const handleSubmit = async function() {
   
       if(checked) answer = Number(checked.closest('.answer-container').dataset.answernum) + 1;
       return {id: questionId, answer}
-    })
+    });
+
     const videoId = document.body.dataset.videoid;
-    const { results } = await ajaxCall(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions/solve-questions`, 'POST', {solvedQuestions});
-    console.log(results)
+
+    const subcourseId = location.href.split('/')[4];
+
+    const { results } = await ajaxCall(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions/solve-questions`, 'POST', {solvedQuestions, subcourseId});
+
     highlightAnswers(results)
     submitAnswersBtn.removeEventListener('click', handleSubmit);
     setTimeout(() => {

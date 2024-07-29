@@ -253,9 +253,17 @@ exports.updateEmailName = catchAsync(async function(req, res, next) {
   })
 })
 
-exports.checkBoughtCourse = catchAsync(async function(req, res, next) {
-  const { subcourseId } = req.params;
-  const { user } = req;
-
+exports.checkActivatedSubcourse = catchAsync(async function(req, res, next) {
+  let { subcourseId } = req.body;
+  if(!subcourseId) subcourseId  = req.params.subcourseId;
+  if(!subcourseId) return next(new AppError('لا تخبص', 400));
+  let { user } = req;
+  if(!user) user = res.locals.user;
   
+  if(user.subcourses.includes(subcourseId)) return next();
+
+  res.status(400).json({
+    status: 'fail',
+    message: 'لم تشتري هذا الكورس، لا تخبص'
+  })
 })
