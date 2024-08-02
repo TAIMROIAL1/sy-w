@@ -5,7 +5,13 @@
     padding: 0;
   box-sizing: border-box;
  }
-
+ :root{
+  --y:#bbfb4c;
+  --yalo: #ffffff;
+  --blue: #5285e8;
+  --white: #f0f5f4;
+  --black: #181818;
+}
 body{   
   background-color: #f0f5f4;
  position: relative;
@@ -15,6 +21,12 @@ body{
    
     padding-bottom: 40px;
  
+ }
+ .about-cours{
+  color: var(--black);
+ }
+ .asab{
+  color: var(--y);
  }
  .buy{
   background-color: #bbfb4c;
@@ -162,6 +174,8 @@ width: 100%;
   box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
  }
  .account{
+  color: var(--y);
+
   font-family: Lalezar;
   font-size: 2rem;
 }
@@ -278,7 +292,7 @@ color:rgb(0, 0, 0);
   align-items: center;
  } */
  .asab{
-  color: #fff;
+  
   margin-top: 10px;
   height: auto;
   width: 100%;
@@ -289,7 +303,6 @@ color:rgb(0, 0, 0);
   
  }
  .about-cours{
-  color: #fff;
 
   width: 100%;
   text-align: center; 
@@ -301,11 +314,16 @@ color:rgb(0, 0, 0);
  @media screen and (min-width:401px ) and ( max-width:500px){
   .account{
     font-size: 25px;
+    color: var(--y);
+
   }
   .atp{
+    color: var(--yalo);
+
     font-size: 17px;
   }
   .atp1{
+color: var(--y);
     font-size: 22px;
   }
   .nav-bar-img{
@@ -324,9 +342,8 @@ color:rgb(0, 0, 0);
   }
 
   .big-nav{
-     
     display: flex;
-   justify-content: center;
+   justify-content: space-evenly;
     align-items:center  ;
   }
 .atp-coin{
@@ -336,18 +353,23 @@ color:rgb(0, 0, 0);
  
 }
 .atp{
+  color: var(--yalo);
+
   font: 20px impact;
   margin-right:8px ;
   margin-left: 10px;
 }
 .atp1{
+  color: var(--y);
+
   font: 25px impact;
-  color: #5045b2dc;
+
   margin-right: 5px;
 }
   .nav-bar{
- background-color: rgba(177, 175, 175, 0.301);
-position: relative;
+
+    background: var(--blue);
+    position: relative;
     width: 80%;
     
     height: 80px;
@@ -362,7 +384,7 @@ position: relative;
   .account{
     position: absolute;
     left: 20px;
-   
+   color: var(--y);
   }
   
   
@@ -377,8 +399,7 @@ position: relative;
  }
  @media screen and (max-width:400px){
   
-  .big-nav{
-       
+  .big-nav{ 
     display: flex;
    justify-content: center;
     align-items:center  ;
@@ -386,11 +407,16 @@ position: relative;
   
   .account{
     font-size: 22px;
+    color: var(--y);
   }
   .atp{
+    color: var(--yalo);
+
     font-size: 14px;
   }
   .atp1{
+    color: var(--y);
+
     font-size: 19px;
   }
   .nav-bar-img{
@@ -416,20 +442,24 @@ position: relative;
  margin-left: 30px;
 }
 .atp{
+  color: var(--yalo);
+
   font: 20px impact;
   margin-right:8px ;
   margin-left: 10px;
 }
 .atp1{
+  color: var(--y);
+
   font: 25px impact;
-  color: #5045b2dc;
   margin-right: 5px;
 }
   .nav-bar{
- background-color: rgba(177, 175, 175, 0.301);
- position: relative;
-    width: 80%;
-    height: 80px;
+
+    background: var(--blue);
+     position: relative;
+    width: 95%;
+    height: 70px;
     display: grid;
   justify-content:space-evenly;
   align-items: center;
@@ -441,7 +471,8 @@ position: relative;
   .account{
     position: absolute;
     left: 20px;
-   
+    color: var(--y);
+
   }
   
   
@@ -474,21 +505,25 @@ position: relative;
  
 }
 .atp{
+  color: var(--yalo);
   font: 20px impact;
   margin-right:8px ;
   margin-left: 10px;
 }
 .atp1{
+  color: var(--y);
+
   font: 25px impact;
-  color: #5045b2dc;
+  
   margin-right: 5px;
 }
   .nav-bar{
- background-color: rgba(177, 175, 175, 0.301);
-position: relative;
-    width: 80%;
+
+    background: var(--blue);
+    position: relative;
+    width: 85%;
     
-    height: 80px;
+    height: 70px;
     display: flex;
   justify-content:space-evenly;
   align-items: center;
@@ -500,7 +535,8 @@ position: relative;
   .account{
     position: absolute;
     left: 20px;
-   
+    color: var(--y);
+
   }
   
   
@@ -534,18 +570,22 @@ position: relative;
   
  }
  .atp{
+  color: var(--yalo);
    font: 20px impact;
    margin-right:8px ;
    margin-left: 10px;
  }
  .atp1{
+  color: var(--y);
+
    font: 25px impact;
-   color: #5045b2dc;
+   
    margin-right: 5px;
  }
    .nav-bar{
-  background-color: rgba(177, 175, 175, 0.301);
- position: relative;
+
+    background: var(--blue);
+     position: relative;
      width: 80%;
      
      height: 80px;
@@ -560,7 +600,8 @@ position: relative;
    .account{
      position: absolute;
      left: 20px;
-    
+     color: var(--y);
+
    }
    
    
