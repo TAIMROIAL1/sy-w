@@ -8,9 +8,11 @@ html(lang='en')
     .c
       .correct.hidden
         .correct-message you buy it 
-    button.btn-open-list list
+    button.btn-open-list 
+      img.img-btn-close-list(src='/imgs/list.png')
     .container
-      img.btn-close-list(src='/public/out.png' style='width=20px;height=20px;')
+      button.btn-close-list
+        img.img-btn-close-list(src='/imgs/exit.png')
       - if(lessons)
         each lesson in lessons
           details.my-details(data-lessonid= `${lesson._id}`)

@@ -35,10 +35,12 @@ body{
   font-size: 3rem;
  }
  .correct{
+  border-radius:10px ;
   position: fixed;
   top: -125px;
   display: flex;
- flex-direction: row;
+  justify-content: center;
+  align-items: center;
   background-color: #42fa9e;
   width: 200px;
   height: 125px;
@@ -48,11 +50,13 @@ body{
  }
  .correct-message{
   width: auto;
- position: absolute;
- top:55px;
- right: 5px;
+ 
  }
-
+ .img-correct{
+  display: none;
+ position: absolute;
+ left: 20px;
+ }
  @keyframes message{
   from{
 top:-150px;
@@ -76,6 +80,7 @@ top:-150px;
   justify-content: center;
   z-index: 1;
 }
+
  .bi-trash{
   position: absolute;
   right: -20px;
@@ -184,10 +189,11 @@ width: 100%;
  
  }
  .homs{
-   display: flex;
+   display: none;
    justify-content: center;
  }
  .home{
+  display: none;
    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
    font-size: 2.5rem;
   color:rgb(0, 0, 0);
@@ -197,27 +203,19 @@ width: 100%;
    
   
  }
- .first-articl{
-background-color: #181818;   
-min-width:350px;
+ .first-articl{ 
+width: 100%;
   height:500px;
    display: flex;
-   flex-direction: column;
    justify-content: center;
-   position: relative;
-   flex-grow: 1;
+ 
  }
  .first-articl-imag{
    width:100%;
    height:100%;
-  position: absolute;
-  
-   
-   box-shadow: 6px 3px 6px rgba(218, 217, 217, 0.400);
-   
  }
  .first-bargragh-div{
-
+display: none;
    width:320px;
    height: 100px;
    position: absolute;
@@ -328,7 +326,7 @@ color:rgb(0, 0, 0);
   .big-nav{
      
     display: flex;
-   justify-content: end;
+   justify-content: center;
     align-items:center  ;
   }
 .atp-coin{
@@ -369,10 +367,8 @@ position: relative;
   
   
   .articl{
-   
-   
     position: relative;
-  margin-top: 30px;
+   margin-top: 30px;
     margin-bottom: 20px;
   
   }
@@ -384,7 +380,7 @@ position: relative;
   .big-nav{
        
     display: flex;
-   justify-content: end;
+   justify-content: center;
     align-items:center  ;
   }
   
@@ -412,12 +408,6 @@ position: relative;
     font-size: 13px;
   }
 
-  .big-nav{
-     
-    display: flex;
-   justify-content: end;
-    align-items:center  ;
-  }
 .atp-coin{
   
   display: flex;

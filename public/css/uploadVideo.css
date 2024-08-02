@@ -3,6 +3,12 @@
     padding: 0;
   
   }
+  :root{
+    --yalo: #bbfb4c;
+    --blue: #5285e8;
+    --white: #f0f5f4;
+    --black: #181818;
+  }
   html{box-sizing: border-box;
     width: 100%;
     height: 100%;}
@@ -13,7 +19,7 @@
    display: grid;
    justify-content: center;
    align-items: center;
-   background: -webkit-linear-gradient(left, #5045b2, #42fa9e    );
+   background:var(--white);
   }
   .container{
     width: 320px;
@@ -21,7 +27,7 @@
     display: grid;
     justify-content: center;
    align-items: center;
-  
+  border-radius: 20px;
   }
   .center{
     display: grid;
@@ -46,7 +52,7 @@
   
   .container{
 
-   background-color: rgba(151, 151, 151, 0.288);
+   background-color: var(--blue);
   }
   label{
    display: block;
@@ -72,6 +78,7 @@
    padding-left: 40px;
    padding-right: 40px;
    border: none;
+   background: var(--yalo);
     border: 2px solid rgba(133, 131, 131, 0.315);
     border-radius: 50px;
     box-shadow: 2px 1px 3px rgba(85, 85, 85, 0.637) ;
@@ -85,7 +92,7 @@
     width: 100px;
     height: 30px;
     border-radius: 20px;
-    background-color: rgba(151, 151, 151, 0.288);
+    background-color: var(--yalo);
     box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
    
   }
@@ -103,9 +110,7 @@
    }
    .correct-message{
     width: auto;
-   position: absolute;
-   top:55px;
-   right: 5px;
+   text-align: center;
    }
 
    @keyframes message{
