@@ -11,6 +11,8 @@ const uploadLessonBtn = document.querySelector('.upload-lesson-btn');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const videoTitle = document.querySelector('.title');
 const videoPlay = document.querySelector('.video-g');
 
