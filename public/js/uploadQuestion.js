@@ -9,6 +9,8 @@ const addBtn = document.querySelector('.add-question-btn');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const forms = [];
 let questions = [];
 const videoId = location.href.split('/')[4];
@@ -98,7 +100,7 @@ const init = function() {
         questions = [];
         return showNotification('الرجاء تعبئة كامل الاستمارات');
 }
-      const response = await fetch(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions`, {
+      const response = await fetch(`${domain}/api/v1/videos/${videoId}/questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

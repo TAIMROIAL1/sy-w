@@ -9,7 +9,8 @@ html(lang='en')
     link(href="https://fonts.googleapis.com/css2?family=Lalezar&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet")
     title= title
     link(rel='stylesheet', href='/css/main.css')
-  body
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}`)
     .layer.hidden
       .buy-container 
         p.buy-par هل تريد شراء هذا الكورس

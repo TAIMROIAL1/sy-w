@@ -4,6 +4,7 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title Login and Registration 
-  body
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}`)
     script.
       location.assign('/sign-up');

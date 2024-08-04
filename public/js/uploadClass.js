@@ -2,6 +2,7 @@ const nameInput = document.getElementById('class-name');
 const descriptionInput = document.getElementById('class-des');
 const photoUrlInput = document.getElementById('image');
 const uploadBtn = document.querySelector('.btn-sub');
+const domain = document.body.dataset.domain;
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
@@ -21,7 +22,7 @@ uploadBtn.addEventListener('click', async (e) => {
     const photoUrl = photoUrlInput.value;
 
     if(!title || !description || !photoUrl) return;
-    const res = await fetch('http://127.0.0.1:3000/api/v1/classes', {
+    const res = await fetch(`${domain}/api/v1/classes`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

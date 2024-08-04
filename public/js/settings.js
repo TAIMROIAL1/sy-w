@@ -21,6 +21,8 @@ const coursesContainer = document.querySelector('.my-courses');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 // The list button for mobile size
 const listBtn = document.querySelector('.setting-btn');
 const list = document.querySelector('.list');
@@ -83,7 +85,7 @@ btnsList.addEventListener('click', (e) => {
 activateCodeBtn.addEventListener('click', async (e) => {
     const code = codeInput.value;
     if(!code) return;
-    const data = await ajaxCall('http://127.0.0.1:3000/api/v1/codes/activate-code', {code});
+    const data = await ajaxCall(`${domain}/api/v1/codes/activate-code`, {code});
 
     if(data.status === 'success') {
         showNotification(data.message);
@@ -101,7 +103,7 @@ nameEmailUpdateBtn.addEventListener('click', async (e) => {
     if(!name) return showError('name', 'الرجاء ادخال الاسم');
     if(!email) return showError('email', 'الرجاء ادخال البريد الالكتروني');
 
-    const data = await ajaxCall('http://127.0.0.1:3000/api/v1/users/update-email-name', {name, email});
+    const data = await ajaxCall(`${domain}/api/v1/users/update-email-name`, {name, email});
 
     if(data.status === 'success') {
         showNotification(data.message)
@@ -120,7 +122,7 @@ passwordUpdateBtn.addEventListener('click', async (e) => {
     if(!password) return showError('password', 'الرجاء ادخال كلمة السر الجديدة');
     if(!passwordConfirm) return showError('password-confirm', 'الرجاء تاكيد كلمة السر');
 
-    const data = await ajaxCall('http://127.0.0.1:3000/api/v1/users/update-password', {currentPassword, password, passwordConfirm});
+    const data = await ajaxCall(`${domain}/api/v1/users/update-password`, {currentPassword, password, passwordConfirm});
 
     if(data.status === 'success') {
         showNotification(data.message)

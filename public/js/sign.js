@@ -589,11 +589,12 @@
   var _signViewJs = require("../signViews/signView.js");
   var _signViewJsDefault = parcelHelpers.interopDefault(_signViewJs);
   var _signupModelJs = require("../signModels/signupModel.js");
+  const domain = document.body.dataset.domain;
   const signUpHandler = async function(e) {
       e.preventDefault();
       const data = (0, _signViewJsDefault.default).getInputDataSignup();
       (0, _signViewJsDefault.default).toggleSpinner();
-      const response = await (0, _signupModelJs.ajaxToServer)("http://127.0.0.1:3000/api/v1/users/signup", data);
+      const response = await (0, _signupModelJs.ajaxToServer)(domain + "/api/v1/users/signup", data);
       (0, _signViewJsDefault.default).toggleSpinner();
       if (response.status === "success") {
           (0, _signViewJsDefault.default).showScucessMessage(); //TODO
@@ -610,7 +611,7 @@
       e.preventDefault();
       const data = (0, _signViewJsDefault.default).getInputDataLogin();
       (0, _signViewJsDefault.default).toggleSpinner();
-      const response = await (0, _signupModelJs.ajaxToServer)("https://sy-w.onrender.com/api/v1/users/login", data);
+      const response = await (0, _signupModelJs.ajaxToServer)(domain + "/api/v1/users/login", data);
       (0, _signViewJsDefault.default).toggleSpinner();
       if (response.status === "success") {
           (0, _signViewJsDefault.default).showScucessMessage("You have been logged into your account");

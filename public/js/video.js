@@ -73,7 +73,7 @@ const createQuestions = async function(clicked) {
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
     const subcourseId = location.href.split('/')[4];
-    const questionsToLoad = await ajaxCall(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions`, 'POST', {subcourseId});
+    const questionsToLoad = await ajaxCall(`${domain}/api/v1/videos/${videoId}/questions`, 'POST', {subcourseId});
     if(questionsToLoad.data.questions.length > 0){
     questionsToLoad.data.questions.forEach(q => createQuestionHTML(q.text, q.answers, q._id));
     submitBtnContainer.classList.remove('hidden');
@@ -132,7 +132,7 @@ btnsContainers1.forEach(btnsContainer => {
 }
   const lessonToDelete = e.target.closest('.my-details');
 
-  const response = await fetch(`http://127.0.0.1:3000/api/v1/subcourses/${subcourseId}/lessons/${lessonToDelete.dataset.lessonid}`, {
+  const response = await fetch(`${domain}/api/v1/subcourses/${subcourseId}/lessons/${lessonToDelete.dataset.lessonid}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -182,7 +182,7 @@ videoContainer.forEach(btnsContainer => {
 }
   const videoToDelete = clicked2.closest('.video-container').dataset.videoid;
 
-  const response = await fetch(`http://127.0.0.1:3000/api/v1/lessons/${lessonId}/videos/${videoToDelete}`, {
+  const response = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos/${videoToDelete}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -240,7 +240,7 @@ questionsContainer.addEventListener('click', async (e) => {
 }
   const questionToDelete = clicked2.closest('.check').dataset.questionid;
 
-  const response = await fetch(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions/${questionToDelete}`, {
+  const response = await fetch(`${domain}/api/v1/videos/${videoId}/questions/${questionToDelete}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
@@ -306,7 +306,7 @@ const handleSubmit = async function() {
 
     const subcourseId = location.href.split('/')[4];
 
-    const { results } = await ajaxCall(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions/solve-questions`, 'POST', {solvedQuestions, subcourseId});
+    const { results } = await ajaxCall(`${domain}/api/v1/videos/${videoId}/questions/solve-questions`, 'POST', {solvedQuestions, subcourseId});
 
     highlightAnswers(results)
     submitAnswersBtn.removeEventListener('click', handleSubmit);

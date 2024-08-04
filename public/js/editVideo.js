@@ -6,6 +6,8 @@ const uploadBtn = document.querySelector('.btn-sub');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
@@ -19,9 +21,10 @@ uploadBtn.addEventListener('click', async (e) => {
     const title = nameInput.value;
     const num = numberInput.value;
     if(!title || !num) return;
+
     const lessonId = location.href.split('/')[4];
     const videoId = location.href.split('/')[6];
-    const res = await fetch(`http://127.0.0.1:3000/api/v1/lessons/${lessonId}/videos/${videoId}/edit-video`, {
+    const res = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos/${videoId}/edit-video`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

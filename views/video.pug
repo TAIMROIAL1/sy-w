@@ -4,7 +4,8 @@ html(lang='en')
     meta(charset='UTF-8')
     title Page title
     link(rel='stylesheet', href='/css/video.css')
-  body(dir='rtl', lang='ar', data-role= `${user.role}`)
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}`, dir='rtl', lang='ar', data-role= `${user.role}`)
     .c
       .correct.hidden
         .correct-message you buy it 

@@ -6,7 +6,8 @@ html(lang='ar')
     meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
     link(rel='stylesheet', href='/css/uploadVideo.css')
     title Document
-  body
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}`)
     .c
       .correct.hidden
         .correct-message you buy it 

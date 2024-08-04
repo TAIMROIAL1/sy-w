@@ -10,6 +10,7 @@ const agreeBtn = document.querySelector('.buy-accept')
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
 
 const ajaxCall = async function(url, method, data = undefined) {
   const fetchOpts = {};
@@ -28,7 +29,7 @@ canelBtn.addEventListener('click', (e) => {
 agreeBtn.addEventListener('click', async (e) => {
   const subcourseId = agreeBtn.dataset.subcourseid;
   const courseId = location.href.split('/')[4];
-  const data = await ajaxCall(`http://127.0.0.1:3000/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
+  const data = await ajaxCall(`${domain}/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
   if(data.status === 'success') {
     agreeBtn.removeAttribute('data-courseid');
     layer.classList.add('hidden');
@@ -68,7 +69,7 @@ coursesContainer.addEventListener('click', async (e) => {
 }
   const subcourseToDelete = e.target.closest('.btn-clases');
 
-  const response = await fetch(`http://127.0.0.1:3000/api/v1/courses/${id}/subcourses/${subcourseToDelete.dataset.subcourseid}`, {
+  const response = await fetch(`${domain}/api/v1/courses/${id}/subcourses/${subcourseToDelete.dataset.subcourseid}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

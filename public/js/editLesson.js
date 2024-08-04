@@ -7,6 +7,8 @@ const uploadBtn = document.querySelector('.btn-sub');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
@@ -23,7 +25,7 @@ uploadBtn.addEventListener('click', async (e) => {
     if(!title || !photoUrl || !num) return;
     const subcourseId = location.href.split('/')[4];
     const lessonId = location.href.split('/')[6];
-    const res = await fetch(`http://127.0.0.1:3000/api/v1/subcourses/${subcourseId}/lessons/${lessonId}/edit-lesson`, {
+    const res = await fetch(`${domain}/api/v1/subcourses/${subcourseId}/lessons/${lessonId}/edit-lesson`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

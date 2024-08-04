@@ -7,7 +7,8 @@ html(lang='en')
     link(href="https://unpkg.com/css.gg@2.0.0/icons/css/danger.css"
          rel="stylesheet")
     title settings
-  body(dir='rtl', lang='ar')
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}`, dir='rtl', lang='ar')
     .correct.hidden
       .correct-message you buy it 
     .container

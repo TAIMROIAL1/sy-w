@@ -6,6 +6,8 @@ const uploadBtn = document.querySelector('.upload-btn');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
@@ -33,7 +35,7 @@ classesContainer.addEventListener('click', async (e) => {
     return clicked2.dataset.deletecount++;
 }
   const classToDelete = e.target.closest('.btn-clases');
-  const response = await fetch(`http://127.0.0.1:3000/api/v1/classes/${classToDelete.dataset.classid}`, {
+  const response = await fetch(`${domain}/api/v1/classes/${classToDelete.dataset.classid}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

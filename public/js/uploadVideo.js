@@ -20,7 +20,7 @@ uploadBtn.addEventListener('click', async (e) => {
     const num = numberInput.value;
     if(!title || !num) return;
     const lessonId = location.href.split('/')[4]
-    const res = await fetch(`http://127.0.0.1:3000/api/v1/lessons/${lessonId}/videos`, {
+    const res = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

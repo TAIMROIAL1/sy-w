@@ -10,6 +10,8 @@ const editBtn = document.querySelector('.btn-sub');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
@@ -30,7 +32,7 @@ editBtn.addEventListener('click', async (e) => {
     if(!text || !answer1 || !answer2 || !answer3 || !answer4 || !correctAnswer) return;
     const videoId = location.href.split('/')[4];
     const questionId = location.href.split('/')[6];
-    const res = await fetch(`http://127.0.0.1:3000/api/v1/videos/${videoId}/questions/${questionId}/edit-question`, {
+    const res = await fetch(`${domain}/api/v1/videos/${videoId}/questions/${questionId}/edit-question`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

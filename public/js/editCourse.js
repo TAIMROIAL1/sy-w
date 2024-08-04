@@ -8,6 +8,8 @@ const editBtn = document.querySelector('.btn-sub');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
@@ -27,7 +29,7 @@ editBtn.addEventListener('click', async (e) => {
 
     if(!title || !description || !photoUrl || !price) return;
 
-    const res = await fetch(`http://127.0.0.1:3000/api/v1/classes/${classId}/courses/${courseId}/edit-course`, {
+    const res = await fetch(`${domain}/api/v1/classes/${classId}/courses/${courseId}/edit-course`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

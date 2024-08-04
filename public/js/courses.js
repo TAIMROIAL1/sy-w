@@ -11,6 +11,8 @@ const agreeBtn = document.querySelector('.buy-accept')
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
@@ -35,7 +37,7 @@ canelBtn.addEventListener('click', (e) => {
 agreeBtn.addEventListener('click', async (e) => {
   const courseId = agreeBtn.dataset.courseid;
   const classId = location.href.split('/')[4];
-  const data = await ajaxCall(`http://127.0.0.1:3000/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
+  const data = await ajaxCall(`${domain}/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
   if(data.status === 'success') {
     agreeBtn.removeAttribute('data-courseid');
     layer.classList.add('hidden');
@@ -68,7 +70,7 @@ coursesContainer.addEventListener('click', async (e) => {
 }
   const courseToDelete = e.target.closest('.btn-clases');
 
-  const response = await fetch(`http://127.0.0.1:3000/api/v1/classes/${id}/courses/${courseToDelete.dataset.courseid}`, {
+  const response = await fetch(`${domain}/api/v1/classes/${id}/courses/${courseToDelete.dataset.courseid}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

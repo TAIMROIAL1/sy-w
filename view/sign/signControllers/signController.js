@@ -3,6 +3,8 @@ import { ajaxToServer } from "../signModels/signupModel.js";
 import 'core-js/stable';
 import 'regenerator-runtime/runtime.js'
 
+const domain = document.body.dataset.domain;
+
 const signUpHandler = async function(e) {
   e.preventDefault();
 
@@ -10,7 +12,7 @@ const signUpHandler = async function(e) {
 
   signView.toggleSpinner();
 
-  const response = await ajaxToServer('http://127.0.0.1:3000/api/v1/users/signup', data);
+  const response = await ajaxToServer(`${domain}/api/v1/users/signup`, data);
 
   signView.toggleSpinner();
 
@@ -36,7 +38,7 @@ const loginHandler = async function(e) {
 
   signView.toggleSpinner();
 
-  const response = await ajaxToServer('http://127.0.0.1:3000/api/v1/users/login', data);
+  const response = await ajaxToServer(`${domain}/api/v1/users/login`, data);
 
   signView.toggleSpinner();
 
