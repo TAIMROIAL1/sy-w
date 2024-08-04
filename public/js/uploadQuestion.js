@@ -100,7 +100,7 @@ const init = function() {
         questions = [];
         return showNotification('الرجاء تعبئة كامل الاستمارات');
 }
-      const response = await fetch(`${domain}/api/v1/videos/${videoId}/questions`, {
+      const response = await fetch(`${domain}/api/v1/videos/${videoId}/questions/add-questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
