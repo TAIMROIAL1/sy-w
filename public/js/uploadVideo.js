@@ -6,6 +6,8 @@ const uploadBtn = document.querySelector('.btn-sub');
 const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
+const domain = document.body.dataset.domain;
+
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
   notifcationMsg.textContent = msg;
