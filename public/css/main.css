@@ -1,34 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&family=Permanent+Marker&display=swap');
-  *{
-    margin: 0px;
-    padding: 0;
+
+* {
+  margin: 0px;
+  padding: 0;
   box-sizing: border-box;
- }
- :root{
-  --y:#bbfb4c;
+}
+
+:root {
+  --y: #bbfb4c;
   --yalo: #ffffff;
   --blue: #5285e8;
   --white: #f0f5f4;
   --black: #181818;
 }
-body{   
+
+body {
   background-color: #f0f5f4;
- position: relative;
-    margin: 0;
-    font-family: monospace;
-    font-size:1rem;
-   
-    padding-bottom: 40px;
- 
- }
- .about-cours{
+  position: relative;
+  margin: 0;
+  font-family: monospace;
+  font-size: 1rem;
+
+  padding-bottom: 40px;
+
+}
+
+.about-cours {
   color: var(--black);
- }
- .asab{
+}
+
+.asab {
   color: var(--y);
- }
- .buy{
+}
+
+.buy {
   background-color: #bbfb4c;
   font-size: 20px;
   width: 50%;
@@ -37,17 +43,19 @@ body{
   left: 25%;
   border: 1px solid black;
   border-radius: 10px;
-  font-family:  "Permanent Marker", cursive;
+  font-family: "Permanent Marker", cursive;
 
- }
- .price{
-  font-family:  "Permanent Marker", cursive;
+}
+
+.price {
+  font-family: "Permanent Marker", cursive;
   margin-top: 40px;
   color: #fff;
   font-size: 3rem;
- }
- .correct{
-  border-radius:10px ;
+}
+
+.correct {
+  border-radius: 10px;
   position: fixed;
   top: -125px;
   display: flex;
@@ -57,35 +65,42 @@ body{
   width: 200px;
   height: 125px;
   z-index: 1;
-  animation: message 1s ease-out , message-return 1s ease-out 3s  ;
+  animation: message 1s ease-out, message-return 1s ease-out 3s;
   animation-fill-mode: forwards;
- }
- .correct-message{
-  width: auto;
- 
- }
- .img-correct{
+}
+
+.correct-message {
+  text-align: center;
+
+}
+
+.img-correct {
   display: none;
- position: absolute;
- left: 20px;
- }
- @keyframes message{
-  from{
-top:-150px;
+  position: absolute;
+  left: 20px;
+}
+
+@keyframes message {
+  from {
+    top: -150px;
   }
-  to{
-top:15px;
+
+  to {
+    top: 15px;
   }
 }
-@keyframes message-return{
-  from{
-top:15px;
+
+@keyframes message-return {
+  from {
+    top: 15px;
   }
-  to{
-top:-150px;
+
+  to {
+    top: -150px;
   }
 }
-.c{
+
+.c {
   position: fixed;
   width: 100%;
   display: flex;
@@ -93,36 +108,39 @@ top:-150px;
   z-index: 1;
 }
 
- .bi-trash{
+
+.bi-trash {
   position: absolute;
   right: -20px;
   font-size: 2rem;
- }
+}
 
- .trash1{
+.trash1 {
   color: rgb(128, 109, 0);
- }
+}
 
- .trash2{
+.trash2 {
   color: red;
- }
+}
 
- .bi-edit{
+.bi-edit {
   position: absolute;
   right: -20px;
   top: 50px;
- width: 20px;
- height: 20px;
- color: #313131;
- }
- .c{
+  width: 20px;
+  height: 20px;
+  color: #313131;
+}
+
+.c {
   position: fixed;
   width: 100%;
   display: flex;
   justify-content: center;
   z-index: 3;
 }
- .layer{
+
+.layer {
   width: 100%;
   height: 100%;
   background-color: #ccc9c9cc;
@@ -131,55 +149,66 @@ top:-150px;
   justify-content: center;
   align-items: center;
   z-index: 1;
- }
- .buy-container{
- 
-  width: 50%;
-  height: 30%;
-  background-color: antiquewhite;
+}
+
+.buy-container {
+  border-radius: 20px;
+  width: 300px;
+  height: 300px;
+  background-color: var(--blue);
   z-index: 2;
   display: flex;
- align-items: center;
-flex-direction: column;
- }
- .buy-par{
-  margin-top:50px;
-  font-size: 2rem;
- }
- .buy-btns-container{
+  align-items: center;
+  flex-direction: column;
+}
+
+.buy-par {
+  text-align: center;
   margin-top: 50px;
-width: 100%;
-  
- display: flex;
- justify-content: space-evenly;
- align-items: center;
- 
-  
- }
- .buy-accept{
-  
- }
- .buy-btn{
   font-size: 2rem;
- }
- .btn-clases{
+}
+
+.buy-btns-container {
+  margin-top: 40px;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+
+}
+
+.buy-accept {}
+
+.buy-btn {
+  border-radius: 5px;
+  padding: 6px;
+  background: var(--y);
+  font-size: 2rem;
+}
+
+.btn-clases {
   background: none;
   border: none;
-  margin-top:30px ;
- }
- .btn-clases:hover{
+  margin-top: 30px;
+}
+
+.btn-clases:hover {
   transition: all 0.1s;
   margin-bottom: 15px;
   margin-top: 15px;
   box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
- }
- .account{
+}
+
+.account {
   color: var(--y);
 
   font-family: Lalezar;
   font-size: 2rem;
 }
-.upload-btn{
+
+.upload-btn {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -188,59 +217,66 @@ width: 100%;
   right: 20px;
   bottom: 30px;
 }
-.nav-bar-img{
+
+.nav-bar-img {
   width: 50px;
-  height:50px;
-   position: absolute;
-  right:10px; 
+  height: 50px;
+  position: absolute;
+  right: 10px;
   border-radius: 50%;
-  
-  
+
+
 }
-.articl{   
+
+.articl {
   display: grid;
-   position: relative;
- 
- }
- .homs{
-   display: none;
-   justify-content: center;
- }
- .home{
+  position: relative;
+
+}
+
+.homs {
   display: none;
-   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-   font-size: 2.5rem;
-  color:rgb(0, 0, 0);
+  justify-content: center;
+}
+
+.home {
+  display: none;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-size: 2.5rem;
+  color: rgb(0, 0, 0);
   font-weight: bold;
-   text-transform: uppercase;
-  
-   
-  
- }
- .first-articl{ 
-width: 100%;
-  height:500px;
-   display: flex;
-   justify-content: center;
- 
- }
- .first-articl-imag{
-   width:100%;
-   height:100%;
- }
- .first-bargragh-div{
-display: none;
-   width:320px;
-   height: 100px;
-   position: absolute;
-   bottom:1rem;
-   
+  text-transform: uppercase;
 
- }
- 
 
- 
- .courses{
+
+}
+
+.first-articl {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+
+}
+
+.first-articl-imag {
+  width: 100%;
+  height: 100%;
+}
+
+.first-bargragh-div {
+  display: none;
+  width: 320px;
+  height: 100px;
+  position: absolute;
+  bottom: 1rem;
+
+
+}
+
+
+
+.courses {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -249,373 +285,404 @@ display: none;
   height: auto;
   position: relative;
   bottom: 0;
- }
- .div-cours{
-   display: flex;
+}
+
+.div-cours {
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-basis: 220;
-  
-  margin-top:150px ;
- }
-.cours{
-font-size: 3rem;
 
-font-weight: bold;
-font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-color:rgb(0, 0, 0);
- }
- .first-cours{
+  margin-top: 150px;
+}
+
+.cours {
+  font-size: 3rem;
+  font-weight: bold;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: rgb(0, 0, 0);
+}
+
+.first-cours {
   position: relative;
-   display: flex;
+  display: flex;
   flex-direction: column;
 
-   background-color: #5285e8;
-  width:220px;
+  background-color: #5285e8;
+  width: 220px;
   height: 300px;
-
+  margin-left: 10px;
   border-radius: 10px;
- 
-  
+  margin-right: 10px;
 
+}
 
- }
- 
- .first-cours-img{
-   width: 100%;
-   height:100px;
-  border-radius: 10px 10px 0  0;
- }
- /* .class-img-container{
+.first-cours-img {
+  width: 100%;
+  height: 100px;
+  border-radius: 10px 10px 0 0;
+}
+
+/* .class-img-container{
   display: grid;
   justify-content: center;
   align-items: center;
  } */
- .asab{
-  
+.asab {
+
   margin-top: 10px;
   height: auto;
   width: 100%;
   text-align: center;
-   text-transform: uppercase;
-   font-family: "Noto Sans Arabic", sans-serif;
-   font-size: 25px;
-  
- }
- .about-cours{
+  text-transform: uppercase;
+  font-family: "Noto Sans Arabic", sans-serif;
+  font-size: 25px;
+
+}
+
+.about-cours {
 
   width: 100%;
-  text-align: center; 
- position: absolute;
- bottom: 40px;
-   height:auto ;
-   padding: 3px;
- }
- @media screen and (min-width:401px ) and ( max-width:500px){
-  .account{
+  text-align: center;
+  position: absolute;
+  bottom: 40px;
+  height: auto;
+  padding: 3px;
+}
+
+@media screen and (min-width:401px) and (max-width:500px) {
+  .account {
     font-size: 25px;
     color: var(--y);
 
   }
-  .atp{
+
+  .atp {
     color: var(--yalo);
 
     font-size: 17px;
   }
-  .atp1{
-color: var(--y);
+
+  .atp1 {
+    color: var(--y);
     font-size: 22px;
   }
-  .nav-bar-img{
+
+  .nav-bar-img {
     width: 40px;
     height: 40px;
   }
-  .first-cours-img{
+
+  .first-cours-img {
     width: 100%;
     height: 90px;
   }
-  .asab{
+
+  .asab {
     font-size: 22px;
   }
-  .about-cours{
+
+  .about-cours {
     font-size: 14px;
   }
 
-  .big-nav{
+  .big-nav {
     display: flex;
-   justify-content: space-evenly;
-    align-items:center  ;
+    justify-content: space-evenly;
+    align-items: center;
   }
-.atp-coin{
-  display: flex;  
-  justify-content: end;
-  align-items: center;
- 
-}
-.atp{
-  color: var(--yalo);
 
-  font: 20px impact;
-  margin-right:8px ;
-  margin-left: 10px;
-}
-.atp1{
-  color: var(--y);
+  .atp-coin {
+    display: flex;
+    justify-content: end;
+    align-items: center;
 
-  font: 25px impact;
+  }
 
-  margin-right: 5px;
-}
-  .nav-bar{
+  .atp {
+    color: var(--yalo);
+
+    font: 20px impact;
+    margin-right: 8px;
+    margin-left: 10px;
+  }
+
+  .atp1 {
+    color: var(--y);
+
+    font: 25px impact;
+
+    margin-right: 5px;
+  }
+
+  .nav-bar {
 
     background: var(--blue);
     position: relative;
     width: 80%;
-    
+
     height: 80px;
     display: flex;
-  justify-content:space-evenly;
-  align-items: center;
-  border: 2px solid black;
-  border-radius:0  0 30px 30px ;
-  
+    justify-content: space-evenly;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 0 0 30px 30px;
+
   }
-  
-  .account{
+
+  .account {
     position: absolute;
     left: 20px;
-   color: var(--y);
+    color: var(--y);
   }
-  
-  
-  .articl{
-    position: relative;
-   margin-top: 30px;
-    margin-bottom: 20px;
-  
-  }
- 
 
- }
- @media screen and (max-width:400px){
-  
-  .big-nav{ 
-    display: flex;
-   justify-content: center;
-    align-items:center  ;
+
+  .articl {
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 20px;
+
   }
-  
-  .account{
+
+
+}
+
+@media screen and (max-width:400px) {
+
+  .big-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .account {
     font-size: 22px;
     color: var(--y);
   }
-  .atp{
+
+  .atp {
     color: var(--yalo);
 
     font-size: 14px;
   }
-  .atp1{
+
+  .atp1 {
     color: var(--y);
 
     font-size: 19px;
   }
-  .nav-bar-img{
+
+  .nav-bar-img {
     width: 35px;
     height: 35px;
   }
-  .first-cours-img{
+
+  .first-cours-img {
     width: 100%;
     height: 80px;
   }
-  .asab{
+
+  .asab {
     font-size: 20px;
   }
-  .about-cours{
+
+  .about-cours {
     font-size: 13px;
   }
 
-.atp-coin{
-  
-  display: flex;
-  justify-content: center;
-  align-items: center;
- margin-left: 30px;
-}
-.atp{
-  color: var(--yalo);
+  .atp-coin {
 
-  font: 20px impact;
-  margin-right:8px ;
-  margin-left: 10px;
-}
-.atp1{
-  color: var(--y);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+  }
 
-  font: 25px impact;
-  margin-right: 5px;
-}
-  .nav-bar{
+  .atp {
+    color: var(--yalo);
+
+    font: 20px impact;
+    margin-right: 8px;
+    margin-left: 10px;
+  }
+
+  .atp1 {
+    color: var(--y);
+
+    font: 25px impact;
+    margin-right: 5px;
+  }
+
+  .nav-bar {
 
     background: var(--blue);
-     position: relative;
+    position: relative;
     width: 95%;
     height: 70px;
     display: grid;
-  justify-content:space-evenly;
-  align-items: center;
-  border: 2px solid black;
-  border-radius:0  0 30px 30px ;
-  
+    justify-content: space-evenly;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 0 0 30px 30px;
+
   }
-  
-  .account{
+
+  .account {
     position: absolute;
     left: 20px;
     color: var(--y);
 
   }
-  
-  
-  .articl{
-   
-   
+
+
+  .articl {
+
+
     position: relative;
-  margin-top: 30px;
+    margin-top: 30px;
     margin-bottom: 20px;
-  
+
   }
- 
-
- }
-
-@media screen and (min-width:500px ) and ( max-width:700px) {
 
 
-  .big-nav{
-     
+}
+
+@media screen and (min-width:500px) and (max-width:700px) {
+
+
+  .big-nav {
+
     display: flex;
-   justify-content: center;
-    align-items:center  ;
+    justify-content: center;
+    align-items: center;
   }
-.atp-coin{
-  
-  display: flex;
-  justify-content: end;
-  align-items: center;
- 
-}
-.atp{
-  color: var(--yalo);
-  font: 20px impact;
-  margin-right:8px ;
-  margin-left: 10px;
-}
-.atp1{
-  color: var(--y);
 
-  font: 25px impact;
-  
-  margin-right: 5px;
-}
-  .nav-bar{
+  .atp-coin {
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+  }
+
+  .atp {
+    color: var(--yalo);
+    font: 20px impact;
+    margin-right: 8px;
+    margin-left: 10px;
+  }
+
+  .atp1 {
+    color: var(--y);
+
+    font: 25px impact;
+
+    margin-right: 5px;
+  }
+
+  .nav-bar {
 
     background: var(--blue);
     position: relative;
     width: 85%;
-    
+
     height: 70px;
     display: flex;
-  justify-content:space-evenly;
-  align-items: center;
-  border: 2px solid black;
-  border-radius:0  0 30px 30px ;
-  
+    justify-content: space-evenly;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 0 0 30px 30px;
+
   }
-  
-  .account{
+
+  .account {
     position: absolute;
     left: 20px;
     color: var(--y);
 
   }
-  
-  
-  .articl{
-   
-   
-    position: relative;
-  margin-top: 30px;
-    margin-bottom: 20px;
-  
-  }
- 
-    } 
-     
-     
-  @media screen and (min-width:700px) {
-   
- 
-   
-   .big-nav{
-     
-     display: flex;
-    justify-content: center;
-     align-items:center  ;
-   }
- .atp-coin{
-   
-   display: flex;
-   justify-content: end;
-   align-items: center;
-  
- }
- .atp{
-  color: var(--yalo);
-   font: 20px impact;
-   margin-right:8px ;
-   margin-left: 10px;
- }
- .atp1{
-  color: var(--y);
 
-   font: 25px impact;
-   
-   margin-right: 5px;
- }
-   .nav-bar{
+
+  .articl {
+
+
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+  }
+
+}
+
+
+@media screen and (min-width:700px) {
+
+
+
+  .big-nav {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .atp-coin {
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+  }
+
+  .atp {
+    color: var(--yalo);
+    font: 20px impact;
+    margin-right: 8px;
+    margin-left: 10px;
+  }
+
+  .atp1 {
+    color: var(--y);
+
+    font: 25px impact;
+
+    margin-right: 5px;
+  }
+
+  .nav-bar {
 
     background: var(--blue);
-     position: relative;
-     width: 80%;
-     
-     height: 80px;
-     display: flex;
-   justify-content:space-evenly;
-   align-items: center;
-   border: 2px solid black;
-   border-radius:0  0 30px 30px ;
-   
-   }
-   
-   .account{
-     position: absolute;
-     left: 20px;
-     color: var(--y);
+    position: relative;
+    width: 80%;
 
-   }
-   
-   
-   .articl{
-    
-    
-     position: relative;
-   margin-top: 30px;
-     margin-bottom: 20px;
-   
-   }
-  
+    height: 80px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 0 0 30px 30px;
+
   }
-   
-   .hidden{
-    display: none;
-   }
+
+  .account {
+    position: absolute;
+    left: 20px;
+    color: var(--y);
+
+  }
+
+
+  .articl {
+
+
+    position: relative;
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+  }
+
+}
+
+.hidden {
+  display: none;
+}

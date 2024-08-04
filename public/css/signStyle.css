@@ -65,7 +65,7 @@ html,body{
 }
 .wrapper{
   overflow: hidden;
-  min-width: 300px;
+  min-width: 330px;
   max-width: 400px;
   background:var(--blue);
   padding: 30px;
