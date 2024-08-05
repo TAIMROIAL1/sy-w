@@ -68,7 +68,7 @@ html(lang='en')
               .gg-danger
               .error-message there is a problem
           button#activation-code-btn.save &#x62A;&#x641;&#x639;&#x64A;&#x644; 
-      .setting-info.my-courses.hidden
+      .setting-info.my-courses.flex-container.hidden
         each subcourse in user.subcourses
           .course-container(data-subcourseid=`${subcourse._id}`)
             img.course-img(src=`/imgs/a2.jpg`)
