@@ -17,9 +17,9 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   } else if((req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) {
     token = req.headers.authorization.split(' ')[1];
     } else {
-  if(!req.originalUrl.startsWith('/api')){ 
-    return next();
-  }
+        if(!req.originalUrl.startsWith('/api')){ 
+          return next();
+        }
   return next(new AppError('You are not logged in! Please login to gain access', 401));
 } 
   // if(!token) return next(new AppError('You are not logged in! Please login to gain access', 401));
@@ -59,7 +59,6 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
     if(!req.originalUrl.startsWith('/api') ) res.locals.user = user;
     else req.user = user;
 
-    console.log('HI');
     next();
 })
 
@@ -224,7 +223,7 @@ exports.updateEmailName = catchAsync(async function(req, res, next) {
 
   if(!checkEmail) {
     const exact = await User.findOne({email});
-    console.log(exact)
+
     if(exact) return next(new AppError('هذا البريد غير صالح', 400, 'email'));
   }
 
@@ -256,6 +255,8 @@ exports.updateEmailName = catchAsync(async function(req, res, next) {
 })
 
 exports.checkActivatedSubcourse = catchAsync(async function(req, res, next) {
+  if(!res.locals.user && !req.user) return res.status(400).render('toSign') 
+
   let { subcourseId } = req.body;
   if(!subcourseId) subcourseId  = req.params.subcourseId;
   if(!subcourseId) return next(new AppError('لا تخبص', 400));
