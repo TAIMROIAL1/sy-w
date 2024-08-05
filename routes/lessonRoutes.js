@@ -5,7 +5,6 @@ const { checkJWT, restrictTo, checkActivatedSubcourse } = require('./../controll
 const { getlessons, createLesson, addQuestions, deleteLesson, editLesson } = require('./../controllers/lessonController')
 
 router.route('/')
-.get(checkJWT, checkActivatedSubcourse, getlessons)
 .post(checkJWT, restrictTo('admin'), createLesson);
 
 router.delete('/:lessonId', checkJWT, restrictTo('admin'), deleteLesson)
