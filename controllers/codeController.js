@@ -25,9 +25,7 @@ exports.createCode = catchAsync(async function(req, res, next) {
 
   res.status(201).json({
     status: "success",
-    data: {
-      code: cCode
-    }
+    message: "تم انشاء الكود بنجاح"
   })
 });
 
@@ -44,6 +42,6 @@ exports.activateCode = catchAsync(async function(req, res, next) {
 
   res.status(200).json({
     status: "success",
-    message: "Code has been activated"
+    message: "تم تفعيل الكود بنجاح"
   })
 })

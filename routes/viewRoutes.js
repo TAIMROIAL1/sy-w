@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.get("/sign-up", checkJWT, (req, res) => {
   if (res.locals.user) {
+    console.log('FK')
     return res.status(200).render("mainpage");
   }
   res.status(200).render("sign");

@@ -58,6 +58,8 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   //5) If valid token, call next(); PT
     if(!req.originalUrl.startsWith('/api') ) res.locals.user = user;
     else req.user = user;
+
+    console.log('HI');
     next();
 })
 

@@ -15,6 +15,10 @@ const passwordInput = document.getElementById('password');
 const passwordConfirmInput = document.getElementById('password-confirm');
 const passwordUpdateBtn = document.getElementById('password-update-btn')
 
+const createCodeInput = document.getElementById('code-upload');
+const createCodeValueInput = document.getElementById('code-value');
+const createCodeBtn = document.getElementById('creation-code-btn');
+
 const coursesContainer = document.querySelector('.my-courses');
 
 // The correct/wrong message
@@ -136,6 +140,21 @@ passwordUpdateBtn.addEventListener('click', async (e) => {
         showError(data.path, data.message);
     }
 
+})
+
+createCodeBtn.addEventListener('click', async (e) => {
+    const codeToUpload = createCodeInput.value;
+    const codeToUploadValue = createCodeValueInput.value;
+    if(!codeToUpload || !codeToUploadValue) return;
+
+    const data = await ajaxCall(`${domain}/api/v1/codes`, {code: codeToUpload, value: codeToUploadValue});
+
+    if(data.status === 'success') {
+        showNotification(data.message);
+    }
+    if(data.status === 'fail' || data.status === 'error') {
+        showNotification(data.message);
+    }
 })
 
 coursesContainer.addEventListener('click', (e) => {

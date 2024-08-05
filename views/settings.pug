@@ -18,8 +18,8 @@ html(lang='en')
           button.btn.my-account-btn &#x62D;&#x633;&#x627;&#x628;&#x64A; 
           button.btn.my-courses-btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
           button.btn.activate-code-btn &#x62A;&#x63A;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x627;&#x643;&#x648;&#x627;&#x62F;
-          button.btn.activate-code-btn &#x62A;&#x63A;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x627;&#x643;&#x648;&#x627;&#x62F;
-          button.btn.help-center-btn  &#x627;&#x644;&#x645;&#x633;&#x627;&#x639;&#x62F;&#x629;
+          - if(user.role === 'admin')
+            button.btn.upload-code-btn انشاء كود
       .setting-info.my-account 
         .name-email
           .account-info my account info
@@ -28,13 +28,13 @@ html(lang='en')
             input#name.block(type='text', value=`${user.name}`)
             .error.error-name.hidden 
               .gg-danger
-              .error-message ther is a problem
+              .error-message there is a problem
           .label
             label(for='email') Email:
             input#email.block(type='email', value=`${user.email}`)
             .error.error-email.hidden
               .gg-danger
-              .error-message ther is a problem
+              .error-message there is a problem
           button#name-email-update-btn.save save changes
         .password-update
           .password-update-title update my passsword
@@ -44,19 +44,19 @@ html(lang='en')
             input#current-password.block(type='password', placeholder=`••••••••`)
             .error.error-current-password.hidden
               .gg-danger
-              .error-message ther is a problem
+              .error-message there is a problem
           .label
             label.label(for='password')  New Password:
             input#password.block(type='password', placeholder=`••••••••`)
             .error.error-password.hidden
               .gg-danger
-              .error-message ther is a problem
+              .error-message there is a problem
           .label
             label.label(for='confirm-password') confirm password:
             input#password-confirm.block(type='password', placeholder=`••••••••`)
             .error.error-password-confirm.hidden
               .gg-danger
-              .error-message ther is a problem
+              .error-message there is a problem
           button#password-update-btn.reset reset
       .setting-info.activate-code.hidden
         .name-email
@@ -66,27 +66,28 @@ html(lang='en')
             input#code.block(type='text')
             .error.error-code.hidden
               .gg-danger
-              .error-message ther is a problem
+              .error-message there is a problem
           button#activation-code-btn.save &#x62A;&#x641;&#x639;&#x64A;&#x644; 
-      .setting-info.help-center.hidden
-        .name-email
-          .account-info.center المساعدة
-          .label
-            textarea#help-input.block(cols='30', rows='10' placeholder='اكتب هنا....')
-            .error.hidden
-              .gg-danger
-              .error-message ther is a problem
-          button#send-help-btn.save ارسال
       .setting-info.my-courses.hidden
         each subcourse in user.subcourses
           .course-container(data-subcourseid=`${subcourse._id}`)
             img.course-img(src=`/imgs/a2.jpg`)
             .course-title= `كورس مشاهدة`
-      .setting-info.upload-code
-        .name-email
-          .account-info انشاء كود
-          .label
-            label(for='name') الكود:
-            input#name.block(type='text', value=`${user.name}`)  
-        button#name-email-update-btn.code save changes       
+      - if(user.role === 'admin')
+        .setting-info.upload-code.hidden
+          .name-email
+            .account-info انشاء كود
+            .label
+              label(for='code-upload') الكود:
+              input#code-upload.block(type='text')
+              .error.error-code.hidden
+                .gg-danger
+                .error-message there is a problem
+            .label
+              label(for='code-value') القيمة:
+              input#code-value.block(type='text')
+              .error.error-value.hidden
+                .gg-danger
+                .error-message there is a problem
+            button#creation-code-btn.save تأكيد       
     script(src='/js/settings.js')
