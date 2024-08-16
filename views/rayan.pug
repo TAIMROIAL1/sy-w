@@ -1,0 +1,74 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='rayan.css')
+    title Video Website
+  body
+    .r
+      h1 Title of the Video
+      .video-container
+        video.video(controls='')
+          source(src='تجريب.mp4', type='video/mp4')
+                            Your browser does not support the video tag.
+    .list
+      h2.course-title Video List
+      details
+        summary
+          | &#x639;&#x635;&#x628;&#x64A;&#x629;
+          .btns-flex-container.btns-flex-container1
+            img.width(src='delete.png', alt='')
+            img.width(src='edit.png', alt='')
+            img.width(src='add.png', alt='')
+        .video-con
+          p.video-title &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x627;&#x648;&#x644;
+          .imgs
+            img.width(src='delete.png', alt='')
+            img.width(src='edit.png', alt='')
+            img.width(src='add.png', alt='')
+    .questions-container
+      .question
+        .title-question
+          | hghjjjjjjj
+        .checkbox
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+      .question
+        .title-question
+          | hghjjjjjjj
+        .checkbox
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+      .question
+        .title-question
+          | hghjjjjjjj
+        .checkbox
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+      .question
+        .title-question
+          | hghjjjjjjj
+        .checkbox
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+          input.a(type='checkbox')
+    button.list-button(onclick='toggleList()')
+      img(width='30px', src='list.png', alt='')
+    .btn-center
+      button.submite &#x62A;&#x627;&#x643;&#x64A;&#x62F; &#x627;&#x644;&#x627;&#x62C;&#x627;&#x628;&#x627;&#x62A;
+    |  
+    button.add +
+    |  
+    script.
+      function toggleList() {
+      var list = document.querySelector('.list');
+      list.style.display = (list.style.display === 'none' || list.style.display === '') ? 'block' : 'none';
+      }
