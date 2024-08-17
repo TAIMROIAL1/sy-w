@@ -1,9 +1,9 @@
-const listOpnBtn = document.querySelector('.btn-open-list');
-const listClsBtn = document.querySelector('.btn-close-list');
-const list = document.querySelector('.container');
+const listOpnBtn = document.querySelector('.list-button');
+const list = document.querySelector('.list');
 
+const videoToLoad = document.querySelector('.video-to-load')
 const btnsContainers1 = document.querySelectorAll('.btns-flex-container1');
-const videoContainer = document.querySelectorAll('.video-container');
+const videoContainer = document.querySelectorAll('.video-con');
 
 const uploadLessonBtn = document.querySelector('.upload-lesson-btn');
 
@@ -13,17 +13,18 @@ const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
 
+const videoToPlayContainer = document.querySelector('.video-container');
 const videoTitle = document.querySelector('.title');
-const videoPlay = document.querySelector('.video-g');
+const videoPlay = document.querySelector('.video');
 
 const role = document.body.dataset.role;
 
-const submitAnswersBtn = document.querySelector('.submit-answers-btn');
-const questionsContainer = document.querySelector('.question-container');
+const submitAnswersBtn = document.querySelector('.submite');
+const questionsContainer = document.querySelector('.questions-container');
 let questions = [];
 const questionAdminHTML = `
 <i class="bi-trash delete-question-btn" data-deletecount="0">&#128465;</i>
-  <svg class="bi-edit edit-question-btn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+<svg class="bi-edit edit-question-btn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
     <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
     <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
   </svg>
@@ -40,25 +41,25 @@ const showNotification = function(msg) {
 
 const createQuestionHTML = async function(text, answers, id) {
   const questionDiv = document.createElement('div');
-  questionDiv.classList.add('check');
+  questionDiv.classList.add('question');
   questionDiv.setAttribute('data-questionid', id);
   questionDiv.innerHTML = `
         ${role === 'admin'? questionAdminHTML: ''}
-        <p class="question">${text}</p>
+        <p class="title-question">${text}</p>
         <div data-answernum= 0 class="answer-container">
-        <button class="check-box"></button>
+        <button class="a"></button>
         <p>${answers[0]}</p>
         </div>
         <div data-answernum= 1 class="answer-container">
-        <button class="check-box"></button>
+        <button class="a"></button>
         <p>${answers[1]}</p>
         </div>
         <div data-answernum= 2 class="answer-container">
-        <button class="check-box"></button>
+        <button class="a"></button>
         <p>${answers[2]}</p>
         </div>
         <div data-answernum= 3 class="answer-container">
-        <button class="check-box"></button>
+        <button class="a"></button>
         <p>${answers[3]}</p>
         </div>
   `
@@ -67,11 +68,16 @@ const createQuestionHTML = async function(text, answers, id) {
 }
 
 const createQuestions = async function(clicked) {
-  questions = [];
+    questions = [];
     questionsContainer.innerHTML = ``;
     submitBtnContainer.classList.add('hidden');
-    const videoElement = clicked.closest('.video-container');
+    const videoElement = clicked.closest('.video-con');
     videoTitle.textContent = videoElement.querySelector('.video-title').textContent;
+    videoToPlayContainer.innerHTML = `
+    <video class="video" controls = ''>
+      <source class="video-to-load" src="${videoElement.dataset.videourl}" type="video/mp4">
+    </video>
+    `;
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
     const subcourseId = location.href.split('/')[4];
@@ -92,18 +98,8 @@ const ajaxCall = async function(url, method, data = undefined) {
   return data2;
 }
 
-listOpnBtn.classList.add('hidden');
-
-listClsBtn.addEventListener('click', (e) => {
-  list.classList.add('hidden');
-  listOpnBtn.classList.remove('hidden');
-  listClsBtn.classList.add('hidden');
-});
-
 listOpnBtn.addEventListener('click', (e) => {
-  list.classList.remove('hidden');
-  listClsBtn.classList.remove('hidden');
-  listOpnBtn.classList.add('hidden');
+  list.classList.toggle('hidden');
 });
 if(role === 'admin'){
 uploadLessonBtn.addEventListener('click', (e) => {
@@ -161,13 +157,14 @@ btnsContainers1.forEach(btnsContainer => {
 
   })
 });
+}
 
 videoContainer.forEach(btnsContainer => {
   btnsContainer.addEventListener('click', async (e) => {
     const lessonId = e.target.closest('.my-details').dataset.lessonid;
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
-    return location.assign(`/lessons/${lessonId}/edit-video/${clicked1.closest('.video-container').dataset.videoid}`)
+    return location.assign(`/lessons/${lessonId}/edit-video/${clicked1.closest('.video-con').dataset.videoid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -182,7 +179,7 @@ videoContainer.forEach(btnsContainer => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const videoToDelete = clicked2.closest('.video-container').dataset.videoid;
+  const videoToDelete = clicked2.closest('.video-con').dataset.videoid;
 
   const response = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos/${videoToDelete}`, {
     method: 'DELETE',
@@ -205,7 +202,7 @@ videoContainer.forEach(btnsContainer => {
   const clicked3 = e.target.closest('.upload-questions');
 
   if(clicked3) {
-    return location.assign(`/videos/${clicked3.closest('.video-container').dataset.videoid}/upload-question`);
+    return location.assign(`/videos/${clicked3.closest('.video-con').dataset.videoid}/upload-question`);
   }
 
   const clicked4 = e.target.closest('.video-title');
@@ -216,7 +213,7 @@ videoContainer.forEach(btnsContainer => {
 }
   )
 });
-}
+
 
 questionsContainer.addEventListener('click', async (e) => {
 
@@ -224,7 +221,7 @@ questionsContainer.addEventListener('click', async (e) => {
     const videoId = location.href.split('/')[4];
     const clicked1 = e.target.closest('.bi-edit')
     if(clicked1) {
-      const questionId = clicked1.closest('.check').dataset.questionid;
+      const questionId = clicked1?.closest('.question')?.dataset.questionid;
       return location.assign(`/videos/${videoId}/edit-question/${questionId}`);
     }
 
@@ -240,7 +237,7 @@ questionsContainer.addEventListener('click', async (e) => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const questionToDelete = clicked2.closest('.check').dataset.questionid;
+  const questionToDelete = clicked2.closest('.question').dataset.questionid;
 
   const response = await fetch(`${domain}/api/v1/videos/${videoId}/questions/${questionToDelete}`, {
     method: 'DELETE',
@@ -261,19 +258,19 @@ questionsContainer.addEventListener('click', async (e) => {
     }
   }
 
-  if(e.target.classList.contains('check-box')){
+  if(e.target.classList.contains('a')){
 
   if(e.target.classList.contains('checked')) return e.target.classList.remove('checked');
 
-  const singleQuestionContainer = e.target.closest('.check');
-  [...singleQuestionContainer.querySelectorAll('.check-box')].forEach(cb => cb.classList.remove('checked'));
+  const singleQuestionContainer = e.target.closest('.question');
+  [...singleQuestionContainer.querySelectorAll('.a')].forEach(cb => cb.classList.remove('checked'));
   e.target.classList.add('checked');
 }
 })
 
 const highlightAnswers = function(results) {
 
-  const checks = [...document.querySelectorAll('.check')];
+  const checks = [...document.querySelectorAll('.question')];
   results.forEach(result => {
     const check = checks.find(ch => ch.dataset.questionid == result.questionId);
     const checked = check.querySelector('.checked');
@@ -287,7 +284,7 @@ const highlightAnswers = function(results) {
         checked.classList.remove('checked');
       checked.classList.add('wrong-answer');
       }
-      const allCheckBtns = [...check.querySelectorAll('.check-box')];
+      const allCheckBtns = [...check.querySelectorAll('.a')];
       const correctCheckBox = allCheckBtns.find(cb => Number(cb.closest('.answer-container').dataset.answernum) + 1 == result.correctAnswer);
       correctCheckBox.classList.add('expected-answer');
     }
@@ -296,9 +293,9 @@ const highlightAnswers = function(results) {
 
 const handleSubmit = async function() {
     const solvedQuestions = questions.map(q => {
-      const questionId = q.closest('.check').dataset.questionid;
+      const questionId = q.closest('.question').dataset.questionid;
       let answer = -1;
-      const checked = q.closest('.check').querySelector('.checked');
+      const checked = q.closest('.question').querySelector('.checked');
   
       if(checked) answer = Number(checked.closest('.answer-container').dataset.answernum) + 1;
       return {id: questionId, answer}
@@ -313,7 +310,7 @@ const handleSubmit = async function() {
     highlightAnswers(results)
     submitAnswersBtn.removeEventListener('click', handleSubmit);
     setTimeout(() => {
-      const answerBtns = questionsContainer.querySelectorAll('.check-box');
+      const answerBtns = questionsContainer.querySelectorAll('.a');
       answerBtns.forEach(ab => {
       ab.classList.remove('checked');
       ab.classList.remove('correct-answer');
@@ -326,3 +323,12 @@ const handleSubmit = async function() {
 }
 
 submitAnswersBtn.addEventListener('click', handleSubmit);
+
+fetch('https://video.bunnycdn.com/library/280246/videos/41a57b7b-122d-434f-92cb-45efb2736987', {
+  method: 'GET',
+  headers: {
+    accept: 'application/json'
+  }
+}).then(res => res.json())
+.then(data => console.log(data))
+.catch(err => console.log(err));

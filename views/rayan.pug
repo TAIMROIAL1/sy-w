@@ -1,0 +1,54 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/css/rayan.css')
+    title Video Website
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}`, data-role=`${user.role}`)
+    .c
+      .correct.hidden
+        .correct-message you buy it 
+    .r
+      h1.title= 'مشاهدة الفيديو'
+      .video-container
+        video.video(controls='')
+          source.video-to-load(src='', type='video/mp4')
+    .list
+      h2.course-title Video List
+      - if(lessons)
+        each lesson in lessons
+          details.my-details(data-lessonid= `${lesson._id}`)
+            summary
+              | #{lesson.title}
+              .btns-flex-container.btns-flex-container1
+                - if(user.role === 'admin')
+                  button.bi-trash(alt='', data-deletecount= 0)
+                    img.width(src='/imgs/delete.png')
+                  button.bi-edit(alt='')
+                    img.width(src='/imgs/edit.png')
+                  button.width.upload-video(alt='')
+                    img.width(src='/imgs/add.png')
+            - if(lesson.videos)
+              each video in lesson.videos
+                .video-con(data-videoid=`${video._id}`, data-videourl=`${video.videoUrl}`)
+                  p.video-title= video.title
+                  .imgs.btns-flex-container2
+                    - if(user.role === 'admin')
+                      button.bi-trash(alt='', data-deletecount= 0)
+                        img.width(src='/imgs/delete.png')
+                      button.bi-edit(alt='')
+                        img.width(src='/imgs/edit.png')
+                      button.upload-questions(alt='')
+                        img.width(src='/imgs/add.png')
+    .questions-container
+    button.list-button
+      img(width='30px', src='/imgs/list.png', alt='')
+    .btn-center
+      button.submite.submit-answers-btn-container.hidden &#x62A;&#x627;&#x643;&#x64A;&#x62F; &#x627;&#x644;&#x627;&#x62C;&#x627;&#x628;&#x627;&#x62A;
+    |  
+    - if(user.role === 'admin')
+      button.add.upload-lesson-btn +
+    |  
+    script(src='/js/video.js')

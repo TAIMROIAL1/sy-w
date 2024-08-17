@@ -92,7 +92,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
 
     const { user } = res.locals;
 
-    res.status(200).render("video", {
+    res.status(200).render("rayan", {
       user,
       lessons,
       title: "Studyou | lessons",
