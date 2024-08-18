@@ -614,7 +614,7 @@
       const response = await (0, _signupModelJs.ajaxToServer)(domain + "/api/v1/users/login", data);
       (0, _signViewJsDefault.default).toggleSpinner();
       if (response.status === "success") {
-          (0, _signViewJsDefault.default).showScucessMessage("You have been logged into your account");
+          (0, _signViewJsDefault.default).showScucessMessage("تم تسجيل الدخول بنجاح");
           setTimeout(()=>{
               location.assign("/");
           }, 2500);
@@ -1929,7 +1929,7 @@
           this.#check.classList.add("hidden");
           this.#spinner.classList.toggle("hidden");
       }
-      showScucessMessage(msg = "Your account has been created") {
+      showScucessMessage(msg = "تم انشاء حسابك بنجاح") {
           this.#check.classList.remove("hidden");
           this.#check.querySelector(".created").textContent = msg;
           this.#login.classList.toggle("hidden");

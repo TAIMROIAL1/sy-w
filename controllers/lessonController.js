@@ -84,7 +84,7 @@ exports.addVideo = catchAsync(async function(req, res, next) {
 
   res.status(201).json({
     status: "success",
-    message: 'Video added successfully'
+    message: 'تم رفع الفيديو بنجاح'
   })
 });
 
