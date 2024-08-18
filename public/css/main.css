@@ -356,7 +356,7 @@ align-items: center;
 
 
 
-@media screen and (min-width:401px) and (max-width:500px) {
+@media screen and (min-width:481px) and (max-width:590px) {
   .account {
     font-size: 25px;
     color: var(--y);
@@ -453,7 +453,7 @@ align-items: center;
 
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width:480px) {
 
   .big-nav {
     display: flex;
@@ -553,7 +553,7 @@ align-items: center;
 
 }
 
-@media screen and (min-width:500px) and (max-width:700px) {
+@media screen and (min-width:591px) and (max-width:700px) {
 
 
   .big-nav {

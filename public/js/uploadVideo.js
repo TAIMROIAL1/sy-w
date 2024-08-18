@@ -9,8 +9,17 @@ const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
 
-const showNotification = function(msg) {
+const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
+
+  notifcation.classList.remove('green');
+  notifcation.classList.remove('red');
+
+  if(type === 'success')
+    notifcation.classList.add('green');
+  else
+    notifcation.classList.add('red');
+
   notifcationMsg.textContent = msg;
   setTimeout(() => {
       notifcation.classList.toggle('hidden');
@@ -35,7 +44,5 @@ uploadBtn.addEventListener('click', async (e) => {
 
     const data = await res.json();
 
-    if(data.status === 'success') {
-      showNotification(data.message);
-    }
+    showNotification(data.message, data.status);
   })

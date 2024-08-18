@@ -31,8 +31,16 @@ const questionAdminHTML = `
 `
 const submitBtnContainer = document.querySelector('.submit-answers-btn-container');
 
-const showNotification = function(msg) {
+const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
+
+  notifcation.classList.remove('green');
+  notifcation.classList.remove('red');
+
+  if(type === 'success')
+    notifcation.classList.add('green');
+  else
+    notifcation.classList.add('red');
   notifcationMsg.textContent = msg;
   setTimeout(() => {
       notifcation.classList.toggle('hidden');
@@ -139,12 +147,12 @@ btnsContainers1.forEach(btnsContainer => {
 
   const data = await response.json();
 
+  showNotification(data.message, data.status);
   if(data.status === 'success') {
-    showNotification(data.message);
+    return setTimeout(() => {
+      location.reload(true);
+    }, 1500);
   }
-  return setTimeout(() => {
-    location.reload(true);
-  }, 1500);
   }
 
   const clicked3 = e.target.closest('.upload-video');
@@ -166,7 +174,8 @@ videoContainer.forEach(btnsContainer => {
     return location.assign(`/lessons/${lessonId}/edit-video/${clicked1.closest('.video-con').dataset.videoid}`)
   }
 
-  const clicked2 = e.target.closest('.bi-trash')
+  const clicked2 = e.target.closest('.bi-trash');
+
   if(clicked2) {
     const deleteCount = Number(clicked2.dataset.deletecount);
 
@@ -179,7 +188,6 @@ videoContainer.forEach(btnsContainer => {
     return clicked2.dataset.deletecount++;
 }
   const videoToDelete = clicked2.closest('.video-con').dataset.videoid;
-
   const response = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos/${videoToDelete}`, {
     method: 'DELETE',
     headers: {
@@ -190,12 +198,12 @@ videoContainer.forEach(btnsContainer => {
 
   const data = await response.json();
 
+  showNotification(data.message, data.status);
   if(data.status === 'success') {
-    showNotification(data.message);
+    return setTimeout(() => {
+      location.reload(true);
+    }, 1500);
   }
-  return setTimeout(() => {
-    location.reload(true);
-  }, 1500);
   }
 
   const clicked3 = e.target.closest('.upload-questions');
@@ -248,12 +256,12 @@ questionsContainer.addEventListener('click', async (e) => {
 
   const data = await response.json();
 
+  showNotification(data.message, data.status);
   if(data.status === 'success') {
-    showNotification(data.message);
+    return setTimeout(() => {
+      location.reload(true);
+    }, 1500);
   }
-  return setTimeout(() => {
-    location.reload(true);
-  }, 1500);
     }
   }
 

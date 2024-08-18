@@ -10,11 +10,11 @@ const handleDuplicateFieldsDB = function(err, res) {
 }
 
 const handleJsonWebTokenError = function(err, res) {  
-  err.message = `You are not logged in! please login to reach our website`; 
+  err.message = `انت غير مسجل, الرجاء تسجيل الدخول`; 
 }
 
 const handleJsonWebTokenExpired = function(err, res) {
-  err.message = `You are not logged in! please login to reach our website`;
+  err.message = `انت غير مسجل, الرجاء تسجيل الدخول`;
 }
 const handleValidationErrorDB = function(err, res) {
   const error = Object.entries(err.errors)[0];

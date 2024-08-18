@@ -33,15 +33,21 @@ agreeBtn.addEventListener('click', async (e) => {
   if(data.status === 'success') {
     agreeBtn.removeAttribute('data-courseid');
     layer.classList.add('hidden');
-     return showNotification(data.message);
   }
-  if(data.status === 'fail') {
-     return showNotification(data.message);
-  }
+  return showNotification(data.message, data.status);
 })
 
 const showNotification = function(msg) {
   notifcation.classList.toggle('hidden');
+
+  notifcation.classList.remove('green');
+  notifcation.classList.remove('red');
+
+  if(type === 'success')
+    notifcation.classList.add('green');
+  else
+    notifcation.classList.add('red');
+
   notifcationMsg.textContent = msg;
   setTimeout(() => {
       notifcation.classList.toggle('hidden');
@@ -79,12 +85,12 @@ coursesContainer.addEventListener('click', async (e) => {
 
   const data = await response.json();
 
+  showNotification(data.message, data.status);
   if(data.status === 'success') {
-    showNotification(data.message);
+    return setTimeout(() => {
+      location.reload(true);
+    }, 1500);
   }
-  return setTimeout(() => {
-    location.reload(true);
-  }, 1500);
   }
 
   const clicked3 = e.target.closest('.buy');

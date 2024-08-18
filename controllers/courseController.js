@@ -21,7 +21,7 @@ exports.getCourses = catchAsync(async function(req, res, next) {
 exports.createCourse = catchAsync(async function(req, res, next) {
   const { title, description, photoUrl, price } = req.body;
   const { classId } = req.params;
-  if(!(await Class.findById(classId))) return next(new AppError('Wrong class!', 400));
+  if(!(await Class.findById(classId))) return next(new AppError('هذا الصف غير موجود', 400));
 
   const course = await Course.create({title, description, photoUrl, price, class: classId});
 
@@ -58,16 +58,16 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
   const { courseId } = req.params;
 
   const course = await Course.findById(courseId);
-  if(!course) return next('This course doesn`t exist!', 400);
+  if(!course) return next('هذا الكورس غير موجود', 400);
 
   const { user } = req;
   const subcourses = await Subcourse.find({course: courseId});
 
   for(const sc of subcourses) {
-    if(user.subcourses.includes(sc._id)) return next(new AppError('You have already unlocked this course', 400));
+    if(user.subcourses.includes(sc._id)) return next(new AppError('لقد اشتريت هذا الكورس او جزء منه', 400));
   }
 
-  if(course.price > user.value) return next('You don`t have enough money to buy this course!', 400);
+  if(course.price > user.value) return next(new AppError('ليس لديك نقاط كافية لشراء هذا الكورس', 400));
 
   user.value -= course.price;
 

@@ -14,7 +14,7 @@ html(lang='en' style='scrollbar-width: thin;')
       h1.title= 'مشاهدة الفيديو'
       .video-container
     .list
-      h2.course-title Video List
+      h2.course-title قائمة الفيديوهات
       - if(lessons)
         each lesson in lessons
           details.my-details(data-lessonid= `${lesson._id}`)
@@ -26,7 +26,7 @@ html(lang='en' style='scrollbar-width: thin;')
                     img.width(src='/imgs/delete.png')
                   button.bi-edit(alt='')
                     img.width(src='/imgs/edit.png')
-                  button.width.upload-video(alt='')
+                  button.upload-video(alt='')
                     img.width(src='/imgs/add.png')
             - if(lesson.videos)
               each video in lesson.videos

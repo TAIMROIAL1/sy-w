@@ -10,7 +10,7 @@ html(lang='en' style='scrollbar-width: thin;' )
     title= title
     link(rel='stylesheet', href='/css/main.css')
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}` )
+  body(data-domain = `${domain}`, data-role=`${user.role}` )
     .layer.hidden
       .buy-container 
         p.buy-par هل تريد شراء هذا الكورس

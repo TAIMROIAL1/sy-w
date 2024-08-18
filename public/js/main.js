@@ -8,8 +8,17 @@ const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
 
-const showNotification = function(msg) {
+const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
+
+  notifcation.classList.remove('green');
+  notifcation.classList.remove('red');
+
+  if(type === 'success')
+    notifcation.classList.add('green');
+  else
+    notifcation.classList.add('red');
+
   notifcationMsg.textContent = msg;
   setTimeout(() => {
       notifcation.classList.toggle('hidden');
@@ -42,15 +51,15 @@ classesContainer.addEventListener('click', async (e) => {
     },
     body: JSON.stringify({})
   });
-  console.log(response);
+
   const data = await response.json();
-  console.log(data);
+
+  showNotification(data.message, data.status);
   if(data.status === 'success') {
-    showNotification(data.message);
+    return setTimeout(() => {
+      location.reload(true);
+    }, 1500);
   }
-  return setTimeout(() => {
-    location.reload(true);
-  }, 1500);
   }
 
   const clicked = e.target.closest('.first-cours');

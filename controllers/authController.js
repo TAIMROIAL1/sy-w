@@ -20,9 +20,9 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
         if(!req.originalUrl.startsWith('/api')){ 
           return next();
         }
-  return next(new AppError('You are not logged in! Please login to gain access', 401));
+  return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
 } 
-  // if(!token) return next(new AppError('You are not logged in! Please login to gain access', 401));
+  // if(!token) return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
   //2) Validate the token PT
   let decoded;
   try {
@@ -31,13 +31,13 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
     if(!req.originalUrl.startsWith('/api') ){
       return next();
     }
-    return next(new AppError('You are not logged in! Please login to gain access', 401));
+    return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
   }
   const { id } = decoded;
 
   if(!id) {
     if(!req.originalUrl.startsWith('/api') ) return next();    
-    return next(new AppError('You are not logged in! Please login to gain access', 401))
+    return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401))
   }
 
   
@@ -46,14 +46,14 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
     const user = await User.findById(id).select('+role');
     if(!user) {
       if(!req.originalUrl.startsWith('/api') ) return next();
-      return next(new AppError('You are not logged in! Please login to gain access', 401));
+      return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
     }
 
   //4) Check if user changed password after the token was issued PT
 
   if(user.checkChangedPassword(decoded.iat)) {
     if(!req.originalUrl.startsWith('/api') ) return next();
-    return next(new AppError('Password has been changed, please login again', 401))
+    return next(new AppError('لقد تم تغيير كلمة السر, الرجاء تسجيل الدخول مرة أخرى', 401))
 } 
   //5) If valid token, call next(); PT
     if(!req.originalUrl.startsWith('/api') ) res.locals.user = user;
@@ -65,8 +65,8 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
 exports.restrictTo = function(...roles) {
   return catchAsync(async function(req, res, next) {
     const user = req.user ?? res.locals.user;
-    if(!user) return next(new AppError('You don`t have permission to perform this action!', 403))
-    if(!roles.includes(user.role)) return next(new AppError('You don`t have permission to perform this action!', 403));
+    if(!user) return next(new AppError('ليس لديك الاذن لاجراء هذه العملية', 403))
+    if(!roles.includes(user.role)) return next(new AppError('ليس لديك الاذن لاجراء هذه العملية', 403));
 
     next();
   })

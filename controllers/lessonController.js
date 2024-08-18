@@ -22,7 +22,7 @@ exports.getlessons = catchAsync(async function(req, res, next) {
 exports.createLesson = catchAsync(async function(req, res, next) {
   const { title, num, photoUrl } = req.body;
   const { subcourseId } = req.params;
-  if(!(await Subcourse.findById(subcourseId))) return next(new AppError('Wrong subcourse!', 400));
+  if(!(await Subcourse.findById(subcourseId))) return next(new AppError('هذا الكورس غير موجود', 400));
 
   const lesson = await Lesson.create({title, num, photoUrl, subcourse: subcourseId});
 
@@ -77,7 +77,7 @@ exports.addVideo = catchAsync(async function(req, res, next) {
   const { lessonId } = req.params;
 
   const lesson = await Lesson.findById(lessonId)
-  if(!lesson) return next(new AppError('Lesson subcourse!', 400));
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
 
   lesson.videos.push({title, num, videoUrl});
   await lesson.save({validateBeforeSave: false})
@@ -119,7 +119,7 @@ exports.deleteVideo = catchAsync(async function(req, res, next) {
   const { lessonId, videoId } = req.params;
   const lesson = await Lesson.findById(lessonId);
 
-  const videoIndex = lesson.videos.findIndex(vid => vid == videoId);
+  const videoIndex = lesson.videos.findIndex(vid => vid._id.toString() === videoId.toString());
 
   lesson.videos.splice(videoIndex, 1);
 
@@ -135,7 +135,7 @@ exports.addQuestions = catchAsync(async function(req, res, next) {
   const { questions } = req.body;
 
 
-  if(questions.length < 1) return next(new AppError('Please enter one question at least', 400));
+  if(questions.length < 1) return next(new AppError('ادخل سؤال واحد على الأقل', 400));
 
   await Question.create(questions)
 

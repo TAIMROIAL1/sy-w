@@ -26,6 +26,7 @@ const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
+const role = document.body.dataset.role;
 
 // The list button for mobile size
 const listBtn = document.querySelector('.setting-btn');
@@ -49,8 +50,17 @@ const showError = function(field, msg) {
       msgDiv.textContent = errorMsg;
 }
 
-const showNotification = function(msg, type = 'success') {
+const showNotification = function(msg, type) {
     notifcation.classList.toggle('hidden');
+
+    notifcation.classList.remove('green');
+    notifcation.classList.remove('red');
+  
+    if(type === 'success')
+      notifcation.classList.add('green');
+    else
+      notifcation.classList.add('red');
+
     notifcationMsg.textContent = msg;
     setTimeout(() => {
         notifcation.classList.toggle('hidden');
@@ -84,6 +94,8 @@ btnsList.addEventListener('click', (e) => {
         if(!int.classList.contains(interfaceClass)) int.classList.add('hidden');
         else int.classList.remove('hidden');
     })
+    if(window.innerWidth < 500)
+    list.classList.add('hidden');
 })
 
 activateCodeBtn.addEventListener('click', async (e) => {
@@ -92,7 +104,7 @@ activateCodeBtn.addEventListener('click', async (e) => {
     const data = await ajaxCall(`${domain}/api/v1/codes/activate-code`, {code});
 
     if(data.status === 'success') {
-        showNotification(data.message);
+        showNotification(data.message, data.status);
         codeInput.value = '';
     }
 
@@ -110,7 +122,7 @@ nameEmailUpdateBtn.addEventListener('click', async (e) => {
     const data = await ajaxCall(`${domain}/api/v1/users/update-email-name`, {name, email});
 
     if(data.status === 'success') {
-        showNotification(data.message)
+        showNotification(data.message, data.status)
     }
 
     if(data.status === 'fail') {
@@ -129,7 +141,7 @@ passwordUpdateBtn.addEventListener('click', async (e) => {
     const data = await ajaxCall(`${domain}/api/v1/users/update-password`, {currentPassword, password, passwordConfirm});
 
     if(data.status === 'success') {
-        showNotification(data.message)
+        showNotification(data.message, data.status)
         setTimeout(() => location.reload(true), 2000);
         currentPasswordInput.value = '';
         passwordInput.value = '';
@@ -142,6 +154,7 @@ passwordUpdateBtn.addEventListener('click', async (e) => {
 
 })
 
+if(role === 'admin')
 createCodeBtn.addEventListener('click', async (e) => {
     const codeToUpload = createCodeInput.value;
     const codeToUploadValue = createCodeValueInput.value;
@@ -149,12 +162,7 @@ createCodeBtn.addEventListener('click', async (e) => {
 
     const data = await ajaxCall(`${domain}/api/v1/codes`, {code: codeToUpload, value: codeToUploadValue});
 
-    if(data.status === 'success') {
-        showNotification(data.message);
-    }
-    if(data.status === 'fail' || data.status === 'error') {
-        showNotification(data.message);
-    }
+    showNotification(data.message, data.status);
 })
 
 coursesContainer.addEventListener('click', (e) => {
@@ -163,4 +171,9 @@ coursesContainer.addEventListener('click', (e) => {
 
     const subcourseId = clicked.dataset.subcourseid;
     return location.assign(`/subcourses/${subcourseId}/lessons`);
+})
+
+window.addEventListener('orientationchange', (e) => {
+    if(window.matchMedia("(orientation: portrait)").matches) list.classList.remove('hidden');
+    else list.classList.add('hidden');
 })

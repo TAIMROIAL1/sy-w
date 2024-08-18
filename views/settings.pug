@@ -8,12 +8,12 @@ html(lang='en')
          rel="stylesheet")
     title settings
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`, dir='rtl', lang='ar')
+  body(data-domain = `${domain}`, dir='rtl', lang='ar', data-role=`${user.role}`)
     .correct.hidden
       .correct-message you buy it 
     .container
       button.setting-btn &#x2699;
-      .list
+      .list.hidden
         ul.btn-list
           button.btn.my-account-btn &#x62D;&#x633;&#x627;&#x628;&#x64A; 
           button.btn.my-courses-btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;

@@ -237,15 +237,27 @@ box-shadow: 10px #181818;
     h1{
         font-size: 1rem;
     }
-    .video{
-        width: 280px;
-    }
     .list{
-        width:50%;
+        width:32%;
     }
     .video-container{
         display: flex;
         justify-content: center;
+    }
+    summary{
+        font-size: 16px;
+        margin-top: 5px;
+    }
+    .course-title{
+        margin-bottom: 7px;
+        font-size: 22px;
+    }
+    .video-title{
+        font-size: 14px;
+        margin-bottom: 0;
+        margin-top: 8px;
+        padding-top: 2px;
+        padding-bottom: 2px;
     }
 }
 @media screen and (min-width:450px ) {

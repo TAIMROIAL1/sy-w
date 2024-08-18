@@ -14,12 +14,16 @@ html,body{
     height: 100%;
     width: 100%;
     place-items: center;
+  }
+  body{
     background-color: #fff;
+  }
+  html{
+    background-color: rgb(82, 133, 232);
   }
 
 .container{
     width:70%;
-    height: 600px;
    display: grid;
    grid-template-columns:  repeat(1,1fr 3fr);
    grid-auto-rows: 600px;
@@ -161,18 +165,28 @@ padding-bottom: 100px;
 }
 
 @media screen and (max-width:500px) {
-
     .container{
         width:100%;
         height: 100%;
         display: grid;
         grid-template-columns: 0;
         column-gap: 15px;
-     
+        padding-left: 5px;
+        padding-bottom: 0;
        /* display: grid;
        grid-template-columns: repeat(1 ,1fr 2fr);
        grid-auto-rows: 600px; */
        background: var(--blue);
+    }
+    body{
+        height: 100%;
+    }
+    html{
+        height: 100%;
+    }
+    .setting-info{
+        height: 100%;
+        overflow-y: hidden;
     }
     .no-courses-message{
      margin-right: 81px;
