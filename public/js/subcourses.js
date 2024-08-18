@@ -37,7 +37,7 @@ agreeBtn.addEventListener('click', async (e) => {
   return showNotification(data.message, data.status);
 })
 
-const showNotification = function(msg) {
+const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
 
   notifcation.classList.remove('green');

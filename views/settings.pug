@@ -13,7 +13,7 @@ html(lang='en')
       .correct-message you buy it 
     .container
       button.setting-btn &#x2699;
-      .list.hidden
+      .list
         ul.btn-list
           button.btn.my-account-btn &#x62D;&#x633;&#x627;&#x628;&#x64A; 
           button.btn.my-courses-btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
@@ -72,7 +72,7 @@ html(lang='en')
         - if(user.subcourses.length > 0)
           each subcourse in user.subcourses
             .course-container(data-subcourseid=`${subcourse._id}`)
-              img.course-img(src=`/imgs/a2.jpg`)
+              img.course-img(src=`/imgs/courses/${subcourse.course.photoUrl}`)
               .subcourse-course
                 .course-title #{subcourse.course.title}
                 .subcourse-title #{subcourse.title}

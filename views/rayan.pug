@@ -14,7 +14,7 @@ html(lang='en' style='scrollbar-width: thin;')
       h1.title= 'مشاهدة الفيديو'
       .video-container
     .list
-      h2.course-title قائمة الفيديوهات
+      h2.course-title الفيديوهات
       - if(lessons)
         each lesson in lessons
           details.my-details(data-lessonid= `${lesson._id}`)
