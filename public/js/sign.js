@@ -1910,16 +1910,16 @@
       }
       getInputDataSignup() {
           const Obj = {};
-          Obj.name = this.#signupFullName.value;
-          Obj.email = this.#signupEmail.value;
-          Obj.password = this.#signupPassword.value;
-          Obj.passwordConfirm = this.#signupConfirmPassword.value;
+          Obj.name = this.#signupFullName.value.trim();
+          Obj.email = this.#signupEmail.value.trim();
+          Obj.password = this.#signupPassword.value.trim();
+          Obj.passwordConfirm = this.#signupConfirmPassword.value.trim();
           return Obj;
       }
       getInputDataLogin() {
           const Obj = {};
-          Obj.name = this.#loginFullName.value;
-          Obj.password = this.#loginPassword.value;
+          Obj.name = this.#loginFullName.value.trim();
+          Obj.password = this.#loginPassword.value.trim();;
           return Obj;
       }
       toggleSpinner() {

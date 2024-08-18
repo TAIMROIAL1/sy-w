@@ -68,13 +68,14 @@ const createQuestionHTML = async function(text, answers, id) {
 }
 
 const createQuestions = async function(clicked) {
+    list.classList.add('hidden');
     questions = [];
     questionsContainer.innerHTML = ``;
     submitBtnContainer.classList.add('hidden');
     const videoElement = clicked.closest('.video-con');
     videoTitle.textContent = videoElement.querySelector('.video-title').textContent;
     videoToPlayContainer.innerHTML = `
-    <div style="position:relative; height:300px; width:60%;"><iframe src="https://iframe.mediadelivery.net/embed/280246/41a57b7b-122d-434f-92cb-45efb2736987?autoplay=true&loop=false&muted=false&preload=true&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+    <div style="position:relative; height:300px; width:80%;"><iframe src="https://iframe.mediadelivery.net/embed/280246/41a57b7b-122d-434f-92cb-45efb2736987?autoplay=true&loop=false&muted=false&preload=true&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
     `;
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
