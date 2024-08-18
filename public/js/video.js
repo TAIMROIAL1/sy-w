@@ -74,9 +74,7 @@ const createQuestions = async function(clicked) {
     const videoElement = clicked.closest('.video-con');
     videoTitle.textContent = videoElement.querySelector('.video-title').textContent;
     videoToPlayContainer.innerHTML = `
-    <video class="video" controls = ''>
-      <source class="video-to-load" src="${videoElement.dataset.videourl}" type="video/mp4">
-    </video>
+    <div style="position:relative; height: 300px; width: 500px; margin-left: 32%;"><iframe src="https://iframe.mediadelivery.net/embed/280246/41a57b7b-122d-434f-92cb-45efb2736987?autoplay=true&loop=false&muted=false&preload=true&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
     `;
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
@@ -324,11 +322,3 @@ const handleSubmit = async function() {
 
 submitAnswersBtn.addEventListener('click', handleSubmit);
 
-fetch('https://video.bunnycdn.com/library/280246/videos/41a57b7b-122d-434f-92cb-45efb2736987', {
-  method: 'GET',
-  headers: {
-    accept: 'application/json'
-  }
-}).then(res => res.json())
-.then(data => console.log(data))
-.catch(err => console.log(err));
