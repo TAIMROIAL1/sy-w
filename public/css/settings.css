@@ -174,6 +174,10 @@ padding-bottom: 100px;
        grid-auto-rows: 600px; */
        background: var(--blue);
     }
+    .no-courses-message{
+     margin-right: 81px;
+        
+    }
     .list{
         width: 120px;
         border-radius: 20px;
@@ -310,6 +314,14 @@ padding-bottom: 100px;
 }
 .green{
     background-color: #42fa9e;
+}
+.no-courses-message{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 6rem;
+    
 }
 .correct{
     border-radius:10px ;
