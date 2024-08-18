@@ -20,6 +20,12 @@ const subcourseSchema = new mongoose.Schema({
   }
 })
 
+  subcourseSchema.pre('find', function(next){
+    this.populate('course');
+    next();
+  })
+ 
+
 const Subcourse = mongoose.model('Subcourse', subcourseSchema);
 
 module.exports = Subcourse;

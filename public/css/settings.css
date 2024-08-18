@@ -125,6 +125,22 @@ padding-bottom: 100px;
     font-family:monospace ;
     margin-top: 10px;
 }
+.subcourse-course{
+    width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+
+}
+.course-title{
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.subcourse-title{
+    background-color: var(--yalo);
+    border-radius: 20px;
+    padding: 5px;
+}
 .reset{
     position: absolute;
     left: 10%;
@@ -289,12 +305,20 @@ padding-bottom: 100px;
     color: red;
     font-size: 13px;
    }
-   .correct{
+   .red{
+    background-color: rgb(233, 49, 3);
+}
+.green{
+    background-color: #42fa9e;
+}
+.correct{
+    border-radius:10px ;
     position: fixed;
     top: -125px;
     display: flex;
-   flex-direction: row;
-    background-color: #42fa9e;
+    justify-content: center;
+    align-items: center;
+  
     width: 200px;
     height: 125px;
     z-index: 1;

@@ -3,7 +3,7 @@ const userImg = document.querySelector('.nav-bar-img');
 
 const buyCourseBtn = document.querySelector('.buy');
 const layer = document.querySelector('.layer');
-const canelBtn = document.querySelector('.buy-cancel')
+const cancelBtn = document.querySelector('.buy-cancel')
 const agreeBtn = document.querySelector('.buy-accept')
 
 // The notifcation message
@@ -21,7 +21,7 @@ const ajaxCall = async function(url, method, data = undefined) {
   return await data2.json();
 }
 
-canelBtn.addEventListener('click', (e) => {
+cancelBtn.addEventListener('click', (e) => {
   layer.classList.add('hidden');
   agreeBtn.removeAttribute('data-courseid');
 })
@@ -52,7 +52,7 @@ coursesContainer.addEventListener('click', async (e) => {
   const id = location.href.split('/')[4];
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
-    return location.assign(`/courses/${id}/edit-subcourse/${clicked1.closest('.btn-clases').dataset.subcourseid}`)
+    return location.assign(`/courses/${id}/edit-subcourse/${clicked1.closest('.first-cours').dataset.subcourseid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -67,7 +67,7 @@ coursesContainer.addEventListener('click', async (e) => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const subcourseToDelete = e.target.closest('.btn-clases');
+  const subcourseToDelete = e.target.closest('.first-cours');
 
   const response = await fetch(`${domain}/api/v1/courses/${id}/subcourses/${subcourseToDelete.dataset.subcourseid}`, {
     method: 'DELETE',
@@ -90,10 +90,13 @@ coursesContainer.addEventListener('click', async (e) => {
   const clicked3 = e.target.closest('.buy');
   if(clicked3) {
     layer.classList.remove('hidden');
-    return agreeBtn.setAttribute('data-subcourseid', clicked3.closest('.btn-clases').dataset.subcourseid);
+    return agreeBtn.setAttribute('data-subcourseid', clicked3.closest('.first-cours').dataset.subcourseid);
   }
 
-  const clicked = e.target.closest('.btn-clases');
+
+  const clicked = e.target.closest('.first-cours');
+  const buyBtn = clicked.querySelector('.buy');
+  if(buyBtn) return;
   location.assign(`/subcourses/${clicked.dataset.subcourseid}/lessons`)
 })
 

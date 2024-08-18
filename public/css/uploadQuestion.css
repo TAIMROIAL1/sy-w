@@ -121,12 +121,20 @@
     justify-content: center;
     z-index: 1;
   }
-  .correct{
+  .red{
+    background-color: rgb(233, 49, 3);
+}
+.green{
+    background-color: #42fa9e;
+}
+.correct{
+    border-radius:10px ;
     position: fixed;
     top: -125px;
     display: flex;
-   flex-direction: row;
-    background-color: #42fa9e;
+    justify-content: center;
+    align-items: center;
+  
     width: 200px;
     height: 125px;
     z-index: 1;

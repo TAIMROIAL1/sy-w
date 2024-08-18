@@ -96,14 +96,20 @@
     box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5) ;
    
   }
-  .correct{
+  .red{
+    background-color: rgb(233, 49, 3);
+}
+.green{
+    background-color: #42fa9e;
+}
+.correct{
     border-radius:10px ;
     position: fixed;
     top: -125px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #42fa9e;
+  
     width: 200px;
     height: 125px;
     z-index: 1;

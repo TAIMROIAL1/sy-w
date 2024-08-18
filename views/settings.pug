@@ -69,10 +69,15 @@ html(lang='en')
               .error-message there is a problem
           button#activation-code-btn.save &#x62A;&#x641;&#x639;&#x64A;&#x644; 
       .setting-info.my-courses.flex-container.hidden
-        each subcourse in user.subcourses
-          .course-container(data-subcourseid=`${subcourse._id}`)
-            img.course-img(src=`/imgs/a2.jpg`)
-            .course-title= `كورس مشاهدة`
+        - if(user.subcourses.length > 0)
+          each subcourse in user.subcourses
+            .course-container(data-subcourseid=`${subcourse._id}`)
+              img.course-img(src=`/imgs/a2.jpg`)
+              .subcourse-course
+                .course-title #{subcourse.course.title}
+                .subcourse-title #{subcourse.title}
+        - if(user.subcourses.length === 0)
+          .no-courses-message لم تشتري اي كورسات حتى الان
       - if(user.role === 'admin')
         .setting-info.upload-code.hidden
           .name-email

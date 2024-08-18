@@ -23,10 +23,10 @@ const courseSchema = new mongoose.Schema({
   }
 });
 
-courseSchema.pre(/^find/, function(next) {
-  this.populate('class');
-  next();
-})
+// courseSchema.pre(/^find/, function(next) {
+//   this.populate('class');
+//   next();
+// })
 
 const Course = mongoose.model('Course', courseSchema);
 

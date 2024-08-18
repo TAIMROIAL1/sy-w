@@ -19,7 +19,7 @@ const showNotification = function(msg) {
 classesContainer.addEventListener('click', async (e) => {
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
-    return location.assign(`/edit-class/${clicked1.closest('.btn-clases').dataset.classid}`)
+    return location.assign(`/edit-class/${clicked1.closest('.first-cours').dataset.classid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -34,7 +34,7 @@ classesContainer.addEventListener('click', async (e) => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const classToDelete = e.target.closest('.btn-clases');
+  const classToDelete = e.target.closest('.first-cours');
   const response = await fetch(`${domain}/api/v1/classes/${classToDelete.dataset.classid}`, {
     method: 'DELETE',
     headers: {
@@ -53,7 +53,7 @@ classesContainer.addEventListener('click', async (e) => {
   }, 1500);
   }
 
-  const clicked = e.target.closest('.btn-clases');
+  const clicked = e.target.closest('.first-cours');
   location.assign(`/classes/${clicked.dataset.classid}/courses`)
 })
 

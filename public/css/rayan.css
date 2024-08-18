@@ -23,25 +23,81 @@ button{
 h1{
     border:5px solid var(--y);
     background-color: var(--blue);
-    padding: 2px;
+    padding: 8px;
     border-radius: 10px;
 }
 
 .video-container {
     margin-top: 20px;
+    width: 100%;
 }
 
 .list {
+    overflow-y: scroll;
+    scrollbar-width: thin    ;
     width: 18%;
-    height: 100%;
-    position: absolute;
+    height: 80%;
+    position: fixed;
     right: 0;
     top: 20px;
     margin-top: 20px;
     border: 1px solid gray;
     border-radius: 20px;
     background-color: var(--blue);
+    
 }
+.red{
+    background-color: rgb(233, 49, 3);
+}
+.green{
+    background-color: #42fa9e;
+}
+.correct{
+    border-radius:10px ;
+    position: fixed;
+    top: -125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    width: 200px;
+    height: 125px;
+    z-index: 1;
+    animation: message 1s ease-out , message-return 1s ease-out 3s  ;
+    animation-fill-mode: forwards;
+   }
+   .correct-message{
+    width: auto;
+   
+   }
+   .img-correct{
+    display: none;
+   position: absolute;
+   left: 20px;
+   }
+   @keyframes message{
+    from{
+  top:-150px;
+    }
+    to{
+  top:15px;
+    }
+  }
+  @keyframes message-return{
+    from{
+  top:15px;
+    }
+    to{
+  top:-150px;
+    }
+  }
+  .c{
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+  }
 .lesson-list{
     background-color: #bbfb4c;
   margin: none;
@@ -62,6 +118,7 @@ background-color: var(--y);
 summary{
     font-size: 22px;
     background-color: var(--y);
+    margin-bottom: 5px;
 }
 .video-title{
     padding: 5px;
@@ -81,7 +138,7 @@ display: flex;
 justify-content: space-evenly;
 }
 .list-button {
-    position: absolute;
+    position: fixed;
     top: 5px;
     right: 5px;
     background-color: none;
@@ -106,7 +163,7 @@ justify-content: space-evenly;
     display: flex;
     flex-wrap: wrap;
     margin-top: 50px;
-    justify-content: space-between;
+    justify-content: space-evenly;
     
 }
 .question{
@@ -128,19 +185,24 @@ background-color: var(--y);
     
     width: 100%;
     height: auto;
+    font-weight: bold;
+    font-size: 20px;
 }
-.checkbox{
-    
 
-}
 .a{
     display: block;
+}
+.answer-text{
+    font-size: 18px;
+    height: auto;
 }
 .btn-center{
     display: flex;
     justify-content: center;
 }
 .submite{
+    width: 120px;
+    height: 45px;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -160,6 +222,17 @@ box-shadow: 10px #181818;
    
 
 }
+.answer-container{
+    display: flex;
+    align-items: center;
+}
+.a{
+    width: 10px;
+    height: 10px;
+    border: 1px solid black ;
+    border-radius: 40%;
+    margin-right: 20px;
+}
 @media screen and (max-width:450px ) {
     h1{
         font-size: 1rem;
@@ -170,6 +243,10 @@ box-shadow: 10px #181818;
     .list{
         width:50%;
     }
+    .video-container{
+        display: flex;
+        justify-content: center;
+    }
 }
 @media screen and (min-width:450px ) {
     .video{
@@ -177,6 +254,10 @@ box-shadow: 10px #181818;
     }
     .list{
         width: 200px;
+    }
+    .video-container{
+        display: flex;
+        justify-content: center;
     }
 }
 @media screen and (min-width:801px ) {

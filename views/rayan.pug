@@ -1,5 +1,5 @@
 doctype html
-html(lang='en')
+html(lang='en' style='scrollbar-width: thin;')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
@@ -8,13 +8,11 @@ html(lang='en')
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`, data-role=`${user.role}`)
     .c
-      .correct.hidden
+      .correct.hidden.green
         .correct-message you buy it 
     .r
       h1.title= 'مشاهدة الفيديو'
       .video-container
-        video.video(controls='')
-          source.video-to-load(src='', type='video/mp4')
     .list
       h2.course-title Video List
       - if(lessons)

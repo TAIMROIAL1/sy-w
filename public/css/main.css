@@ -28,6 +28,10 @@ body {
 
 .about-cours {
   color: var(--black);
+  width: 100%;
+  text-align: center;
+  height: auto;
+  padding: 3px;
 }
 
 .asab {
@@ -49,9 +53,17 @@ body {
 
 .price {
   font-family: "Permanent Marker", cursive;
-  margin-top: 40px;
   color: #fff;
   font-size: 3rem;
+  height: auto;
+}
+
+.red {
+  background-color: rgb(233, 49, 3);
+}
+
+.green {
+  background-color: #42fa9e;
 }
 
 .correct {
@@ -61,7 +73,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #42fa9e;
+
   width: 200px;
   height: 125px;
   z-index: 1;
@@ -188,13 +200,7 @@ body {
   font-size: 2rem;
 }
 
-.btn-clases {
-  background: none;
-  border: none;
-  margin-top: 30px;
-}
-
-.btn-clases:hover {
+.first-cours:hover {
   transition: all 0.1s;
   margin-bottom: 15px;
   margin-top: 15px;
@@ -253,38 +259,44 @@ body {
 
 .first-articl {
   width: 100%;
-  height: 500px;
+  height: 300px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  border: 5px solid gray;
+  border-radius: 80px;
+  
+
 
 }
 
 .first-articl-imag {
-  width: 100%;
+  width: 50%;
+  
   height: 100%;
+  border-radius:  75px 0 0 75px;
 }
 
 .first-bargragh-div {
-  display: none;
-  width: 320px;
+display: flex;
+justify-content: center;
+align-items: center;
+  width: 100%;
   height: 100px;
-  position: absolute;
-  bottom: 1rem;
-
-
 }
 
-
+.first-bargragh{
+  width: 70%;
+}
 
 .courses {
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
   flex-wrap: wrap;
   margin-bottom: 100px;
   height: auto;
   position: relative;
-  bottom: 0;
+
 }
 
 .div-cours {
@@ -304,17 +316,18 @@ body {
 }
 
 .first-cours {
+  min-height: 300px;
+  border: none;
   position: relative;
   display: flex;
   flex-direction: column;
-
+  padding-bottom: 10px;
   background-color: #5285e8;
   width: 220px;
-  height: 300px;
   margin-left: 10px;
   border-radius: 10px;
   margin-right: 10px;
-
+  margin-top: 30px;
 }
 
 .first-cours-img {
@@ -323,14 +336,14 @@ body {
   border-radius: 10px 10px 0 0;
 }
 
-/* .class-img-container{
-  display: grid;
-  justify-content: center;
+.class-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
- } */
-.asab {
+}
 
-  margin-top: 10px;
+.asab {
   height: auto;
   width: 100%;
   text-align: center;
@@ -340,15 +353,8 @@ body {
 
 }
 
-.about-cours {
 
-  width: 100%;
-  text-align: center;
-  position: absolute;
-  bottom: 40px;
-  height: auto;
-  padding: 3px;
-}
+
 
 @media screen and (min-width:401px) and (max-width:500px) {
   .account {

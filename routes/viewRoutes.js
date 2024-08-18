@@ -1,4 +1,5 @@
 const express = require("express");
+const User = require('./../models/userModel');
 const Class = require("./../models/classesModel");
 const Course = require("./../models/coursesModel");
 const Subcourse = require("./../models/subcourseModel");
@@ -91,7 +92,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     const lessons = await Lesson.find({ subcourse: subcourseId });
 
     const { user } = res.locals;
-
+    
     res.status(200).render("rayan", {
       user,
       lessons,
@@ -105,8 +106,9 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
       return res.status(200).render("toSign");
     }
     const { user } = res.locals;
+    const newUser = await User.findById(user._id).populate('subcourses').select('+role');
     res.status(200).render("settings", {
-      user,
+      user: newUser,
     });
   })
 );

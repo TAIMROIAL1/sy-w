@@ -53,7 +53,7 @@ coursesContainer.addEventListener('click', async (e) => {
 
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
-    return location.assign(`/classes/${id}/edit-course/${clicked1.closest('.btn-clases').dataset.courseid}`)
+    return location.assign(`/classes/${id}/edit-course/${clicked1.closest('.first-cours').dataset.courseid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -68,7 +68,7 @@ coursesContainer.addEventListener('click', async (e) => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const courseToDelete = e.target.closest('.btn-clases');
+  const courseToDelete = e.target.closest('.first-cours');
 
   const response = await fetch(`${domain}/api/v1/classes/${id}/courses/${courseToDelete.dataset.courseid}`, {
     method: 'DELETE',
@@ -91,10 +91,10 @@ coursesContainer.addEventListener('click', async (e) => {
   const clicked3 = e.target.closest('.buy');
   if(clicked3) {
     layer.classList.remove('hidden');
-    return agreeBtn.setAttribute('data-courseid', clicked3.closest('.btn-clases').dataset.courseid);
+    return agreeBtn.setAttribute('data-courseid', clicked3.closest('.first-cours').dataset.courseid);
   }
 
-  const clicked = e.target.closest('.btn-clases');
+  const clicked = e.target.closest('.first-cours');
   location.assign(`/courses/${clicked.dataset.courseid}/subcourses`)
 })
 
