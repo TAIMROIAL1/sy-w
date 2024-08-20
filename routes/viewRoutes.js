@@ -10,10 +10,9 @@ const catchAsync = require("./../utils/catchAsync");
 const { checkJWT, restrictTo, checkActivatedSubcourse } = require("./../controllers/authController");
 const router = express.Router();
 
-router.get("/sign-up", checkJWT, (req, res) => {
+router.get("/sign-up", checkJWT, async (req, res) => {
   if (res.locals.user) {
-    console.log('FK')
-    return res.status(200).render("mainpage");
+    return res.status(200).render("toMain");
   }
   res.status(200).render("sign");
 });
