@@ -31,6 +31,15 @@ agreeBtn.addEventListener('click', async (e) => {
   const courseId = location.href.split('/')[4];
   const data = await ajaxCall(`${domain}/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
   if(data.status === 'success') {
+
+    const boughtCourseContainer = [...coursesContainer.querySelectorAll('.first-cours')].find(c => c.dataset.subcourseid === agreeBtn.dataset.subcourseid);
+    
+    const price = boughtCourseContainer.querySelector('.price-container');
+    const buyBtn = boughtCourseContainer.querySelector('.buy');
+
+    price.remove();
+    buyBtn.remove();
+
     agreeBtn.removeAttribute('data-courseid');
     layer.classList.add('hidden');
   }
