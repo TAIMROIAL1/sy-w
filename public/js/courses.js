@@ -42,6 +42,8 @@ const ajaxCall = async function(url, method, data = undefined) {
 
 canelBtn.addEventListener('click', (e) => {
   layer.classList.add('hidden');
+  document.body.style.overflow = 'auto';
+  agreeBtn.removeAttribute('data-courseid');
 })
 
 agreeBtn.addEventListener('click', async (e) => {
@@ -57,16 +59,12 @@ agreeBtn.addEventListener('click', async (e) => {
 
     price.remove();
     buyBtn.remove();
-
-    agreeBtn.removeAttribute('data-courseid');
-
-    layer.classList.add('hidden');
-
-     return showNotification(data.message, data.status);
   }
-  if(data.status === 'fail') {
-     return showNotification(data.message, data.status);
-  }
+  
+  agreeBtn.removeAttribute('data-courseid');
+  document.body.style.overflow = 'auto';
+  layer.classList.add('hidden');
+  return showNotification(data.message, data.status);
 })
 
 coursesContainer.addEventListener('click', async (e) => {
@@ -114,6 +112,7 @@ coursesContainer.addEventListener('click', async (e) => {
   const clicked3 = e.target.closest('.buy');
   if(clicked3) {
     layer.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
     return agreeBtn.setAttribute('data-courseid', clicked3.closest('.first-cours').dataset.courseid);
   }
 

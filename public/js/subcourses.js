@@ -22,8 +22,9 @@ const ajaxCall = async function(url, method, data = undefined) {
 }
 
 cancelBtn.addEventListener('click', (e) => {
+  document.body.style.overflow = 'auto';
   layer.classList.add('hidden');
-  agreeBtn.removeAttribute('data-courseid');
+  agreeBtn.removeAttribute('data-subcourseid');
 })
 
 agreeBtn.addEventListener('click', async (e) => {
@@ -39,10 +40,11 @@ agreeBtn.addEventListener('click', async (e) => {
 
     price.remove();
     buyBtn.remove();
-
-    agreeBtn.removeAttribute('data-courseid');
-    layer.classList.add('hidden');
   }
+
+  agreeBtn.removeAttribute('data-subcourseid');
+  document.body.style.overflow = 'auto';
+  layer.classList.add('hidden');
   return showNotification(data.message, data.status);
 })
 
@@ -105,6 +107,7 @@ coursesContainer.addEventListener('click', async (e) => {
   const clicked3 = e.target.closest('.buy');
   if(clicked3) {
     layer.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
     return agreeBtn.setAttribute('data-subcourseid', clicked3.closest('.first-cours').dataset.subcourseid);
   }
 
