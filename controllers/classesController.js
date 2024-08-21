@@ -5,7 +5,7 @@ const { deleteCourses } = require('./deleteChain');
 
 exports.getClasses = catchAsync(async function(req, res, next) {
   const classes = await Class.find();
-
+  
   res.status(200).json({
     status: "success",
     results: classes.length,

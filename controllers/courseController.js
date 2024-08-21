@@ -7,8 +7,13 @@ const { deleteSubcourses } = require('./deleteChain');
 
 exports.getCourses = catchAsync(async function(req, res, next) {
   const { classId } = req.params;
+
+  if(!classId) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+
   const courses = await Course.find({class: classId}).populate('class');
 
+  if(!courses) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  
   res.status(200).json({
     status: "success",
     results: courses.length,

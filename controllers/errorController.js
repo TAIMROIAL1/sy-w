@@ -34,10 +34,6 @@ const sendErrorDev = function(err, res) {
   })
 }
 
-// const handlerUnauthorized = function(res) {
-//   res.status(400).render('sign');
-// }
-
 const sendErrorProd = function(err, res, req) {
   let path;
   if(err.name === 'CastError') path = handleCastingErrorDB(err, res);
@@ -57,5 +53,4 @@ const sendErrorProd = function(err, res, req) {
 module.exports = function(err, req, res, next) {
   if(process.env.NODE_ENV === 'development') return sendErrorDev(err, res);
   if(process.env.NODE_ENV === 'production') return sendErrorProd(err, res, req);
-
 }

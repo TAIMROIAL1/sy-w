@@ -6,7 +6,7 @@ html(lang='en')
     link(rel='stylesheet', href='/css/settings.css')
     link(href="https://unpkg.com/css.gg@2.0.0/icons/css/danger.css"
          rel="stylesheet")
-    title settings
+    title= title
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`, dir='rtl', lang='ar', data-role=`${user.role}`)
     .correct.hidden

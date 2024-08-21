@@ -22,13 +22,12 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
       return res.status(200).render("toSign");
     }
     const classes = await Class.find();
-    console.log(classes);
 
     const { user } = res.locals;
     res.status(200).render("mainpage", {
       user,
       classes,
-      title: "Studyou",
+      title: "Studyou | Homepage",
     });
   })
 );
@@ -48,9 +47,6 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
       }
       const { user } = res.locals;
       
-      console.log('Subcourses: ', subcourses);
-      console.log(user.subcourses.some(sc => subcourses.includes(sc.toString())));
-
     res.status(200).render("courses", {
       user,
       courses,
@@ -76,7 +72,7 @@ router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res
       user,
       subcourses,
       subcoursesId,
-      title: "Studyou | subcourses",
+      title: "Studyou | courses",
     });
   })
 );
@@ -108,6 +104,7 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     const newUser = await User.findById(user._id).populate('subcourses').select('+role');
     res.status(200).render("settings", {
       user: newUser,
+      title: 'Studyou | settings'
     });
   })
 );
