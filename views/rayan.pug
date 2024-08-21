@@ -6,7 +6,8 @@ html(lang='en' style='scrollbar-width: thin;')
     link(rel='stylesheet', href='/css/rayan.css')
     title Video Website
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`, data-role=`${user.role}`)
+  body(data-domain = `${domain}`, data-role=`${user.role}` )
+    img.background-img(src="/background.jpg", alt="")
     .c
       .correct.hidden.green
         .correct-message you buy it 
