@@ -6,6 +6,7 @@ const buyCourseBtn = document.querySelector('.buy');
 const layer = document.querySelector('.layer');
 const canelBtn = document.querySelector('.buy-cancel')
 const agreeBtn = document.querySelector('.buy-accept')
+const atpNum = document.querySelector('.atp');
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
@@ -56,6 +57,7 @@ agreeBtn.addEventListener('click', async (e) => {
     
     const price = boughtCourseContainer.querySelector('.price-container');
     const buyBtn = boughtCourseContainer.querySelector('.buy');
+    atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
 
     price.remove();
     buyBtn.remove();

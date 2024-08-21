@@ -12,7 +12,7 @@ html(lang='en' style='scrollbar-width: thin;')
         .correct-message you buy it 
     .r
       h1.title= 'مشاهدة الفيديو'
-      .video-container
+      .video-container.hidden
     .list
       h2.course-title الفيديوهات
       - if(lessons)
@@ -40,7 +40,7 @@ html(lang='en' style='scrollbar-width: thin;')
                         img.width(src='/imgs/edit.png')
                       button.upload-questions(alt='')
                         img.width(src='/imgs/add.png')
-    .questions-container
+    .questions-container.hidden
     button.list-button
       img(width='30px', src='/imgs/list.png', alt='')
     .btn-center

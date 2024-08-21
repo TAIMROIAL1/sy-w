@@ -76,19 +76,22 @@ const createQuestionHTML = async function(text, answers, id) {
 }
 
 const createQuestions = async function(clicked) {
+    questionsContainer.classList.add('hidden');
     list.classList.add('hidden');
     questions = [];
     questionsContainer.innerHTML = ``;
     submitBtnContainer.classList.add('hidden');
     const videoElement = clicked.closest('.video-con');
     videoTitle.textContent = videoElement.querySelector('.video-title').textContent;
+    videoToPlayContainer.classList.remove('hidden');
     videoToPlayContainer.innerHTML = `
-    <div style="position:relative; height:300px; width:80%;"><iframe src="${videoElement.dataset.videourl}" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+    <div style="position:relative; height:100%; width:100%;"><iframe src="${videoElement.dataset.videourl}" loading="lazy" style="border:0;border-radius:6px;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
     `;
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
     const subcourseId = location.href.split('/')[4];
     const questionsToLoad = await ajaxCall(`${domain}/api/v1/videos/${videoId}/questions`, 'POST', {subcourseId});
+    questionsContainer.classList.remove('hidden');
     if(questionsToLoad.data.questions.length > 0){
     questionsToLoad.data.questions.forEach(q => createQuestionHTML(q.text, q.answers, q._id));
     submitBtnContainer.classList.remove('hidden');
