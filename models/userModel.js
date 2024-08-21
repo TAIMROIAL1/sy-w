@@ -82,7 +82,13 @@ const userSchema =  mongoose.Schema({
   subcourses: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
-  }]
+  }],
+  screenWidth: {
+    type: String
+  },
+  screenHeight: {
+    type: String
+  }
 })
 
 userSchema.pre('save',async function(next) {

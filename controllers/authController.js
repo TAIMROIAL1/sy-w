@@ -74,9 +74,8 @@ exports.restrictTo = function(...roles) {
 
 
 exports.signup = catchAsync(async function(req, res, next) {  
-    const { name, email, password, passwordConfirm } = req.body;
-    
-    const user = await User.create({name, email, password, passwordConfirm});
+    const { name, email, password, passwordConfirm, screenWidth, screenHeight } = req.body;
+    const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight});
 
     const token = signToken(user);
 
@@ -95,14 +94,21 @@ exports.signup = catchAsync(async function(req, res, next) {
 })
 
 exports.login = catchAsync(async function(req, res, next) {
-  const {name, password} = req.body;
+  const {name, password, screenWidth, screenHeight} = req.body;
 
   if(!name) return next(new AppError('Validation Error: الرجاء ادخال الاسم الكامل', 400, 'name'));
   if(!password) return next(new AppError('Validation Error: الرجاء ادخال كلمة السر', 400, 'password'));
 
-  const user = await User.findOne({name});
+  const user = await User.findOne({name, active: true}).select('+role');
   if(!user) return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'));
 
+  if(user.role !== 'admin'){
+  if(!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth)){
+    user.active = false;
+    await user.save({validateBeforeSave: false});
+    return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
+  }
+}
   if(!(await user.correctPassword(password, user.password))) return next(new AppError('Validation Error: كلمة السر خاطئة حاول مجددا', 400, 'password'));
 
   const token = signToken(user);

@@ -318,7 +318,7 @@
       var overlay = document.getElementById(OVERLAY_ID);
       if (overlay) {
           overlay.remove();
-          console.log("[parcel] \u2728 Error resolved");
+
       }
   }
   function createErrorOverlay(diagnostics) {
@@ -1914,12 +1914,16 @@
           Obj.email = this.#signupEmail.value.trim();
           Obj.password = this.#signupPassword.value.trim();
           Obj.passwordConfirm = this.#signupConfirmPassword.value.trim();
+          Obj.screenWidth = screen.width;
+          Obj.screenHeight = screen.height;
           return Obj;
       }
       getInputDataLogin() {
           const Obj = {};
           Obj.name = this.#loginFullName.value.trim();
           Obj.password = this.#loginPassword.value.trim();;
+          Obj.screenWidth = screen.width;
+          Obj.screenHeight = screen.height;
           return Obj;
       }
       toggleSpinner() {
@@ -1943,7 +1947,6 @@
           errs.forEach((err)=>{
               err.classList.add("hidden");
           });
-          console.log(`.error-${response.path}${type === "login" ? "-login" : ""}`);
           const errDiv = document.querySelector(`.error-${response.path}${type === "login" ? "-login" : ""}`);
           errDiv.classList.remove("hidden");
           const msgDiv = errDiv.querySelector(".error-message");
@@ -1995,7 +1998,6 @@
           body: JSON.stringify(data)
       });
       const data2 = await response.json();
-      console.log(data2);
       return data2;
   };
   

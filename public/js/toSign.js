@@ -1,0 +1,1 @@
+location.assign('/sign-up');

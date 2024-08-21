@@ -7,6 +7,7 @@ const notifcation = document.querySelector('.correct');
 const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
+const role = document.body.dataset.role;
 
 const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
@@ -69,7 +70,7 @@ classesContainer.addEventListener('click', async (e) => {
 userImg.addEventListener('click', (e) =>{ 
   location.assign('/settings')
 })
-
+if(role === 'admin')
 uploadBtn.addEventListener('click', (e) => {
   location.assign('/upload-class')
 })

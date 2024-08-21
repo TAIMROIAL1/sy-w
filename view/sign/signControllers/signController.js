@@ -1,7 +1,7 @@
 import signView from "../signViews/signView.js";
 import { ajaxToServer } from "../signModels/signupModel.js";
-import 'core-js/stable';
-import 'regenerator-runtime/runtime.js'
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime.js'
 
 const domain = document.body.dataset.domain;
 
@@ -17,13 +17,13 @@ const signUpHandler = async function(e) {
   signView.toggleSpinner();
 
   if(response.status === 'success'){
-    signView.showScucessMessage(); //TODO
+    signView.showScucessMessage('تم انشاء حسابك بنجاح'); //TODO
     setTimeout(() => {
       location.assign('/');
-    }, 2000);
+    }, 1500);
 }
   if(response.status === 'fail') {
-    signView.showError(response); //TODO
+    signView.showError(response);
   }
 }
 
@@ -43,10 +43,10 @@ const loginHandler = async function(e) {
   signView.toggleSpinner();
 
   if(response.status === 'success') {
-    signView.showScucessMessage('You have been logged into your account');
+    signView.showScucessMessage('تم تسجيل الدخول بنجاح');
       setTimeout(() => {
         location.assign('/');
-      }, 2500)
+      }, 1500)
   }
   if(response.status === 'fail') {
     signView.showError(response, 'login');

@@ -1,3 +1,5 @@
+const parser = new UAParser();
+
 class SignView {
   #loginText = document.querySelector(".title-text .login");
   #loginForm = document.querySelector("form.login");
@@ -54,6 +56,9 @@ class SignView {
     Obj.email = this.#signupEmail.value;
     Obj.password = this.#signupPassword.value;
     Obj.passwordConfirm = this.#signupConfirmPassword.value;
+    Obj.screenWidth = screen.width;
+    Obj.screenHeight = screen.height;
+    Obj.useragent = parser.setUA(navigator.userAgent).getResult();
     return Obj;
   }
 

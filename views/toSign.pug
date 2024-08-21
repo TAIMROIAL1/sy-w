@@ -6,5 +6,4 @@ html(lang='en')
     title Login and Registration 
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`)
-    script.
-      location.assign('/sign-up');
+    script(src='/js/toSign.js')
