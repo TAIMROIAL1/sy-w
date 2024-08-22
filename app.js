@@ -26,7 +26,12 @@ const limiter = rateLimit({
   message: 'تم حظر جهازك مؤقتا من استخدام الموقع'
 });
 
-app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    frameSrc: ["'self'", "https://iframe.mediadelivery.net/"]
+  }
+}));
 
 app.use('/api', limiter);
 
