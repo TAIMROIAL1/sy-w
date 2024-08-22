@@ -23,7 +23,7 @@ body {
   font-size: 1rem;
 
   padding-bottom: 40px;
-
+  background-image: url('/imgs/backgroundImage.png');
 }
 
 .about-cours {
@@ -204,7 +204,6 @@ body {
   transition: all 0.1s;
   margin-bottom: 15px;
   margin-top: 15px;
-  box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
 }
 
 .account {
@@ -265,8 +264,7 @@ body {
   align-items: center;
   border: 5px solid gray;
   border-radius: 80px;
-  
-
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), 2px 0 5px rgba(0, 0, 0, 0.3);
 
 }
 
@@ -328,6 +326,7 @@ align-items: center;
   border-radius: 10px;
   margin-right: 10px;
   margin-top: 30px;
+  box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
 }
 
 .first-cours-img {

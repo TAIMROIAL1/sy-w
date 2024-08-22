@@ -16,10 +16,10 @@ html,body{
     place-items: center;
   }
   body{
-    background-color: #fff;
+    background-image: url('/imgs/backgroundImage.png');
   }
   html{
-    background-color: rgb(82, 133, 232);
+    background-image: url('/imgs/backgroundImage.png');
   }
 
 .container{
@@ -27,7 +27,7 @@ html,body{
    display: grid;
    grid-template-columns:  repeat(1,1fr 3fr);
    grid-auto-rows: 600px;
-   background: #57a8eba1;
+   background-image: url('/imgs/backgroundImage.png');
     column-gap: 6rem;
 }
 .list{
@@ -176,7 +176,7 @@ padding-bottom: 100px;
        /* display: grid;
        grid-template-columns: repeat(1 ,1fr 2fr);
        grid-auto-rows: 600px; */
-       background: var(--blue);
+       background-image: url('/imgs/backgroundImage.png');
     }
     body{
         height: 100%;

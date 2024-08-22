@@ -3,6 +3,10 @@ html {
   margin: 0;
   padding: 0;
   background-color: var(--white);
+  height: 100%;
+}
+body{
+  background-image: url('/imgs/backgroundImage.png');
 }
 :root {
   --y: #bbfb4c;
@@ -170,9 +174,9 @@ summary {
   height: auto;
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
   justify-content: space-evenly;
-  padding-top: 15px;
+  padding-top: 65px;
+  background-image: url('/imgs/backgroundImage.png');
 }
 .question {
   padding: 15px;
@@ -207,6 +211,7 @@ summary {
 .btn-center {
   display: flex;
   justify-content: center;
+  background-image: url('/imgs/backgroundImage.png');
 }
 .submite {
   width: 120px;
