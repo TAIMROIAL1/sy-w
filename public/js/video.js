@@ -47,6 +47,14 @@ const showNotification = function(msg, type) {
   }, 5000)
 }
 
+const handleDocumentClick = function(e) {
+  const clickedList = e.target.closest('.list');
+  if(clickedList) return;
+
+  if(e.target.closest('.list-button')) return
+  if(!list.classList.contains('hidden')) list.classList.add('hidden');
+}
+
 const createQuestionHTML = async function(text, answers, id) {
   const questionDiv = document.createElement('div');
   questionDiv.classList.add('question');
@@ -107,6 +115,9 @@ const ajaxCall = async function(url, method, data = undefined) {
   const data2 = await response.json();
   return data2;
 }
+
+
+document.addEventListener('click', handleDocumentClick);
 
 listOpnBtn.addEventListener('click', (e) => {
   list.classList.toggle('hidden');

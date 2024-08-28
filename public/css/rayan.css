@@ -1,3 +1,7 @@
+*{
+  user-select: none;
+}
+
 body,
 html {
   margin: 0;
@@ -131,6 +135,13 @@ summary {
   font-size: 22px;
   background-color: var(--y);
   margin-bottom: 5px;
+  cursor: pointer;
+}
+summary:hover{
+  opacity: 0.9;
+}
+summary:active{
+  opacity: 0.8;
 }
 .video-title {
   padding: 5px;
@@ -138,6 +149,13 @@ summary {
   border: none;
   border-radius: 10px;
   background-color: var(--yalo);
+  cursor: pointer;
+}
+.video-title:hover{
+  opacity: 0.9;
+}
+.video-title:active{
+  opacity: 0.8;
 }
 .video-con {
   width: 100%;
@@ -158,9 +176,10 @@ summary {
   border-radius: 5px;
   width: 30px;
   height: 30px;
-
   margin-bottom: 10px;
+  cursor: pointer;
 }
+
 .btns-flex-container {
   display: flex;
   justify-content: space-evenly;
@@ -212,6 +231,7 @@ summary {
   display: flex;
   justify-content: center;
   background-image: url('/imgs/backgroundImage.png');
+  padding-bottom: 30px;
 }
 .submite {
   width: 120px;
@@ -220,7 +240,15 @@ summary {
   border: none;
   border-radius: 10px;
   background-color: var(--blue);
+  transition: all 0.15s;
 }
+.submite:hover{
+  opacity: 0.9;
+}
+.submite:active{
+  opacity: 0.8;
+}
+
 .add {
   text-align: center;
   box-shadow: 10px #181818;
