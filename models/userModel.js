@@ -88,6 +88,9 @@ const userSchema =  mongoose.Schema({
   },
   screenHeight: {
     type: String
+  },
+  userAgent: {
+    type: String
   }
 })
 

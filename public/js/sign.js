@@ -1916,6 +1916,7 @@
           Obj.passwordConfirm = this.#signupConfirmPassword.value.trim();
           Obj.screenWidth = screen.width;
           Obj.screenHeight = screen.height;
+          Obj.userAgent = navigator.userAgent;
           return Obj;
       }
       getInputDataLogin() {
@@ -1924,6 +1925,7 @@
           Obj.password = this.#loginPassword.value.trim();;
           Obj.screenWidth = screen.width;
           Obj.screenHeight = screen.height;
+          Obj.userAgent = navigator.userAgent;
           return Obj;
       }
       toggleSpinner() {

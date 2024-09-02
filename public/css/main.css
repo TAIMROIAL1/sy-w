@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&family=Permanent+Marker&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap');
 * {
   margin: 0px;
   padding: 0;
@@ -262,17 +262,26 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 5px solid gray;
-  border-radius: 80px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), 2px 0 5px rgba(0, 0, 0, 0.3);
+ 
 
+}
+.doctor{
+ 
+  margin-right: 7px;
+  font-size: 3rem;
+  font-family: Lemonada;
+  color: var(--y);
+  font-weight: bolder;
+}
+.intro{
+  font-family: "Noto Sans Arabic";
+  font-weight: bold;
 }
 
 .first-articl-imag {
-  width: 50%;
-  
-  height: 100%;
-  border-radius:  75px 0 0 75px;
+  width: 150%;
+  height: auto;
+
 }
 
 .first-bargragh-div {
@@ -281,10 +290,12 @@ justify-content: center;
 align-items: center;
   width: 100%;
   height: 100px;
+
 }
 
 .first-bargragh{
-  width: 70%;
+  width: 100%;
+
 }
 
 .courses {
@@ -307,10 +318,14 @@ align-items: center;
 }
 
 .cours {
+  margin-top: 5rem;
   font-size: 3rem;
   font-weight: bold;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   color: rgb(0, 0, 0);
+  border-top: 1px solid gray;
+  width: 70%;
+  text-align: center;
 }
 
 .first-cours {
@@ -331,7 +346,7 @@ align-items: center;
 
 .first-cours-img {
   width: 100%;
-  height: 100px;
+  height: 130px;
   border-radius: 10px 10px 0 0;
 }
 
@@ -380,7 +395,7 @@ align-items: center;
 
   .first-cours-img {
     width: 100%;
-    height: 90px;
+    height:110px;
   }
 
   .asab {
@@ -484,7 +499,7 @@ align-items: center;
 
   .first-cours-img {
     width: 100%;
-    height: 80px;
+    height:100px;
   }
 
   .asab {
@@ -619,7 +634,17 @@ align-items: center;
 
 }
 
-
+@media screen and (max-width:700px) {
+  .first-articl{
+    display: flex;
+    flex-direction: column;
+  }
+  .first-bargragh{
+    display:flex ;
+    flex-direction: column;
+align-items: center;  }
+  
+}
 @media screen and (min-width:700px) {
 
 

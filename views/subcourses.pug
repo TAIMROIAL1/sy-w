@@ -3,7 +3,9 @@ extends base
 block content
   .c
     .correct.hidden
-      .correct-message you buy it 
+      .correct-message
+  video(controls, width='80%')
+    source(src='', type='video/mp4') 
   .courses
     each c in subcourses
       button.first-cours(data-subcourseid= `${c._id}`)

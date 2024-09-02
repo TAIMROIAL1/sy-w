@@ -74,9 +74,12 @@ exports.restrictTo = function(...roles) {
 
 
 exports.signup = catchAsync(async function(req, res, next) {  
-    const { name, email, password, passwordConfirm, screenWidth, screenHeight } = req.body;
-    const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight});
+    const { name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent } = req.body;
 
+    if(!name || !email || !password || !passwordConfirm || !screenWidth || !screenHeight || !userAgent) return next(new AppError('حدث خطأ', 400));
+
+    console.log(userAgent);
+    const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent});
     const token = signToken(user);
 
     const cookieOptions = {
@@ -94,7 +97,7 @@ exports.signup = catchAsync(async function(req, res, next) {
 })
 
 exports.login = catchAsync(async function(req, res, next) {
-  const {name, password, screenWidth, screenHeight} = req.body;
+  const {name, password, screenWidth, screenHeight, userAgent} = req.body;
 
   if(!name) return next(new AppError('Validation Error: الرجاء ادخال الاسم الكامل', 400, 'name'));
   if(!password) return next(new AppError('Validation Error: الرجاء ادخال كلمة السر', 400, 'password'));
@@ -103,7 +106,7 @@ exports.login = catchAsync(async function(req, res, next) {
   if(!user) return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'));
 
   if(user.role !== 'admin'){
-  if(!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth)){
+  if((!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth)) || (user.userAgent !== userAgent)){
     user.active = false;
     await user.save({validateBeforeSave: false});
     return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))

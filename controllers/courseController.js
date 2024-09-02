@@ -49,6 +49,11 @@ exports.createCourse = catchAsync(async function(req, res, next) {
   title: "كورس الشرح",
   price: 300,
   course: course._id
+},
+{
+  title: "الاختبارات المؤتمتة",
+  price: 300,
+  course: course._id
 }];
 
   await Subcourse.create(subcourses);

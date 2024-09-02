@@ -21,7 +21,7 @@ dotenv.config({path: './config.env'});
 
 //SEC Middleware
 const limiter = rateLimit({
-  max: 6,
+  max: 25,
   windowMs: 5 * 1000,
   message: 'تم حظر جهازك مؤقتا من استخدام الموقع'
 });
@@ -33,7 +33,7 @@ app.use(helmet.contentSecurityPolicy({
   }
 }));
 
-app.use('/api', limiter);
+app.use(limiter);
 
 app.use(express.json({ limit: '100kb' }));
 
