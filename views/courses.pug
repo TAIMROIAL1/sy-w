@@ -10,7 +10,7 @@ block content
   .courses
     - if(courses)
       each c , i in courses
-        button.first-cours(data-courseid= `${c._id}`)
+        button.first-cours.course-view(data-courseid= `${c._id}`)
           - if(user.role === 'admin')
             i.bi-trash(data-deletecount= 0) &#128465;
             svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')

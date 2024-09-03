@@ -30,6 +30,7 @@ cancelBtn.addEventListener('click', (e) => {
 
 agreeBtn.addEventListener('click', async (e) => {
   const subcourseId = agreeBtn.dataset.subcourseid;
+  const subcourseurl = agreeBtn.dataset.subcourseurl;
   const courseId = location.href.split('/')[4];
   const data = await ajaxCall(`${domain}/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
   if(data.status === 'success') {
@@ -38,13 +39,17 @@ agreeBtn.addEventListener('click', async (e) => {
     
     const price = boughtCourseContainer.querySelector('.price-container');
     const buyBtn = boughtCourseContainer.querySelector('.buy');
+    const courseTitle = boughtCourseContainer.querySelector('.asab');
     atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
 
     price.remove();
     buyBtn.remove();
+    courseTitle.remove();
+    boughtCourseContainer.style.backgroundImage = `url('/imgs/subcourses/${subcourseurl}')`
   }
 
   agreeBtn.removeAttribute('data-subcourseid');
+  agreeBtn.removeAttribute('data-subcourseurl');
   document.body.style.overflow = 'auto';
   layer.classList.add('hidden');
   return showNotification(data.message, data.status);
@@ -110,6 +115,7 @@ coursesContainer.addEventListener('click', async (e) => {
   if(clicked3) {
     layer.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    agreeBtn.setAttribute('data-subcourseurl', clicked3.closest('.first-cours').dataset.subcourseurl);
     return agreeBtn.setAttribute('data-subcourseid', clicked3.closest('.first-cours').dataset.subcourseid);
   }
 

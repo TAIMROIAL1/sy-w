@@ -60,6 +60,9 @@ app.get('/imgs/:file', (req, res) => {
 app.get('/imgs/classes/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'imgs', 'classes', req.params.file))
 })
+app.get('/imgs/subcourses/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imgs', 'subcourses', req.params.file))
+})
 
 app.get('/imgs/courses/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'imgs', 'courses', req.params.file))
