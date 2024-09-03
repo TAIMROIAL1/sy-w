@@ -113,6 +113,10 @@ padding-bottom: 100px;
     background: var(--yalo);
 }
 
+.marj{
+    
+  bottom: -15px;
+}
 .password-update{
     position: relative;
     padding-bottom: 60px;
@@ -168,11 +172,11 @@ padding-bottom: 100px;
         display: grid;
         grid-template-columns: 0;
         column-gap: 15px;
-     
+        background-color    : #57a8eba1;
        /* display: grid;
        grid-template-columns: repeat(1 ,1fr 2fr);
        grid-auto-rows: 600px; */
-       background: var(--blue);
+      /*  background: var(--blue); */
     }
     .no-courses-message{
      margin-right: 81px;

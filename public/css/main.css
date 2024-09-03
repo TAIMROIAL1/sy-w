@@ -16,7 +16,7 @@
 }
 
 body {
-  background-color: #f0f5f4;
+
   position: relative;
   margin: 0;
   font-family: monospace;
@@ -65,7 +65,9 @@ body {
 .green {
   background-color: #42fa9e;
 }
-
+.big-nav{
+  background-color: none;
+}
 .correct {
   border-radius: 10px;
   position: fixed;
@@ -285,10 +287,12 @@ align-items: center;
   height: 100px;
 }
 .background-img{
-  position: absolute;
+  position: fixed;
   z-index: -10;
   width: 100%;
   height: 100%;
+  background-size: cover;
+  background-position: center;
 }
 .first-bargragh{
   width: 70%;
