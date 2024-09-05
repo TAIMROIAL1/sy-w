@@ -117,6 +117,10 @@ html,body{
     opacity: 0.7;
 }
 
+.marj{
+    
+  bottom: -15px;
+}
 .password-update{
     position: relative;
     padding-bottom: 60px;
@@ -171,6 +175,7 @@ html,body{
         display: grid;
         grid-template-columns: 0;
         column-gap: 15px;
+        background-color    : #57a8eba1;
         padding-left: 5px;
         padding-bottom: 0;
         overflow-y: scroll;
@@ -178,6 +183,7 @@ html,body{
        /* display: grid;
        grid-template-columns: repeat(1 ,1fr 2fr);
        grid-auto-rows: 600px; */
+      /*  background: var(--blue); */
        background-image: url('/imgs/backgroundImage.png');
     }
     body{
@@ -316,7 +322,7 @@ html,body{
    
    .error-message{
     margin-top:4px;
-   
+
     color: red;
     font-size: 13px;
    }

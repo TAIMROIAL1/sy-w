@@ -2,6 +2,16 @@
   user-select: none;
 }
 
+body,html {
+    margin: 0;
+    padding: 0;
+
+}
+.background-img{
+    position: fixed;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
 body,
 html {
   margin: 0;
@@ -13,6 +23,13 @@ body{
   background-image: url('/imgs/backgroundImage.png');
 }
 :root {
+    
+    --y: #bbfb4c;
+    --yalo: #ffffff;
+    --blue: #5285e8;
+    --white: #f0f5f4;
+    --black: #181818;
+  }
   --y: #bbfb4c;
   --yalo: #ffffff;
   --blue: #5285e8;
