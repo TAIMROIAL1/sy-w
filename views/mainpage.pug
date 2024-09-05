@@ -9,16 +9,15 @@ block content
       span.home(dir='rtl' lang='ar') الواجهة الرئيسية
     
     .first-articl
-      img.first-articl-imag(src='/imgs/teacher.png', alt='')
-      .first-bargragh-div
-        p.first-bargragh(dir='rtl' lang='ar')
-          span.doctor د/ إياد سكر
-          span.intro أهلا بك في العائلة السكرية 
-          span.intro كاسة متة وابدأ مع السكر
-          span.intro مع السكر العلوم رح تتسكر 
+      img.first-articl-imag(src='/imgs/teacher1.png', alt='')
+      .first-bargragh(dir='rtl' lang='ar')
+        .doctor.j د/ إياد سكر
+        .intro.j أهلا بك في العائلة السكرية 
+        .intro.j كاسة متة وابدأ مع السكر
+        .intro.j مع السكر العلوم رح تتسكر 
 
   .div-cours
-    p.cours(dir='rtl' lang='ar') الصفوف :
+    p.cours(dir='rtl' lang='ar' style='border-top:1px solid gray;margin-top: 5rem;') الصفوف :
   .courses
     each c in classes
       button.first-cours.course-view(data-classid=`${c._id}`)
