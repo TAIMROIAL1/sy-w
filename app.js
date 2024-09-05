@@ -7,14 +7,10 @@ const cors = require('cors');
 const viewRouter = require('./routes/viewRoutes')
 const cookieParser = require('cookie-parser');
 
-//TODO Hash codes
-//TODO Activate subcourse
-//TODO update 
-//TODO unique fields
-//TODO check for invalid data : In both rendering and api
-//TODO Handle casting errors
-//TODO security
-//TODO rendering
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const xssProtecter = require('xss-clean');
+const noSQLSanitizer = require('express-mongo-sanitize');
 
 const app = express();
 
@@ -24,12 +20,53 @@ app.set('views', path.join(__dirname, 'views'))
 dotenv.config({path: './config.env'});
 
 //SEC Middleware
-app.use(express.json());
+const limiter = rateLimit({
+  max: 25,
+  windowMs: 5 * 1000,
+  message: 'تم حظر جهازك مؤقتا من استخدام الموقع'
+});
+
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    frameSrc: ["'self'", "https://iframe.mediadelivery.net/"]
+  }
+}));
+
+app.use(limiter);
+
+app.use(express.json({ limit: '100kb' }));
+
+// Data sanitization againt NoSQL query injection, XSS
+app.use(noSQLSanitizer());
+app.use(xssProtecter());
+
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, 'public')))
+
+app.get('/css/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'css', req.params.file));
+})
+app.get('/js/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'js', req.params.file))
+})
+
+app.get('/imgs/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imgs', req.params.file))
+})
+
+app.get('/imgs/classes/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imgs', 'classes', req.params.file))
+})
+app.get('/imgs/subcourses/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imgs', 'subcourses', req.params.file))
+})
+
+app.get('/imgs/courses/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imgs', 'courses', req.params.file))
+})
 
 // app.use((req, res, next) => {
 //   console.log(req.cookies);

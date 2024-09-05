@@ -14,17 +14,23 @@ html,body{
     height: 100%;
     width: 100%;
     place-items: center;
-    background-color: #fff;
+  }
+  body{
+    background-image: url('/imgs/backgroundImage.png');
+  }
+  html{
+    background-image: url('/imgs/backgroundImage.png');
   }
 
 .container{
     width:70%;
-    height: 600px;
    display: grid;
    grid-template-columns:  repeat(1,1fr 3fr);
    grid-auto-rows: 600px;
-   background: #57a8eba1;
+   background-image: url('/imgs/backgroundImage.png');
     column-gap: 6rem;
+    overflow-y: scroll;
+    scrollbar-width: thin;
 }
 .list{
     grid-column: 1/2;
@@ -57,12 +63,10 @@ html,body{
 }
 
 .setting-info{
-    overflow-y: auto ;
     grid-column: 2/3;
     display: grid;
-grid-template-rows: repeat(1,1fr 1fr);
-padding-bottom: 100px;
-    position: relative;
+    grid-template-rows: repeat(1,1fr 1fr);
+    padding-bottom: 200px;
 }
 
 .name-email{
@@ -110,7 +114,7 @@ padding-bottom: 100px;
 }
 
 .save:hover{
-    background: var(--yalo);
+    opacity: 0.7;
 }
 
 .marj{
@@ -155,17 +159,16 @@ padding-bottom: 100px;
     border-radius: 15px;
     border: none;
     background: var(--yalo);
-    
+    z-index: 10;
 }
 .reset:hover{
-    background: -webkit-linear-gradient(left, #7692b8, #7df0b7);
+    opacity: 0.7;
 }
 .setting-btn{
     display: none;
 }
 
 @media screen and (max-width:500px) {
-
     .container{
         width:100%;
         height: 100%;
@@ -173,10 +176,26 @@ padding-bottom: 100px;
         grid-template-columns: 0;
         column-gap: 15px;
         background-color    : #57a8eba1;
+        padding-left: 5px;
+        padding-bottom: 0;
+        overflow-y: scroll;
+        scrollbar-width: thin;
        /* display: grid;
        grid-template-columns: repeat(1 ,1fr 2fr);
        grid-auto-rows: 600px; */
       /*  background: var(--blue); */
+       background-image: url('/imgs/backgroundImage.png');
+    }
+    body{
+        height: 100%;
+    }
+    html{
+        height: 100%;
+    }
+    .setting-info{
+        height: 100%;
+        overflow-y: scroll;
+        scrollbar-width: thin;
     }
     .no-courses-message{
      margin-right: 81px;
@@ -219,18 +238,12 @@ padding-bottom: 100px;
 
     }
 }
-/* @media screen and (max-width:2000px){
- 
-    html,body{
-        display: grid;
-        height: 100%;
-        width: 100%;
-        place-items: center;
-        background: -webkit-linear-gradient(left, #4574b2, #42fa9e    );
-      }
-    
- 
-} */
+@media screen and (min-width:501px){
+    .container{
+        background-color: whitesmoke;
+        background-image: none;
+    }
+} 
 .center{
     text-align: center;
     margin-left: 24%;
@@ -342,7 +355,8 @@ padding-bottom: 100px;
     animation-fill-mode: forwards;
    }
    .correct-message{
-    width: auto;
+    text-align: center;
+    width: 95%;
    position: absolute;
    top:55px;
    right: 5px;

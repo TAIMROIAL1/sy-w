@@ -7,6 +7,6 @@ export const ajaxToServer = async function(url, data) {
     body: JSON.stringify(data)
   })
   const data2 = await response.json();
-  console.log(data2);
+
   return data2;
 }

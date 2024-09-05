@@ -10,11 +10,11 @@ const handleDuplicateFieldsDB = function(err, res) {
 }
 
 const handleJsonWebTokenError = function(err, res) {  
-  err.message = `You are not logged in! please login to reach our website`; 
+  err.message = `انت غير مسجل, الرجاء تسجيل الدخول`; 
 }
 
 const handleJsonWebTokenExpired = function(err, res) {
-  err.message = `You are not logged in! please login to reach our website`;
+  err.message = `انت غير مسجل, الرجاء تسجيل الدخول`;
 }
 const handleValidationErrorDB = function(err, res) {
   const error = Object.entries(err.errors)[0];
@@ -33,10 +33,6 @@ const sendErrorDev = function(err, res) {
     stack: err.stack
   })
 }
-
-// const handlerUnauthorized = function(res) {
-//   res.status(400).render('sign');
-// }
 
 const sendErrorProd = function(err, res, req) {
   let path;
@@ -57,5 +53,4 @@ const sendErrorProd = function(err, res, req) {
 module.exports = function(err, req, res, next) {
   if(process.env.NODE_ENV === 'development') return sendErrorDev(err, res);
   if(process.env.NODE_ENV === 'production') return sendErrorProd(err, res, req);
-
 }

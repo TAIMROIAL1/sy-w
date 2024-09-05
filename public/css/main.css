@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&family=Permanent+Marker&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap');
 * {
   margin: 0px;
   padding: 0;
@@ -8,7 +8,7 @@
 }
 
 :root {
-  --y: #bbfb4c;
+  --y: #87f35d;
   --yalo: #ffffff;
   --blue: #5285e8;
   --white: #f0f5f4;
@@ -23,7 +23,7 @@ body {
   font-size: 1rem;
 
   padding-bottom: 40px;
-
+  background-image: url('/imgs/backgroundImage.png');
 }
 
 .about-cours {
@@ -32,14 +32,18 @@ body {
   text-align: center;
   height: auto;
   padding: 3px;
+  text-align: end;
+  margin-right: 9px;
+  font-family: "Lemonada";
+  font-weight: bold;
 }
 
 .asab {
-  color: var(--y);
+  color: var(--blue);
 }
 
 .buy {
-  background-color: #bbfb4c;
+  background-color: var(--y);
   font-size: 20px;
   width: 50%;
   position: absolute;
@@ -53,7 +57,7 @@ body {
 
 .price {
   font-family: "Permanent Marker", cursive;
-  color: #fff;
+  color: #87f35d;
   font-size: 3rem;
   height: auto;
 }
@@ -158,7 +162,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: #ccc9c9cc;
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -206,7 +210,6 @@ body {
   transition: all 0.1s;
   margin-bottom: 15px;
   margin-top: 15px;
-  box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
 }
 
 .account {
@@ -265,18 +268,26 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 5px solid gray;
-  border-radius: 80px;
-  
+ 
 
-
+}
+.doctor{
+ 
+  margin-right: 7px;
+  font-size: 3rem;
+  font-family: Lemonada;
+  color: var(--y);
+  font-weight: bolder;
+}
+.intro{
+  font-family: "Noto Sans Arabic";
+  font-weight: bold;
 }
 
 .first-articl-imag {
-  width: 50%;
-  
-  height: 100%;
-  border-radius:  75px 0 0 75px;
+  width: 150%;
+  height: auto;
+
 }
 
 .first-bargragh-div {
@@ -285,6 +296,7 @@ justify-content: center;
 align-items: center;
   width: 100%;
   height: 100px;
+
 }
 .background-img{
   position: fixed;
@@ -295,7 +307,8 @@ align-items: center;
   background-position: center;
 }
 .first-bargragh{
-  width: 70%;
+  width: 100%;
+
 }
 
 .courses {
@@ -318,30 +331,44 @@ align-items: center;
 }
 
 .cours {
+  margin-top: 5rem;
   font-size: 3rem;
   font-weight: bold;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   color: rgb(0, 0, 0);
+  border-top: 1px solid gray;
+  width: 70%;
+  text-align: center;
 }
 
-.first-cours {
+.course-view{
   min-height: 300px;
+  background-color: whitesmoke;
+
+}
+.subcourse-view{
+  min-height: 300px;
+  /* background-image: url('/imgs/subcourses/study-with-me.jpg'); */
+  background-position: center;
+  background-size: cover;
+}
+.first-cours {
   border: none;
   position: relative;
   display: flex;
   flex-direction: column;
   padding-bottom: 10px;
-  background-color: #5285e8;
+  border: 4px solid var(--blue);
   width: 220px;
   margin-left: 10px;
   border-radius: 10px;
   margin-right: 10px;
   margin-top: 30px;
+  box-shadow: 5px 5px 5px rgba(32, 32, 32, 0.15);
 }
 
 .first-cours-img {
   width: 100%;
-  height: 100px;
   border-radius: 10px 10px 0 0;
 }
 
@@ -357,15 +384,16 @@ align-items: center;
   width: 100%;
   text-align: center;
   text-transform: uppercase;
-  font-family: "Noto Sans Arabic", sans-serif;
-  font-size: 25px;
-
+  font-family: Lemonada;
+  font-size: 22px;
+  line-height: 35px;
+  font-weight: bold;
 }
 
 
 
 
-@media screen and (min-width:401px) and (max-width:500px) {
+@media screen and (min-width:481px) and (max-width:590px) {
   .account {
     font-size: 25px;
     color: var(--y);
@@ -390,7 +418,7 @@ align-items: center;
 
   .first-cours-img {
     width: 100%;
-    height: 90px;
+    height:110px;
   }
 
   .asab {
@@ -462,7 +490,7 @@ align-items: center;
 
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width:480px) {
 
   .big-nav {
     display: flex;
@@ -494,7 +522,7 @@ align-items: center;
 
   .first-cours-img {
     width: 100%;
-    height: 80px;
+    height:100px;
   }
 
   .asab {
@@ -562,7 +590,7 @@ align-items: center;
 
 }
 
-@media screen and (min-width:500px) and (max-width:700px) {
+@media screen and (min-width:591px) and (max-width:700px) {
 
 
   .big-nav {
@@ -629,7 +657,17 @@ align-items: center;
 
 }
 
-
+@media screen and (max-width:700px) {
+  .first-articl{
+    display: flex;
+    flex-direction: column;
+  }
+  .first-bargragh{
+    display:flex ;
+    flex-direction: column;
+align-items: center;  }
+  
+}
 @media screen and (min-width:700px) {
 
 

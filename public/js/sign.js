@@ -318,7 +318,7 @@
       var overlay = document.getElementById(OVERLAY_ID);
       if (overlay) {
           overlay.remove();
-          console.log("[parcel] \u2728 Error resolved");
+
       }
   }
   function createErrorOverlay(diagnostics) {
@@ -614,7 +614,7 @@
       const response = await (0, _signupModelJs.ajaxToServer)(domain + "/api/v1/users/login", data);
       (0, _signViewJsDefault.default).toggleSpinner();
       if (response.status === "success") {
-          (0, _signViewJsDefault.default).showScucessMessage("You have been logged into your account");
+          (0, _signViewJsDefault.default).showScucessMessage("تم تسجيل الدخول بنجاح");
           setTimeout(()=>{
               location.assign("/");
           }, 2500);
@@ -1910,16 +1910,22 @@
       }
       getInputDataSignup() {
           const Obj = {};
-          Obj.name = this.#signupFullName.value;
-          Obj.email = this.#signupEmail.value;
-          Obj.password = this.#signupPassword.value;
-          Obj.passwordConfirm = this.#signupConfirmPassword.value;
+          Obj.name = this.#signupFullName.value.trim();
+          Obj.email = this.#signupEmail.value.trim();
+          Obj.password = this.#signupPassword.value.trim();
+          Obj.passwordConfirm = this.#signupConfirmPassword.value.trim();
+          Obj.screenWidth = screen.width;
+          Obj.screenHeight = screen.height;
+          Obj.userAgent = navigator.userAgent;
           return Obj;
       }
       getInputDataLogin() {
           const Obj = {};
-          Obj.name = this.#loginFullName.value;
-          Obj.password = this.#loginPassword.value;
+          Obj.name = this.#loginFullName.value.trim();
+          Obj.password = this.#loginPassword.value.trim();;
+          Obj.screenWidth = screen.width;
+          Obj.screenHeight = screen.height;
+          Obj.userAgent = navigator.userAgent;
           return Obj;
       }
       toggleSpinner() {
@@ -1929,7 +1935,7 @@
           this.#check.classList.add("hidden");
           this.#spinner.classList.toggle("hidden");
       }
-      showScucessMessage(msg = "Your account has been created") {
+      showScucessMessage(msg = "تم انشاء حسابك بنجاح") {
           this.#check.classList.remove("hidden");
           this.#check.querySelector(".created").textContent = msg;
           this.#login.classList.toggle("hidden");
@@ -1943,7 +1949,6 @@
           errs.forEach((err)=>{
               err.classList.add("hidden");
           });
-          console.log(`.error-${response.path}${type === "login" ? "-login" : ""}`);
           const errDiv = document.querySelector(`.error-${response.path}${type === "login" ? "-login" : ""}`);
           errDiv.classList.remove("hidden");
           const msgDiv = errDiv.querySelector(".error-message");
@@ -1995,7 +2000,6 @@
           body: JSON.stringify(data)
       });
       const data2 = await response.json();
-      console.log(data2);
       return data2;
   };
   

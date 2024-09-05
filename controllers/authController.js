@@ -20,9 +20,9 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
         if(!req.originalUrl.startsWith('/api')){ 
           return next();
         }
-  return next(new AppError('You are not logged in! Please login to gain access', 401));
+  return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
 } 
-  // if(!token) return next(new AppError('You are not logged in! Please login to gain access', 401));
+  // if(!token) return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
   //2) Validate the token PT
   let decoded;
   try {
@@ -31,13 +31,13 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
     if(!req.originalUrl.startsWith('/api') ){
       return next();
     }
-    return next(new AppError('You are not logged in! Please login to gain access', 401));
+    return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
   }
   const { id } = decoded;
 
   if(!id) {
     if(!req.originalUrl.startsWith('/api') ) return next();    
-    return next(new AppError('You are not logged in! Please login to gain access', 401))
+    return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401))
   }
 
   
@@ -46,14 +46,14 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
     const user = await User.findById(id).select('+role');
     if(!user) {
       if(!req.originalUrl.startsWith('/api') ) return next();
-      return next(new AppError('You are not logged in! Please login to gain access', 401));
+      return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
     }
 
   //4) Check if user changed password after the token was issued PT
 
   if(user.checkChangedPassword(decoded.iat)) {
     if(!req.originalUrl.startsWith('/api') ) return next();
-    return next(new AppError('Password has been changed, please login again', 401))
+    return next(new AppError('لقد تم تغيير كلمة السر, الرجاء تسجيل الدخول مرة أخرى', 401))
 } 
   //5) If valid token, call next(); PT
     if(!req.originalUrl.startsWith('/api') ) res.locals.user = user;
@@ -65,8 +65,8 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
 exports.restrictTo = function(...roles) {
   return catchAsync(async function(req, res, next) {
     const user = req.user ?? res.locals.user;
-    if(!user) return next(new AppError('You don`t have permission to perform this action!', 403))
-    if(!roles.includes(user.role)) return next(new AppError('You don`t have permission to perform this action!', 403));
+    if(!user) return next(new AppError('ليس لديك الاذن لاجراء هذه العملية', 403))
+    if(!roles.includes(user.role)) return next(new AppError('ليس لديك الاذن لاجراء هذه العملية', 403));
 
     next();
   })
@@ -74,10 +74,12 @@ exports.restrictTo = function(...roles) {
 
 
 exports.signup = catchAsync(async function(req, res, next) {  
-    const { name, email, password, passwordConfirm } = req.body;
-    
-    const user = await User.create({name, email, password, passwordConfirm});
+    const { name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent } = req.body;
 
+    if(!name || !email || !password || !passwordConfirm || !screenWidth || !screenHeight || !userAgent) return next(new AppError('حدث خطأ', 400));
+
+    console.log(userAgent);
+    const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent});
     const token = signToken(user);
 
     const cookieOptions = {
@@ -95,14 +97,21 @@ exports.signup = catchAsync(async function(req, res, next) {
 })
 
 exports.login = catchAsync(async function(req, res, next) {
-  const {name, password} = req.body;
+  const {name, password, screenWidth, screenHeight, userAgent} = req.body;
 
   if(!name) return next(new AppError('Validation Error: الرجاء ادخال الاسم الكامل', 400, 'name'));
   if(!password) return next(new AppError('Validation Error: الرجاء ادخال كلمة السر', 400, 'password'));
 
-  const user = await User.findOne({name});
+  const user = await User.findOne({name, active: true}).select('+role');
   if(!user) return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'));
 
+  if(user.role !== 'admin'){
+  if((!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth)) || (user.userAgent !== userAgent)){
+    user.active = false;
+    await user.save({validateBeforeSave: false});
+    return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
+  }
+}
   if(!(await user.correctPassword(password, user.password))) return next(new AppError('Validation Error: كلمة السر خاطئة حاول مجددا', 400, 'password'));
 
   const token = signToken(user);
@@ -201,7 +210,7 @@ exports.updatePassword = catchAsync(async function(req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    message: 'Password was updated successfully'
+    message: 'تم تحديث كلمة السر بنجاح'
   })
 })
 

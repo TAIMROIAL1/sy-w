@@ -6,8 +6,13 @@ const { deleteLessons } = require('./deleteChain');
 
 exports.getSubcourses = catchAsync(async function(req, res, next) {
   const { courseId } = req.params;
+
+  if(!courseId) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+
   const subcourses = await Subcourse.find({course: courseId}).populate('course');
 
+  if(!subcourses) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  
   res.status(200).json({
     status: "success",
     results: subcourses.length,
@@ -20,7 +25,7 @@ exports.getSubcourses = catchAsync(async function(req, res, next) {
 exports.createSubcourse = catchAsync(async function(req, res, next) {
   const { title, description, photoUrl, price } = req.body;
   const { courseId } = req.params;
-  if(!(await Course.findById(courseId))) return next(new AppError('Wrong course!', 400));
+  if(!(await Course.findById(courseId))) return next(new AppError('هذا الكورس غير موجود', 400));
 
   const subcourse = await Subcourse.create({title, description, photoUrl, price, course: courseId});
 

@@ -4,7 +4,7 @@ html(lang='en' style='scrollbar-width: thin;')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/css/rayan.css')
-    title Video Website
+    title= title
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`, data-role=`${user.role}` )
     img.background-img(src="/background.jpg", alt="")
@@ -13,9 +13,9 @@ html(lang='en' style='scrollbar-width: thin;')
         .correct-message you buy it 
     .r
       h1.title= 'مشاهدة الفيديو'
-      .video-container
+      .video-container.hidden
     .list
-      h2.course-title Video List
+      h2.course-title الفيديوهات
       - if(lessons)
         each lesson in lessons
           details.my-details(data-lessonid= `${lesson._id}`)
@@ -27,7 +27,7 @@ html(lang='en' style='scrollbar-width: thin;')
                     img.width(src='/imgs/delete.png')
                   button.bi-edit(alt='')
                     img.width(src='/imgs/edit.png')
-                  button.width.upload-video(alt='')
+                  button.upload-video(alt='')
                     img.width(src='/imgs/add.png')
             - if(lesson.videos)
               each video in lesson.videos
@@ -41,7 +41,7 @@ html(lang='en' style='scrollbar-width: thin;')
                         img.width(src='/imgs/edit.png')
                       button.upload-questions(alt='')
                         img.width(src='/imgs/add.png')
-    .questions-container
+    .questions-container.hidden
     button.list-button
       img(width='30px', src='/imgs/list.png', alt='')
     .btn-center

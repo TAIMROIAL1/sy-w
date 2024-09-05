@@ -13,7 +13,7 @@ const userSchema =  mongoose.Schema({
     unique: true,
     required: [true, 'الرجاء ادخال الاسم'],
     minLength: [4, 'الاسم قصير جدا'],
-    maxLength: [16, 'الاسم طويل جدا'],
+    maxLength: [10, 'الاسم طويل جدا'],
     validate: {
       validator: checkString,
       message: 'يجب ان يحتوي الاسم على حروف'
@@ -82,7 +82,16 @@ const userSchema =  mongoose.Schema({
   subcourses: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
-  }]
+  }],
+  screenWidth: {
+    type: String
+  },
+  screenHeight: {
+    type: String
+  },
+  userAgent: {
+    type: String
+  }
 })
 
 userSchema.pre('save',async function(next) {

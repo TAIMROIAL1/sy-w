@@ -9,17 +9,19 @@ block content
       span.home(dir='rtl' lang='ar') الواجهة الرئيسية
     
     .first-articl
-      img.first-articl-imag(src='/imgs/teacher.jpg', alt='')
+      img.first-articl-imag(src='/imgs/teacher.png', alt='')
       .first-bargragh-div
         p.first-bargragh(dir='rtl' lang='ar')
-          | العلوم كلمة تدل على المعرفة الإنسانية المتشكلة عن طريق
-          | الملاحظة ورصد الظواهر الطبيعية والإنسانية ووضع
-          | الفرضيات وإجراء التجارب، إضافة للمحاكمة المنطقية
+          span.doctor د/ إياد سكر
+          span.intro أهلا بك في العائلة السكرية 
+          span.intro كاسة متة وابدأ مع السكر
+          span.intro مع السكر العلوم رح تتسكر 
+
   .div-cours
     p.cours(dir='rtl' lang='ar') الصفوف :
   .courses
     each c in classes
-      button.first-cours(data-classid=`${c._id}`)
+      button.first-cours.course-view(data-classid=`${c._id}`)
         - if(user.role === 'admin') 
           i.bi-trash(data-deletecount= 0) &#128465;
           svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
@@ -28,7 +30,7 @@ block content
         img.first-cours-img(src=`/imgs/classes/${c.photoUrl}`, alt=`class card`)
         .class-info 
           .asab(dir='rtl' lang='ar')= c.title
-          .about-cours(dir='rtl' lang='ar')= c.description
+          .about-cours= c.description
   - if(user.role === 'admin')
     button.upload-btn +
 block scripts

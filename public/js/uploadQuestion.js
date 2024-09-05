@@ -15,8 +15,17 @@ const forms = [];
 let questions = [];
 const videoId = location.href.split('/')[4];
 
-const showNotification = function(msg) {
+const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
+
+  notifcation.classList.remove('green');
+  notifcation.classList.remove('red');
+
+  if(type === 'success')
+    notifcation.classList.add('green');
+  else
+    notifcation.classList.add('red');
+
   notifcationMsg.textContent = msg;
   setTimeout(() => {
       notifcation.classList.toggle('hidden');
@@ -98,7 +107,7 @@ const init = function() {
 
       if(!check) {
         questions = [];
-        return showNotification('الرجاء تعبئة كامل الاستمارات');
+        return showNotification('الرجاء تعبئة كامل الاستمارات', 'fail');
 }
       const response = await fetch(`${domain}/api/v1/videos/${videoId}/questions/add-questions`, {
         method: 'POST',
@@ -109,14 +118,8 @@ const init = function() {
       })
 
       const data = await response.json();
-      if(data.status === 'success') {
-        questions = [];
-        return showNotification(data.message);
-      }
-      else if(data.status === 'fail') {
-        questions = [];
-        return showNotification(data.message);
-      }
+      questions = [];
+      showNotification(data.message, data.status);
     })
 }
   

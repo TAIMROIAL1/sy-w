@@ -7,8 +7,13 @@ const Question = require('./../models/questionModel');
 
 exports.getlessons = catchAsync(async function(req, res, next) {
   const { subcourseId } = req.params;
+
+  if(!subcourseId) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+
   const lessons = await Lesson.find({subcourse: subcourseId});
 
+  if(!lessons) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  
   res.status(200).json({
     status: "success",
     results: lessons.length,
@@ -18,11 +23,10 @@ exports.getlessons = catchAsync(async function(req, res, next) {
   })
 });
 
-
 exports.createLesson = catchAsync(async function(req, res, next) {
   const { title, num, photoUrl } = req.body;
   const { subcourseId } = req.params;
-  if(!(await Subcourse.findById(subcourseId))) return next(new AppError('Wrong subcourse!', 400));
+  if(!(await Subcourse.findById(subcourseId))) return next(new AppError('هذا الكورس غير موجود', 400));
 
   const lesson = await Lesson.create({title, num, photoUrl, subcourse: subcourseId});
 
@@ -77,14 +81,14 @@ exports.addVideo = catchAsync(async function(req, res, next) {
   const { lessonId } = req.params;
 
   const lesson = await Lesson.findById(lessonId)
-  if(!lesson) return next(new AppError('Lesson subcourse!', 400));
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
 
   lesson.videos.push({title, num, videoUrl});
   await lesson.save({validateBeforeSave: false})
 
   res.status(201).json({
     status: "success",
-    message: 'Video added successfully'
+    message: 'تم رفع الفيديو بنجاح'
   })
 });
 
@@ -119,7 +123,7 @@ exports.deleteVideo = catchAsync(async function(req, res, next) {
   const { lessonId, videoId } = req.params;
   const lesson = await Lesson.findById(lessonId);
 
-  const videoIndex = lesson.videos.findIndex(vid => vid == videoId);
+  const videoIndex = lesson.videos.findIndex(vid => vid._id.toString() === videoId.toString());
 
   lesson.videos.splice(videoIndex, 1);
 
@@ -135,7 +139,7 @@ exports.addQuestions = catchAsync(async function(req, res, next) {
   const { questions } = req.body;
 
 
-  if(questions.length < 1) return next(new AppError('Please enter one question at least', 400));
+  if(questions.length < 1) return next(new AppError('ادخل سؤال واحد على الأقل', 400));
 
   await Question.create(questions)
 
@@ -191,7 +195,11 @@ exports.deleteQuestion = catchAsync(async function(req, res, next) {
 exports.getQuestions = catchAsync(async function(req, res, next) {
   const { videoId } = req.params;
 
+  if(!videoId) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+
   const questions = await Question.find({video: videoId}).select('-correctAnswer');
+
+  if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
   res.status(200).json({
     status: 'success',
@@ -206,7 +214,11 @@ exports.solveQuestions = catchAsync(async function(req, res, next) {
   const { videoId } = req.params;
   const { solvedQuestions } = req.body;
 
+  if(!videoId || !solvedQuestions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+
   const questions = await Question.find({video: videoId});
+
+  if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
   const results = questions.map(q => {
     const solvedQuestion = solvedQuestions.find(sq => sq.id == q._id);
