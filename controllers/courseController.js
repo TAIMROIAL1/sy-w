@@ -33,22 +33,26 @@ exports.createCourse = catchAsync(async function(req, res, next) {
   const subcourses = [{
     title: "كورس الشرح",
     price: 300,
-    course: course._id
+    course: course._id,
+    photoUrl: 'explain.jpg'
 },
 {
   title: "ادرس معي",
   price: 300,
-  course: course._id
+  course: course._id,
+  photoUrl: 'study-with-me.jpg'
 },
 {
   title: "كورس الأتمتات",
   price: 300,
-  course: course._id
+  course: course._id,
+  photoUrl: 'choices.jpg'
 },
 {
   title: "كورس الرسمات",
   price: 300,
-  course: course._id
+  course: course._id,
+  photoUrl: 'paintings.jpg'
 }];
 
   await Subcourse.create(subcourses);
