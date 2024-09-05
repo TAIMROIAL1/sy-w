@@ -12,6 +12,7 @@ body,html {
     z-index: -10;
     width: 100%;
     height: 100%;
+}
 body,
 html {
   margin: 0;
@@ -52,6 +53,7 @@ summary  {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-image: url('/imgs/backgroundImage.png');
 }
 h1 {
   border: 5px solid var(--y);
@@ -235,6 +237,7 @@ summary:active{
   height: auto;
   font-weight: bold;
   font-size: 20px;
+  text-align: center;
 }
 
 .a {
@@ -281,6 +284,7 @@ summary:active{
 .answer-container {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .a {
   width: 10px;

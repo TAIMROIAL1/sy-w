@@ -43,7 +43,7 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   
   //3) Check if a user exists PT
 
-    const user = await User.findById(id).select('+role');
+    const user = await User.findById(id).select('+role +active');
     if(!user) {
       if(!req.originalUrl.startsWith('/api') ) return next();
       return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));

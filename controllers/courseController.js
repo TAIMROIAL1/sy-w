@@ -55,8 +55,11 @@ exports.createCourse = catchAsync(async function(req, res, next) {
   photoUrl: 'paintings.jpg'
 }];
 
-  await Subcourse.create(subcourses);
-  
+await Subcourse.create(subcourses[0]);
+await Subcourse.create(subcourses[1]);
+await Subcourse.create(subcourses[2]);
+await Subcourse.create(subcourses[3]);
+
   res.status(201).json({
     status: "success",
     message: 'تم رفع الكورس بنجاح'

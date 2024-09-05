@@ -239,6 +239,9 @@ html,body{
     }
 }
 @media screen and (min-width:501px){
+    .list{
+        height: 100%;
+    }
     .container{
         background-color: whitesmoke;
         background-image: none;

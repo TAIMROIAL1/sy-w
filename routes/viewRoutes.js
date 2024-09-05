@@ -27,7 +27,7 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
     res.status(200).render("mainpage", {
       user,
       classes,
-      title: "Studyou | Homepage",
+      title: "Studyou | الصفحة الرئيسية",
     });
   })
 );
@@ -51,7 +51,7 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
       user,
       courses,
       subcourses,
-      title: "Studyou | courses",
+      title: "Studyou | الكورسات",
     });
   })
 );
@@ -72,7 +72,7 @@ router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res
       user,
       subcourses,
       subcoursesId,
-      title: "Studyou | courses",
+      title: "Studyou | الكورسات",
     });
   })
 );
@@ -91,7 +91,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     res.status(200).render("rayan", {
       user,
       lessons,
-      title: "Studyou | lessons",
+      title: "Studyou | الدروس",
     });
   })
 );
@@ -104,7 +104,7 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     const newUser = await User.findById(user._id).populate('subcourses').select('+role');
     res.status(200).render("settings", {
       user: newUser,
-      title: 'Studyou | settings'
+      title: 'Studyou | الإعدادت'
     });
   })
 );

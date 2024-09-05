@@ -20,11 +20,27 @@ app.set('views', path.join(__dirname, 'views'))
 dotenv.config({path: './config.env'});
 
 //SEC Middleware
-const limiter = rateLimit({
-  max: 25,
-  windowMs: 5 * 1000,
-  message: 'تم حظر جهازك مؤقتا من استخدام الموقع'
+const overallLimiter = rateLimit({
+  max: 100,
+  windowMs: 4 * 1000,
+  message: 'تم حظر جهازك من استخدام الموقع',
 });
+
+const apiLimiter = rateLimit({
+  max: 15,
+  windowMs: 4 * 1000,
+  message: 'تم حظر جهازك  من استخدام الموقع',
+})
+const signLimiter = rateLimit({
+  max:3,
+  windowMs: 6 * 1000,
+  message: 'تم جظر جهازك من استخدام الموقع'
+})
+
+app.use('/', overallLimiter);
+app.use('/api/v1/users/signup', signLimiter);
+app.use('/api/v1/users/login', signLimiter);
+app.use('/api', apiLimiter);
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
@@ -33,7 +49,7 @@ app.use(helmet.contentSecurityPolicy({
   }
 }));
 
-app.use(limiter);
+
 
 app.use(express.json({ limit: '100kb' }));
 
