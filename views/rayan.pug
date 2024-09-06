@@ -6,14 +6,17 @@ html(lang='en' style='scrollbar-width: thin;')
     link(rel='stylesheet', href='/css/rayan.css')
     title= title
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`, data-role=`${user.role}` )
-    img.background-img(src="/background.jpg", alt="")
+  body(data-domain = `${domain}`, data-role=`${user.role}`, data-username=`${user.name}` )
     .c
       .correct.hidden.green
         .correct-message you buy it 
     .r
       h1.title= 'مشاهدة الفيديو'
-      .video-container.hidden
+        .fl= user.name[0]
+        .sl= user.name[1]
+        .tl= user.name[2]
+        .ll= user.name[user.name.length - 1]
+      .video-container
     .list
       h2.course-title الفيديوهات
       - if(lessons)

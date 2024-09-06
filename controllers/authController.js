@@ -10,6 +10,7 @@ const { promisify } = require('util')
 const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_EXPIRES_IN});
 
 exports.checkJWT = catchAsync(async function(req, res, next) {
+  if(req.originalUrl.startsWith('/login') || req.originalUrl.startsWith('/sign-up') || req.originalUrl.startsWith('/api/v1/users/login' || req.originalUrl.startsWith('/api/v1/users'))) return next();
   //1) Check if a token exists: PT 
   let token;
   if(req.cookies.jwtStudyou){
@@ -43,12 +44,11 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   
   //3) Check if a user exists PT
 
-    const user = await User.findById(id).select('+role +active');
+    const user = await User.findOne({_id: id, active: true}).select('+role +active');
     if(!user) {
       if(!req.originalUrl.startsWith('/api') ) return next();
       return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
     }
-
   //4) Check if user changed password after the token was issued PT
 
   if(user.checkChangedPassword(decoded.iat)) {

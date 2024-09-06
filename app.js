@@ -12,6 +12,8 @@ const helmet = require('helmet');
 const xssProtecter = require('xss-clean');
 const noSQLSanitizer = require('express-mongo-sanitize');
 
+const { checkJWT } = require('./controllers/authController');
+
 const app = express();
 
 app.set('view engine', 'pug');
@@ -21,15 +23,41 @@ dotenv.config({path: './config.env'});
 
 //SEC Middleware
 const overallLimiter = rateLimit({
-  max: 100,
+  max: 110,
   windowMs: 4 * 1000,
   message: 'تم حظر جهازك من استخدام الموقع',
+  handler: async (req, res) => {
+    const user = req.user ?? res.locals.user;
+
+    if(!user) return res.status(400).send('too many requests');
+
+    user.active = false;
+    await user.save({validateBeforeSave: false});
+
+    res.status(400).json({
+      status: 'banned',
+      message: 'Your account has been banned'
+    })
+  }
 });
 
 const apiLimiter = rateLimit({
   max: 15,
   windowMs: 4 * 1000,
   message: 'تم حظر جهازك  من استخدام الموقع',
+  handler: async (req, res) => {
+    const user = req.user ?? res.locals.user;
+
+    if(!user) return res.status(400).send('too many requests');
+
+    user.active = false;
+    await user.save({validateBeforeSave: false});
+
+    res.status(400).json({
+      status: 'banned',
+      message: 'Your account has been banned'
+    })
+  }
 })
 const signLimiter = rateLimit({
   max:3,
@@ -37,10 +65,8 @@ const signLimiter = rateLimit({
   message: 'تم جظر جهازك من استخدام الموقع'
 })
 
-app.use('/', overallLimiter);
 app.use('/api/v1/users/signup', signLimiter);
 app.use('/api/v1/users/login', signLimiter);
-app.use('/api', apiLimiter);
 
 app.use(helmet.contentSecurityPolicy({
   directives: {
@@ -61,6 +87,8 @@ app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors());
 
+app.use('/', checkJWT, overallLimiter);
+app.use('/api', apiLimiter);
 
 app.get('/css/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'css', req.params.file));
@@ -113,7 +141,7 @@ app.use(errorController);
 app.all('*', (req, res, next) => {
   res.status(404).json({
     status: 'fail',
-    message: 'not found!'
+    message: 'هذا الرابط غير موجود'
   })
 })
 module.exports = app;

@@ -1,6 +1,7 @@
 const listOpnBtn = document.querySelector('.list-button');
 const list = document.querySelector('.list');
 
+const overlay = document.querySelector('.username');
 const videoToLoad = document.querySelector('.video-to-load')
 const btnsContainers1 = document.querySelectorAll('.btns-flex-container1');
 const videoContainer = document.querySelectorAll('.video-con');
@@ -18,6 +19,7 @@ const videoTitle = document.querySelector('.title');
 const videoPlay = document.querySelector('.video');
 
 const role = document.body.dataset.role;
+const username = document.body.dataset.username;
 
 const submitAnswersBtn = document.querySelector('.submite');
 const questionsContainer = document.querySelector('.questions-container');
@@ -83,6 +85,26 @@ const createQuestionHTML = async function(text, answers, id) {
   questionsContainer.append(questionDiv);
 }
 
+const addL = function(tit) {
+  const fl = document.createElement('div');
+  const sl = document.createElement('div');
+  const tl = document.createElement('div');
+  const ll = document.createElement('div');
+  fl.classList.add('fl')
+  sl.classList.add('sl')
+  tl.classList.add('tl')
+  ll.classList.add('ll')
+
+  fl.textContent = username[0];
+  sl.textContent = username[1];
+  tl.textContent = username[2];
+  ll.textContent = username[username.length - 1];
+
+  tit.append(fl);
+  tit.append(sl);
+  tit.append(tl);
+  tit.append(ll);
+}
 const createQuestions = async function(clicked) {
     questionsContainer.classList.add('hidden');
     list.classList.add('hidden');
@@ -90,10 +112,13 @@ const createQuestions = async function(clicked) {
     questionsContainer.innerHTML = ``;
     submitBtnContainer.classList.add('hidden');
     const videoElement = clicked.closest('.video-con');
-    videoTitle.textContent = videoElement.querySelector('.video-title').textContent;
+    videoTitle.textContent = (videoElement.querySelector('.video-title').textContent) + (username.length > 6 ? '-' : '+');
+
+    addL(videoTitle);
+
     videoToPlayContainer.classList.remove('hidden');
     videoToPlayContainer.innerHTML = `
-    <div style="position:relative; height:100%; width:100%;"><iframe src="${videoElement.dataset.videourl}" loading="lazy" style="border:0;border-radius:6px;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
+    <div style="position:relative; height:100%; width:100%;"><iframe class="my-iframe" src="${videoElement.dataset.videourl}" loading="lazy" style="border:0;border-radius:6px;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
     `;
     const videoId = videoElement.dataset.videoid;
     document.body.setAttribute('data-videoid', videoId);
@@ -104,6 +129,11 @@ const createQuestions = async function(clicked) {
     questionsToLoad.data.questions.forEach(q => createQuestionHTML(q.text, q.answers, q._id));
     submitBtnContainer.classList.remove('hidden');
     }
+    const overlaydiv = document.createElement('div');
+    overlaydiv.classList.add('username');
+    overlaydiv.textContent = document.body.dataset.username
+    // videoToPlayContainer.append(overlaydiv);
+    document.querySelector('.my-iframe').append(overlaydiv);
 }
 
 const ajaxCall = async function(url, method, data = undefined) {
@@ -344,3 +374,17 @@ const handleSubmit = async function() {
 }
 
 submitAnswersBtn.addEventListener('click', handleSubmit);
+
+const handleFullScreen = function() {
+  console.log('hi');
+  if(document.fullscreenElement){
+    setTimeout(() => {
+      document.exitFullscreen();
+    }, 5 * 60 * 1000);
+  }
+  // else {
+  //   overlay.style.visibility = 'hidden';
+  // }
+}
+
+document.addEventListener('fullscreenchange', handleFullScreen);

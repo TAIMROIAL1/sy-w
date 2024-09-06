@@ -55,14 +55,40 @@ summary  {
   align-items: center;
   background-image: url('/imgs/backgroundImage.png');
 }
+
+.video-container{
+  position: relative;
+}
 h1 {
   border: 5px solid var(--y);
   background-color: var(--blue);
   padding: 8px;
   border-radius: 10px;
+  position: relative;
+  z-index: 10;
+}
+.fl, .sl{
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+  color: rgb(172, 170, 170);
+}
+.tl, .ll{
+  position: absolute;
+  bottom: 0;
+  font-size: 11px;
+  color: rgb(177, 177, 177);
+}
+.fl, .tl{
+  left: -4px;
+}
+.sl, .ll{
+  right: -4px;
 }
 
 .video-container {
+  position: relative;
+  overflow: visible;
   margin-top: 20px;
   width: 90%;
   border: 3px solid var(--blue);

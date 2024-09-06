@@ -91,6 +91,9 @@ const userSchema =  mongoose.Schema({
   },
   userAgent: {
     type: String
+  },
+  reasonToBlock: {
+    type: String
   }
 })
 
