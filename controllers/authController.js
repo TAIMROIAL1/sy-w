@@ -93,8 +93,8 @@ exports.signup = catchAsync(async function(req, res, next) {
     if(process.env.NODE_ENV === 'production'){
       cookieOptions.sameSite = 'None';
       cookieOptions.secure = true; 
-      cookieOptions.domain = '.studyou.online';
-    cookieOptions.path = '/';
+    //   cookieOptions.domain = '.studyou.online';
+    // cookieOptions.path = '/';
 }
     res.cookie('jwtStudyou', token, cookieOptions);
 
@@ -131,8 +131,8 @@ exports.login = catchAsync(async function(req, res, next) {
   if(process.env.NODE_ENV === 'production'){
     cookieOptions.sameSite = 'None';
     cookieOptions.secure = true; 
-    cookieOptions.domain = '.studyou.online';
-    cookieOptions.path = '/';
+    // cookieOptions.domain = '.studyou.online';
+    // cookieOptions.path = '/';
 }
   res.cookie('jwtStudyou', token, cookieOptions);
 
