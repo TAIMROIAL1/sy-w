@@ -91,8 +91,10 @@ exports.signup = catchAsync(async function(req, res, next) {
       httpOnly: true
     };
 
-    // if(process.env.NODE_ENV === 'production') cookieOptions.secure = true; 
-
+    if(process.env.NODE_ENV === 'production'){
+      cookieOptions.sameSite = 'None';
+       cookieOptions.secure = true; 
+}
     res.cookie('jwtStudyou', token, cookieOptions);
 
     res.status(201).json({
