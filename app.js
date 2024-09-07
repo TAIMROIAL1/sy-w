@@ -86,7 +86,10 @@ app.use(xssProtecter());
 
 app.use(cookieParser());
 app.use(morgan('dev'));
-app.use(cors());
+app.use(cors({
+  origin: 'https://studyou.online',
+  credentials: true
+}));
 
 app.use('/', checkJWT, overallLimiter);
 app.use('/api', checkJWT, apiLimiter);
