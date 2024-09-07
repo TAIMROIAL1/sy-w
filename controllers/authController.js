@@ -10,7 +10,11 @@ const { promisify } = require('util')
 const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_EXPIRES_IN});
 
 exports.checkJWT = catchAsync(async function(req, res, next) {
-  if(req.originalUrl.startsWith('/login') || req.originalUrl.startsWith('/sign-up') || req.originalUrl.startsWith('/api/v1/users/login' || req.originalUrl.startsWith('/api/v1/users'))) return next();
+
+  if(req.originalUrl.startsWith('/login') || req.originalUrl.startsWith('/sign-up') || req.originalUrl.startsWith('/api/v1/users/login') || req.originalUrl.startsWith('/api/v1/users/signup')) {
+    return next();
+  }
+
   //1) Check if a token exists: PT 
   let token;
   if(req.cookies.jwtStudyou){

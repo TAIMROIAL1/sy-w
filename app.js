@@ -71,7 +71,8 @@ app.use('/api/v1/users/login', signLimiter);
 app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
-    frameSrc: ["'self'", "https://iframe.mediadelivery.net/"]
+    frameSrc: ["https://iframe.mediadelivery.net/"],
+    connectSrc: ["'self'", process.env.CONNECT_SRC]
   }
 }));
 
@@ -88,7 +89,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use('/', checkJWT, overallLimiter);
-app.use('/api', apiLimiter);
+app.use('/api', checkJWT, apiLimiter);
 
 app.get('/css/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'css', req.params.file));
