@@ -87,7 +87,7 @@ app.use(xssProtecter());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'https://studyou.online',
+  origin: ['https://studyou.online', 'https://sy-w.onrender.com', 'http://127.0.0.1:3000'],
   credentials: true
 }));
 
