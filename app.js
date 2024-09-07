@@ -94,6 +94,10 @@ app.use(cors({
 app.use('/', checkJWT, overallLimiter);
 app.use('/api', checkJWT, apiLimiter);
 
+app.get('/xml/sitemap.xml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap.xml'))
+})
+
 app.get('/css/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'css', req.params.file));
 })
