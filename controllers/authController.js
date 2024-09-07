@@ -82,7 +82,6 @@ exports.signup = catchAsync(async function(req, res, next) {
 
     if(!name || !email || !password || !passwordConfirm || !screenWidth || !screenHeight || !userAgent) return next(new AppError('حدث خطأ', 400));
 
-    console.log(userAgent);
     const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent});
     const token = signToken(user);
 
@@ -127,8 +126,10 @@ exports.login = catchAsync(async function(req, res, next) {
     httpOnly: true
   };
 
-  // if(process.env.NODE_ENV === 'production') cookieOptions.secure = true; 
-
+  if(process.env.NODE_ENV === 'production'){
+    cookieOptions.sameSite = 'None';
+     cookieOptions.secure = true; 
+}
   res.cookie('jwtStudyou', token, cookieOptions);
 
   res.status(200).json({
