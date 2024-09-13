@@ -71,14 +71,15 @@ agreeBtn.addEventListener('click', async (e) => {
 
 coursesContainer.addEventListener('click', async (e) => {
   const id = location.href.split('/')[4];
-
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
+    e.preventDefault();
     return location.assign(`/classes/${id}/edit-course/${clicked1.closest('.first-cours').dataset.courseid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
   if(clicked2) {
+    e.preventDefault();
     const deleteCount = Number(clicked2.dataset.deletecount);
 
     if(deleteCount !== 2) {
@@ -113,17 +114,12 @@ coursesContainer.addEventListener('click', async (e) => {
 
   const clicked3 = e.target.closest('.buy');
   if(clicked3) {
+    e.preventDefault();
     layer.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     return agreeBtn.setAttribute('data-courseid', clicked3.closest('.first-cours').dataset.courseid);
   }
 
-  const clicked = e.target.closest('.first-cours');
-  location.assign(`/courses/${clicked.dataset.courseid}/subcourses`)
-})
-
-userImg.addEventListener('click', (e) =>{ 
-  location.assign('/settings')
 })
 
 if(role === 'admin')

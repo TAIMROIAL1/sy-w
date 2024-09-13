@@ -6,11 +6,19 @@ html(lang='en')
     link(rel='stylesheet', href='/css/settings.css')
     link(href="https://unpkg.com/css.gg@2.0.0/icons/css/danger.css"
          rel="stylesheet")
+    link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
     title= title
+    meta(name='description', content=`${metaContent}`)
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`, dir='rtl', lang='ar', data-role=`${user.role}`)
     .correct.hidden
       .correct-message you buy it 
+    .layer.hidden
+      .logout-container 
+        p.logout-par هل تريد تسجيل الخروج
+        .logout-btns-container
+          button.logout-btn.logout-accept= 'تاكيد'
+          button.logout-btn.logout-cancel= 'الغاء'  
     .container
       button.setting-btn &#x2699;
       .list
@@ -18,46 +26,47 @@ html(lang='en')
           button.btn.my-account-btn &#x62D;&#x633;&#x627;&#x628;&#x64A; 
           button.btn.my-courses-btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
           button.btn.activate-code-btn &#x62A;&#x63A;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x627;&#x643;&#x648;&#x627;&#x62F;
+          button.btn.logout-btn تسجيل خروج
           - if(user.role === 'admin')
             button.btn.upload-code-btn انشاء كود
       .setting-info.my-account 
         .name-email
-          .account-info my account info
+          .account-info معلومات حسابي
           .label
-            label(for='name') Name:
+            label(for='name') الاسم:
             input#name.block(type='text', value=`${user.name}`)
             .error.error-name.hidden 
               .gg-danger
               .error-message there is a problem
           .label
-            label(for='email') Email:
+            label(for='email') البريد:
             input#email.block(type='email', value=`${user.email}`)
             .error.error-email.hidden
               .gg-danger
               .error-message there is a problem
-          button#name-email-update-btn.save save changes
+          button#name-email-update-btn.save حفظ التغييرات
         .password-update
-          .password-update-title update my passsword
+          .password-update-title تعديل كلمةالسر
           .label
-            label(for='Current-password') Password:
+            label(for='Current-password') كلمة السر:
             |  
             input#current-password.block(type='password', placeholder=`••••••••`)
             .error.error-current-password.hidden
               .gg-danger
               .error-message there is a problem
           .label
-            label.label(for='password')  New Password:
+            label.label(for='password')  كلمة السر الجديدة:
             input#password.block(type='password', placeholder=`••••••••`)
             .error.error-password.hidden
               .gg-danger
               .error-message there is a problem
           .label
-            label.label(for='confirm-password') confirm password:
+            label.label(for='confirm-password') تأكيد كلمة السر:
             input#password-confirm.block(type='password', placeholder=`••••••••`)
             .error.error-password-confirm.hidden
               .gg-danger
               .error-message there is a problem
-          button#password-update-btn.reset reset
+          button#password-update-btn.reset تعديل
       .setting-info.activate-code.hidden
         .name-email
           .account-info &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
@@ -72,7 +81,7 @@ html(lang='en')
         - if(user.subcourses.length > 0)
           each subcourse in user.subcourses
             .course-container(data-subcourseid=`${subcourse._id}`)
-              img.course-img(src=`/imgs/courses/${subcourse.course.photoUrl}`)
+              //- img.course-img(src=`/imgs/courses/${subcourse.course.photoUrl}`)
               .subcourse-course
                 .course-title #{subcourse.course.title}
                 .subcourse-title #{subcourse.title}

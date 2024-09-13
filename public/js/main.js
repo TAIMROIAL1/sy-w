@@ -25,15 +25,16 @@ const showNotification = function(msg, type) {
       notifcation.classList.toggle('hidden');
   }, 5000)
 }
-
 classesContainer.addEventListener('click', async (e) => {
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
+    e.preventDefault();
     return location.assign(`/edit-class/${clicked1.closest('.first-cours').dataset.classid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
   if(clicked2) {
+    e.preventDefault();
     const deleteCount = Number(clicked2.dataset.deletecount);
     console.log(deleteCount)
     if(deleteCount !== 2) {
@@ -63,13 +64,10 @@ classesContainer.addEventListener('click', async (e) => {
   }
   }
 
-  const clicked = e.target.closest('.first-cours');
-  location.assign(`/classes/${clicked.dataset.classid}/courses`)
+  // const clicked = e.target.closest('.first-cours');
+  // location.assign(`/classes/${clicked.dataset.classid}/courses`)
 })
 
-userImg.addEventListener('click', (e) =>{ 
-  location.assign('/settings')
-})
 if(role === 'admin')
 uploadBtn.addEventListener('click', (e) => {
   location.assign('/upload-class')

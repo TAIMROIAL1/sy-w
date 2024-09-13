@@ -119,7 +119,7 @@ h1 {
 
   width: 200px;
   height: 125px;
-  z-index: 1;
+  z-index: 11;
   animation: message 1s ease-out, message-return 1s ease-out 3s;
   animation-fill-mode: forwards;
 }
@@ -152,7 +152,7 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: center;
-  z-index: 1;
+  z-index: 11;
 }
 .lesson-list {
   background-color: #bbfb4c;

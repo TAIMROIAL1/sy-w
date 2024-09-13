@@ -7,7 +7,7 @@ html(lang='ar')
     link(rel='stylesheet', href='/css/uploadQuestion.css')
     title Document
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`)
+  body(data-domain = `${domain}`,dir='rtl', lang='ar')
     .c
       .correct.hidden
         .correct-message you buy it 

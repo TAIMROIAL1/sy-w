@@ -21,7 +21,7 @@ html(lang='ar')
           input#course-name.input(type='text', value=`${cToEdit.title}`)
           .label-input
             label.label(for='course-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
-          input#course-des.input(type='text', value=`${cToEdit.description}`)
+          textarea#course-des.input(type='text',rows='auto',cols='40 ', value=`${cToEdit.description}`)
           .label-input
             label(for='image', dir='rtl', lang='ar') &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
           input#image.input(type='text', value=`${cToEdit.photoUrl}`)

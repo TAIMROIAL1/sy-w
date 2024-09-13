@@ -121,11 +121,7 @@ coursesContainer.addEventListener('click', async (e) => {
 
 
   const clicked = e.target.closest('.first-cours');
-  const buyBtn = clicked.querySelector('.buy');
-  if(buyBtn) return;
+  const clickedPrice = clicked.querySelector('.price');
+  if(clickedPrice) return;
   location.assign(`/subcourses/${clicked.dataset.subcourseid}/lessons`)
-})
-
-userImg.addEventListener('click', (e) =>{ 
-  location.assign('/settings')
 })

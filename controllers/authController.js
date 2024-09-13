@@ -9,9 +9,17 @@ const { promisify } = require('util')
 
 const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_EXPIRES_IN});
 
+exports.checkLink = function(req, res, next) {
+  if(req.originalUrl.startsWith('/login') || req.originalUrl.startsWith('/sign-up') || req.originalUrl.startsWith('/api/v1/users/login') || req.originalUrl.startsWith('/api/v1/users/signup')) {
+    req.nextLink = true;
+  }
+  next();
+}
+
 exports.checkJWT = catchAsync(async function(req, res, next) {
 
-  if(req.originalUrl.startsWith('/login') || req.originalUrl.startsWith('/sign-up') || req.originalUrl.startsWith('/api/v1/users/login') || req.originalUrl.startsWith('/api/v1/users/signup')) {
+  if(req.nextLink) {
+    req.nextLink = false;
     return next();
   }
 
@@ -80,7 +88,7 @@ exports.restrictTo = function(...roles) {
 exports.signup = catchAsync(async function(req, res, next) {  
     const { name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent } = req.body;
 
-    if(!name || !email || !password || !passwordConfirm || !screenWidth || !screenHeight || !userAgent) return next(new AppError('حدث خطأ', 400));
+    if(!screenWidth || !screenHeight || !userAgent) return next(new AppError('حدث خطأ', 400));
 
     const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent});
     const token = signToken(user);
@@ -115,8 +123,21 @@ exports.login = catchAsync(async function(req, res, next) {
   if(!user) return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'));
 
   if(user.role !== 'admin'){
-  if((!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth)) || (user.userAgent !== userAgent)){
+  if((!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth))){
     user.active = false;
+    user.reasonToBlock = `Wrong Height and Width: 
+    Saved (Width/Height) = (${user.screenWidth}/${user.screenHeight})
+    Entered (Width/Height) = (${screenWidth}/${screenHeight})`;
+    
+    await user.save({validateBeforeSave: false});
+    return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
+  }
+  else if(user.userAgent !== userAgent) {
+    user.active = false;
+    user.reasonToBlock = `Wrong useragent:
+    Saved: ${user.userAgent}
+    Entered: ${userAgent}`;
+
     await user.save({validateBeforeSave: false});
     return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
   }
@@ -146,6 +167,13 @@ exports.login = catchAsync(async function(req, res, next) {
 
 })
 
+exports.logout = (req, res) => {
+  res.cookie('jwtStudyou', 'loggedout', {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+  res.status(200).json({ status: 'success' });
+};
 // exports.forgotPassword = catchAsync(async function(req, res, next) {
 //   const { email } = req.body;
 //   if(!email) return next(new AppError('Please enter your email', 400));
@@ -283,7 +311,7 @@ exports.checkActivatedSubcourse = catchAsync(async function(req, res, next) {
 
   let { subcourseId } = req.body;
   if(!subcourseId) subcourseId  = req.params.subcourseId;
-  if(!subcourseId) return next(new AppError('لا تخبص', 400));
+  if(!subcourseId) return next(new AppError('هذا الكورس غير موجود', 400));
   let { user } = req;
   if(!user) user = res.locals.user;
   

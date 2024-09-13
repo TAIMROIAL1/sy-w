@@ -4,6 +4,7 @@ html(lang='en' style='scrollbar-width: thin;')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/css/rayan.css')
+    link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
     title= title
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`, data-role=`${user.role}`, data-username=`${user.name}` )

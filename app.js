@@ -12,7 +12,7 @@ const helmet = require('helmet');
 const xssProtecter = require('xss-clean');
 const noSQLSanitizer = require('express-mongo-sanitize');
 
-const { checkJWT } = require('./controllers/authController');
+const { checkJWT, checkLink } = require('./controllers/authController');
 
 const app = express();
 
@@ -24,14 +24,15 @@ dotenv.config({path: './config.env'});
 //SEC Middleware
 const overallLimiter = rateLimit({
   max: 110,
-  windowMs: 4 * 1000,
+  windowMs: 6 * 1000,
   message: 'تم حظر جهازك من استخدام الموقع',
   handler: async (req, res) => {
     const user = req.user ?? res.locals.user;
 
-    if(!user) return res.status(400).send('too many requests');
+    if(!user || user.active === false) return res.status(400).send('too many requests');
 
     user.active = false;
+    user.reasonToBlock = 'طلبات متكررة على صفحات الموقع'
     await user.save({validateBeforeSave: false});
 
     res.status(400).json({
@@ -43,19 +44,20 @@ const overallLimiter = rateLimit({
 
 const apiLimiter = rateLimit({
   max: 15,
-  windowMs: 4 * 1000,
+  windowMs: 6 * 1000,
   message: 'تم حظر جهازك  من استخدام الموقع',
   handler: async (req, res) => {
     const user = req.user ?? res.locals.user;
 
-    if(!user) return res.status(400).send('too many requests');
+    if(!user || user.active === false) return res.status(400).send('too many requests');
 
     user.active = false;
+    user.reasonToBlock = 'طلبات متكررة لل أي بي أي'
     await user.save({validateBeforeSave: false});
 
     res.status(400).json({
       status: 'banned',
-      message: 'Your account has been banned'
+      message: 'تم حظر حسابك'
     })
   }
 })
@@ -91,8 +93,8 @@ app.use(cors({
   credentials: true
 }));
 
-app.use('/', checkJWT, overallLimiter);
-app.use('/api', checkJWT, apiLimiter);
+app.use('/', checkLink, checkJWT, overallLimiter);
+app.use('/api', checkLink, checkJWT, apiLimiter);
 
 app.get('/xml/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap.xml'))

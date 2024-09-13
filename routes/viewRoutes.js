@@ -11,32 +11,45 @@ const { checkJWT, restrictTo, checkActivatedSubcourse } = require("./../controll
 const router = express.Router();
 
 router.get("/sign-up", checkJWT, async (req, res) => {
-  if (res.locals.user) {
+  if (res.locals.user || req.user) {
     return res.status(200).render("toMain");
   }
-  res.status(200).render("sign");
+  res.status(200).render("sign", {
+    metaContent: 'تسجيل الدخول الى المنصة للإشتراك في الكورسات'
+  });
 });
 
 router.get("/", checkJWT, catchAsync(async (req, res) => {
-    if (!res.locals.user) {
-      return res.status(200).render("toSign");
+  let user = undefined;
+    if (res.locals.user) {
+        user  = res.locals.user;
     }
+
     const classes = await Class.find();
 
-    const { user } = res.locals;
     res.status(200).render("mainpage", {
       user,
       classes,
-      title: "Studyou | الصفحة الرئيسية",
+      title: "الصفحة الرئيسية",
+      metaContent: `الدكتور إياد سكر | الدكتور غيث سكر
+كورسات للصف الثالث ثانوي`
     });
   })
 );
 
 router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) => {
-    if (!res.locals.user) {
-      return res.status(200).render("toSign");
-    }
+  let user = undefined;
+  if (res.locals.user) {
+      user  = res.locals.user;
+  }
+
     const { classId } = req.params;
+    const className = await Class.findById(classId);
+    if(!className) return res.status(400).json({
+      status: 'fail',
+      message: 'هذا الصف غير موجود'
+    });
+
     const courses = await Course.find({ class: classId });
     const subcourses = [];
 
@@ -45,34 +58,42 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
         const ids = foundSubcourses.map(fsc => fsc._id.toString());
         subcourses.push(ids);
       }
-      const { user } = res.locals;
-      
     res.status(200).render("courses", {
       user,
       courses,
       subcourses,
-      title: "Studyou | الكورسات",
+      title: className.title,
+      metaContent: `جميع كورسات ${className.title}`
     });
   })
 );
 
 router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res) => {
-    if (!res.locals.user) {
-      return res.status(200).render("toSign");
-    }
+  let user = undefined;
+  if (res.locals.user) {
+      user  = res.locals.user;
+  }
 
     const { courseId } = req.params;
+    const courseName = await Course.findById(courseId);
+    if(!courseName) return res.status(400).json({
+      status: 'fail',
+      message: 'هذا الصف غير موجود'
+    });
 
     const subcourses = await Subourse.find({ course: courseId });
     
     const subcoursesId = subcourses.map(sc => sc._id.toString());
 
-    const { user } = res.locals;
     res.status(200).render("subcourses", {
       user,
       subcourses,
       subcoursesId,
-      title: "Studyou | الكورسات",
+      title: courseName.title,
+      metaContent: `الشرح لكامل لمنهاج الكتاب
+شرح جميع الرسمات
+تحديد كامل على الكتاب
+أتمتة جميع الدروس`
     });
   })
 );
@@ -91,7 +112,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     res.status(200).render("rayan", {
       user,
       lessons,
-      title: "Studyou | الدروس",
+      title: "الدروس",
     });
   })
 );
@@ -104,7 +125,10 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     const newUser = await User.findById(user._id).populate('subcourses').select('+role');
     res.status(200).render("settings", {
       user: newUser,
-      title: 'Studyou | الإعدادت'
+      title: 'إعدادت الحساب',
+      metaContent: `تغيير الاسم و البريد و كلمة السر
+جميع كورساتي المفعلة
+تفعيل أكواد لتفعيل الكورسات`
     });
   })
 );

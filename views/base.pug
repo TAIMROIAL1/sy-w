@@ -8,10 +8,11 @@ html(lang='en' style='scrollbar-width: thin;' )
     link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
     link(href="https://fonts.googleapis.com/css2?family=Lalezar&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet")
     title= title
+    meta(name='description', content=`${metaContent}`)
     link(rel='stylesheet', href='/css/main.css')
+    link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}` )
-  body(data-domain = `${domain}`, data-role=`${user.role}` )
+  body(data-domain = `${domain}` , data-role=`${user ? user.role : undefined}`, style='background-image: url(/imgs/backgroundImage.png);')
     .layer.hidden
       .buy-container 
         p.buy-par هل تريد شراء هذا الكورس
@@ -20,12 +21,16 @@ html(lang='en' style='scrollbar-width: thin;' )
           button.buy-btn.buy-cancel= 'الغاء'
     .big-nav
       .nav-bar
-        img.nav-bar-img(src='/imgs/default.jpg')
-        .account= user.name
-        .atp-coin
-          .atp= user.value 
-          |  
-          .atp1 ATP
+        - if(user)
+          a.nav-bar-img-a(href='/settings', style='margin: 0; padding: 0;')
+            img.nav-bar-img(src='/imgs/default.jpg')
+          .account= user.name
+          .atp-coin
+            .atp= user.value 
+            |  
+            .atp1 ATP
+        - if(!user)
+          a.sign-in-btn(href='/sign-up') إنشاء حساب
     block content
     block scripts
     

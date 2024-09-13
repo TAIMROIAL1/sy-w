@@ -2,6 +2,9 @@
 const btnsList = document.querySelector('.btn-list');
 const interfaces = [...document.querySelectorAll('.setting-info')]
 
+const layer = document.querySelector('.layer');
+const acceptLogoutBtn = document.querySelector('.logout-accept')
+const cancelLogoutBtn = document.querySelector('.logout-cancel')
 // Input and their buttons
 const codeInput = document.getElementById('code');
 const activateCodeBtn = document.getElementById('activation-code-btn');
@@ -89,6 +92,8 @@ btnsList.addEventListener('click', (e) => {
 
     const parts = clicked.className.split(' ')[1].split('-')
     const interfaceClass = parts[0] + '-' + parts[1];
+    
+    if(interfaceClass === 'logout-btn') return layer.classList.remove('hidden');
 
     interfaces.forEach(int => {
         if(!int.classList.contains(interfaceClass)) int.classList.add('hidden');
@@ -96,6 +101,15 @@ btnsList.addEventListener('click', (e) => {
     })
     if(window.innerWidth < 500)
     list.classList.add('hidden');
+})
+
+cancelLogoutBtn.addEventListener('click', () => {
+    layer.classList.add('hidden');
+})
+
+acceptLogoutBtn.addEventListener('click', async () => {
+    await ajaxCall(`${domain}/api/v1/users/logout`, {});
+    location.assign('/')
 })
 
 activateCodeBtn.addEventListener('click', async (e) => {
@@ -174,6 +188,7 @@ coursesContainer.addEventListener('click', (e) => {
 })
 
 window.addEventListener('orientationchange', (e) => {
+    if(screen.width > 500 && screen.height > 500) return;
     if(window.matchMedia("(orientation: portrait)").matches) list.classList.remove('hidden');
     else list.classList.add('hidden');
 })
