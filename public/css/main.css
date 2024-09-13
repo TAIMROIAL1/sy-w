@@ -277,7 +277,7 @@ body {
 .doctor{
  
   margin-right: 7px;
-  font-size: 3rem;
+  font-size: 25px;
   font-family: Lemonada;
   color: var(--y);
   font-weight: bolder;
@@ -289,7 +289,7 @@ body {
 
 .first-articl-imag {
   
-  width: 550px;
+  width: 450px;
   height: auto;
 
 }
@@ -624,10 +624,10 @@ display: block;
 
   }
   .first-articl-imag{
-    width: 300px;
+    width: 350px;
   }
 .doctor{
-  font-size: 2rem;
+  font-size: 20px;
 }
 }
 
@@ -730,8 +730,8 @@ display: block;
   margin-right: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
 }
   .big-nav {
 
@@ -795,15 +795,16 @@ display: block;
 
   }
   .first-articl-imag{
-    width: 600px;
+    width: 500px;
+    margin-left: 5px;
   }
 .doctor{
-  font-size: 3rem;
+  font-size: 30px;
 }
 }
 @media screen and (min-width:990px){
   .doctor{
-    font-size: 4rem;
+    font-size: 40px;
   }
   .intro{
     font-size: 1.5rem;
@@ -814,4 +815,10 @@ display: block;
 }
 .j{
   text-align: center;
+}
+
+@media screen and (min-width:1050px) { 
+  .first-articl-imag{
+    width: 600px;
+  }
 }
