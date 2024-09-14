@@ -100,6 +100,10 @@ app.get('/xml/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap.xml'))
 })
 
+app.get('/xml/sitemap2.xml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap2.xml'))
+})
+
 app.get('/css/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'css', req.params.file));
 })

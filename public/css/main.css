@@ -15,6 +15,15 @@
   --black: #181818;
 }
 
+a {
+  text-decoration: none;
+}
+a:link {
+  color: var(--black);
+}
+a:visited{
+  color: var(--black);
+}
 body {
 
   position: relative;
@@ -128,13 +137,13 @@ body {
 
 .bi-trash {
   position: absolute;
-  right: -20px;
+  right: -25px;
   font-size: 2rem;
   z-index: 10;
 }
 
 .trash1 {
-  color: rgb(128, 109, 0);
+  color: rgb(192, 167, 24);
 }
 
 .trash2 {
@@ -143,7 +152,7 @@ body {
 
 .bi-edit {
   position: absolute;
-  right: -20px;
+  right: -25px;
   top: 50px;
   width: 20px;
   height: 20px;
@@ -448,7 +457,7 @@ display: block;
     font-size: 22px;
   }
 
-  .nav-bar-img {
+  .nav-bar-img-a {
     width: 40px;
     height: 40px;
   }
@@ -551,8 +560,7 @@ display: block;
 
     font-size: 19px;
   }
-
-  .nav-bar-img {
+  .nav-bar-img-a {
     width: 35px;
     height: 35px;
   }

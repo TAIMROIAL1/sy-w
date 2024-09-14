@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://studyou.online/</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://studyou.online/sign-up</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://studyou.online/classes/66c24f93112d32909113bf2a/courses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://studyou.online/classes/66d9fe1dc0345b6d4761ebb2/courses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://studyou.online/courses/66d9f9e8c0345b6d4761eaa0/subcourses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://studyou.online/courses/66d9fa58c0345b6d4761eaad/subcourses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://studyou.online/courses/66d9fa71c0345b6d4761eab9/subcourses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://studyou.online/courses/66d9fa90c0345b6d4761eac5/subcourses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://studyou.online/courses/66d9fab8c0345b6d4761ead1/subcourses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://studyou.online/courses/66d9fadcc0345b6d4761eadd/subcourses</loc>
+  <lastmod>2024-09-13T17:10:08+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
