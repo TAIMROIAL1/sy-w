@@ -88,7 +88,7 @@ exports.restrictTo = function(...roles) {
 exports.signup = catchAsync(async function(req, res, next) {  
     const { name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent } = req.body;
 
-    if(!screenWidth || !screenHeight || !userAgent) return next(new AppError('حدث خطأ', 400));
+    if(!screenWidth || !screenHeight || !userAgent) return next(new AppError('Validation Error: حدث خطأ', 400, 'name'));
 
     const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent});
     const token = signToken(user);

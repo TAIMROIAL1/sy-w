@@ -79,7 +79,7 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
     if(user.subcourses.includes(sc._id)) return next(new AppError('لقد اشتريت هذا الكورس او جزء منه', 400));
   }
 
-  if(course.price > user.value) return next(new AppError('ليس لديك نقاط كافية لشراء هذا الكورس', 400));
+  if(course.price > user.value) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400));
 
   user.value -= course.price;
 
