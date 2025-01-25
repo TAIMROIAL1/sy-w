@@ -33,6 +33,7 @@ const questionAdminHTML = `
 `
 const submitBtnContainer = document.querySelector('.submit-answers-btn-container');
 
+let screenState = false;
 const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
 
@@ -376,15 +377,13 @@ const handleSubmit = async function() {
 submitAnswersBtn.addEventListener('click', handleSubmit);
 
 const handleFullScreen = function() {
-  console.log('hi');
-  if(document.fullscreenElement){
+  if(document.fullscreenElement && !screenState){   
+    screenState = true;
     setTimeout(() => {
       document.exitFullscreen();
-    }, 5 * 60 * 1000);
-  }
-  // else {
-  //   overlay.style.visibility = 'hidden';
-  // }
+      screenState = false;
+    }, 10 * 60 * 1000);
+}
 }
 
 document.addEventListener('fullscreenchange', handleFullScreen);
