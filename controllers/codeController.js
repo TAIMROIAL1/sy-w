@@ -31,17 +31,36 @@ exports.createCode = catchAsync(async function(req, res, next) {
 
 exports.activateCode = catchAsync(async function(req, res, next) {
   const { code } = req.body;
-  const hashedCode = crypto.pbkdf2Sync(code, process.env.JWT_SECRET_KEY, 10000, 64, 'sha512').toString('hex');
+  const session = await Code.startSession();
+  session.startTransaction();
   
-  const c = await Code.findOne({code: hashedCode, activated: false});
+  const hashedCode = crypto.pbkdf2Sync(code, process.env.JWT_SECRET_KEY, 10000, 64, 'sha512').toString('hex');
+  try{
 
-  if(!c) return next(new AppError('هذا الكود غير فعال', 400, 'code'));
+  const c = await Code.findOne({code: hashedCode, activated: false}).session(session);
+
+  if(!c){
+    await session.abortTransaction();
+    session.endSession();
+    return next(new AppError('هذا الكود غير فعال', 400, 'code'));
+  } 
 
   const { user } = req;
-  await c.activateCode(user._id);
-
+  const tried = await c.activateCode(user._id);
+  if(!tried){
+    await session.abortTransaction();
+    session.endSession();
+    return next(new AppError('هذا الكود غير فعال', 400, 'code'));
+  } 
+  await session.commitTransaction();
+  session.endSession();
   res.status(200).json({
     status: "success",
     message: "تم تفعيل الكود بنجاح"
   })
+}catch(err){
+  await session.abortTransaction();
+  session.endSession();
+  throw(err);
+} 
 })

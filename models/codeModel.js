@@ -32,7 +32,9 @@ codeSchema.methods.activateCode = async function(userId) {
   
   const activatioinCode = this.constructor.findOneAndUpdate({_id: this._id}, {activated: true, activatedBy: userId}, {new: true,session});
   if(!activatioinCode) {
-    throw new Error('Couldn`t be activated');
+    await session.abortTransaction();
+    session.endSession();
+    return false;
   }
 
   user.value += this.value;
@@ -42,15 +44,15 @@ codeSchema.methods.activateCode = async function(userId) {
   this.activatedBy = userId;
   await this.save({validateBeforeSave: false});
 
-  session.commitTransaction();
+  await session.commitTransaction();
   session.endSession();
 
   return true;
   } catch(err) {
-    session.abortTransaction();
+    await session.abortTransaction();
     session.endSession();
 
-    throw err;
+    return false;
   }
   
 }
