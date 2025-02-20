@@ -386,4 +386,4 @@ const handleFullScreen = function() {
 }
 }
 
-document.addEventListener('fullscreenchange', handleFullScreen);
+// document.addEventListener('fullscreenchange', handleFullScreen);
