@@ -6,12 +6,14 @@ process.on('uncaughtException', (err) => {
 const app = require('./app.js');
 const mongoose = require('mongoose');
 
+
 mongoose.connect(process.env.DATABASE_CONNECT_LINK, {}).then(() => {
   console.log('DB connected successfully');
 })
 
 const server = app.listen(process.env.SERVER_PORT, () => {
   console.log('Started Server');
+  console.log("Port: ",process.env.SERVER_PORT)
 })
 
 process.on('unhandledRejection', (err) => {

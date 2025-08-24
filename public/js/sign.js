@@ -590,6 +590,7 @@
   var _signViewJsDefault = parcelHelpers.interopDefault(_signViewJs);
   var _signupModelJs = require("../signModels/signupModel.js");
   const domain = document.body.dataset.domain;
+
   const signUpHandler = async function(e) {
       e.preventDefault();
       const data = (0, _signViewJsDefault.default).getInputDataSignup();

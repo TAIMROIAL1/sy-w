@@ -25,6 +25,7 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
 
   //1) Check if a token exists: PT 
   let token;
+  console.log("Request Cookie : ", req.cookies);
   if(req.cookies.jwtStudyou){
     token = req.cookies.jwtStudyou;
   } else if((req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) {
@@ -96,16 +97,12 @@ exports.signup = catchAsync(async function(req, res, next) {
     const cookieOptions = {
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: `${process.env.NODE_ENV === 'production' ? "None" : "Lax"}`,
       path: '/'
     };
 
-    if(process.env.NODE_ENV === 'production'){
-      cookieOptions.sameSite = 'None';
-      cookieOptions.secure = true; 
-    //   cookieOptions.domain = '.studyou.online';
-    // cookieOptions.path = '/';
-}
+    if(process.env.NODE_ENV === 'production') cookieOptions.secure = true; 
+
     res.cookie('jwtStudyou', token, cookieOptions);
 
     res.status(201).json({
@@ -123,6 +120,7 @@ exports.login = catchAsync(async function(req, res, next) {
   if(!user) return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'));
 
   if(user.role !== 'admin'){
+
   if((!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth))){
     user.active = false;
     user.reasonToBlock = `Wrong Height and Width: 
@@ -142,6 +140,7 @@ exports.login = catchAsync(async function(req, res, next) {
     return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
   }
 }
+
   if(!(await user.correctPassword(password, user.password))) return next(new AppError('Validation Error: كلمة السر خاطئة حاول مجددا', 400, 'password'));
 
   const token = signToken(user);
@@ -149,16 +148,12 @@ exports.login = catchAsync(async function(req, res, next) {
   const cookieOptions = {
     expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    sameSite: 'None',
+    sameSite: `${process.env.NODE_ENV === 'production' ? "None" : "Lax"}`,
     path: '/'
   };
 
-  if(process.env.NODE_ENV === 'production'){
-    cookieOptions.sameSite = 'None';
-    cookieOptions.secure = true; 
-    // cookieOptions.domain = '.studyou.online';
-    // cookieOptions.path = '/';
-}
+  if(process.env.NODE_ENV === 'production') cookieOptions.secure = true; 
+
   res.cookie('jwtStudyou', token, cookieOptions);
 
   res.status(200).json({
