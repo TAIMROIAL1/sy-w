@@ -9,6 +9,9 @@ body {
     line-height: 1.6;
 }
 
+.hidden {
+    display: none;
+}
 
 /* الهيدر */
 
@@ -651,6 +654,7 @@ span {
     .list-icon {
         display: block;
         margin-top: 5px;
+        margin-right: -23px;
     }
     a {
         padding: 10px;

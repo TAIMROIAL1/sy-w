@@ -1,6 +1,12 @@
-const classesContainer = document.querySelector('.courses');
+const classesContainer = document.querySelector('.classes');
 const userImg = document.querySelector('.nav-bar-img');
 const uploadBtn = document.querySelector('.upload-btn');
+
+const listIcon = document.querySelector('.list-icon');
+const list = document.querySelector('.nav');
+const classesBtn = document.querySelector('.classes-btn');
+
+const classesSection = document.getElementById('classes-section');
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
@@ -8,6 +14,20 @@ const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
 const role = document.body.dataset.role;
+
+const toggleList = function() {
+  list.classList.toggle('hidden');
+}
+
+const goToClassesSection = function() {
+  classesSection.scrollIntoView({
+    behavior: 'smooth'
+  })
+}
+
+listIcon.addEventListener('click', toggleList)
+
+classesBtn.addEventListener('click', goToClassesSection);
 
 const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
@@ -29,7 +49,7 @@ classesContainer.addEventListener('click', async (e) => {
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
     e.preventDefault();
-    return location.assign(`/edit-class/${clicked1.closest('.first-cours').dataset.classid}`)
+    return location.assign(`/edit-class/${clicked1.closest('.card').dataset.classid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -64,8 +84,8 @@ classesContainer.addEventListener('click', async (e) => {
   }
   }
 
-  // const clicked = e.target.closest('.first-cours');
-  // location.assign(`/classes/${clicked.dataset.classid}/courses`)
+  const clicked = e.target.closest('.card');
+  location.assign(`/classes/${clicked.dataset.classid}/courses`)
 })
 
 if(role === 'admin')
