@@ -1,11 +1,10 @@
 const coursesContainer = document.querySelector('.courses');
-const userImg = document.querySelector('.nav-bar-img');
 
-const buyCourseBtn = document.querySelector('.buy');
-const layer = document.querySelector('.layer');
-const cancelBtn = document.querySelector('.buy-cancel')
-const agreeBtn = document.querySelector('.buy-accept')
-const atpNum = document.querySelector('.atp');
+// const buyCourseBtn = document.querySelector('.buy');
+// const layer = document.querySelector('.layer');
+// const cancelBtn = document.querySelector('.buy-cancel')
+// const agreeBtn = document.querySelector('.buy-accept')
+// const atpNum = document.querySelector('.atp');
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
@@ -22,38 +21,38 @@ const ajaxCall = async function(url, method, data = undefined) {
   return await data2.json();
 }
 
-cancelBtn.addEventListener('click', (e) => {
-  document.body.style.overflow = 'auto';
-  layer.classList.add('hidden');
-  agreeBtn.removeAttribute('data-subcourseid');
-})
+// cancelBtn.addEventListener('click', (e) => {
+//   document.body.style.overflow = 'auto';
+//   layer.classList.add('hidden');
+//   agreeBtn.removeAttribute('data-subcourseid');
+// })
 
-agreeBtn.addEventListener('click', async (e) => {
-  const subcourseId = agreeBtn.dataset.subcourseid;
-  const subcourseurl = agreeBtn.dataset.subcourseurl;
-  const courseId = location.href.split('/')[4];
-  const data = await ajaxCall(`${domain}/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
-  if(data.status === 'success') {
+// agreeBtn.addEventListener('click', async (e) => {
+//   const subcourseId = agreeBtn.dataset.subcourseid;
+//   const subcourseurl = agreeBtn.dataset.subcourseurl;
+//   const courseId = location.href.split('/')[4];
+//   const data = await ajaxCall(`${domain}/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
+//   if(data.status === 'success') {
 
-    const boughtCourseContainer = [...coursesContainer.querySelectorAll('.first-cours')].find(c => c.dataset.subcourseid === agreeBtn.dataset.subcourseid);
+//     const boughtCourseContainer = [...coursesContainer.querySelectorAll('.card')].find(c => c.dataset.subcourseid === agreeBtn.dataset.subcourseid);
     
-    const price = boughtCourseContainer.querySelector('.price-container');
-    const buyBtn = boughtCourseContainer.querySelector('.buy');
-    const courseTitle = boughtCourseContainer.querySelector('.asab');
-    atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
+//     const price = boughtCourseContainer.querySelector('.price-container');
+//     const buyBtn = boughtCourseContainer.querySelector('.buy');
+//     const courseTitle = boughtCourseContainer.querySelector('.asab');
+//     atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
 
-    price.remove();
-    buyBtn.remove();
-    courseTitle.remove();
-    boughtCourseContainer.style.backgroundImage = `url('/imgs/subcourses/${subcourseurl}')`
-  }
+//     price.remove();
+//     buyBtn.remove();
+//     courseTitle.remove();
+//     boughtCourseContainer.style.backgroundImage = `url('/imgs/subcourses/${subcourseurl}')`
+//   }
 
-  agreeBtn.removeAttribute('data-subcourseid');
-  agreeBtn.removeAttribute('data-subcourseurl');
-  document.body.style.overflow = 'auto';
-  layer.classList.add('hidden');
-  return showNotification(data.message, data.status);
-})
+//   agreeBtn.removeAttribute('data-subcourseid');
+//   agreeBtn.removeAttribute('data-subcourseurl');
+//   document.body.style.overflow = 'auto';
+//   layer.classList.add('hidden');
+//   return showNotification(data.message, data.status);
+// })
 
 const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');
@@ -76,7 +75,7 @@ coursesContainer.addEventListener('click', async (e) => {
   const id = location.href.split('/')[4];
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
-    return location.assign(`/courses/${id}/edit-subcourse/${clicked1.closest('.first-cours').dataset.subcourseid}`)
+    return location.assign(`/courses/${id}/edit-subcourse/${clicked1.closest('.card').dataset.subcourseid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -91,7 +90,7 @@ coursesContainer.addEventListener('click', async (e) => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const subcourseToDelete = e.target.closest('.first-cours');
+  const subcourseToDelete = e.target.closest('.card');
 
   const response = await fetch(`${domain}/api/v1/courses/${id}/subcourses/${subcourseToDelete.dataset.subcourseid}`, {
     method: 'DELETE',
@@ -115,12 +114,12 @@ coursesContainer.addEventListener('click', async (e) => {
   if(clicked3) {
     layer.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    agreeBtn.setAttribute('data-subcourseurl', clicked3.closest('.first-cours').dataset.subcourseurl);
-    return agreeBtn.setAttribute('data-subcourseid', clicked3.closest('.first-cours').dataset.subcourseid);
+    agreeBtn.setAttribute('data-subcourseurl', clicked3.closest('.card').dataset.subcourseurl);
+    return agreeBtn.setAttribute('data-subcourseid', clicked3.closest('.card').dataset.subcourseid);
   }
 
 
-  const clicked = e.target.closest('.first-cours');
+  const clicked = e.target.closest('.card');
   const clickedPrice = clicked.querySelector('.price');
   if(clickedPrice) return;
   location.assign(`/subcourses/${clicked.dataset.subcourseid}/lessons`)

@@ -1,12 +1,10 @@
 const coursesContainer = document.querySelector('.courses');
-const userImg = document.querySelector('.nav-bar-img');
-const uploadBtn = document.querySelector('.upload-btn');
 
-const buyCourseBtn = document.querySelector('.buy');
-const layer = document.querySelector('.layer');
-const canelBtn = document.querySelector('.buy-cancel')
-const agreeBtn = document.querySelector('.buy-accept')
-const atpNum = document.querySelector('.atp');
+// const buyCourseBtn = document.querySelector('.buy');
+// const layer = document.querySelector('.layer');
+// const canelBtn = document.querySelector('.buy-cancel')
+// const agreeBtn = document.querySelector('.buy-accept')
+// const atpNum = document.querySelector('.atp');
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
@@ -41,40 +39,41 @@ const ajaxCall = async function(url, method, data = undefined) {
   return await data2.json();
 }
 
-canelBtn.addEventListener('click', (e) => {
-  layer.classList.add('hidden');
-  document.body.style.overflow = 'auto';
-  agreeBtn.removeAttribute('data-courseid');
-})
+// canelBtn.addEventListener('click', (e) => {
+//   layer.classList.add('hidden');
+//   document.body.style.overflow = 'auto';
+//   agreeBtn.removeAttribute('data-courseid');
+// })
 
-agreeBtn.addEventListener('click', async (e) => {
-  const courseId = agreeBtn.dataset.courseid;
-  const classId = location.href.split('/')[4];
-  const data = await ajaxCall(`${domain}/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
-  if(data.status === 'success') {
+// agreeBtn.addEventListener('click', async (e) => {
+//   const courseId = agreeBtn.dataset.courseid;
+//   const classId = location.href.split('/')[4];
+//   const data = await ajaxCall(`${domain}/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
+//   if(data.status === 'success') {
    
-    const boughtCourseContainer = [...coursesContainer.querySelectorAll('.first-cours')].find(c => c.dataset.courseid === agreeBtn.dataset.courseid);
+//     const boughtCourseContainer = [...coursesContainer.querySelectorAll('.first-cours')].find(c => c.dataset.courseid === agreeBtn.dataset.courseid);
     
-    const price = boughtCourseContainer.querySelector('.price-container');
-    const buyBtn = boughtCourseContainer.querySelector('.buy');
-    atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
+//     const price = boughtCourseContainer.querySelector('.price-container');
+//     const buyBtn = boughtCourseContainer.querySelector('.buy');
+//     atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
 
-    price.remove();
-    buyBtn.remove();
-  }
+//     price.remove();
+//     buyBtn.remove();
+//   }
   
-  agreeBtn.removeAttribute('data-courseid');
-  document.body.style.overflow = 'auto';
-  layer.classList.add('hidden');
-  return showNotification(data.message, data.status);
-})
+//   agreeBtn.removeAttribute('data-courseid');
+//   document.body.style.overflow = 'auto';
+//   layer.classList.add('hidden');
+//   return showNotification(data.message, data.status);
+// })
 
 coursesContainer.addEventListener('click', async (e) => {
+  console.log('hi');
   const id = location.href.split('/')[4];
   const clicked1 = e.target.closest('.bi-edit')
   if(clicked1){
     e.preventDefault();
-    return location.assign(`/classes/${id}/edit-course/${clicked1.closest('.first-cours').dataset.courseid}`)
+    return location.assign(`/classes/${id}/edit-course/${clicked1.closest('.card').dataset.courseid}`)
   }
 
   const clicked2 = e.target.closest('.bi-trash')
@@ -90,7 +89,7 @@ coursesContainer.addEventListener('click', async (e) => {
     }
     return clicked2.dataset.deletecount++;
 }
-  const courseToDelete = e.target.closest('.first-cours');
+  const courseToDelete = e.target.closest('.card');
 
   const response = await fetch(`${domain}/api/v1/classes/${id}/courses/${courseToDelete.dataset.courseid}`, {
     method: 'DELETE',
@@ -117,8 +116,12 @@ coursesContainer.addEventListener('click', async (e) => {
     e.preventDefault();
     layer.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    return agreeBtn.setAttribute('data-courseid', clicked3.closest('.first-cours').dataset.courseid);
+    return agreeBtn.setAttribute('data-courseid', clicked3.closest('.card').dataset.courseid);
   }
+
+  const clicked4 = e.target.closest('.card');
+  if(clicked4)
+    location.assign(`/courses/${clicked4.dataset.courseid}/subcourses`)
 
 })
 
