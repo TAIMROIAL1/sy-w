@@ -13,6 +13,7 @@ body {
     display: none;
 }
 
+
 /* الهيدر */
 
 .header-nav {
@@ -29,6 +30,7 @@ body {
 }
 
 .navbar {
+    width: 100%;
     min-height: 75px;
     background: #fff;
     display: flex;
@@ -36,9 +38,9 @@ body {
     align-items: center;
     border-bottom: 1px solid #ddd;
     flex-wrap: wrap;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-top: -18px;
     border-radius: 20px;
+    position: fixed;
 }
 
 .logo {
@@ -62,7 +64,14 @@ span {
     gap: 10px;
 }
 
-.navbar nav a {
+.navbar a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+}
+
+.nav {
     margin: 0 5px;
     text-decoration: none;
     color: #555;
@@ -588,7 +597,9 @@ span {
     .navbar nav {
         flex-wrap: wrap;
         justify-content: center;
-        margin-top: 10px;
+    }
+    .nav {
+        margin-top: 30px;
     }
     .btn {
         margin-top: 10px;
@@ -635,7 +646,7 @@ span {
         border-radius: 10px;
         flex-direction: column;
         width: 40%;
-        margin-top: 30px;
+        margin-top: 50px;
         position: absolute;
         text-decoration: none;
         justify-content: center;
@@ -654,7 +665,6 @@ span {
     .list-icon {
         display: block;
         margin-top: 5px;
-        margin-right: -23px;
     }
     a {
         padding: 10px;
