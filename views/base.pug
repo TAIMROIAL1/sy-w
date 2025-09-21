@@ -10,7 +10,25 @@ html(lang="ar", dir="rtl")
   link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}` , data-role=`${user ? user.role : undefined}`, style='background-image: url(/imgs/backgroundImage.png);')
-    
+    .header-nav
+    header.navbar
+      .logo
+        img.list-icon(src="/imgs/list.png", alt="Icon", width="24", height="24")
+        .text-of-logo  StudyYou
+      nav.nav.hidden
+        a(href=`${domain}`) Home
+        - if(user)
+          a(href="/settings") Settings
+        - if(!user)
+          a(href='/sign-up') Sign up
+        a.classes-btn(href="#") Classes
+      nav.nav1
+        a(href=`${domain}`) Home
+        - if(user)
+          a(href="/settings") Settings
+        - if(!user)
+          a(href='/sign-up') Sign up
+        a.classes-btn(href="#") Classes         
     block content
     block scripts
     footer.site-footer
@@ -55,3 +73,4 @@ html(lang="ar", dir="rtl")
           .privacy-links
             a.footer-link(href="#") Privacy Policy
             a.footer-link(href="#") Terms of Service
+    .add-btn= '+'
