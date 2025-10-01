@@ -1,29 +1,30 @@
 extends base
 block content
-  .header-nav
-    header.navbar
-      .logo
-        img.list-icon(src="/imgs/list.png", alt="Icon", width="24", height="24")
-        .text-of-logo  StudyYou
-      nav.nav.hidden
-        a(href=`${domain}`) Home
-        - if(user)
-          a(href="/settings") Settings
-        - if(!user)
-          a(href='/sign-up') Sign up
-        a.classes-btn(href="#") Classes
-      nav.nav1
-        a(href=`${domain}`) Home
-        - if(user)
-          a(href="/settings") Settings
-        - if(!user)
-          a(href='/sign-up') Sign up
-        a.classes-btn(href="#") Classes         
-    // القسم الرئيسي
-    .promo
-      section.hero
-        //- img(src='/imgs/iyad.jpg')
-        
+  // القسم الرئيسي
+  .eror
+    #site-toasts(aria-live="polite" dir="rtl")
+    .toast.toast-success.show(role="status" aria-hidden="false")
+      span.toast-icon
+        svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20")
+          path(d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round")
+      .toast-text لقد تمت العملية بنجاح
+  
+    .toast.toast-error.show(role="alert" aria-hidden="false")
+      span.toast-icon
+        svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20")
+          path(d="M12 8v4M12 16h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round")
+      .toast-text هنالك خطأ
+  .backdrop.hidden
+    .popup-message
+      h2 &#x647;&#x644; &#x62A;&#x631;&#x64A;&#x62F; &#x634;&#x631;&#x627;&#x621; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x61F;
+      .buttons
+        button.confirm-btn &#x62A;&#x623;&#x643;&#x64A;&#x62F;
+        button.cancel-btn &#x625;&#x644;&#x63A;&#x627;&#x621;
+  .promo
+    section.hero
+      .promo-img-container
+        img.promo-img(src='/imgs/الصورة-الرئيسية.png')
+      .promo-text-container
         h1 مستقبلك في يديك...هنا تفهم العلوم وتحسها سكرة 
         p أهلا وسهلا في بيتك التاني !
         p رح تلاقي كلشي بتحتاجه لتتفوق بالعلوم
@@ -74,7 +75,7 @@ block content
           span اختبارات
           span متابعة دورية
         p.salary
-          | 💰 السعر : 100 ATP
+          | 💰 السعر : 100 ATP  
       // كارت علم البيانات
       .card.green
         .card-header
@@ -119,6 +120,7 @@ block content
               svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
                 path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
                 path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+            img.card-img(src="/imgs/iyad.jpg", alt="")
             .card-header
               p= c.title 
               //- span.progress 84% 🌙

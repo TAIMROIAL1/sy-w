@@ -56,5 +56,6 @@ block content
             span تقييم مستوى
           - if((user && !user.subcourses.some(sc => subcourses[i].includes(sc.toString()))) || !user)
             p.salary= `💰 السعر : ${c.price} ATP`
+            button.buy-btn اشتري الان
 block scripts
   script(src='/js/courses.js')
