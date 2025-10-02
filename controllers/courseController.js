@@ -70,6 +70,7 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
   const { courseId } = req.params;
 
   const course = await Course.findById(courseId);
+
   if(!course) return next('هذا الكورس غير موجود', 400);
 
   const { user } = req;

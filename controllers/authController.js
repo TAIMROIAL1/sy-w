@@ -25,10 +25,12 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
 
   //1) Check if a token exists: PT 
   let token;
-  console.log("Request Cookie : ", req.cookies);
+
   if(req.cookies.jwtStudyou){
+
     token = req.cookies.jwtStudyou;
   } else if((req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) {
+
     token = req.headers.authorization.split(' ')[1];
     } else {
         if(!req.originalUrl.startsWith('/api')){ 
@@ -36,6 +38,7 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
         }
   return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
 } 
+
   // if(!token) return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
   //2) Validate the token PT
   let decoded;

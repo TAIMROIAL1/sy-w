@@ -12,7 +12,7 @@ body {
 
 /* ====== Toast container ====== */
 
-.eror {
+.error {
     display: flex;
     justify-content: center;
 }
@@ -107,7 +107,16 @@ body {
     font-family: 'Courier New', Courier, monospace;
     border: none;
     border-radius: 5px;
-    background-color: #0a8d5e;
+    background-color: #0db276;
+}
+
+.buy-btn:hover {
+    background-color: #058f5c;
+    cursor: pointer;
+}
+
+.buy-btn:active {
+    background-color: #596a64;
 }
 
 .backdrop {
@@ -179,7 +188,7 @@ body {
     display: none;
 }
 
-.add-btn {
+.upload-btn {
     height: 40px;
     width: 40px;
     position: fixed;
@@ -384,9 +393,16 @@ span {
     font-size: 13px;
 }
 
+.price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .salary {
     font-weight: bold;
     color: #0a8d5e;
+    display: inline;
 }
 
 

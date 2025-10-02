@@ -1,5 +1,6 @@
 class AppError extends Error {
   constructor(message, statusCode, path = undefined) {
+
     super(message);
     this.statusCode = statusCode;
     this.status = (this.statusCode + '').startsWith('5') ? 'error' : 'fail';
