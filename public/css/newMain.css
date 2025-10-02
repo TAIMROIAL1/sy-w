@@ -305,23 +305,12 @@ span {
 
 .hero {
     text-align: center;
-    padding: 50px 20px;
     display: flex;
-    /* <-- أهم خاصية، تجعل العناصر بداخلها مرنة */
     align-items: center;
-    /* <-- تقوم بالمحاذاة العمودية للعناصر في المنتصف */
     justify-content: space-between;
-    /* <-- توزع المسافة بين النص والصورة */
     direction: rtl;
-    /* <-- تجعل الترتيب من اليمين لليسار، فتظهر الصورة أولاً */
-    padding: 40px 20px;
-    /* هوامش داخلية للقسم */
     gap: 30px;
-    /* مسافة فاصلة بين الصورة والنص */
-    max-width: 1200px;
-    /* تحديد عرض أقصى للحفاظ على شكل التصميم */
-    margin: auto;
-    /* لتوسيط القسم في الصفحة */
+    margin-top: 50px;
 }
 
 .hero h1 {
@@ -907,5 +896,11 @@ span {
         display: flex;
         justify-content: center;
         flex-direction: column;
+    }
+    .promo-img {
+        height: 320px;
+        width: 330px;
+        margin-top: 50px;
+        gap: 0;
     }
 }
