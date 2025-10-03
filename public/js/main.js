@@ -4,7 +4,7 @@ const uploadBtn = document.querySelector('.upload-btn');
 
 const listIcon = document.querySelector('.list-icon');
 const list = document.querySelector('.nav');
-const classesBtn = document.querySelector('.classes-btn');
+const classesBtns = [...document.querySelectorAll('.classes-btn')];
 
 const classesSection = document.getElementById('classes-section');
 
@@ -19,7 +19,10 @@ const toggleList = function() {
   list.classList.toggle('hidden');
 }
 
-const goToClassesSection = function() {
+const goToClassesSection = function(e) {
+  if(e.target.closest('.nav'))
+    list.classList.add('hidden');
+
   classesSection.scrollIntoView({
     behavior: 'smooth'
   })
@@ -27,7 +30,7 @@ const goToClassesSection = function() {
 
 listIcon.addEventListener('click', toggleList)
 
-classesBtn.addEventListener('click', goToClassesSection);
+classesBtns.forEach(cb => cb.addEventListener('click', goToClassesSection));
 
 const showNotification = function(msg, type) {
   notifcation.classList.toggle('hidden');

@@ -26,6 +26,7 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
     }
 
     const classes = await Class.find();
+    
 
     res.status(200).render("mainpage", {
       user,

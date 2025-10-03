@@ -49,6 +49,8 @@ block content
             span متابعة دورية
             span تقييم مستوى
           - if((user && !checkCourse || !user))
-            p.salary= `💰 السعر : ${c.price} ATP`
+            .price-container
+              p.salary= `💰 السعر : ${c.price} ATP`
+              button.buy-btn اشتري الان
 block scripts
   script(src=`/js/subcourses.js`)

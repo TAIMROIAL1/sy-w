@@ -20,14 +20,14 @@ html(lang="ar", dir="rtl")
           a(href="/settings") Settings
         - if(!user)
           a(href='/sign-up') Sign up
-        a.classes-btn(href="#") Classes
+        .classes-btn(href="#") Classes
       nav.nav1
+        .classes-btn(href="#") Classes
         a(href=`${domain}`) Home
         - if(user)
           a(href="/settings") Settings
         - if(!user)
           a(href='/sign-up') Sign up
-        a.classes-btn(href="#") Classes
     .error.hidden
       #site-toasts(aria-live="polite" dir="rtl")
       .toast.toast-success.show.hidden(role="status" aria-hidden="false")

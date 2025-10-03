@@ -1,17 +1,29 @@
 const coursesContainer = document.querySelector('.courses');
 
+
+const classesBtns = [...document.querySelectorAll('.classes-btn')];
+classesBtns.forEach(cb => cb.remove());
+
 // const buyCourseBtn = document.querySelector('.buy');
 const layer = document.querySelector('.backdrop');
 const canelBtn = document.querySelector('.cancel-btn')
 const agreeBtn = document.querySelector('.confirm-btn')
+
+const listIcon = document.querySelector('.list-icon');
+const list = document.querySelector('.nav');
 // const atpNum = document.querySelector('.atp');
 
 // The notifcation message
 const notifcation = document.querySelector('.error');
-const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
 const role = document.body.dataset.role;
+
+const toggleList = function() {
+  list.classList.toggle('hidden');
+}
+
+listIcon.addEventListener('click', toggleList)
 
 const showNotification = function(msg, type) {
 
