@@ -1,287 +1,287 @@
-    @font-face {
-    font-family: vedio-title;
-    src: url(video-title.ttf);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    user-select: none;
-}
-
-html {
-    scrollbar-width: thin;
-}
-
-html,
-body {
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 20px;
-    min-width: 400px;
-    max-height: 1000px;
-    .img-close-list {
-        color: #42fa9e;
+        @font-face {
+        font-family: vedio-title;
+        src: url(video-title.ttf);
     }
-    .container {
-        border-radius: 20px 0px 0 20px;
-        position: absolute;
-        z-index: 10;
-        right: 0;
-        width: 200px;
-        height: 100%;
-        background-color: #5285e8;
+    
+    * {
+        margin: 0;
+        padding: 0;
+        user-select: none;
     }
-    .video-container {
-        border: 1px solid gray;
-        border-radius: 10px 0 0 10px;
-        width: 70%;
-        background-color: #bdbdbd96;
-        margin-bottom: 4px;
+    
+    html {
+        scrollbar-width: thin;
     }
-    .btn {
-        background: none;
-        border: none;
-    }
-    .lesson-title {
-        cursor: pointer;
-        background-color: #bbfb4c;
-        font-weight: 500;
-    }
-    .lesson-title:hover {
-        color: rgb(94, 92, 92);
-    }
-    .center-title {
+    
+    html,
+    body {
         display: flex;
-        justify-content: center;
-    }
-    .title {
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        font-size: 2rem;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 10px;
-        grid-row: 2/3;
-        border: 1px solid gray;
-        border-radius: 20px;
-        padding: 4px;
-        background-color: #bbfb4c;
-    }
-    .video-title {
-        cursor: pointer;
-    }
-    .video-title:hover {
-        color: rgb(94, 92, 92);
-    }
-    .video {
-        margin-top: 100px;
-        display: flex;
-        justify-content: center;
-    }
-    .video-g {
-        width: 60%;
-        grid-row: 2/3;
-    }
-    .question {
-        padding: 1px;
-        text-align: start;
-        font-size: 1.6rem;
-        width: 100%;
-        background-color: #bbfb4c;
-        border-radius: 10px;
-    }
-    .check {
-        background-color: #5285e8;
-        position: relative;
-        max-width: 200px;
-        min-width: 150px;
-        height: 240px;
-        flex-wrap: wrap;
-        flex-grow: 1;
-        margin-top: 100px;
-        margin-right: 30px;
-        border: 1px solid rgba(0, 0, 0, 0);
-        border-radius: 20px;
-        padding: 10px;
-        box-shadow: 5px 5px 5px 5px rgba(160, 159, 159, 0.801)
-    }
-    .check-box {
-        display: block;
-        width: 9px;
-        height: 9px;
-        border: 1px solid rgb(61, 61, 61);
-        border-radius: 50%;
-        margin-left: 5px;
-    }
-    .checked {
-        background-color: rgb(0, 183, 255);
-    }
-    .correct-answer {
-        background-color: rgb(69, 255, 13);
-    }
-    .wrong-answer {
-        background-color: red;
-    }
-    .expected-answer {
-        background-color: rgb(99, 99, 99);
-    }
-    .question-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .btn-open-list {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        width: 20px;
-        height: 20px;
-        border: none;
-    }
-    .btn-close-list {
-        width: 20px;
-        height: 20px;
-        background-color: #5285e8;
-        border: none;
-    }
-    .img-btn-close-list {
-        width: 40px;
-        height: 40px;
-        background-color: none;
-        font-weight: 100px;
-        color: black;
-    }
-    .submit-answers-btn-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-    .submit-answers-btn {
-        background-color: #bbfb4c;
-        width: 70px;
-        height: 40px;
-        border: none;
-        border-radius: 10px;
-    }
-    .submit-answers-btn:hover {
-        background-color: rgb(172, 171, 171);
-    }
-    .submit-answers-btn:active {
-        background-color: rgb(90, 89, 89);
-    }
-    .upload {
-        height: 16px;
-    }
-    .list-btn:hover {
-        opacity: 0.7;
-    }
-    .upload-lesson-btn {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        font-size: 2rem;
-        position: fixed;
-        left: 20px;
-        bottom: 30px;
-    }
-    .upload-video,
-    .upload-questions {
-        width: 17px;
-        height: 17px;
-        border: 1px solid gray;
-        border-radius: 50%;
-    }
-    .trash1 {
-        color: rgb(211, 180, 4);
-    }
-    .trash2 {
-        color: rgb(255, 0, 0);
-    }
-    .correct {
-        position: fixed;
-        top: -125px;
-        display: flex;
-        flex-direction: row;
-        background-color: #42fa9e;
-        width: 200px;
-        height: 125px;
-        z-index: 1;
-        animation: message 1s ease-out, message-return 1s ease-out 3s;
-        animation-fill-mode: forwards;
-    }
-    .correct-message {
-        width: auto;
-        position: absolute;
-        top: 55px;
-        right: 5px;
-    }
-    @keyframes message {
-        from {
-            top: -150px;
+        flex-direction: column;
+        padding-bottom: 20px;
+        min-width: 400px;
+        max-height: 1000px;
+        .img-close-list {
+            color: #42fa9e;
         }
-        to {
-            top: 15px;
+        .container {
+            border-radius: 20px 0px 0 20px;
+            position: absolute;
+            z-index: 10;
+            right: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #5285e8;
         }
-    }
-    @keyframes message-return {
-        from {
-            top: 15px;
+        .video-container {
+            border: 1px solid gray;
+            border-radius: 10px 0 0 10px;
+            width: 70%;
+            background-color: #bdbdbd96;
+            margin-bottom: 4px;
         }
-        to {
-            top: -150px;
+        .btn {
+            background: none;
+            border: none;
         }
-    }
-    .c {
-        position: fixed;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        z-index: 3;
-    }
-    .bi-edit {
-        width: 16px;
-        height: 16px;
-        margin-top: 4px;
-    }
-    .bi-trash {
-        font-size: 1.3rem;
-    }
-    .bi-trash-container {
-        margin-bottom: 2px;
-    }
-    .btns-flex-container {
-        width: 50%;
-        display: inline-flex;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-    p {
-        display: inline;
-    }
-    .delete-question-btn {
-        position: absolute;
-        top: -20px;
-        right: 35px;
-    }
-    .edit-question-btn {
-        position: absolute;
-        top: -20px;
-        right: 0;
-    }
-    .answer-container {
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        margin-top: 10px;
-    }
-    @media screen and (max-width:500px) {
+        .lesson-title {
+            cursor: pointer;
+            background-color: #bbfb4c;
+            font-weight: 500;
+        }
+        .lesson-title:hover {
+            color: rgb(94, 92, 92);
+        }
+        .center-title {
+            display: flex;
+            justify-content: center;
+        }
+        .title {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+            grid-row: 2/3;
+            border: 1px solid gray;
+            border-radius: 20px;
+            padding: 4px;
+            background-color: #bbfb4c;
+        }
+        .video-title {
+            cursor: pointer;
+        }
+        .video-title:hover {
+            color: rgb(94, 92, 92);
+        }
         .video {
-            width: 100%;
+            margin-top: 100px;
+            display: flex;
+            justify-content: center;
         }
-    }
-    .my-details {
-        margin-bottom: 5px;
-    }
-    .hidden {
-        display: none;
-    }
+        .video-g {
+            width: 60%;
+            grid-row: 2/3;
+        }
+        .question {
+            padding: 1px;
+            text-align: start;
+            font-size: 1.6rem;
+            width: 100%;
+            background-color: #bbfb4c;
+            border-radius: 10px;
+        }
+        .check {
+            background-color: #5285e8;
+            position: relative;
+            max-width: 200px;
+            min-width: 150px;
+            height: 240px;
+            flex-wrap: wrap;
+            flex-grow: 1;
+            margin-top: 100px;
+            margin-right: 30px;
+            border: 1px solid rgba(0, 0, 0, 0);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 5px 5px 5px 5px rgba(160, 159, 159, 0.801)
+        }
+        .check-box {
+            display: block;
+            width: 9px;
+            height: 9px;
+            border: 1px solid rgb(61, 61, 61);
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+        .checked {
+            background-color: rgb(0, 183, 255);
+        }
+        .correct-answer {
+            background-color: rgb(69, 255, 13);
+        }
+        .wrong-answer {
+            background-color: red;
+        }
+        .expected-answer {
+            background-color: rgb(99, 99, 99);
+        }
+        .question-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .btn-open-list {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 20px;
+            height: 20px;
+            border: none;
+        }
+        .btn-close-list {
+            width: 20px;
+            height: 20px;
+            background-color: #5285e8;
+            border: none;
+        }
+        .img-btn-close-list {
+            width: 40px;
+            height: 40px;
+            background-color: none;
+            font-weight: 100px;
+            color: black;
+        }
+        .submit-answers-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .submit-answers-btn {
+            background-color: #bbfb4c;
+            width: 70px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+        }
+        .submit-answers-btn:hover {
+            background-color: rgb(172, 171, 171);
+        }
+        .submit-answers-btn:active {
+            background-color: rgb(90, 89, 89);
+        }
+        .upload {
+            height: 16px;
+        }
+        .list-btn:hover {
+            opacity: 0.7;
+        }
+        .upload-lesson-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 2rem;
+            position: fixed;
+            left: 20px;
+            bottom: 30px;
+        }
+        .upload-video,
+        .upload-questions {
+            width: 17px;
+            height: 17px;
+            border: 1px solid gray;
+            border-radius: 50%;
+        }
+        .trash1 {
+            color: rgb(211, 180, 4);
+        }
+        .trash2 {
+            color: rgb(255, 0, 0);
+        }
+        .correct {
+            position: fixed;
+            top: -125px;
+            display: flex;
+            flex-direction: row;
+            background-color: #42fa9e;
+            width: 200px;
+            height: 125px;
+            z-index: 1;
+            animation: message 1s ease-out, message-return 1s ease-out 3s;
+            animation-fill-mode: forwards;
+        }
+        .correct-message {
+            width: auto;
+            position: absolute;
+            top: 55px;
+            right: 5px;
+        }
+        @keyframes message {
+            from {
+                top: -150px;
+            }
+            to {
+                top: 15px;
+            }
+        }
+        @keyframes message-return {
+            from {
+                top: 15px;
+            }
+            to {
+                top: -150px;
+            }
+        }
+        .c {
+            position: fixed;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 3;
+        }
+        .bi-edit {
+            width: 16px;
+            height: 16px;
+            margin-top: 4px;
+        }
+        .bi-trash {
+            font-size: 1.3rem;
+        }
+        .bi-trash-container {
+            margin-bottom: 2px;
+        }
+        .btns-flex-container {
+            width: 50%;
+            display: inline-flex;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        p {
+            display: inline;
+        }
+        .delete-question-btn {
+            position: absolute;
+            top: -20px;
+            right: 35px;
+        }
+        .edit-question-btn {
+            position: absolute;
+            top: -20px;
+            right: 0;
+        }
+        .answer-container {
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin-top: 10px;
+        }
+        @media screen and (max-width:500px) {
+            .video {
+                width: 100%;
+            }
+        }
+        .my-details {
+            margin-bottom: 5px;
+        }
+        .hidden {
+            display: none;
+        }
