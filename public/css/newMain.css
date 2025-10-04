@@ -17,6 +17,11 @@ body {
     justify-content: center;
 }
 
+.promo-link-sign {
+    text-decoration: underline;
+    font-weight: bold;
+    
+}
 #site-toasts {
     position: fixed;
     top: 18px;

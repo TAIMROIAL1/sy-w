@@ -1,7 +1,7 @@
 const classesContainer = document.querySelector('.classes');
 const userImg = document.querySelector('.nav-bar-img');
 const uploadBtn = document.querySelector('.upload-btn');
-
+const suggestedContainer = document.querySelector('#suggested-courses');
 const listIcon = document.querySelector('.list-icon');
 const list = document.querySelector('.nav');
 const classesBtns = [...document.querySelectorAll('.classes-btn')];
@@ -14,6 +14,64 @@ const notifcationMsg = document.querySelector('.correct-message')
 
 const domain = document.body.dataset.domain;
 const role = document.body.dataset.role;
+
+suggestedContainer.addEventListener('click', async function(e){
+  const id = e.target.closest('.card').dataset.courseid;
+  if(!id) return;
+
+  const clicked1 = e.target.closest('.bi-edit')
+  if(clicked1){
+    e.preventDefault();
+    return location.assign(`/classes/${id}/edit-course/${clicked1.closest('.card').dataset.courseid}`)
+  }
+
+  const clicked2 = e.target.closest('.bi-trash')
+  if(clicked2) {
+    e.preventDefault();
+    const deleteCount = Number(clicked2.dataset.deletecount);
+
+    if(deleteCount !== 2) {
+    if(deleteCount === 0) clicked2.classList.add('trash1');
+    if(deleteCount === 1){
+      clicked2.classList.remove('trash1') 
+      clicked2.classList.add('trash2');
+    }
+    return clicked2.dataset.deletecount++;
+}
+  const courseToDelete = e.target.closest('.card');
+
+  const response = await fetch(`${domain}/api/v1/classes/${id}/courses/${courseToDelete.dataset.courseid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({})
+  });
+
+  const data = await response.json();
+
+  showNotification(data.message, data.status);
+
+  if(data.status === 'success') {
+    return setTimeout(() => {
+      location.reload(true);
+    }, 1500);
+  }
+  
+  }
+
+  const clicked3 = e.target.closest('.buy-btn');
+  if(clicked3) {
+    e.preventDefault();
+    layer.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    return agreeBtn.setAttribute('data-courseid', clicked3.closest('.card').dataset.courseid);
+  }
+
+  const clicked4 = e.target.closest('.card');
+  if(clicked4)
+    location.assign(`/courses/${clicked4.dataset.courseid}/subcourses`)
+});
 
 const toggleList = function() {
   list.classList.toggle('hidden');
