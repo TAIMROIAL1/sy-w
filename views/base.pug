@@ -10,13 +10,14 @@ html(lang="ar", dir="rtl")
   link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}` , data-role=`${user ? user.role : undefined}`, style='background-image: url(/imgs/backgroundImage.png);')
-    header.navbar
+    header.navbar   
       .logo
         img.list-icon(src="/imgs/list.png", alt="Icon", width="24", height="24")
-        .text-of-logo  StudyYou
       .atp 
         p.text  ATP  
-        p.text2 20  
+        p.text2 20           
+      .text-of-logo
+        p.studyou StudyYou           
       nav.nav.hidden
         a(href=`${domain}`) Home
         - if(user)
@@ -30,7 +31,7 @@ html(lang="ar", dir="rtl")
         - if(user)
           a(href="/settings") Settings
         - if(!user)
-          a(href='/sign-up') Sign up
+          a(href='/sign-up') Sign up         
     .error.hidden
       #site-toasts(aria-live="polite" dir="rtl")
       .toast.toast-success.show.hidden(role="status" aria-hidden="false")

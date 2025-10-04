@@ -16,6 +16,11 @@ body {
     display: flex;
 }
 
+.studyou {
+    font-size: 20px;
+    color: #058f5cs;
+}
+
 .text {
     margin-left: 5px;
     font-size: 20px;
@@ -274,7 +279,6 @@ span {
 
 .navbar {
     display: flex;
-    gap: 10px;
 }
 
 .navbar a {
@@ -299,9 +303,7 @@ span {
     margin-left: 20px;
 }
 
-.text-of-logo {
-    margin-right: 10px;
-}
+.text-of-logo {}
 
 .btn {
     background: #0a8d5e;
@@ -909,18 +911,15 @@ span {
         width: 100%;
     }
     .navbar {
-        flex-direction: column;
-        text-align: center;
-    }
-    .navbar {
-        flex-direction: column;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        border-bottom: 1px solid #e6def8;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
     .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24
-    }
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
     }
     .nav {
         border-radius: 10px;
@@ -928,6 +927,7 @@ span {
         width: 40%;
         margin-top: 50px;
         position: absolute;
+        top: 30px;
         text-decoration: none;
         justify-content: center;
         background-color: #f9f9f9;
@@ -936,18 +936,11 @@ span {
         padding: 10px;
         margin: 0 5px;
     }
-    .logo {
-        margin-top: 20px;
-        width: 90%;
-        justify-content: space-between;
-    }
     .text-of-logo {
         font-size: 15px;
-        margin-bottom: 3%;
-        margin-right: 69%;
     }
     .list-icon {
-        display: block;
+        display: flex;
         margin-top: 5px;
         margin-right: 4px;
     }
