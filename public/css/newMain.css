@@ -12,6 +12,23 @@ body {
 
 /* ====== Toast container ====== */
 
+.atp {
+    display: flex;
+}
+
+.text {
+    margin-left: 5px;
+    font-size: 20px;
+    color: #6a5acd;
+    font-weight: bolder;
+}
+
+.text2 {
+    font-size: 20px;
+    font-size: 20px;
+    color: #058f5c;
+}
+
 .error {
     display: flex;
     justify-content: center;
@@ -20,8 +37,8 @@ body {
 .promo-link-sign {
     text-decoration: underline;
     font-weight: bold;
-    
 }
+
 #site-toasts {
     position: fixed;
     top: 18px;
@@ -265,12 +282,12 @@ span {
     text-decoration: none;
     color: #555;
     font-size: 14px;
-    
 }
 
 .nav a {
     display: block;
 }
+
 .nav {
     margin: 0 5px;
     text-decoration: none;
@@ -849,24 +866,26 @@ span {
 
 /* للشاشات الأصغر من 600px (موبايل) */
 
+.nav1 {
+    margin-left: 3px;
+}
 
-    .nav1 {
-        margin-left: 3px;
-    }
-    .classes-btn {
-        cursor: pointer;
-    }
-    .nav1 .classes-btn {
+.classes-btn {
+    cursor: pointer;
+}
+
+.nav1 .classes-btn {
     display: inline;
     margin: 0 5px;
     text-decoration: none;
     color: #555;
     font-size: 14px;
-    }
+}
 
-    .nav1 a {
-        display: inline;
-    }
+.nav1 a {
+    display: inline;
+}
+
 @media (max-width: 600px) {
     .nav1 {
         display: none;
@@ -913,7 +932,6 @@ span {
         justify-content: center;
         background-color: #f9f9f9;
     }
-    
     .nav .classes-btn {
         padding: 10px;
         margin: 0 5px;
@@ -955,8 +973,7 @@ span {
         margin-top: 50px;
         gap: 0;
     }
-
     .promo-text-container {
-     margin-top: 0; 
-}
+        margin-top: 0;
+    }
 }
