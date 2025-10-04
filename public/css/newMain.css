@@ -251,13 +251,13 @@ body {
     min-height: 75px;
     background: #fff;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     border-bottom: 1px solid #ddd;
     flex-wrap: wrap;
     margin-top: 10px;
-    margin-right: 5%;
     border-radius: 20px;
+    margin-right: 5%;
     position: fixed;
 }
 
@@ -277,15 +277,10 @@ span {
     color: #888;
 }
 
-.navbar {
-    display: flex;
-}
-
 .navbar a {
     margin: 0 5px;
     text-decoration: none;
     color: #555;
-    font-size: 14px;
 }
 
 .nav a {
@@ -843,12 +838,11 @@ span {
 
 @media (min-width: 601px) and (max-width: 992px) {
     .navbar nav {
+        display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: space-between;
     }
-    .nav {
-        margin-top: 30px;
-    }
+    .nav {}
     .btn {
         margin-top: 10px;
     }
@@ -876,7 +870,7 @@ span {
     cursor: pointer;
 }
 
-.nav1 .classes-btn {
+.classes-btn {
     display: inline;
     margin: 0 5px;
     text-decoration: none;
@@ -884,8 +878,12 @@ span {
     font-size: 14px;
 }
 
-.nav1 a {
+a {
     display: inline;
+}
+
+.nav1 {
+    display: flex;
 }
 
 @media (max-width: 600px) {

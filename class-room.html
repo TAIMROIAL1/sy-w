@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الفصل التفاعلي - إعداد بيئة التطوير</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="class-room.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <button class="icon-button hamburger-menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="12" x2="20" y2="12"></line>
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </svg>
+                </button>
+                <span class="header-logo">StudyYou</span>
+                <div class="header-actions">
+                    <!--  <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+                    </button> -->
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop&crop=face" class="user-avatar">
+                </div>
+            </div>
+        </header>
+
+        <aside class="lessons-sidebar">
+            <button class="btn-close-list">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="sidebar-header">
+                <h3>دروس الدورة</h3>
+                <button class="button button-primary-light upload-lesson-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>درس جديد</span>
+                </button>
+                <button class="button button-primary-light upload-lesson-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span> سؤال جديد</span>
+                </button>
+            </div>
+            <details class="my-details" open>
+                <summary class="lesson-title">
+                    <span>1. مقدمة وإعداد البيئة</span>
+                    <div class="btns-flex-container">
+                        <button class="list-btn add-btn" aria-label="إضافة عنصر"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                        <button class="list-btn" aria-label="حذف"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        <button class="list-btn" aria-label="تعديل"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                    </div>
+                </summary>
+                <div class="video-item active">
+                    <p class="video-title">1.1 إعداد بيئة التطوير</p>
+                </div>
+                <div class="video-item">
+                    <p class="video-title">1.2 تثبيت الإضافات المهمة</p>
+                </div>
+            </details>
+            <details class="my-details">
+                <summary class="lesson-title">
+                    <span>2. أساسيات لغة CSS</span>
+                    <div class="btns-flex-container">
+                        <button class="list-btn add-btn" aria-label="إضافة عنصر"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                        <button class="list-btn" aria-label="حذف"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                        <button class="list-btn" aria-label="تعديل"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                    </div>
+                </summary>
+                <div class="video-item">
+                    <p class="video-title">2.1 المحددات والخصائص</p>
+                </div>
+            </details>
+        </aside>
+
+        <main class="app-main">
+            <div class="main-layout">
+                <div class="lesson-content">
+                    <div class="lesson-header">
+                        <div class="instructor-info">
+                            <!-- <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="د. سارة أحمد" class="instructor-avatar"> -->
+                            <div>
+                                <h1 class="lesson-title-main">إعداد بيئة التطوير - Visual Studio Code</h1>
+                                <div class="instructor-meta">
+                                    <span>د. سارة أحمد</span>
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#FFC107" stroke="#FFC107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg> 4.9</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video-player-container">
+                        <video controls class="video-element" poster="https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80">
+                            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                            متصفحك لا يدعم عرض الفيديوهات.
+                        </video>
+                    </div>
+
+                    <div class="lesson-description-box">
+                        <div class="tabs">
+                            <button class="tab-button active">عن الدرس</button>
+                            <button class="tab-button">الأسئلة الشائعة</button>
+                            <button class="tab-button">المرفقات</button>
+                        </div>
+                        <div class="tab-content">
+                            <p>تعلم كيفية تثبيت وإعداد بيئة التطوير المتكاملة Visual Studio Code خطوة بخطوة لبدء رحلتك في برمجة وتطوير المواقع. سنغطي في هذا الدرس أهم الإضافات والإعدادات التي تزيد من إنتاجيتك كمطور.</p>
+                            <div class="lesson-meta">
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> مدة الدرس: 18:18</span>
+                                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg> تاريخ النشر: 15 يناير 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="questions-section">
+                        <h2><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path><circle cx="12" cy="12" r="10"></circle></svg>                            اختبار معلوماتك</h2>
+                        <div class="question-card">
+                            <p class="question-text">ما هو المحرر الذي تم شرح طريقة تثبيته في هذا الدرس؟</p>
+                            <div class="answer-options">
+                                <div class="answer-option">Sublime Text</div>
+                                <div class="answer-option">Visual Studio Code</div>
+                                <div class="answer-option">Atom</div>
+                                <div class="answer-option">Notepad++</div>
+                            </div>
+                        </div>
+                        <div class="submit-answers-btn-container">
+                            <button class="submit-answers-btn">تأكيد الإجابات</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+</body>
+
+</html>
