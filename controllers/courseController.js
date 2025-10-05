@@ -24,11 +24,11 @@ exports.getCourses = catchAsync(async function(req, res, next) {
 });
 
 exports.createCourse = catchAsync(async function(req, res, next) {
-  const { title, description, photoUrl, price } = req.body;
+  const { title, description, photoUrl, price, time } = req.body;
   const { classId } = req.params;
   if(!(await Class.findById(classId))) return next(new AppError('هذا الصف غير موجود', 400));
 
-  const course = await Course.create({title, description, photoUrl, price, class: classId});
+  const course = await Course.create({title, description, photoUrl, price, class: classId, time});
 
   const subcourses = [{
     title: "كورس الشرح",

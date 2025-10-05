@@ -47,7 +47,7 @@ block content
           .card-header
             p= c.title 
             //- span.progress 84% 🌙
-          p.duration ⏰ اضبط ساعتك و جهز مشروبك المفضل و ابدأ مع السكر
+          p.duration= c.time
           p= `${c.description}`
           .tags
             span شرح 
@@ -58,6 +58,9 @@ block content
           - if((user && !user.subcourses.some(sc => subcourses[i].includes(sc.toString()))) || !user)
             .price-container
               p.salary= `💰 السعر : ${c.price} ATP`
-              button.buy-btn اشتري الان
+              - if(c.active)
+                button.buy-btn اشتري الان
+              - if(!c.active)
+                p.later لاحقا..
 block scripts
   script(src='/js/courses.js')

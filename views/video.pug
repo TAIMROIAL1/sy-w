@@ -1,48 +1,132 @@
 doctype html
-html(lang='en')
+html(lang="ar", dir="rtl")
   head
-    meta(charset='UTF-8')
-    title Page title
-    link(rel='stylesheet', href='/css/video.css')
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title الفصل التفاعلي - إعداد بيئة التطوير
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap", rel="stylesheet")
+    link(rel="stylesheet", href="/css/video.css")
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`, dir='rtl', lang='ar', data-role= `${user.role}`)
-    .c
-      .correct.hidden
-        .correct-message you buy it 
-    button.btn-open-list 
-      img.img-btn-close-list(src='/imgs/list.png')
-    .container
-      button.btn-close-list
-        img.img-btn-close-list(src='/imgs/exit.png')
-      - if(lessons)
-        each lesson in lessons
-          details.my-details(data-lessonid= `${lesson._id}`)
-            summary.lesson-title= lesson.title
-              .btns-flex-container.btns-flex-container1
-                - if(user.role === 'admin')
-                  button.list-btn.upload.upload-video +
-                  button.list-btn.btn.bi-trash-container
-                    i.bi-trash(data-deletecount= 0) &#128465;
-                  button.list-btn.btn
-                    svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
-                      path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z')
-                      path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z') 
-            - if(lesson.videos)
-              each video in lesson.videos
-                .video-container(data-videoid=`${video._id}`)
-                  p.video-title(data-videoid=`${video._id}`)= video.title
-                  .btns-flex-container.btns-flex-container2
-                    - if(user.role === 'admin')
-                      button.list-btn.upload.upload-questions +
-                      i.list-btn.bi-trash.bi-trash-container(data-deletecount= 0) &#128465;
-                      svg.list-btn.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
-                        path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z')
-                        path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z')
-    .center-title
-      h1.title &#x627;&#x644;&#x645;&#x633;&#x62A;&#x642;&#x628;&#x644;&#x627;&#x62A; &#x627;&#x644;&#x62D;&#x633;&#x64A;&#x629; 
-    .question-container
-    .submit-answers-btn-container.hidden
-      button.submit-answers-btn تاكيدالاجابات 
-    - if(user.role === 'admin')
-      button.upload-lesson-btn +  
-    script(src='/js/video.js')
+  body(data-domain = `${domain}` , data-role=`${user ? user.role : undefined}`)
+    .error.hidden
+      #site-toasts(aria-live="polite" dir="rtl")
+      .toast.toast-success.show.hidden(role="status" aria-hidden="false")
+        span.toast-icon
+          svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20")
+            path(d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round")
+        .toast-text لقد تمت العملية بنجاح
+
+      .toast.toast-error.show.hidden(role="alert" aria-hidden="false")
+        span.toast-icon
+          svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20")
+            path(d="M12 8v4M12 16h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round")
+        .toast-text هنالك خطأ
+    .app-container
+      header.app-header
+        .header-content
+          button.icon-button.hamburger-menu
+            svg(xmlns="http://www.w3.org/2000/svg", width="24", height="24", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+              line(x1="4", y1="12", x2="20", y2="12")
+              line(x1="4", y1="6", x2="20", y2="6")
+              line(x1="4", y1="18", x2="20", y2="18")
+          span.header-logo StudyYou
+          .header-actions
+            //
+              <button class="icon-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+              </button>
+            //- img.user-avatar(src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop&crop=face")
+      aside.lessons-sidebar
+        button.btn-close-list
+          svg(xmlns="http://www.w3.org/2000/svg", width="24", height="24", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+            line(x1="18", y1="6", x2="6", y2="18")
+            line(x1="6", y1="6", x2="18", y2="18")
+        .sidebar-header
+          h3.push-btn دروس الدورة
+          - if(user && user.role === 'admin')
+            button.button.button-primary-light.upload-lesson-btn#lesson
+              svg(xmlns="http://www.w3.org/2000/svg", width="20", height="20", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2.5", stroke-linecap="round", stroke-linejoin="round")
+                line(x1="12", y1="5", x2="12", y2="19")
+                line(x1="5", y1="12", x2="19", y2="12")
+              span درس جديد
+            button.button.button-primary-light.upload-lesson-btn#question
+              svg(xmlns="http://www.w3.org/2000/svg", width="20", height="20", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2.5", stroke-linecap="round", stroke-linejoin="round")
+                line(x1="12", y1="5", x2="12", y2="19")
+                line(x1="5", y1="12", x2="19", y2="12")
+              span  سؤال جديد
+        each lesson, i in lessons
+          details.my-details(open= i == 0, data-lessonid=`${lesson._id.toString()}`)
+            summary.lesson-title
+              span= lesson.title
+              - if (user && user.role === 'admin')
+                .btns-flex-container
+                  button.list-btn.add-btn.upload-video(aria-label="إضافة عنصر")
+                    svg(xmlns="http://www.w3.org/2000/svg", width="20", height="20", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2.5", stroke-linecap="round", stroke-linejoin="round")
+                      line(x1="12", y1="5", x2="12", y2="19")
+                      line(x1="5", y1="12", x2="19", y2="12")
+                  button.list-btn.bi-trash(aria-label="حذف", data-deletecount= 0)
+                    svg(xmlns="http://www.w3.org/2000/svg", width="18", height="18", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                      polyline(points="3 6 5 6 21 6")
+                      path(d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2")
+                  button.list-btn.bi-edit(aria-label="تعديل")
+                    svg(xmlns="http://www.w3.org/2000/svg", width="18", height="18", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                      path(d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7")
+                      path(d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z")
+            each video in lesson.videos
+              .video-item(data-videourl= video.videoUrl, data-videoid= video._id.toString(), data-videoinfo= video.info, data-videoduration= video.duration, data-videodate= video.date)
+                p.video-title= video.title
+                .btns-flex-container
+                  button.list-btn.bi-trash(aria-label="حذف", data-deletecount= 0)
+                    svg(xmlns="http://www.w3.org/2000/svg", width="18", height="18", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                      polyline(points="3 6 5 6 21 6")
+                      path(d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2")
+                  button.list-btn.bi-edit(aria-label="تعديل")
+                    svg(xmlns="http://www.w3.org/2000/svg", width="18", height="18", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                      path(d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7")
+                      path(d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z")
+      main.app-main
+        .main-layout
+          .lesson-content
+            .lesson-header
+              .instructor-info
+                // <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face" alt="د. سارة أحمد" class="instructor-avatar">
+                div
+                  h1.lesson-title-main مشاهدة الفيديو
+                  .instructor-meta
+                    span د. إياد سكر
+                    span
+            .video-player-container
+              //- video.video-element(controls, poster="https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80")
+                source(src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4", type="video/mp4")
+                | متصفحك لا يدعم عرض الفيديوهات.
+            .lesson-description-box.hidden
+              .tabs
+                button.tab-button.active عن الدرس
+                //- button.tab-button المرفقات
+              .tab-content
+                p.description-video-about
+                .lesson-meta
+                  span
+                    svg(xmlns="http://www.w3.org/2000/svg", width="16", height="16", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                      circle(cx="12", cy="12", r="10")
+                      polyline(points="12 6 12 12 16 14")
+                    .video-duration
+                  span
+                    svg(xmlns="http://www.w3.org/2000/svg", width="16", height="16", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                      rect(x="3", y="4", width="18", height="18", rx="2", ry="2")
+                      line(x1="16", y1="2", x2="16", y2="6")
+                      line(x1="8", y1="2", x2="8", y2="6")
+                      line(x1="3", y1="10", x2="21", y2="10")
+                    .video-date
+            .questions-section.hidden
+              h2
+                svg(xmlns="http://www.w3.org/2000/svg", width="28", height="28", viewBox="0 0 24 24", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+                  path(d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3")
+                  path(d="M12 17h.01")
+                  circle(cx="12", cy="12", r="10")
+                | اختبار معلوماتك
+              .submit-answers-btn-container
+                button.submit-answers-btn تأكيد الإجابات
+    script(src="/js/video.js")

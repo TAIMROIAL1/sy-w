@@ -21,13 +21,21 @@ const lessonSchema = new mongoose.Schema({
       type: String,
       required: [true, 'Please enter a title']
     },
-    num: {
-      type: Number,
-      required: [true, 'Please enter a number']
+    info: {
+      type: String,
+      required: [true, 'Please enter a video info']
     },
     videoUrl: {
       type: String,
       required: [true, 'Please enter a video url']
+    },
+    duration: {
+      type: String,
+      required: [true, 'Please enter a video duration']
+    },
+    date: {
+      type: Date,
+      default: Date.now
     }
   }]
 })

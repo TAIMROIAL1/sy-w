@@ -20,6 +20,14 @@ const courseSchema = new mongoose.Schema({
   class: {
     type: mongoose.Schema.ObjectId,
     ref: 'Class'
+  },
+  time: {
+    type: String,
+    required: [true, 'Please enter a time']
+  },
+  active: {
+    type: Boolean,
+    default: false
   }
 });
 

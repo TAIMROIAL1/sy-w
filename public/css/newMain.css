@@ -41,6 +41,7 @@ body {
 .error {
     display: flex;
     justify-content: center;
+    z-index: 100;
 }
 
 .promo-link-sign {
@@ -81,6 +82,7 @@ body {
     transition: transform 300ms ease, opacity 280ms ease;
     position: fixed;
     top: 10px;
+    z-index: 100;
 }
 
 
@@ -96,10 +98,12 @@ body {
     background: rgba(255, 255, 255, 0.08);
     padding: 6px;
     flex-shrink: 0;
+    z-index: 100;
 }
 
 .toast svg {
     color: #fff;
+    z-index: 100;
 }
 
 
@@ -109,6 +113,7 @@ body {
     flex: 1 1 auto;
     font-size: 1rem;
     text-align: center;
+    z-index: 100;
 }
 
 
@@ -117,11 +122,13 @@ body {
 .toast-success {
     background: linear-gradient(90deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.95));
     border: 1px solid rgba(16, 185, 129, 0.25);
+    z-index: 100;
 }
 
 .toast-error {
     background: linear-gradient(90deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
     border: 1px solid rgba(239, 68, 68, 0.25);
+    z-index: 100;
 }
 
 
@@ -130,6 +137,7 @@ body {
 .toast.show {
     opacity: 1;
     transform: translateY(0) scale(1);
+    z-index: 100;
 }
 
 .buy-btn {
@@ -427,7 +435,20 @@ span {
     display: inline;
 }
 
+.later {
+  border: 1px solid #e0a800;
+  background-color: #fff8e1;
+  color: #8a6d3b;
+  font-weight: 600;
+  font-style: italic;
+  padding: 0.75em 1.25em;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.95rem;
+  box-shadow: inset 0 0 0.5em rgba(0, 0, 0, 0.05);
 
+
+}
 /* ألوان خاصة */
 
 .purple {
@@ -850,7 +871,14 @@ span {
     
 }
 
+@media(max-width: 992px) {
+    .last-text{
+        margin-bottom: 40px;
+    }
+}
+
 @media (min-width: 601px) and (max-width: 992px) {
+    
     .promo-text-container {
         margin-top: 0;
     }
