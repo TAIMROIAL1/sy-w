@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>لوحة إدارة الأكواد</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="top">
+    <h2>لوحة تحكم الأكواد</h2>
+    <div class="settings">
+      <label>رابط الـ API:</label>
+      <input id="apiUrl" placeholder="http://localhost:3000" />
+      <button id="saveConfig">حفظ</button>
+      <button id="refresh">تحديث الآن</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="left section">
+      <h3>إنشاء أكواد جديدة</h3>
+      <label>فئة البيانات</label>
+      <input id="category" type="text" placeholder="مثال: students" />
+      <label>كم رمز في الكود</label>
+      <input id="length" type="number" value="8" />
+      <label>عدد الأكواد</label>
+      <input id="count" type="number" value="10" />
+      <label>قيمة الكود</label>
+      <input id="value" type="text" value="10" />
+      <button id="generate">إنشاء وتخزين</button>
+      <button id="saveNow">حفظ الآن إلى Excel</button>
+    </div>
+
+    <div class="right section">
+      <h3>الإحصائيات</h3>
+      <p>عدد الأكواد الفعالة: <span id="activeCount">0</span></p>
+      <p>عدد الأكواد غير الفعالة: <span id="inactiveCount">0</span></p>
+      <h4>الفئات:</h4>
+      <div id="categories" class="categories"></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="codes-section">
+    <h3>قائمة الأكواد</h3>
+    <table>
+      <thead>
+        <tr><th>Code</th><th>Value</th><th>Active</th><th>Category</th><th>Action</th></tr>
+      </thead>
+      <tbody id="codeTable"></tbody>
+    </table>
+    <p>عدد الأكواد الفعالة لهذه الفئة: <span id="categoryActiveCount">0</span></p>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
