@@ -6,14 +6,65 @@ const listIcon = document.querySelector('.list-icon');
 const list = document.querySelector('.nav');
 const classesBtns = [...document.querySelectorAll('.classes-btn')];
 
+const layer = document.querySelector('.backdrop');
+const cancelBtn = document.querySelector('.cancel-btn')
+const agreeBtn = document.querySelector('.confirm-btn')
+
 const classesSection = document.getElementById('classes-section');
 
 // The notifcation message
-const notifcation = document.querySelector('.correct');
-const notifcationMsg = document.querySelector('.correct-message')
+const notifcation = document.querySelector('.error');
 
 const domain = document.body.dataset.domain;
 const role = document.body.dataset.role;
+
+const ajaxCall = async function(url, method, data = undefined) {
+  const fetchOpts = {};
+  fetchOpts.method = method;
+  fetchOpts.headers = {'Content-Type': 'application/json'};
+  if(data) fetchOpts.body = JSON.stringify(data);
+  const data2 = await fetch(url, fetchOpts);
+  return await data2.json();
+}
+
+cancelBtn.addEventListener('click', (e) => {
+  layer.classList.add('hidden');
+  document.body.style.overflow = 'auto';
+  agreeBtn.removeAttribute('data-courseid');
+})
+
+agreeBtn.addEventListener('click', async (e) => {
+  const courseId = agreeBtn.dataset.courseid;
+  const classId = location.href.split('/')[4];
+  agreeBtn.classList.add('hidden');
+  cancelBtn.classList.add('hidden');
+  const data = await ajaxCall(`${domain}/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
+
+  const boughtCourseContainer = [...suggestedContainer.querySelectorAll('.card')].find(c => c.dataset.courseid === agreeBtn.dataset.courseid);
+
+  const price = boughtCourseContainer.querySelector('.salary');
+  const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
+  
+  if(data.status === 'success') {  
+    // atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
+
+    price.remove();
+    buyBtn.remove();
+  }
+  if(data.message === `لقد اشتريت هذا الكورس او جزء منه`){
+    price.remove();
+    buyBtn.remove();
+  }
+  agreeBtn.classList.remove('hidden');
+  cancelBtn.classList.remove('hidden');
+  
+  agreeBtn.removeAttribute('data-courseid');
+  document.body.style.overflow = 'auto';
+  layer.classList.add('hidden');
+
+  return showNotification(data.message, data.status);
+})
+
 
 suggestedContainer.addEventListener('click', async function(e){
   const id = e.target.closest('.card').dataset.courseid;
@@ -73,6 +124,7 @@ suggestedContainer.addEventListener('click', async function(e){
     location.assign(`/courses/${clicked4.dataset.courseid}/subcourses`)
 });
 
+
 const toggleList = function() {
   list.classList.toggle('hidden');
 }
@@ -91,19 +143,21 @@ listIcon.addEventListener('click', toggleList)
 classesBtns.forEach(cb => cb.addEventListener('click', goToClassesSection));
 
 const showNotification = function(msg, type) {
+
   notifcation.classList.toggle('hidden');
+  
+  type === 'success' ? (type = 'success') : (type = 'error');
 
-  notifcation.classList.remove('green');
-  notifcation.classList.remove('red');
+  
+  const notifcationPopup = notifcation.querySelector(`.toast-${type}`);
 
-  if(type === 'success')
-    notifcation.classList.add('green');
-  else
-    notifcation.classList.add('red');
+  notifcationPopup.classList.remove('hidden');
 
+  const notifcationMsg = notifcationPopup.querySelector('.toast-text');
   notifcationMsg.textContent = msg;
   setTimeout(() => {
       notifcation.classList.toggle('hidden');
+      [...notifcation.querySelectorAll('.toast')].forEach(t => t.classList.add('hidden'));
   }, 5000)
 }
 classesContainer.addEventListener('click', async (e) => {

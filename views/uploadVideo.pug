@@ -23,8 +23,11 @@ html(lang='ar')
             label(for='video-url', dir='rtl', lang='ar') رابط الفيديو
           input#video-url.input(type='text', dir='rtl', lang='en')
           .label-input
-            label(for='num', dir='rtl', lang='ar') رقم الفيديو
-          input#num.input(type='number', dir='rtl', lang='en')
+            label(for='info', dir='rtl', lang='ar') معلومات الفيديو
+          input#info.input(type='text', dir='rtl', lang='en')
+          .label-input
+            label(for='duration', dir='rtl', lang='ar') مدة الفيديو
+          input#duration.input(type='text', dir='rtl', lang='en')
         .btn
           button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
     script(defer, src='/js/uploadVideo.js')

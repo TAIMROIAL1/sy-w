@@ -41,7 +41,7 @@ block content
             p= c.title 
             //- span.progress 84% 🌙
           p.duration ⏰ اضبط ساعتك و جهز مشروبك المفضل و ابدأ مع السكر
-          p مش ضروري تكون عبقري حتى تمشي مع الدكتور إياد...المهم اصرارك... هنا تفهم العلوم
+          p= `${c.description}`
           .tags
             span شرح 
             span حل 
@@ -51,6 +51,9 @@ block content
           - if((user && !checkCourse || !user))
             .price-container
               p.salary= `💰 السعر : ${c.price} ATP`
-              button.buy-btn اشتري الان
+              - if(active)
+                button.buy-btn اشتري الان
+              - if(!active)
+                .later لاحقا..
 block scripts
   script(src=`/js/subcourses.js`)

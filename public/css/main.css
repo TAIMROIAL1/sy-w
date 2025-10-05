@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&family=Permanent+Marker&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lemonada:wght@300..700&display=swap");
 * {
   margin: 0px;
   padding: 0;
   box-sizing: border-box;
-  user-select: none;
+  user-select: none !important;
 }
 
 :root {
@@ -22,17 +22,35 @@ a {
 a:link {
   color: var(--black);
 }
-a:visited{
+a:visited {
   color: var(--black);
 }
 body {
-
   position: relative;
   margin: 0;
   font-family: monospace;
   font-size: 1rem;
-
+  user-select: none;
   padding-bottom: 40px;
+}
+
+.spinner {
+  display: flex;
+  justify-content: center;
+}
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 65px;
+  aspect-ratio: 1;
+  --_c: no-repeat radial-gradient(farthest-side, #063730 92%, #0000);
+  background: var(--_c) top, var(--_c) left, var(--_c) right, var(--_c) bottom;
+  background-size: 12px 12px;
+  animation: l7 1s infinite;
+}
+@keyframes l7 {
+  to {
+    transform: rotate(0.5turn);
+  }
 }
 
 .about-cours {
@@ -61,7 +79,6 @@ body {
   border: 1px solid black;
   border-radius: 10px;
   font-family: "Permanent Marker", cursive;
-
 }
 
 .price {
@@ -78,7 +95,7 @@ body {
 .green {
   background-color: #42fa9e;
 }
-.big-nav{
+.big-nav {
   background-color: none;
 }
 .correct {
@@ -98,7 +115,6 @@ body {
 
 .correct-message {
   text-align: center;
-
 }
 
 .img-correct {
@@ -134,7 +150,6 @@ body {
   justify-content: center;
   z-index: 1;
 }
-
 
 .bi-trash {
   position: absolute;
@@ -203,11 +218,10 @@ body {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-
-
 }
 
-.buy-accept {}
+.buy-accept {
+}
 
 .buy-btn {
   border-radius: 5px;
@@ -217,7 +231,6 @@ body {
 }
 
 .first-cours:hover {
-  
   margin-bottom: 15px;
   margin-top: 15px;
 }
@@ -239,7 +252,7 @@ body {
   bottom: 30px;
 }
 
-.nav-bar-img-a{
+.nav-bar-img-a {
   width: 50px;
   height: 50px;
   position: absolute;
@@ -249,13 +262,12 @@ body {
 .nav-bar-img {
   width: 100%;
   height: 100%;
-  border-radius: 50%;;
+  border-radius: 50%;
 }
 
 .articl {
   display: grid;
   position: relative;
-
 }
 
 .homs {
@@ -265,14 +277,11 @@ body {
 
 .home {
   display: none;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   font-size: 2.5rem;
   color: rgb(0, 0, 0);
   font-weight: bold;
   text-transform: uppercase;
-
-
-
 }
 
 .first-articl {
@@ -281,38 +290,32 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
- 
-
 }
-.doctor{
- 
+.doctor {
   margin-right: 7px;
   font-size: 25px;
   font-family: Lemonada;
   color: var(--y);
   font-weight: bolder;
 }
-.intro{
+.intro {
   font-family: "Noto Sans Arabic";
   font-weight: bold;
 }
 
 .first-articl-imag {
-  
   width: 450px;
   height: auto;
-
 }
 
 .first-bargragh-div {
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100px;
-
 }
-.background-img{
+.background-img {
   position: fixed;
   z-index: -10;
   width: 100%;
@@ -320,10 +323,10 @@ align-items: center;
   background-size: cover;
   background-position: center;
 }
-.first-bargragh{
+.first-bargragh {
   z-index: 3;
   width: 100%;
-display: block;
+  display: block;
 }
 
 .courses {
@@ -333,7 +336,6 @@ display: block;
   margin-bottom: 100px;
   height: auto;
   position: relative;
-
 }
 
 .div-cours {
@@ -346,25 +348,23 @@ display: block;
 }
 
 .cours {
-  
   font-size: 3rem;
   font-weight: bold;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
   color: rgb(0, 0, 0);
- 
+
   width: 70%;
   text-align: center;
 }
 
-.course-view{
+.course-view {
   min-height: 300px;
   background-color: whitesmoke;
-
 }
-.class-view{
+.class-view {
   min-height: 100px;
 }
-.sign-in-btn{
+.sign-in-btn {
   font-weight: bolder;
   text-align: center;
   text-decoration: none;
@@ -375,23 +375,22 @@ display: block;
   border-radius: 10px;
   background-color: var(--y);
 }
-.sign-in-btn:hover{
+.sign-in-btn:hover {
   opacity: 0.9;
-
 }
-.sign-in-btn:active{
+.sign-in-btn:active {
   opacity: 0.7;
   color: black;
 }
 
-.subcourse-view{
+.subcourse-view {
   min-height: 300px;
   /* background-image: url('/imgs/subcourses/study-with-me.jpg'); */
   background-position: center;
   background-size: cover;
 }
 
-.card-container-a{
+.card-container-a {
   text-decoration: none;
   padding: 0;
   margin: 0;
@@ -416,7 +415,7 @@ display: block;
 
 .first-cours-img {
   width: 100%;
- border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
 }
 
 .class-info {
@@ -437,14 +436,10 @@ display: block;
   font-weight: bold;
 }
 
-
-
-
-@media screen and (min-width:481px) and (max-width:590px) {
+@media screen and (min-width: 481px) and (max-width: 590px) {
   .account {
     font-size: 25px;
     color: var(--y);
-
   }
 
   .atp {
@@ -466,7 +461,7 @@ display: block;
 
   .first-cours-img {
     width: 100%;
-    height:auto;
+    height: auto;
   }
 
   .asab {
@@ -487,7 +482,6 @@ display: block;
     display: flex;
     justify-content: end;
     align-items: center;
-
   }
 
   .atp {
@@ -516,7 +510,6 @@ display: block;
     align-items: center;
     border: 2px solid black;
     border-radius: 0 0 30px 30px;
-
   }
 
   .account {
@@ -525,21 +518,17 @@ display: block;
     color: var(--y);
   }
 
-
   .articl {
     position: relative;
     margin-top: 30px;
     margin-bottom: 20px;
-
   }
-
-
 }
 
-@media screen and (max-width:480px) {
-.div-cours{
-  margin-top: 20px;
-}
+@media screen and (max-width: 480px) {
+  .div-cours {
+    margin-top: 20px;
+  }
   .big-nav {
     display: flex;
     justify-content: center;
@@ -569,7 +558,7 @@ display: block;
 
   .first-cours-img {
     width: 100%;
-    height:100px;
+    height: 100px;
   }
 
   .asab {
@@ -581,7 +570,6 @@ display: block;
   }
 
   .atp-coin {
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -604,7 +592,6 @@ display: block;
   }
 
   .nav-bar {
-
     background: var(--blue);
     position: relative;
     width: 95%;
@@ -614,54 +601,44 @@ display: block;
     align-items: center;
     border: 2px solid black;
     border-radius: 0 0 30px 30px;
-
   }
 
   .account {
     position: absolute;
     left: 20px;
     color: var(--y);
-
   }
 
-
   .articl {
-
-
     position: relative;
     margin-top: 30px;
     margin-bottom: 20px;
-
   }
-  .first-articl-imag{
+  .first-articl-imag {
     width: 350px;
   }
-.doctor{
-  font-size: 20px;
-}
+  .doctor {
+    font-size: 20px;
+  }
 }
 
-@media screen and (min-width:591px) and (max-width:750px) {
-  .sign-in-btn{
+@media screen and (min-width: 591px) and (max-width: 750px) {
+  .sign-in-btn {
     width: 130px;
     height: 30px;
     font-size: 22px;
-    
   }
 
   .big-nav {
-
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .atp-coin {
-
     display: flex;
     justify-content: end;
     align-items: center;
-
   }
 
   .atp {
@@ -680,7 +657,6 @@ display: block;
   }
 
   .nav-bar {
-
     background: var(--blue);
     position: relative;
     width: 85%;
@@ -691,71 +667,60 @@ display: block;
     align-items: center;
     border: 2px solid black;
     border-radius: 0 0 30px 30px;
-
   }
 
   .account {
     position: absolute;
     left: 20px;
     color: var(--y);
-
   }
 
-
   .articl {
-
-
     position: relative;
     margin-top: 30px;
     margin-bottom: 20px;
-
   }
-
 }
 
-@media screen and (max-width:750px) {
-  .first-articl{
+@media screen and (max-width: 750px) {
+  .first-articl {
     display: flex;
     flex-direction: column;
   }
-  .first-bargragh{
-    display:flex ;
+  .first-bargragh {
+    display: flex;
     flex-direction: column;
-   align-items: center;  }
-  
+    align-items: center;
+  }
 }
-@media screen and (min-width:750px) {
-  .sign-in-btn{
+@media screen and (min-width: 750px) {
+  .sign-in-btn {
     width: 130px;
     height: 30px;
     font-size: 22px;
-
   }
-.first-articl-imag{
-  object-fit: cover;
- object-position: center;
- margin-left: -70px;
-}
-.first-bargragh{
-  margin-right: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+  .first-articl-imag {
+    object-fit: cover;
+    object-position: center;
+    margin-left: -70px;
+  }
+  .first-bargragh {
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
   .big-nav {
-
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .atp-coin {
-
     display: flex;
     justify-content: end;
     align-items: center;
-
   }
 
   .atp {
@@ -774,7 +739,6 @@ display: block;
   }
 
   .nav-bar {
-
     background: var(--blue);
     position: relative;
     width: 80%;
@@ -785,50 +749,44 @@ display: block;
     align-items: center;
     border: 2px solid black;
     border-radius: 0 0 30px 30px;
-
   }
 
   .account {
     position: absolute;
     left: 20px;
     color: var(--y);
-
   }
 
-
   .articl {
-
-
     position: relative;
     margin-top: 30px;
     margin-bottom: 20px;
-
   }
-  .first-articl-imag{
+  .first-articl-imag {
     width: 500px;
     margin-left: 5px;
   }
-.doctor{
-  font-size: 30px;
+  .doctor {
+    font-size: 30px;
+  }
 }
-}
-@media screen and (min-width:990px){
-  .doctor{
+@media screen and (min-width: 990px) {
+  .doctor {
     font-size: 40px;
   }
-  .intro{
+  .intro {
     font-size: 1.5rem;
   }
 }
 .hidden {
   display: none;
 }
-.j{
+.j {
   text-align: center;
 }
 
-@media screen and (min-width:1050px) { 
-  .first-articl-imag{
+@media screen and (min-width: 1050px) {
+  .first-articl-imag {
     width: 600px;
   }
 }

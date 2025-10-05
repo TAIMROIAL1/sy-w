@@ -2,6 +2,7 @@ const nameInput = document.getElementById('class-name');
 const descriptionInput = document.getElementById('class-des');
 const photoUrlInput = document.getElementById('image');
 const priceInput = document.getElementById('num');
+const timeInput = document.getElementById('time');
 const uploadBtn = document.querySelector('.btn-sub');
 const domain = document.body.dataset.domain;
 
@@ -27,21 +28,24 @@ const showNotification = function(msg, type) {
 }
 
 uploadBtn.addEventListener('click', async (e) => {
+
     const title = nameInput.value;
     const description = descriptionInput.value;
     const photoUrl = photoUrlInput.value;
     const price = priceInput.value;
-    if(!title || !description || !photoUrl || !price) return;
+    const time = timeInput.value;
+    if(!title || !description || !photoUrl || !price || !time) return;
+
     const id = location.href.split('/')[4]
     const res = await fetch(`${domain}/api/v1/classes/${id}/courses`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({title, description, photoUrl, price})
+        body: JSON.stringify({title, description, photoUrl, price, time})
     })
 
     const data = await res.json();
-
+    console.log(data);
     showNotification(data.message, data.status);
   })

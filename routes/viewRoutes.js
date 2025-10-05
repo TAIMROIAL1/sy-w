@@ -26,11 +26,14 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
     }
 
     const classes = await Class.find();
-    
+    const subcourses = await Subcourse.find();
+    const courses = [...new Set(subcourses.map(sc => sc.course._id.toString()))];
+    console.log(courses);
 
     res.status(200).render("mainpage", {
       user,
       classes,
+      courses,
       title: "الصفحة الرئيسية",
       metaContent: `الدكتور إياد سكر | الدكتور غيث سكر
 كورسات للصف الثالث ثانوي`
@@ -52,6 +55,7 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
     });
 
     const courses = await Course.find({ class: classId });
+
     const subcourses = [];
 
       for(const c of courses) {
@@ -77,9 +81,10 @@ router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res
 
     const { courseId } = req.params;
     const courseName = await Course.findById(courseId);
+
     if(!courseName) return res.status(400).json({
       status: 'fail',
-      message: 'هذا الصف غير موجود'
+      message: 'هذا الكورس غير موجود'
     });
 
     const subcourses = await Subourse.find({ course: courseId });
@@ -91,6 +96,7 @@ router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res
       subcourses,
       subcoursesId,
       title: courseName.title,
+      active: courseName.active,
       metaContent: `الشرح لكامل لمنهاج الكتاب
 شرح جميع الرسمات
 تحديد كامل على الكتاب
@@ -110,7 +116,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
 
     const { user } = res.locals;
     
-    res.status(200).render("rayan", {
+    res.status(200).render("video", {
       user,
       lessons,
       title: "الدروس",

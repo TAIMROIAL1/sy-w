@@ -120,8 +120,11 @@ acceptLogoutBtn.addEventListener("click", async () => {
 });
 
 activateCodeBtn.addEventListener("click", async (e) => {
+  activateCodeBtn.classList.add('hidden');
   const code = codeInput.value;
-  if (!code) return;
+  if (!code) 
+    return activateCodeBtn.classList.remove('hidden');
+  
   const data = await ajaxCall(`${domain}/api/v1/codes/activate-code`, { code });
 
   if (data.status === "success") {
@@ -132,6 +135,7 @@ activateCodeBtn.addEventListener("click", async (e) => {
   if (data.status === "fail") {
     showError(data.path, data.message);
   }
+  activateCodeBtn.classList.remove('hidden');
 });
 
 nameEmailUpdateBtn.addEventListener("click", async (e) => {

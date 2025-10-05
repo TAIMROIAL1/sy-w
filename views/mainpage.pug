@@ -32,7 +32,8 @@ block content
         - if(!user)
           a.promo-link-sign(href='/sign-up') أنشئ حسابك الآن
         p مين د. إياد سكر ؟!
-        P إياد سكر مدرس علم أحياء، إلي سنوات بساعد الطلاب يوصلوا للكلية الهدف يلي الن سنوات بيحلموا فيها .. كل ما تحتاجه رح تلاقي هنا بالمنصة السكرية
+        P.last-text إياد سكر مدرس علم أحياء، إلي سنوات بساعد الطلاب يوصلوا للكلية الهدف يلي الن سنوات بيحلموا فيها .. كل ما تحتاجه رح تلاقي هنا بالمنصة السكرية
+        //- <a href="imgs/add.png" download>Download img</a>
   section.courses
     h2 ليه تشترك معانا؟
     .cards
@@ -59,7 +60,7 @@ block content
     h2 بعض كورسات المنصة :
     .cards#suggested-courses
       // كارت  ابو وائل مطور ويب
-      .card.purple(data-courseid=`68e12d4062a799236df5c88c`, href=`/courses/68e12d4062a799236df5c88c/subcourses`)
+      .card.purple(data-courseid=`68e2af9370fdce837ecf39e9`, href=`/courses/68e2af9370fdce837ecf39e9/subcourses`)
         - if(user?.role === 'admin')
          <i class="bi-trash" data-deletecount="0">&#128465;</i>
          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
@@ -76,10 +77,12 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        p.salary
-          | 💰 السعر : 100 ATP  
+        - if((user && !courses.includes(`68e12d4062a799236df5c88c`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 100 ATP`
+            button.buy-btn اشتري الان 
       // كارت علم البيانات
-      .card.green(data-courseid=`68e1306862a799236df5c928`, href=`/courses/68e1306862a799236df5c928/subcourses`)
+      .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
         - if(user?.role === 'admin')
           <i class="bi-trash" data-deletecount="0">&#128465;</i>
           svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
@@ -95,9 +98,12 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        p.salary
-          | 💰 السعر : 100 ATP  
-      .card.green(data-courseid=`68e12dbc62a799236df5c89a`, href=`/courses/68e12dbc62a799236df5c89a/subcourses`)
+        - if((user && !courses.includes(`68e1306862a799236df5c928`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 100 ATP`
+            //- button.buy-btn اشتري الان 
+            .later لاحقا..
+      .card.green(data-courseid=`68e2afd670fdce837ecf3a05`, href=`/courses/68e2afd670fdce837ecf3a05/subcourses`)
         - if(user?.role === 'admin')
           <i class="bi-trash" data-deletecount="0">&#128465;</i>
           svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
@@ -113,8 +119,11 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        p.salary
-          | 💰 السعر : 100 ATP  
+        - if((user && !courses.includes(`68e12dbc62a799236df5c89a`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 100 ATP`
+            //- button.buy-btn اشتري الان  
+            .later لاحقا..
     // المسارات
     section.courses#classes-section
       h2 المراحل التعليمية :
