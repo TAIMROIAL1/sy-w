@@ -13,11 +13,12 @@ html(lang="ar", dir="rtl")
     header.navbar   
       .logo
         img.list-icon(src="/imgs/list.png", alt="Icon", width="24", height="24")
-      .atp 
-        p.text  ATP  
-        p.text2 20           
       .text-of-logo
-        p.studyou StudyYou           
+        p.studyou StudyYou   
+      - if(user)        
+        .atp 
+          p.text  ATP  
+          p.text2= `${user.value}`           
       nav.nav.hidden
         a(href=`${domain}`) Home
         - if(user)
@@ -27,11 +28,13 @@ html(lang="ar", dir="rtl")
         .classes-btn(href="#") Classes
       nav.nav1
         .classes-btn(href="#") Classes
-        a(href=`${domain}`) Home
         - if(user)
           a(href="/settings") Settings
         - if(!user)
-          a(href='/sign-up') Sign up         
+          a(href='/sign-up') Sign up     
+        a(href=`${domain}`) Home
+      .text-of-logo2
+        p.studyou StudyYou     
     .error.hidden
       #site-toasts(aria-live="polite" dir="rtl")
       .toast.toast-success.show.hidden(role="status" aria-hidden="false")

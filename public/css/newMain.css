@@ -1,5 +1,9 @@
 /* إعداد عام */
 
+* {
+    user-select: none;
+}
+
 body {
     font-family: "Tahoma", sans-serif;
     margin: 0;
@@ -14,11 +18,11 @@ body {
 
 .atp {
     display: flex;
+    margin-right: 15px;
 }
 
 .studyou {
     font-size: 20px;
-    color: #058f5cs;
 }
 
 .text {
@@ -212,7 +216,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .upload-btn {
@@ -262,7 +266,6 @@ body {
 }
 
 .logo {
-    display: flex;
     font-size: 20px;
     font-weight: bold;
     color: #0a8d5e;
@@ -292,13 +295,9 @@ span {
     text-decoration: none;
     color: #555;
     font-size: 14px;
-}
-
-.nav {
     margin-left: 20px;
 }
 
-.text-of-logo {}
 
 .btn {
     background: #0a8d5e;
@@ -836,23 +835,33 @@ span {
 
 /* للشاشات الأصغر من 992px */
 
-@media (min-width: 601px) and (max-width: 992px) {
-    .navbar nav {
+@media (min-width: 601px) {
+    .nav, .logo, .text-of-logo2 {
+        display: none;
+    }
+    .text-of-logo {
+        margin-right: 10px;
+    }
+      .navbar {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
-    .nav {}
+    
+}
+
+@media (min-width: 601px) and (max-width: 992px) {
+    .promo-text-container {
+        margin-top: 0;
+    }
     .btn {
         margin-top: 10px;
-    }
-    .stats {
-        gap: 20px;
     }
     .cards {
         gap: 20px;
     }
     .hero {
+        gap: 0;
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -863,19 +872,16 @@ span {
 /* للشاشات الأصغر من 600px (موبايل) */
 
 .nav1 {
-    margin-left: 3px;
+    margin-left: 7px;
 }
 
 .classes-btn {
     cursor: pointer;
-}
-
-.classes-btn {
     display: inline;
     margin: 0 5px;
     text-decoration: none;
     color: #555;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 a {
@@ -886,7 +892,17 @@ a {
     display: flex;
 }
 
+.nav {
+    display: flex;
+}
 @media (max-width: 600px) {
+    .text-of-logo {
+        display: none;
+    }
+    .text-of-logo2 {
+        margin-left: 10px;
+    }
+    
     .nav1 {
         display: none;
     }
@@ -922,25 +938,24 @@ a {
     .nav {
         border-radius: 10px;
         flex-direction: column;
-        width: 40%;
-        margin-top: 50px;
+        width: 30%;
+        margin-top: 40px;
         position: absolute;
         top: 30px;
         text-decoration: none;
         justify-content: center;
+        align-items: center;
         background-color: #f9f9f9;
     }
     .nav .classes-btn {
         padding: 10px;
         margin: 0 5px;
     }
-    .text-of-logo {
-        font-size: 15px;
-    }
+
     .list-icon {
         display: flex;
         margin-top: 5px;
-        margin-right: 4px;
+        margin-right: 8px;
     }
     a {
         padding: 10px;

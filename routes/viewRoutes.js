@@ -26,11 +26,14 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
     }
 
     const classes = await Class.find();
-    
+    const subcourses = await Subcourse.find();
+    const courses = [...new Set(subcourses.map(sc => sc.course._id.toString()))];
+    console.log(courses);
 
     res.status(200).render("mainpage", {
       user,
       classes,
+      courses,
       title: "الصفحة الرئيسية",
       metaContent: `الدكتور إياد سكر | الدكتور غيث سكر
 كورسات للصف الثالث ثانوي`

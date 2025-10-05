@@ -76,8 +76,10 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        p.salary
-          | 💰 السعر : 100 ATP  
+        - if((user && !courses.includes(`68e12d4062a799236df5c88c`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 100 ATP`
+            button.buy-btn اشتري الان 
       // كارت علم البيانات
       .card.green(data-courseid=`68e1306862a799236df5c928`, href=`/courses/68e1306862a799236df5c928/subcourses`)
         - if(user?.role === 'admin')
@@ -95,8 +97,10 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        p.salary
-          | 💰 السعر : 100 ATP  
+        - if((user && !courses.includes(`68e1306862a799236df5c928`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 100 ATP`
+            button.buy-btn اشتري الان 
       .card.green(data-courseid=`68e12dbc62a799236df5c89a`, href=`/courses/68e12dbc62a799236df5c89a/subcourses`)
         - if(user?.role === 'admin')
           <i class="bi-trash" data-deletecount="0">&#128465;</i>
@@ -113,8 +117,10 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        p.salary
-          | 💰 السعر : 100 ATP  
+        - if((user && !courses.includes(`68e12dbc62a799236df5c89a`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 100 ATP`
+            button.buy-btn اشتري الان  
     // المسارات
     section.courses#classes-section
       h2 المراحل التعليمية :

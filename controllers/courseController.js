@@ -32,24 +32,28 @@ exports.createCourse = catchAsync(async function(req, res, next) {
 
   const subcourses = [{
     title: "كورس الشرح",
+    description: `📘 مش ضروري تكون عبقري حتى تمشي مع الدكتور إياد...المهم اصرارك... هنا تفهم العلوم`,
     price: 300,
     course: course._id,
     photoUrl: 'explain.jpg'
 },
 {
   title: "ادرس معي",
+  description: `📘 جهز كتابك .. شغل الفيديو .. ادرس مع الدكتور`,
   price: 300,
   course: course._id,
   photoUrl: 'study-with-me.jpg'
 },
 {
-  title: "كورس الأتمتات",
+  title: "كورس تحليل الاختبارات",
+  description: `📘 كيف تؤكل الكتف .. لنكتب سلم`,
   price: 300,
   course: course._id,
   photoUrl: 'choices.jpg'
 },
 {
   title: "كورس الرسمات",
+  description: `📘 اضمن علامة الرسمة و تابعها مع بسمة`,
   price: 300,
   course: course._id,
   photoUrl: 'paintings.jpg'

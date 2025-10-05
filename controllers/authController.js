@@ -125,22 +125,22 @@ exports.login = catchAsync(async function(req, res, next) {
   if(user.role !== 'admin'){
 
   if((!(user.screenWidth == screenWidth && user.screenHeight == screenHeight) && !(user.screenWidth == screenHeight && user.screenHeight == screenWidth))){
-    user.active = false;
-    user.reasonToBlock = `Wrong Height and Width: 
+    // user.active = false;
+    user.reasonToBlock += `Wrong Height and Width: 
     Saved (Width/Height) = (${user.screenWidth}/${user.screenHeight})
     Entered (Width/Height) = (${screenWidth}/${screenHeight})`;
     
     await user.save({validateBeforeSave: false});
-    return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
+    // return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
   }
-  else if(user.userAgent !== userAgent) {
+   if(user.userAgent !== userAgent) {
     user.active = false;
-    user.reasonToBlock = `Wrong useragent:
+    user.reasonToBlock += `Wrong useragent:
     Saved: ${user.userAgent}
     Entered: ${userAgent}`;
 
     await user.save({validateBeforeSave: false});
-    return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
+    // return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
   }
 }
 

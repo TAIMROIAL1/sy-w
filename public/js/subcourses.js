@@ -39,22 +39,39 @@ cancelBtn.addEventListener('click', (e) => {
 })
 
 agreeBtn.addEventListener('click', async (e) => {
+  agreeBtn.classList.add('hidden');
+  cancelBtn.classList.add('hidden');
+
   const subcourseId = agreeBtn.dataset.subcourseid;
   const subcourseurl = agreeBtn.dataset.subcourseurl;
   const courseId = location.href.split('/')[4];
   const data = await ajaxCall(`${domain}/api/v1/courses/${courseId}/subcourses/${subcourseId}/activate-subcourse`, 'POST')
+
+  
   if(data.status === 'success') {
 
     const boughtCourseContainer = [...coursesContainer.querySelectorAll('.card')].find(c => c.dataset.subcourseid === agreeBtn.dataset.subcourseid);
     
     const price = boughtCourseContainer.querySelector('.price-container');
     const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
+
     // atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
 
     price.remove();
     buyBtn.remove();
   }
-
+  
+  if(data.message === `لقد اشتريت هذا الكورس بالفعل`){
+    [...coursesContainer.querySelectorAll('.card')].forEach(c => {
+      const price = c.querySelector('.price-container');
+      const buyBtn = c.querySelector('.buy-btn');
+      price && price.remove();
+      buyBtn && buyBtn.remove();
+    })
+  }
+  agreeBtn.classList.remove('hidden');
+  cancelBtn.classList.remove('hidden');
+  
   agreeBtn.removeAttribute('data-subcourseid');
   agreeBtn.removeAttribute('data-subcourseurl');
   document.body.style.overflow = 'auto';
@@ -129,7 +146,7 @@ coursesContainer.addEventListener('click', async (e) => {
 
 
   const clicked = e.target.closest('.card');
-  const clickedPrice = clicked.querySelector('.price');
+  const clickedPrice = clicked.querySelector('.salary');
   if(clickedPrice) return;
   location.assign(`/subcourses/${clicked.dataset.subcourseid}/lessons`)
 })

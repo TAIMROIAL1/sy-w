@@ -6,7 +6,7 @@ classesBtns.forEach(cb => cb.remove());
 
 // const buyCourseBtn = document.querySelector('.buy');
 const layer = document.querySelector('.backdrop');
-const canelBtn = document.querySelector('.cancel-btn')
+const cancelBtn = document.querySelector('.cancel-btn')
 const agreeBtn = document.querySelector('.confirm-btn')
 
 const listIcon = document.querySelector('.list-icon');
@@ -53,7 +53,7 @@ const ajaxCall = async function(url, method, data = undefined) {
   return await data2.json();
 }
 
-canelBtn.addEventListener('click', (e) => {
+cancelBtn.addEventListener('click', (e) => {
   layer.classList.add('hidden');
   document.body.style.overflow = 'auto';
   agreeBtn.removeAttribute('data-courseid');
@@ -62,22 +62,32 @@ canelBtn.addEventListener('click', (e) => {
 agreeBtn.addEventListener('click', async (e) => {
   const courseId = agreeBtn.dataset.courseid;
   const classId = location.href.split('/')[4];
+  agreeBtn.classList.add('hidden');
+  cancelBtn.classList.add('hidden');
   const data = await ajaxCall(`${domain}/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
-  if(data.status === 'success') {
-   
-    const boughtCourseContainer = [...coursesContainer.querySelectorAll('.card')].find(c => c.dataset.courseid === agreeBtn.dataset.courseid);
-    
-    const price = boughtCourseContainer.querySelector('.salary');
-    const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
+
+  const boughtCourseContainer = [...coursesContainer.querySelectorAll('.card')].find(c => c.dataset.courseid === agreeBtn.dataset.courseid);
+
+  const price = boughtCourseContainer.querySelector('.salary');
+  const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
+  
+  if(data.status === 'success') {  
     // atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
 
     price.remove();
     buyBtn.remove();
   }
+  if(data.message === `لقد اشتريت هذا الكورس او جزء منه`){
+    price.remove();
+    buyBtn.remove();
+  }
+  agreeBtn.classList.remove('hidden');
+  cancelBtn.classList.remove('hidden');
   
   agreeBtn.removeAttribute('data-courseid');
   document.body.style.overflow = 'auto';
   layer.classList.add('hidden');
+
   return showNotification(data.message, data.status);
 })
 
