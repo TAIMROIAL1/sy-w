@@ -4,6 +4,8 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import bodyParser from "body-parser";
+import { dirname } from 'path';
+
 
 const app = express();
 app.use(cors());

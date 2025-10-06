@@ -1,5 +1,6 @@
 // app/renderer.js
 const { electronAPI } = window;
+console.log(electronAPI);
 
 let currentCategory = null;
 let config = electronAPI.getConfig();

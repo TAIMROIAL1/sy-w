@@ -20,6 +20,10 @@ const codeSchema = new mongoose.Schema({
   activated: {
     type: Boolean,
     default: false
+  },
+  category: {
+    type: String,
+    required: [true, 'Please enter the category of the code']
   }
 })
 

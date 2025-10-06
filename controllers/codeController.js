@@ -29,6 +29,19 @@ exports.createCode = catchAsync(async function(req, res, next) {
   })
 });
 
+exports.createCodes = catchAsync(async function(req, res, next) {
+  const {codes} = req.body;
+  codes.forEach(async code => {
+    const hashedCode = crypto.pbkdf2Sync(code, process.env.JWT_SECRET_KEY, 10000, 64, 'sha512').toString('hex');
+    await Code.create({code: hashedCode, value});
+  })
+
+  res.status(201).json({
+    status: "success",
+    message: "تم انشاء الأكواد بنجاح"
+  })
+})
+
 exports.activateCode = catchAsync(async function(req, res, next) {
   const { code } = req.body;
   const session = await Code.startSession();

@@ -35,7 +35,7 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
       classes,
       courses,
       title: "الصفحة الرئيسية",
-      metaContent: `الدكتور إياد سكر | الدكتور غيث سكر
+      metaContent: `الدكتور إياد سكر
 كورسات للصف الثالث ثانوي`
     });
   })
@@ -100,7 +100,7 @@ router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res
       metaContent: `الشرح لكامل لمنهاج الكتاب
 شرح جميع الرسمات
 تحديد كامل على الكتاب
-أتمتة جميع الدروس`
+اختبارات جميع الدروس`
     });
   })
 );
@@ -120,6 +120,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
       user,
       lessons,
       title: "الدروس",
+      metaContent: "هنا تفهم العلوم!"
     });
   })
 );
@@ -135,7 +136,7 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
       title: 'إعدادت الحساب',
       metaContent: `تغيير الاسم و البريد و كلمة السر
 جميع كورساتي المفعلة
-تفعيل أكواد لتفعيل الكورسات`
+تفعيل أكواد الكورسات`
     });
   })
 );

@@ -651,6 +651,9 @@ border-color: var(--error-color);
 /* ==================================== */
 
 @media (min-width: 1200px) {
+    .push-btn{
+        margin-top: 10px !important;
+    }
     .app-container {
         /* هنا يتم تحديد أن القائمة تكون على اليمين والمحتوى على اليسار */
         grid-template-columns: 1fr 320px;
