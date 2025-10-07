@@ -10,6 +10,8 @@ const layer = document.querySelector('.backdrop');
 const cancelBtn = document.querySelector('.cancel-btn')
 const agreeBtn = document.querySelector('.confirm-btn')
 
+const atpNum = document.querySelector('.text2');
+
 const classesSection = document.getElementById('classes-section');
 
 // The notifcation message
@@ -35,7 +37,7 @@ cancelBtn.addEventListener('click', (e) => {
 
 agreeBtn.addEventListener('click', async (e) => {
   const courseId = agreeBtn.dataset.courseid;
-  const classId = location.href.split('/')[4];
+  const classId = `66c24f93112d32909113bf2a`;
   agreeBtn.classList.add('hidden');
   cancelBtn.classList.add('hidden');
   const data = await ajaxCall(`${domain}/api/v1/classes/${classId}/courses/${courseId}/activate-course`, 'POST')
@@ -46,7 +48,7 @@ agreeBtn.addEventListener('click', async (e) => {
   const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
   
   if(data.status === 'success') {  
-    // atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
+    atpNum.textContent = Number(atpNum.textContent) - Number(price.dataset.price);
 
     price.remove();
     buyBtn.remove();

@@ -16,7 +16,7 @@ const toggleList = function() {
 }
 
 listIcon.addEventListener('click', toggleList)
-// const atpNum = document.querySelector('.atp');
+const atpNum = document.querySelector('.text2');
 
 // The notifcation message
 const notifcation = document.querySelector('.error');
@@ -55,7 +55,7 @@ agreeBtn.addEventListener('click', async (e) => {
     const price = boughtCourseContainer.querySelector('.price-container');
     const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
 
-    // atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
+    atpNum.textContent = Number(atpNum.textContent) - Number(price.dataset.price);
 
     price.remove();
     buyBtn.remove();

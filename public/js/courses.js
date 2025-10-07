@@ -11,7 +11,7 @@ const agreeBtn = document.querySelector('.confirm-btn')
 
 const listIcon = document.querySelector('.list-icon');
 const list = document.querySelector('.nav');
-// const atpNum = document.querySelector('.atp');
+const atpNum = document.querySelector('.text2');
 
 // The notifcation message
 const notifcation = document.querySelector('.error');
@@ -72,7 +72,7 @@ agreeBtn.addEventListener('click', async (e) => {
   const buyBtn = boughtCourseContainer.querySelector('.buy-btn');
   
   if(data.status === 'success') {  
-    // atpNum.textContent = Number(atpNum.textContent) - Number(price.querySelector('.price').textContent);
+    atpNum.textContent = Number(atpNum.textContent) - Number(price.dataset.price);
 
     price.remove();
     buyBtn.remove();

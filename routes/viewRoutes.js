@@ -26,15 +26,15 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
     }
 
     const classes = await Class.find();
-
+    let courses = undefined;
+    if(user){
     const subcourses =  [];
     for(let i = 0; i < user.subcourses.length; i++) {
       const sc = await Subcourse.findById(user.subcourses[i]);
       if(sc) subcourses.push(sc);
     }
-    console.log(subcourses);
-    const courses = [...new Set(subcourses.map(sc => sc.course._id.toString()))];
-
+    courses = [...new Set(subcourses.map(sc => sc.course._id.toString()))];
+}
     res.status(200).render("mainpage", {
       user,
       classes,

@@ -79,7 +79,7 @@ block content
           span متابعة دورية
         - if((user && !courses.includes(`68e2af9370fdce837ecf39e9`)) || !user)
           .price-container
-            p.salary= `💰 السعر : 100 ATP`
+            p.salary(data-price= 100)= `💰 السعر : 100 ATP`
             button.buy-btn اشتري الان 
       // كارت علم البيانات
       .card.green(data-courseid=`68e2afd670fdce837ecf3a05`, href=`/courses/68e2afd670fdce837ecf3a05/subcourses`)
@@ -100,7 +100,7 @@ block content
           span متابعة دورية
         - if((user && !courses.includes(`68e2afd670fdce837ecf3a05`)) || !user)
           .price-container
-            p.salary= `💰 السعر : 60 ATP`
+            p.salary(data-price=60)= `💰 السعر : 60 ATP`
             //- button.buy-btn اشتري الان  
             .later لاحقا..
       .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
@@ -121,7 +121,7 @@ block content
           span متابعة دورية
         - if((user && !courses.includes(`68e2afc470fdce837ecf39f7`)) || !user)
           .price-container
-            p.salary= `💰 السعر : 50 ATP`
+            p.salary(data-price=50)= `💰 السعر : 50 ATP`
             //- button.buy-btn اشتري الان 
             .later لاحقا..
     // المسارات
