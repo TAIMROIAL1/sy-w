@@ -77,32 +77,11 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        - if((user && !courses.includes(`68e12d4062a799236df5c88c`)) || !user)
+        - if((user && !courses.includes(`68e2af9370fdce837ecf39e9`)) || !user)
           .price-container
             p.salary= `💰 السعر : 100 ATP`
             button.buy-btn اشتري الان 
       // كارت علم البيانات
-      .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
-        - if(user?.role === 'admin')
-          <i class="bi-trash" data-deletecount="0">&#128465;</i>
-          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-        img.card-img(src=`imgs/courses/hormones.jpg`, alt="")
-        .card-header
-          p الهرمونات
-        p.duration= `⏰ يتم تحديد التوقيت تبعا لخطة الفصل الأول`
-        p= `📘 التوازن يتحقق في 4 دروس هرمونات! \n سنُتقن التنسيق العصبي والهرموني بدءًا من الـ (Big Boss) ومايسترو الغدد، لنستكشفها شكليًا ووظيفيًا ومرضيًا، ونختتم بمواد التنسيق النباتية التي تضبط العمليات الفيزيولوجية.`
-        .tags
-          span شرح 
-          span حل 
-          span اختبارات
-          span متابعة دورية
-        - if((user && !courses.includes(`68e1306862a799236df5c928`)) || !user)
-          .price-container
-            p.salary= `💰 السعر : 100 ATP`
-            //- button.buy-btn اشتري الان 
-            .later لاحقا..
       .card.green(data-courseid=`68e2afd670fdce837ecf3a05`, href=`/courses/68e2afd670fdce837ecf3a05/subcourses`)
         - if(user?.role === 'admin')
           <i class="bi-trash" data-deletecount="0">&#128465;</i>
@@ -119,10 +98,31 @@ block content
           span حل 
           span اختبارات
           span متابعة دورية
-        - if((user && !courses.includes(`68e12dbc62a799236df5c89a`)) || !user)
+        - if((user && !courses.includes(`68e2afd670fdce837ecf3a05`)) || !user)
           .price-container
-            p.salary= `💰 السعر : 100 ATP`
+            p.salary= `💰 السعر : 60 ATP`
             //- button.buy-btn اشتري الان  
+            .later لاحقا..
+      .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
+        - if(user?.role === 'admin')
+          <i class="bi-trash" data-deletecount="0">&#128465;</i>
+          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
+            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
+            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+        img.card-img(src=`imgs/courses/hormones.jpg`, alt="")
+        .card-header
+          p الهرمونات
+        p.duration= `⏰ يتم تحديد التوقيت تبعا لخطة الفصل الأول`
+        p= `📘 التوازن يتحقق في 4 دروس هرمونات! \n سنُتقن التنسيق العصبي والهرموني بدءًا من الـ (Big Boss) ومايسترو الغدد، لنستكشفها شكليًا ووظيفيًا ومرضيًا، ونختتم بمواد التنسيق النباتية التي تضبط العمليات الفيزيولوجية.`
+        .tags
+          span شرح 
+          span حل 
+          span اختبارات
+          span متابعة دورية
+        - if((user && !courses.includes(`68e2afc470fdce837ecf39f7`)) || !user)
+          .price-container
+            p.salary= `💰 السعر : 50 ATP`
+            //- button.buy-btn اشتري الان 
             .later لاحقا..
     // المسارات
     section.courses#classes-section

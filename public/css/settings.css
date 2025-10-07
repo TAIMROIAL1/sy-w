@@ -321,6 +321,8 @@ html,body{
     border-radius: 10px;
     margin-right: 10px;
     transition: all 0.3s;
+    max-height: 150px;
+    cursor: pointer;
 }
     .course-container:hover{
         opacity: 0.9;

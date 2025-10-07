@@ -27,8 +27,8 @@ html(lang='en')
           button.btn.my-courses-btn &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
           button.btn.activate-code-btn &#x62A;&#x63A;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x627;&#x643;&#x648;&#x627;&#x62F;
           button.btn.logout-btn تسجيل خروج
-          - if(user.role === 'admin')
-            button.btn.upload-code-btn انشاء كود
+          //- - if(user.role === 'admin')
+          //-   button.btn.upload-code-btn انشاء كود
       .setting-info.my-account 
         .name-email
           .account-info معلومات حسابي
@@ -87,27 +87,27 @@ html(lang='en')
                 .subcourse-title #{subcourse.title}
         - if(user.subcourses.length === 0)
           .no-courses-message لم تشتري اي كورسات حتى الان
-      - if(user.role === 'admin')
-        .setting-info.upload-code.hidden
-          .name-email
-            .account-info انشاء كود
-            .label
-              label(for='code-upload') الكود:
-              input#code-upload.block(type='text')
-              .error.error-code.hidden
-                .gg-danger
-                .error-message there is a problem
-            .label
-              label(for='code-value') القيمة:
-              input#code-value.block(type='text')
-              .error.error-value.hidden
-                .gg-danger
-                .error-message there is a problem
-            .label
-              label(for='code-category') الفئة:
-              input#code-category.block(type='text')
-              .error.error-category.hidden
-                .gg-danger
-                .error-message there is a problem
-            button#creation-code-btn.save.marj تأكيد       
+      //- - if(user.role === 'admin')
+      //-   .setting-info.upload-code.hidden
+      //-     .name-email
+      //-       .account-info انشاء كود
+      //-       .label
+      //-         label(for='code-upload') الكود:
+      //-         input#code-upload.block(type='text')
+      //-         .error.error-code.hidden
+      //-           .gg-danger
+      //-           .error-message there is a problem
+      //-       .label
+      //-         label(for='code-value') القيمة:
+      //-         input#code-value.block(type='text')
+      //-         .error.error-value.hidden
+      //-           .gg-danger
+      //-           .error-message there is a problem
+      //-       .label
+      //-         label(for='code-category') الفئة:
+      //-         input#code-category.block(type='text')
+      //-         .error.error-category.hidden
+      //-           .gg-danger
+      //-           .error-message there is a problem
+      //-       button#creation-code-btn.save.marj تأكيد       
     script(src='/js/settings.js')

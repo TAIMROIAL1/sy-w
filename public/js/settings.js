@@ -188,21 +188,21 @@ passwordUpdateBtn.addEventListener("click", async (e) => {
   }
 });
 
-if (role === "admin")
-  createCodeBtn.addEventListener("click", async (e) => {
-    const codeToUpload = createCodeInput.value;
-    const codeToUploadValue = createCodeValueInput.value;
-    const codeToUploadCategory = createCodeCategoryInput.value;
-    if (!codeToUpload || !codeToUploadValue || !codeToUploadCategory) return;
+// if (role === "admin")
+//   createCodeBtn.addEventListener("click", async (e) => {
+//     const codeToUpload = createCodeInput.value;
+//     const codeToUploadValue = createCodeValueInput.value;
+//     const codeToUploadCategory = createCodeCategoryInput.value;
+//     if (!codeToUpload || !codeToUploadValue || !codeToUploadCategory) return;
 
-    const data = await ajaxCall(`${domain}/api/v1/codes`, {
-      code: codeToUpload,
-      value: codeToUploadValue,
-      category: codeToUploadCategory
-    });
+//     const data = await ajaxCall(`${domain}/api/v1/codes`, {
+//       code: codeToUpload,
+//       value: codeToUploadValue,
+//       category: codeToUploadCategory
+//     });
 
-    showNotification(data.message, data.status);
-  });
+//     showNotification(data.message, data.status);
+//   });
 
 coursesContainer.addEventListener("click", (e) => {
   const clicked = e.target.closest(".course-container");
