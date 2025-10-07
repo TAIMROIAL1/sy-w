@@ -17,12 +17,10 @@ exports.getCodes = catchAsync(async function(req, res, next) {
 });
 
 exports.createCode = catchAsync(async function(req, res, next) {
-  const { code, value } = req.body;
+  const { code, value, category } = req.body;
 
   // TODO crypt the code
-  const hashedCode = crypto.pbkdf2Sync(code, process.env.JWT_SECRET_KEY, 10000, 64, 'sha512').toString('hex');
-  const cCode = await Code.create({code: hashedCode, value});
-
+  await Code.create({code, value, category});
   res.status(201).json({
     status: "success",
     message: "تم انشاء الكود بنجاح"
@@ -31,9 +29,9 @@ exports.createCode = catchAsync(async function(req, res, next) {
 
 exports.createCodes = catchAsync(async function(req, res, next) {
   const {codes} = req.body;
-  codes.forEach(async code => {
-    const hashedCode = crypto.pbkdf2Sync(code, process.env.JWT_SECRET_KEY, 10000, 64, 'sha512').toString('hex');
-    await Code.create({code: hashedCode, value});
+  codes.forEach(async c => {
+    const { code, value, category } = c;
+    await Code.create({code, value, category});
   })
 
   res.status(201).json({
@@ -47,10 +45,8 @@ exports.activateCode = catchAsync(async function(req, res, next) {
   const session = await Code.startSession();
   session.startTransaction();
   
-  const hashedCode = crypto.pbkdf2Sync(code, process.env.JWT_SECRET_KEY, 10000, 64, 'sha512').toString('hex');
   try{
-
-  const c = await Code.findOne({code: hashedCode, activated: false}).session(session);
+  const c = await Code.findOne({code, activated: false}).session(session);
 
   if(!c){
     await session.abortTransaction();
@@ -76,4 +72,15 @@ exports.activateCode = catchAsync(async function(req, res, next) {
   session.endSession();
   throw(err);
 } 
+})
+
+exports.deleteCode = catchAsync(async function(req, res, next) {
+  const { code } = req.params;
+
+  await Code.deleteOne({code});
+
+  res.status(204).json({
+    status: 'success',
+    message: 'تم حذف الكود بنجاح'
+  })
 })

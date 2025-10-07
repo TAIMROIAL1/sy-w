@@ -20,6 +20,7 @@ const passwordUpdateBtn = document.getElementById("password-update-btn");
 
 const createCodeInput = document.getElementById("code-upload");
 const createCodeValueInput = document.getElementById("code-value");
+const createCodeCategoryInput = document.getElementById('code-category');
 const createCodeBtn = document.getElementById("creation-code-btn");
 
 const coursesContainer = document.querySelector(".my-courses");
@@ -191,11 +192,13 @@ if (role === "admin")
   createCodeBtn.addEventListener("click", async (e) => {
     const codeToUpload = createCodeInput.value;
     const codeToUploadValue = createCodeValueInput.value;
-    if (!codeToUpload || !codeToUploadValue) return;
+    const codeToUploadCategory = createCodeCategoryInput.value;
+    if (!codeToUpload || !codeToUploadValue || !codeToUploadCategory) return;
 
     const data = await ajaxCall(`${domain}/api/v1/codes`, {
       code: codeToUpload,
       value: codeToUploadValue,
+      category: codeToUploadCategory
     });
 
     showNotification(data.message, data.status);

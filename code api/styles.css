@@ -1,9 +1,16 @@
+* {
+    user-select: none;
+}
+
 body {
     font-family: Tahoma, sans-serif;
     margin: 18px;
     background: #f6f8fb;
 }
 
+.hidden {
+    display: none;
+}
 .top {
     display: flex;
     justify-content: space-between;
@@ -116,4 +123,28 @@ td {
     justify-content: center;
     margin-left: 20px;
     margin-left: 20px;
+    cursor: pointer;
 }
+
+.categ-box:hover {
+    background-color: #1a68d1; /* Slightly deeper blue */
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.3); /* Soft glow */
+
+}
+
+.categ-box:active {
+    background-color: #155bb0; /* Even deeper for pressed state */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle press effect */
+}
+
+.delete-btn:hover {
+    background-color: #1a68d1; /* Slightly deeper blue */
+  box-shadow: 0 0 0 3px rgba(44, 123, 229, 0.3); /* Soft glow */
+
+}
+
+.delete-btn:active {
+    background-color: #155bb0; /* Even deeper for pressed state */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle press effect */
+}
+

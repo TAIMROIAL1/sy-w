@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const { checkJWT, restrictTo } = require('./../controllers/authController');
-const { getCodes, createCode, activateCode, createCodes } = require('./../controllers/codeController');
+const { getCodes, createCode, activateCode, createCodes, deleteCode } = require('./../controllers/codeController');
 
 
 router.route('/')
@@ -11,5 +11,7 @@ router.route('/')
 
 router.post('/activate-code', checkJWT, activateCode);
 router.post('/create-codes', checkJWT, restrictTo('admin'), createCodes);
+
+router.delete('/:code', checkJWT, restrictTo('admin'), deleteCode);
 
 module.exports = router;
