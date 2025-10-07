@@ -153,6 +153,7 @@ const handleCodesClick = async function(e) {
 }
 
 const renderCodes = function(codes) {
+  console.log(codes.map(c => c.code));
   [...tableBody.querySelectorAll('tr')].forEach(tr => tr.remove());
   codes.forEach(item => {
     const row = document.createElement('tr');
