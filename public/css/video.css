@@ -39,6 +39,9 @@
 
 }
 
+* {
+    user-select: none;
+}
 body {
     font-family: var(--font-family);
     background-color: var(--background-color);
