@@ -134,7 +134,7 @@ exports.login = catchAsync(async function(req, res, next) {
     // return next(new AppError('Validation Error: هذا المستخدم غير موجود', 404, 'name'))
   }
    if(user.userAgent !== userAgent) {
-    user.active = false;
+    // user.active = false;
     user.reasonToBlock += `Wrong useragent:
     Saved: ${user.userAgent}
     Entered: ${userAgent}`;
