@@ -244,6 +244,7 @@ const handleQuestionSectionClick = async function (e) {
   }
 };
 
+if(role === 'admin'){
 uploadQuestionBtn.addEventListener("click", function (e) {
   const videoId = [...document.querySelectorAll(".video-item")]?.find((vi) =>
     vi.classList.contains("active")
@@ -251,7 +252,7 @@ uploadQuestionBtn.addEventListener("click", function (e) {
   if (!videoId) return;
   location.assign(`/videos/${videoId}/upload-question`);
 });
-
+}
 document.addEventListener("click", handleDocumentClick);
 
 listOpnBtn.addEventListener("click", (e) => {
