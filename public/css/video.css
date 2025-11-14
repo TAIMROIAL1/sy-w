@@ -244,6 +244,8 @@ body {
     z-index: 1000;
     padding-right: 10px;
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding-bottom: 1rem;
+    padding-top: 20px;
 }
 
 .sidebar-header {

@@ -255,6 +255,28 @@ exports.updatePassword = catchAsync(async function(req, res, next) {
   })
 })
 
+exports.updateCertainPassword = catchAsync(async function(req, res, next) {
+
+  const {password, userID} = req.body;
+
+  const user = await User.findById(userID);
+
+  if(!password) return next(new AppError('الرجاء ادخال كلمة السر الجديدة', 400, 'password'));
+  if(!user) return next(new AppError('الرجاء ادخال المستخدم', 400, 'password-confirm'));
+  
+  user.password = password;
+
+  const err1 = user.validateSync('password');
+  if(err1) throw err1;
+ 
+  await user.save({ validateBeforeSave: false});
+
+  res.status(200).json({
+    status: 'success',
+    message: 'تم تحديث كلمة السر بنجاح'
+  })
+})
+
 exports.updateEmailName = catchAsync(async function(req, res, next) {
   const { user } = req;
   

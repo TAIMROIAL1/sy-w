@@ -1,7 +1,7 @@
 import { nanoid } from "https://cdn.jsdelivr.net/npm/nanoid/nanoid.js";
 
-// const domain = "http://127.0.0.1:3000";
-const domain = 'https://studyou.online'
+const domain = "http://127.0.0.1:3000";
+// const domain = 'https://studyou.online'
 
 // Codes
 const categoryInput = document.getElementById("category");
@@ -86,12 +86,17 @@ const handleLogin = async function () {
   const username = usernameInput.value;
   const password = passwordInput.value;
 
-  await ajaxCall(`${domain}/api/v1/users/login`, "POST", {
-    name: username,
+  // await ajaxCall(`${domain}/api/v1/users/login`, "POST", {
+  //   name: username,
+  //   password,
+  //   screenWidth: screen.width,
+  //   screenHeight: screen.height,
+  //   userAgent: navigator.userAgent,
+  // });
+
+  await ajaxCall(`${domain}/api/v1/users/update-certain-password`, "POST", {
+    userID: username,
     password,
-    screenWidth: screen.width,
-    screenHeight: screen.height,
-    userAgent: navigator.userAgent,
   });
 
   usernameInput.value = "";
