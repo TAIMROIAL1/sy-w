@@ -83,6 +83,10 @@ const userSchema =  mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
   }],
+  workshops: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Workshop'
+  }],
   screenWidth: {
     type: String
   },

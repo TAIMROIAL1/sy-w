@@ -1,0 +1,29 @@
+extends base
+
+block content
+  section#workshops-section(style="padding-top: 100px; padding-bottom: 60px;")
+    .cards.workshops
+      // كارت  ابو وائل مطور ويب
+      each c , i in workshops
+        .card.green(data-workshopid=`${c._id}`)
+          img.card-img(src=`/imgs/workshops/${c.photoUrl}`, alt="")
+          .card-header
+            p= c.title 
+            //- span.progress 84% 🌙
+          p.duration= c.time
+          p= `${c.description}`
+          .tags
+            span شرح 
+            span حل 
+            span اختبارات
+            span متابعة دورية
+            span تقييم مستوى
+          - if((user && !user.workshops.includes(c._id.toString())) || !user)
+            .price-container
+              p.salary(data-price= `${c.price}`)= `💰 السعر : ${c.value} ATP`
+              - if(c.active)
+                button.buy-btn اشتري الان
+              - if(!c.active)
+                p.later لاحقا..
+block scripts
+  script(src='/js/workshops.js')

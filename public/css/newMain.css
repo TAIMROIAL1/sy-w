@@ -259,6 +259,7 @@ body {
 }
 
 .navbar {
+    z-index: 100;
     width: 90%;
     min-height: 75px;
     background: #fff;
@@ -1010,4 +1011,67 @@ a {
     .promo-text-container {
         margin-top: 0;
     }
+}
+
+/* ورشات */
+
+#workshops {
+  max-width: 800px;
+  margin: auto;
+  text-align: center;
+}
+
+ h2 {
+  color: black;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+.workshop {
+  padding: 1rem 2.5rem;
+  margin: 1rem auto;
+  border-radius: 16px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4caf50, #66bb6a);
+  border: 1px solid #388e3c;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  max-width: 90%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+}
+
+.workshop::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: skewX(-45deg);
+  transition: left 0.5s ease;
+}
+
+.workshop:hover::before {
+  left: 100%;
+}
+
+.workshop {
+  -webkit-tap-highlight-color: transparent; /* Removes blue overlay on tap */
+}
+
+.workshop:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(135deg, #388e3c, #66bb6a);
+}
+
+.workshop:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

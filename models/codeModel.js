@@ -28,33 +28,31 @@ const codeSchema = new mongoose.Schema({
 })
 
 codeSchema.methods.activateCode = async function(userId) {
-  const session = await mongoose.startSession();
-  session.startTransaction();
 
   try {
     const user = await User.findById(userId);
   
-  const activatioinCode = this.constructor.findOneAndUpdate({_id: this._id}, {activated: true, activatedBy: userId}, {new: true,session});
-  if(!activatioinCode) {
-    await session.abortTransaction();
-    session.endSession();
-    return false;
+  const activatioinCode = await this.constructor.findOneAndUpdate({_id: this._id}, {activated: true, activatedBy: userId});
+
+  if(!activatioinCode) return false;
+
+  if(this.category.startsWith('workshop')) {
+    const workshopId = this.category.split(':')[1].trim();
+    user.workshops.push(workshopId);
   }
 
-  user.value += this.value;
+  else {
+    user.value += this.value;
+  }
+  
   await user.save({validateBeforeSave: false});
   
   this.activated = true;
   this.activatedBy = userId;
   await this.save({validateBeforeSave: false});
 
-  await session.commitTransaction();
-  session.endSession();
-
   return true;
   } catch(err) {
-    await session.abortTransaction();
-    session.endSession();
 
     return false;
   }

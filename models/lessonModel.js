@@ -16,6 +16,10 @@ const lessonSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
   },
+  workshop: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Workshop'
+  },
   videos: [{
     title: {
       type: String,

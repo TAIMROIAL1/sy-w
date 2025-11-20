@@ -14,6 +14,8 @@ const atpNum = document.querySelector('.text2');
 
 const classesSection = document.getElementById('classes-section');
 
+const workshopsSection = document.getElementById('workshops');
+
 // The notifcation message
 const notifcation = document.querySelector('.error');
 
@@ -203,6 +205,14 @@ classesContainer.addEventListener('click', async (e) => {
 
   const clicked = e.target.closest('.card');
   location.assign(`/classes/${clicked.dataset.classid}/courses`)
+})
+
+workshopsSection.addEventListener('click', function(e) {
+  const clicked = e.target.closest('.workshop');
+
+  if(!clicked) return;
+
+  location.assign(`/workshops/${clicked.dataset.workshopid}`)
 })
 
 if(role === 'admin')

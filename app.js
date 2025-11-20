@@ -126,6 +126,9 @@ app.get('/imgs/courses/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'imgs', 'courses', req.params.file))
 })
 
+app.get('/imgs/workshops/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'imgs', 'workshops', req.params.file));
+})
 // app.use((req, res, next) => {
 //   console.log(req.cookies);
 //   next();
@@ -139,6 +142,7 @@ const lessonRouter = require('./routes/lessonRoutes');
 const videoRouter = require('./routes/videoRoutes');
 const questionRouter = require('./routes/questionRoutes');
 const codeRouter = require('./routes/codeRoutes');
+const workshopRouter = require('./routes/workshopRoutes');
 
 app.use('/', viewRouter);
 app.use('/api/v1/users', userRouter);
@@ -149,6 +153,7 @@ app.use('/api/v1/subcourses/:subcourseId/lessons', lessonRouter);
 app.use('/api/v1/lessons/:lessonId/videos', videoRouter);
 app.use('/api/v1/videos/:videoId/questions', questionRouter);
 app.use('/api/v1/codes', codeRouter);
+app.use('/api/v1/workshops', workshopRouter);
 
 app.use(errorController);
 

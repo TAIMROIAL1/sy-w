@@ -5,7 +5,8 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 const sendMail = require('./../utils/email.js');
 const crypto = require('crypto');
-const { promisify } = require('util')
+const { promisify } = require('util');
+const Workshop = require('./../models/workshopsModel.js');
 
 const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_EXPIRES_IN});
 
@@ -259,7 +260,12 @@ exports.updateCertainPassword = catchAsync(async function(req, res, next) {
 
   const {password, userID} = req.body;
 
-  const user = await User.findById(userID);
+  console.log("userID : " , userID);
+  console.log("password: ", password);
+
+  const user = await User.findOne({name: userID});
+
+  console.log(user);
 
   if(!password) return next(new AppError('الرجاء ادخال كلمة السر الجديدة', 400, 'password'));
   if(!user) return next(new AppError('الرجاء ادخال المستخدم', 400, 'password-confirm'));
@@ -340,5 +346,22 @@ exports.checkActivatedSubcourse = catchAsync(async function(req, res, next) {
   res.status(400).json({
     status: 'fail',
     message: 'لم تشتري هذا الكورس، لا تخبص'
+  })
+})
+
+exports.checkActivatedWorkshop = catchAsync(async function(req, res, next) {
+  if(!res.locals.user && !req.user) return res.status(400).render('toSign') 
+
+  let { workshopId } = req.body;
+  if(!workshopId) workshopId  = req.params.workshopId;
+  if(!workshopId) return next(new AppError('هذه الورشة غير موجودة', 400));
+  let { user } = req;
+  if(!user) user = res.locals.user;
+  
+  if(user.workshops.includes(workshopId)) return next();
+
+  res.status(400).json({
+    status: 'fail',
+    message: 'لم تشتري هذه الورشة, لا تخبص -_-'
   })
 })

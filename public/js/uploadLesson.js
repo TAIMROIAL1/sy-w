@@ -31,15 +31,29 @@ uploadBtn.addEventListener('click', async (e) => {
     const photoUrl = photoUrlInput.value;
     const num = numberInput.value;
     if(!title || !photoUrl || !num) return;
+     const hrefParts = location.href.split("/");
+     let res;
+     if(hrefParts[3] === 'subcourses'){
     const subcourseId = location.href.split('/')[4]
-    const res = await fetch(`${domain}/api/v1/subcourses/${subcourseId}/lessons`, {
+     res = await fetch(`${domain}/api/v1/subcourses/${subcourseId}/lessons`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({title, photoUrl, num, subcourse: subcourseId})
     })
+}
 
+    else if(hrefParts[3] === 'workshops') {
+   const workshopId = location.href.split('/')[4]
+     res = await fetch(`${domain}/api/v1/workshops/${workshopId}/lessons`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({title, photoUrl, num, workshop: workshopId})
+    })
+}
     const data = await res.json();
 
     showNotification(data.message, data.status);

@@ -138,7 +138,6 @@ const initDescriptionBox = function (clicked) {
 };
 const createQuestions = async function (clicked) {
   list.classList.add("hidden");
-  const subcourseId = location.href.split("/")[4];
 
   // Highlight video
   [...document.querySelectorAll(".video-item")].forEach((vi) =>
@@ -161,12 +160,29 @@ const createQuestions = async function (clicked) {
     oldQuestions.forEach((oq) => oq.remove());
   }
 
-  const questionsToLoad = await ajaxCall(
+  let subcourseId;
+  let workshopId;
+  let questionsToLoad;
+  const hrefParts = location.href.split('/');
+  if(hrefParts[3] === 'subcourses'){
+   subcourseId = location.href.split("/")[4];
+
+  questionsToLoad = await ajaxCall(
     `${domain}/api/v1/videos/${clicked.dataset.videoid}/questions`,
     "POST",
     { subcourseId }
-  );
+    );
+  }
 
+  else if(hrefParts[3] === 'workshops'){
+    workshopId = location.href.split("/")[4];
+
+  questionsToLoad = await ajaxCall(
+    `${domain}/api/v1/workshops/videos/${clicked.dataset.videoid}/questions`,
+    "POST",
+    { workshopId }
+    );
+  }
   if (questionsToLoad.data.questions.length > 0) {
     questionsToLoad.data.questions.forEach((q) =>
       createQuestionHTML(q.text, q.answers, q._id)
@@ -260,9 +276,17 @@ listOpnBtn.addEventListener("click", (e) => {
 });
 if (role === "admin") {
   uploadLessonBtn.addEventListener("click", (e) => {
-    const subcourseId = location.href.split("/")[4];
+    const hrefParts = location.href.split("/"); 
+    if(hrefParts[3] === 'subcourses'){
+    const subcourseId = hrefParts[4];
     location.assign(`/subcourses/${subcourseId}/upload-lesson`);
-  });
+  }
+
+  else if(hrefParts[3] === 'workshops'){
+    const workshopId = hrefParts[4];
+    location.assign(`/workshops/${workshopId}/upload-lesson`);
+  }
+});
 
   btnsContainers.forEach((btnsContainer) => {
     btnsContainer.addEventListener("click", async (e) => {
@@ -431,14 +455,30 @@ const handleSubmit = async function () {
 
   const videoId = document.body.dataset.videoid;
 
-  const subcourseId = location.href.split("/")[4];
+  
+  const hrefParts = location.href.split('/');
 
-  const { results } = await ajaxCall(
+  const subcourseId = hrefParts[4];
+  const workshopId = hrefParts[4];
+  let results;
+
+  if(hrefParts[3] === 'subcourses'){
+   const response = await ajaxCall(
     `${domain}/api/v1/videos/${videoId}/questions/solve-questions`,
     "POST",
     { solvedQuestions, subcourseId }
   );
+    results = response.results;
+}
 
+  else if(hrefParts[3] === 'workshops') {
+    const response = await ajaxCall(
+    `${domain}/api/v1/workshops/videos/${videoId}/questions/solve-questions`,
+    "POST",
+    { solvedQuestions, workshopId }
+  );
+    results = response.results;
+  }
   highlightAnswers(results);
   submitAnswersBtn.removeEventListener("click", handleSubmit);
   questionsSection.removeEventListener("click", handleQuestionSectionClick);

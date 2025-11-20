@@ -42,34 +42,27 @@ exports.createCodes = catchAsync(async function(req, res, next) {
 
 exports.activateCode = catchAsync(async function(req, res, next) {
   const { code } = req.body;
-  const session = await Code.startSession();
-  session.startTransaction();
   
   try{
-  const c = await Code.findOne({code, activated: false}).session(session);
+  const c = await Code.findOne({code, activated: false})
 
   if(!c){
-    await session.abortTransaction();
-    session.endSession();
+   
     return next(new AppError('هذا الكود غير فعال', 400, 'code'));
   } 
 
   const { user } = req;
   const tried = await c.activateCode(user._id);
+
   if(!tried){
-    await session.abortTransaction();
-    session.endSession();
     return next(new AppError('هذا الكود غير فعال', 400, 'code'));
   } 
-  await session.commitTransaction();
-  session.endSession();
+
   res.status(200).json({
     status: "success",
     message: "تم تفعيل الكود بنجاح"
   })
 }catch(err){
-  await session.abortTransaction();
-  session.endSession();
   throw(err);
 } 
 })

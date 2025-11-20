@@ -6,8 +6,9 @@ const Subcourse = require("./../models/subcourseModel");
 const Lesson = require("./../models/lessonModel");
 const Question = require('./../models/questionModel')
 const Subourse = require("./../models/subcourseModel");
+const Workshop = require('./../models/workshopsModel');
 const catchAsync = require("./../utils/catchAsync");
-const { checkJWT, restrictTo, checkActivatedSubcourse } = require("./../controllers/authController");
+const { checkJWT, restrictTo, checkActivatedSubcourse, checkActivatedWorkshop } = require("./../controllers/authController");
 const router = express.Router();
 
 router.get("/sign-up", checkJWT, async (req, res) => {
@@ -130,6 +131,26 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
   })
 );
 
+router.get("/workshops/:workshopId/lessons", checkJWT, checkActivatedWorkshop, catchAsync(async (req, res) => {
+    if (!res.locals.user) {
+      return res.status(200).render("toSign");
+    }
+
+    const { workshopId } = req.params;
+
+    const lessons = await Lesson.find({ workshop: workshopId });
+
+    const { user } = res.locals;
+    
+    res.status(200).render("video", {
+      user,
+      lessons,
+      title: "الدروس",
+      metaContent: "هنا تفهم العلوم!"
+    });
+  })
+);
+
 router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     if (!res.locals.user) {
       return res.status(200).render("toSign");
@@ -194,6 +215,10 @@ router.get('/subcourses/:subcourseId/upload-lesson', checkJWT, restrictTo('admin
   res.status(200).render('uploadLesson');
 }))
 
+router.get('/workshops/:workshopId/upload-lesson', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
+  res.status(200).render('uploadLesson');
+}))
+
 router.get('/subcourses/:subcourseId/edit-lesson/:lessonId', checkJWT, restrictTo('admin'), catchAsync(async(req, res) => {
   const { lessonId } = req.params;
   const lesson = await Lesson.findById(lessonId);
@@ -224,23 +249,33 @@ router.get('/videos/:videoId/upload-question', checkJWT, restrictTo('admin'), ca
 }))
 
 router.get('/videos/:videoId/edit-question/:questionId', checkJWT, restrictTo('admin'), catchAsync(async(req, res) => {
+  if (!res.locals.user) {
+      return res.status(200).render("toSign");
+    }
+  const { user } = res.locals;
+
   const { questionId } = req.params;
 
   const question = await Question.findById(questionId);
 
   res.status(200).render('editQuestion', {
+    user,
     question
   })
 }))
+
+router.get('/workshops/:chapter', checkJWT, catchAsync(async(req, res) => {
+  const { chapter } = req.params;
+  const workshops = await Workshop.find({chapter});
+
+  res.status(200).render('workshops', {
+    workshops,
+    buy_msg: "هل تريد شراء الورشة؟"
+  });
+}))
+
 module.exports = router;
 
-
 /**
-
-
-
-
-
-
 
  */
