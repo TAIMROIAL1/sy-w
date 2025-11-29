@@ -143,6 +143,7 @@ const videoRouter = require('./routes/videoRoutes');
 const questionRouter = require('./routes/questionRoutes');
 const codeRouter = require('./routes/codeRoutes');
 const workshopRouter = require('./routes/workshopRoutes');
+const excelFormRouter = require('./routes/excelFormRoutes');
 
 app.use('/', viewRouter);
 app.use('/api/v1/users', userRouter);
@@ -154,6 +155,7 @@ app.use('/api/v1/lessons/:lessonId/videos', videoRouter);
 app.use('/api/v1/videos/:videoId/questions', questionRouter);
 app.use('/api/v1/codes', codeRouter);
 app.use('/api/v1/workshops', workshopRouter);
+app.use('/api/v1/forms', excelFormRouter);
 
 app.use(errorController);
 

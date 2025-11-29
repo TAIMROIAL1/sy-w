@@ -71,7 +71,7 @@ agreeBtn.addEventListener('click', async (e) => {
 
 
 suggestedContainer.addEventListener('click', async function(e){
-  const id = e.target.closest('.card').dataset.courseid;
+  const id = e.target.closest('.card')?.dataset.courseid;
   if(!id) return;
 
   const clicked1 = e.target.closest('.bi-edit')

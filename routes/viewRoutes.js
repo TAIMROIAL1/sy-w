@@ -274,6 +274,16 @@ router.get('/workshops/:chapter', checkJWT, catchAsync(async(req, res) => {
   });
 }))
 
+router.get('/form', checkJWT, catchAsync(async(req, res) => {
+  if (!res.locals.user) {
+      return res.status(200).render("toSign");
+    }
+  const { user } = res.locals;
+
+  if(user.didForm) return res.status(200).render('toMain');
+
+  res.status(200).render('form');
+}))
 module.exports = router;
 
 /**

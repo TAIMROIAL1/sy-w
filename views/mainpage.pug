@@ -101,8 +101,8 @@ block content
         - if((user && !courses.includes(`68e2afd670fdce837ecf3a05`)) || !user)
           .price-container
             p.salary(data-price=60)= `💰 السعر : 60 ATP`
-            //- button.buy-btn اشتري الان  
-            .later لاحقا..
+            button.buy-btn اشتري الان  
+            //- .later لاحقا..
       .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
         - if(user?.role === 'admin')
           <i class="bi-trash" data-deletecount="0">&#128465;</i>

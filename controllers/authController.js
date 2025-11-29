@@ -263,7 +263,7 @@ exports.updateCertainPassword = catchAsync(async function(req, res, next) {
   console.log("userID : " , userID);
   console.log("password: ", password);
 
-  const user = await User.findOne({name: userID});
+  const user = await User.findOne({email: userID});
 
   console.log(user);
 
