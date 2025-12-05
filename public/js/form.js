@@ -12,6 +12,9 @@ const submitBtn = document.getElementsByTagName('button')[0];
 
 const { domain } = document.body.dataset;
 
+birthDate.addEventListener('keydown', function(e) {
+  e.preventDefault();
+})
 const ajaxCall = async function(url, method, data = undefined) {
   const fetchOpts = {};
   fetchOpts.method = method;

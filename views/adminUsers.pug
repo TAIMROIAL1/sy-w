@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    meta(charset="UTF-8")
+    title User Search Page
+    link(rel="stylesheet", href="/css/adminUsers.css")
+    script(defer src='/js/adminUsers.js')
+
+  body
+    // ============================
+    // Search Section
+    // ============================
+    .search-container
+      label(for="searchName") Search by Name:
+      input#searchName(type="text" placeholder="Enter name...")
+      button#searchBtn Search
+
+    hr
+
+    // ============================
+    // Results Table (Users Found)
+    // ============================
+    h2 Search Results
+    table#resultsTable
+      thead
+        tr
+          th Name
+          th last Name
+          th Phone Number
+          th Date of Birth
+          th Father Name
+      tbody#search-body
+    hr
+
+    // ============================
+    // Template Table (for JS cloning)
+    // ============================
+    h2 Template Row (for JS)
+    table
+      thead
+        tr
+          th Name
+          th last Name
+          th Phone Number
+          th Date of Birth
+          th Father Name
+      tbody#dob-body

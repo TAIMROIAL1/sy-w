@@ -98,6 +98,10 @@ const userSchema =  mongoose.Schema({
   },
   reasonToBlock: {
     type: String
+  },
+  didForm: {
+    type: Boolean,
+    default: false
   }
 })
 

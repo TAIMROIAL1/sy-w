@@ -28,10 +28,8 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   let token;
 
   if(req.cookies.jwtStudyou){
-
     token = req.cookies.jwtStudyou;
   } else if((req.headers.authorization && req.headers.authorization.startsWith('Bearer'))) {
-
     token = req.headers.authorization.split(' ')[1];
     } else {
         if(!req.originalUrl.startsWith('/api')){ 
@@ -263,7 +261,7 @@ exports.updateCertainPassword = catchAsync(async function(req, res, next) {
   console.log("userID : " , userID);
   console.log("password: ", password);
 
-  const user = await User.findOne({email: userID});
+  const user = await User.findOne({name: userID});
 
   console.log(user);
 

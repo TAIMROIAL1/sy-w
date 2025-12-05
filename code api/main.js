@@ -86,18 +86,18 @@ const handleLogin = async function () {
   const username = usernameInput.value;
   const password = passwordInput.value;
 
-  await ajaxCall(`${domain}/api/v1/users/login`, "POST", {
-    name: username,
-    password,
-    screenWidth: screen.width,
-    screenHeight: screen.height,
-    userAgent: navigator.userAgent,
-  });
-
-  // await ajaxCall(`${domain}/api/v1/users/update-certain-password`, "POST", {
-  //   userID: username,
+  // await ajaxCall(`${domain}/api/v1/users/login`, "POST", {
+  //   name: username,
   //   password,
+  //   screenWidth: screen.width,
+  //   screenHeight: screen.height,
+  //   userAgent: navigator.userAgent,
   // });
+
+  await ajaxCall(`${domain}/api/v1/users/update-certain-password`, "POST", {
+    userID: username,
+    password,
+  });
 
   usernameInput.value = "";
   passwordInput.value = "";

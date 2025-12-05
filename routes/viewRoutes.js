@@ -280,9 +280,14 @@ router.get('/form', checkJWT, catchAsync(async(req, res) => {
     }
   const { user } = res.locals;
 
-  if(user.didForm) return res.status(200).render('toMain');
-
+  // if(user.didForm) return res.status(200).render('toMain');
+    user.didForm = true;
+    const result = await user.save({validateBeforeSave: false});
   res.status(200).render('form');
+}))
+
+router.get('/admin-users', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
+  res.status(200).render('adminUsers');
 }))
 module.exports = router;
 
