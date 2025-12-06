@@ -274,15 +274,10 @@ router.get('/workshops/:chapter', checkJWT, catchAsync(async(req, res) => {
   });
 }))
 
-router.get('/form', checkJWT, catchAsync(async(req, res) => {
+router.get('/form', checkJWT, restrictTo('admin'), catchAsync(async(req, res) => {
   if (!res.locals.user) {
       return res.status(200).render("toSign");
     }
-  const { user } = res.locals;
-
-  // if(user.didForm) return res.status(200).render('toMain');
-    user.didForm = true;
-    const result = await user.save({validateBeforeSave: false});
   res.status(200).render('form');
 }))
 

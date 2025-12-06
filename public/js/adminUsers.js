@@ -2,6 +2,16 @@
 
 const searchBtn = document.getElementById('searchBtn');
 const searchBar = document.getElementById('searchName');
+const btnsContainer = document.querySelector('.btns');
+const pagesDiv = document.querySelector('.pages');
+const currentCounterDiv = document.querySelector('.current-counter')
+
+const domain = document.body.dataset.domainid;
+
+const allUsers = [];
+let counter = 0;
+let pages = 0;
+const pageLength = 3;
 
 const ajaxCall = async function(url, method, data = undefined) {
   const fetchOpts = {};
@@ -45,7 +55,7 @@ const getUsersByName = async function() {
 searchBtn.addEventListener('click', getUsersByName);
 
 const getUsersByDOB = async function() {
-  const users = await ajaxCall('http://127.0.0.1:3000/api/v1/forms/get-users', 'POST', {
+  const users = await ajaxCall(`${domain}/api/v1/forms/get-users`, 'POST', {
     searchMethod: 'Date',
     searchValue: 'smatak'
   })
@@ -54,4 +64,45 @@ const getUsersByDOB = async function() {
   renderUsers(body, users.users);
 }
 
+const getAllUsers = async function() {
+  const users = await ajaxCall(`${domain}/api/v1/forms/get-users`, 'POST', {
+    searchMethod: 'All',
+    searchValue: 'smatak'
+  })
+
+  allUsers.push(...users.users);
+
+  pages = Math.ceil(allUsers.length / pageLength);
+  pagesDiv.textContent = pages;
+  currentCounterDiv.textContent = 1;
+  const body = document.getElementById('all-body');
+  renderUsers(body, users.users.slice(0, pageLength));
+}
+
+btnsContainer.addEventListener('click', function(e) {
+  const {target} = e;
+
+  console.log(target);
+
+  if(!target.classList.contains('scroll-btn')) return;
+
+  if(target.id === 'left-btn') {
+    if(counter === 0) counter = pages;
+    else counter--;
+  }
+
+  else if(target.id === 'right-btn') {
+    if(counter === pages - 1) counter = 0; 
+    else counter++;
+  }
+
+  currentCounterDiv.textContent = counter + 1;
+  const body = document.getElementById('all-body');
+
+  console.log(counter);
+  console.log(allUsers);
+  renderUsers(body, allUsers.slice(counter * pageLength, counter * pageLength + pageLength))
+})
+
 getUsersByDOB();
+getAllUsers();

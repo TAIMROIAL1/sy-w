@@ -103,6 +103,9 @@ function readResponses(sm, sv) {
     console.log(users);
     return users;
   }
+  else if(sm === 'All') {
+    return rows;
+  }
 }
 
 exports.getUsers = catchAsync(async function(req, res, next) {

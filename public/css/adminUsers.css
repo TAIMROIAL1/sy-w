@@ -84,9 +84,24 @@ tbody tr:hover {
   background: #fafafa;
 }
 
-/* Example row styling */
-.example-row {
-  background: #fff8e6;
-  color: #555;
-  font-style: italic;
+.btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+
+}
+
+.scroll-btn {
+  border: solid 2px gray;
+  background-color: cyan;
+  padding: 2px;
+  border-radius: 30%;
+  cursor: pointer;
+}
+
+.scroll-btn:hover {
+  opacity: 0.7;
 }

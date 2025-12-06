@@ -5,21 +5,14 @@ html
     title User Search Page
     link(rel="stylesheet", href="/css/adminUsers.css")
     script(defer src='/js/adminUsers.js')
-
-  body
-    // ============================
-    // Search Section
-    // ============================
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domainid= `${domain}`)
     .search-container
       label(for="searchName") Search by Name:
       input#searchName(type="text" placeholder="Enter name...")
       button#searchBtn Search
 
     hr
-
-    // ============================
-    // Results Table (Users Found)
-    // ============================
     h2 Search Results
     table#resultsTable
       thead
@@ -31,11 +24,7 @@ html
           th Father Name
       tbody#search-body
     hr
-
-    // ============================
-    // Template Table (for JS cloning)
-    // ============================
-    h2 Template Row (for JS)
+    h2 Date Results
     table
       thead
         tr
@@ -45,3 +34,20 @@ html
           th Date of Birth
           th Father Name
       tbody#dob-body
+    hr
+    h2 All Results
+    table
+      thead
+        tr
+          th Name
+          th last Name
+          th Phone Number
+          th Date of Birth
+          th Father Name
+      tbody#all-body
+    .btns
+      btn#left-btn.scroll-btn <-
+      .current-counter 0
+      p /
+      .pages 0
+      btn#right-btn.scroll-btn ->
