@@ -64,7 +64,7 @@ const getUsersByValue = async function() {
 
     const searchMethod = [...document.querySelectorAll('.search-option-btn')].find(btn => btn.classList.contains('selected')).textContent;
 
-    const res = await ajaxCall('http://127.0.0.1:3000/api/v1/forms/get-users', 'POST', {
+    const res = await ajaxCall(`${domain}/api/v1/forms/get-users`, 'POST', {
         searchMethod,
         searchValue: searchBar.value
     });
