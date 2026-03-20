@@ -8,42 +8,46 @@ html
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domainid= `${domain}`)
     .search-container
-      label(for="searchName") Search by Name:
-      input#searchName(type="text" placeholder="Enter name...")
-      button#searchBtn Search
-
+      .search-options(style="width: 100%;")
+        h3(style="display: inline;") Search by : 
+        btn.search-option-btn.selected(style="margin-right: 10px;") Name
+        btn.search-option-btn Code
+      .search-bar(style="width: 100%;")
+        input#searchName(type="text" placeholder="Enter value...")
+        button#searchBtn(style="margin-left: 10px;") Search
+      .error-message.hidden(style="width: 100%;")
+        p(style="margin: 0;")
+    
+    .settings
+      .title(style="width: 100%;")
+        h3(style="margin-bottom: 0;") تغيير الكلمة
+      .pass-body(style="width: 100%;")
+        input#username(placeholder='اسم المستخدم')
+        input#password(placeholder='كلمة السر ')
+        button.search-btn#login تغيير
+    
     hr
     h2 Search Results
     table#resultsTable
       thead
         tr
           th Name
-          th last Name
-          th Phone Number
-          th Date of Birth
-          th Father Name
+          th email
+          th value
+          th active
+          th activate
       tbody#search-body
-    hr
-    h2 Date Results
-    table
-      thead
-        tr
-          th Name
-          th last Name
-          th Phone Number
-          th Date of Birth
-          th Father Name
-      tbody#dob-body
+
     hr
     h2 All Results
-    table
+    table#allResults
       thead
         tr
           th Name
-          th last Name
-          th Phone Number
-          th Date of Birth
-          th Father Name
+          th email
+          th value
+          th active
+          th activate
       tbody#all-body
     .btns
       btn#left-btn.scroll-btn <-

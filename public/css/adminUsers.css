@@ -25,12 +25,13 @@ hr {
 ============================ */
 .search-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.search-container input {
+.search-container input,  .pass-body input{
   padding: 8px 12px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -38,7 +39,7 @@ hr {
   width: 250px;
 }
 
-.search-container button {
+.search-container button, .search-btn {
   padding: 9px 16px;
   font-size: 16px;
   background: #4a6cf7;
@@ -104,4 +105,50 @@ tbody tr:hover {
 
 .scroll-btn:hover {
   opacity: 0.7;
+}
+
+.activate-btn {
+  background-color: #4a6cf7;
+  font-size: 14px;
+  border-radius: 21%;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.activate-btn:hover{
+  opacity: 0.9;
+}
+
+.activate-btn:active {
+  opacity: 0.7;
+}
+
+.search-option-btn {
+  background-color: rgb(122, 167, 55);
+  border-radius: 25%;
+  font-size: 15px;
+  padding: 2px;
+  color: white;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: rgb(58, 86, 17);
+}
+
+.error-message {
+  color: red;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
 }

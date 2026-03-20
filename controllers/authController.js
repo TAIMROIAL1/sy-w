@@ -363,3 +363,17 @@ exports.checkActivatedWorkshop = catchAsync(async function(req, res, next) {
     message: 'لم تشتري هذه الورشة, لا تخبص -_-'
   })
 })
+
+exports.activateUser = catchAsync(async function(req, res, next) {
+  const { username } = req.body;
+  console.log(username);
+  const user = await User.findOne({name: username});
+
+  user.active = true;
+  await user.save({validateBeforeSave: false});
+
+  res.status(200).json({
+    status: 'success',
+    message: "User actiivated successfully"
+  })
+})

@@ -2,6 +2,7 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 
 const User = require('./../models/userModel');
+const Code = require('./../models/codeModel');
 
 const express = require('express');
 const fs = require('fs');
@@ -63,63 +64,50 @@ XLSX.writeFile(workbook, 'responses.xlsx');
   });
 })
 
-function readResponses(sm, sv) {
-  if (!fs.existsSync('responses.xlsx')) {
-    return []; // No file yet → return empty array
-  }
-
-  const workbook = XLSX.readFile('responses.xlsx');
-  const sheetName = 'Responses';
-  const worksheet = workbook.Sheets[sheetName];
-
-  if (!worksheet) {
-    return []; // Sheet doesn't exist yet
-  }
-
-  // ✅ Convert sheet to array of objects
-  const rows = XLSX.utils.sheet_to_json(worksheet);
-  
-  if(sm === 'Name'){
-    const users = rows.filter(row => row.firstName.includes(sv));
-    
-    return users;
-  }
-  else if(sm === 'Date') {
-    const date = new Date();
-    const users = rows.filter(row => {
-      const parts = row.dob.split('-');
-      const [_, day, month] = parts;
-
-      const targetDate = new Date(
-        date.getFullYear(),
-      Number(month) - 1,
-      Number(day));
-
-      const diffMs = targetDate - date;
-      const diffDays = diffMs / (1000 * 60 * 60 * 24);
-        if(diffDays <= 5 && diffDays > -1)
-          return row;
-    })
-    console.log(users);
-    return users;
-  }
-  else if(sm === 'All') {
-    return rows;
-  }
-}
 
 exports.getUsers = catchAsync(async function(req, res, next) {
   const {searchMethod, searchValue} = req.body;
+  
+  let users = [];
+  switch(searchMethod) {
+    case 'All' :
+    users = await User.find({}).select('+active');
+    break;
+    case "Name":
+    users = await User.find({name: {$regex: searchValue}}).select('+active')
+    break;
+    case "Code":
+    const code = await Code.findOne({code: searchValue});
 
-  const users = readResponses(searchMethod, searchValue);
+    if(!code) {
+      return res.status(400).json({
+        status: 'fail',
+        message: 'الكود خاطئ'
+      })
+    }
+
+    if(code.activated === false) {
+
+      return res.status(400).json({
+        status: 'fail',
+        message: 'الكود غير مفعل'
+      })
+    }
+    users = await User.findById(code.activatedBy);
+
+    break;
+  }
 
      if(users.length > 0)
       res.status(200).json({
       status: 'success',
       users
      })
+
      else
       res.status(400).json({
     status: 'fail',
-  message: 'no results'})
+  message: 'لا نتائج'})
 })
+
+// cL6MjeTbzP3E

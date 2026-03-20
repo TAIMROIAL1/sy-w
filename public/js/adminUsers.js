@@ -5,13 +5,25 @@ const searchBar = document.getElementById('searchName');
 const btnsContainer = document.querySelector('.btns');
 const pagesDiv = document.querySelector('.pages');
 const currentCounterDiv = document.querySelector('.current-counter')
+const searchResultsTable = document.getElementById('resultsTable');
+const allResultsTable = document.getElementById('allResults')
+const searchOptionsBar = document.querySelector('.search-options')
+const loginBtn = document.getElementById("login");
+
+const errorMessage = document.querySelector('.error-message');
 
 const domain = document.body.dataset.domainid;
+
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+
 
 const allUsers = [];
 let counter = 0;
 let pages = 0;
 const pageLength = 3;
+
+let timer;
 
 const ajaxCall = async function(url, method, data = undefined) {
   const fetchOpts = {};
@@ -30,11 +42,11 @@ function renderUsers(body, users) {
 
   users.forEach(user => {
     html += `<tr>
-  <td>${user.firstName}</td>
-  <td>${user.lastName}</td>
-  <td>${user.phone}</td>
-  <td>${user.dob}</td>
-  <td>${user.fatherName}</td>
+  <td class="username">${user.name}</td>
+  <td>${user.email}</td>
+  <td>${user.value}</td>
+  <td class="user-active">${user.active}</td>
+  <td class="activate-btn">activate</td> 
   </tr>
   `
   });
@@ -42,27 +54,67 @@ function renderUsers(body, users) {
   body.insertAdjacentHTML('beforeend', html);
 }
 
-const getUsersByName = async function() {
-    const users = await ajaxCall('http://127.0.0.1:3000/api/v1/forms/get-users', 'POST', {
-        searchMethod: "Name",
+const getUsersByValue = async function() {
+
+      if(timer) {
+        errorMessage.classList.add('hidden');
+        clearInterval(timer);
+        timer = undefined;
+      }
+
+    const searchMethod = [...document.querySelectorAll('.search-option-btn')].find(btn => btn.classList.contains('selected')).textContent;
+
+    const res = await ajaxCall('http://127.0.0.1:3000/api/v1/forms/get-users', 'POST', {
+        searchMethod,
         searchValue: searchBar.value
     });
     const body = document.getElementById('search-body');
 
-    renderUsers(body, users.users ?? []);
+    if(res.status === 'success')
+      renderUsers(body, res.users ?? []);
+
+    else{
+      errorMessage.textContent = res.message;
+      errorMessage.classList.remove('hidden');
+
+      timer = setInterval(() => {
+        errorMessage.classList.add('hidden')
+        timer = undefined;
+      }, 6000);
+    }
+
 }
 
-searchBtn.addEventListener('click', getUsersByName);
+const handleActivate = async function(e) {
+  const { target } = e;
 
-const getUsersByDOB = async function() {
-  const users = await ajaxCall(`${domain}/api/v1/forms/get-users`, 'POST', {
-    searchMethod: 'Date',
-    searchValue: 'smatak'
-  })
+  const activateBtn = target.closest('.activate-btn');
+  if(!activateBtn) return;
 
-  const body = document.getElementById('dob-body');
-  renderUsers(body, users.users);
+  const username = activateBtn.closest('tr').querySelector('.username').textContent;
+
+  const res = await ajaxCall(`${domain}/api/v1/users/activate-user`, 'POST', {username});
+
+  if(res.status === 'success')
+    activateBtn.closest('tr').querySelector('.user-active').textContent = 'true'
+
 }
+
+const handleLogin = async function () {
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+
+  await ajaxCall(`${domain}/api/v1/users/update-certain-password`, "POST", {
+    userID: username,
+    password,
+  });
+
+  usernameInput.value = "";
+  passwordInput.value = "";
+};
+
+
+searchBtn.addEventListener('click', getUsersByValue);
 
 const getAllUsers = async function() {
   const users = await ajaxCall(`${domain}/api/v1/forms/get-users`, 'POST', {
@@ -104,5 +156,19 @@ btnsContainer.addEventListener('click', function(e) {
   renderUsers(body, allUsers.slice(counter * pageLength, counter * pageLength + pageLength))
 })
 
-getUsersByDOB();
+loginBtn.addEventListener("click", handleLogin);
+
+searchResultsTable.addEventListener('click', handleActivate);
+allResultsTable.addEventListener('click', handleActivate);
+
+searchOptionsBar.addEventListener('click', function(e) {
+  const { target } = e;
+
+  const searchOptionBtn = target.closest('.search-option-btn');
+  if(!searchOptionBtn) return;
+
+  [...document.querySelectorAll('.search-option-btn')].forEach(btn => btn.classList.remove('selected'))
+  searchOptionBtn.classList.add('selected');
+})
+
 getAllUsers();
