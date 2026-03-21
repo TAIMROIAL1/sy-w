@@ -70,9 +70,10 @@ const getUsersByValue = async function() {
     });
     const body = document.getElementById('search-body');
 
-    if(res.status === 'success')
-      renderUsers(body, res.users ?? []);
+    if(res.status === 'success'){
 
+      renderUsers(body, res.users ?? []);
+}
     else{
       errorMessage.textContent = res.message;
       errorMessage.classList.remove('hidden');
@@ -134,8 +135,6 @@ const getAllUsers = async function() {
 btnsContainer.addEventListener('click', function(e) {
   const {target} = e;
 
-  console.log(target);
-
   if(!target.classList.contains('scroll-btn')) return;
 
   if(target.id === 'left-btn') {
@@ -151,8 +150,6 @@ btnsContainer.addEventListener('click', function(e) {
   currentCounterDiv.textContent = counter + 1;
   const body = document.getElementById('all-body');
 
-  console.log(counter);
-  console.log(allUsers);
   renderUsers(body, allUsers.slice(counter * pageLength, counter * pageLength + pageLength))
 })
 

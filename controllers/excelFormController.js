@@ -7,6 +7,7 @@ const Code = require('./../models/codeModel');
 const express = require('express');
 const fs = require('fs');
 const XLSX = require('xlsx');
+const { CLIENT_RENEG_LIMIT } = require('tls');
 
 exports.addForm = catchAsync(async function(req, res, next) {
     const user = res.locals;
@@ -93,8 +94,7 @@ exports.getUsers = catchAsync(async function(req, res, next) {
         message: 'الكود غير مفعل'
       })
     }
-    users = await User.findById(code.activatedBy);
-
+    users = [await User.findById(code.activatedBy).select('+active')];
     break;
   }
 
@@ -110,4 +110,4 @@ exports.getUsers = catchAsync(async function(req, res, next) {
   message: 'لا نتائج'})
 })
 
-// cL6MjeTbzP3E
+// -3LgK6Ngi5AY
