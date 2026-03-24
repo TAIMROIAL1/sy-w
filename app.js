@@ -89,7 +89,7 @@ app.use(xssProtecter());
 app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(cors({
-  origin: ['https://studyou.online', 'https://sy-w.onrender.com', 'http://127.0.0.1:3000', 'http://127.0.0.1:8080'],
+  origin: ['https://studyou.online', 'https://sy-w.onrender.com', 'http://127.0.0.1:3000', 'http://127.0.0.1:8080', "https://cdn.jsdelivr.net/npm/nanoid/nanoid.js"],
   credentials: true
 }));
 

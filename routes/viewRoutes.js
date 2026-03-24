@@ -286,6 +286,6 @@ router.get('/admin-users', checkJWT, restrictTo('admin'), catchAsync((req, res) 
 }))
 module.exports = router;
 
-/**
-
- */
+router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
+  res.status(200).render('code-api');
+}))

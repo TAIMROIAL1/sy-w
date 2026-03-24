@@ -1,0 +1,53 @@
+doctype html
+head
+  meta(charset='utf-8')
+  title &#x644;&#x648;&#x62D;&#x629; &#x625;&#x62F;&#x627;&#x631;&#x629; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
+  link(rel='stylesheet' href='/css/code-api.css')
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+body(data-domain=`${domain}`)
+  .top
+    h2 &#x644;&#x648;&#x62D;&#x629; &#x62A;&#x62D;&#x643;&#x645; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
+  .container
+    .left.section
+      h3 &#x625;&#x646;&#x634;&#x627;&#x621; &#x623;&#x643;&#x648;&#x627;&#x62F; &#x62C;&#x62F;&#x64A;&#x62F;&#x629;
+      label &#x641;&#x626;&#x629; &#x627;&#x644;&#x628;&#x64A;&#x627;&#x646;&#x627;&#x62A;
+      input#category(type='text')
+      label &#x643;&#x645; &#x631;&#x645;&#x632; &#x641;&#x64A; &#x627;&#x644;&#x643;&#x648;&#x62F;
+      input#length(type='number' value='12')
+      label &#x639;&#x62F;&#x62F; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
+      input#count(type='number' value='')
+      label &#x642;&#x64A;&#x645;&#x629; &#x627;&#x644;&#x643;&#x648;&#x62F;
+      input#value(type='text' value='')
+      button#generate &#x625;&#x646;&#x634;&#x627;&#x621; &#x648;&#x62A;&#x62E;&#x632;&#x64A;&#x646;
+      button#saveNow &#x62D;&#x641;&#x638; &#x627;&#x644;&#x622;&#x646; &#x625;&#x644;&#x649; Excel
+    .right.section
+      h3 &#x627;&#x644;&#x625;&#x62D;&#x635;&#x627;&#x626;&#x64A;&#x627;&#x62A;
+      p#all-codes
+        | &#x639;&#x62F;&#x62F; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F; : 
+        span 0
+      p#all-active-codes
+        | &#x639;&#x62F;&#x62F; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F; &#x627;&#x644;&#x641;&#x639;&#x627;&#x644;&#x629;: 
+        span 0
+  hr
+  .codes-section
+    h3 &#x642;&#x627;&#x626;&#x645;&#x629; &#x627;&#x644;&#x641;&#x626;&#x627;&#x62A;
+    .categs
+    p#categoryCount.hidden
+      | &#x639;&#x62F;&#x62F; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F; &#x644;&#x647;&#x630;&#x647; &#x627;&#x644;&#x641;&#x626;&#x629;: 
+      span 0
+    p#categoryActiveCount.hidden
+      | &#x639;&#x62F;&#x62F; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F; &#x627;&#x644;&#x641;&#x639;&#x627;&#x644;&#x629; &#x644;&#x647;&#x630;&#x647; &#x627;&#x644;&#x641;&#x626;&#x629;: 
+      span 0
+  #codes-section.codes-section.hidden
+    h3 &#x642;&#x627;&#x626;&#x645;&#x629; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
+    table
+      thead
+        tr
+          th Code
+          th Value
+          th Active
+          th Category
+          th Action
+      tbody#codeTable
+  script(src="/js/nanoid.js")
+  script(type='module' src='/js/code-api.js')
