@@ -3,7 +3,6 @@ extends base
 block content
   section#workshops-section(style="padding-top: 100px; padding-bottom: 60px;")
     .cards.workshops
-      // كارت  ابو وائل مطور ويب
       each c , i in workshops
         .card.green(data-workshopid=`${c._id}`)
           img.card-img(src=`/imgs/workshops/${c.photoUrl}`, alt="")
