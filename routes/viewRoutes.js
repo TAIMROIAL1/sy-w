@@ -264,13 +264,23 @@ router.get('/videos/:videoId/edit-question/:questionId', checkJWT, restrictTo('a
   })
 }))
 
-router.get('/workshops/:chapter', checkJWT, catchAsync(async(req, res) => {
-  const { chapter } = req.params;
-  const workshops = await Workshop.find({chapter});
+router.get('/camp', checkJWT, catchAsync(async(req, res) => {
+  let user = undefined;
+    if (res.locals.user) {
+        user  = res.locals.user;
+    }
 
-  res.status(200).render('workshops', {
-    workshops,
-    buy_msg: "هل تريد شراء الورشة؟"
+  let checked = false;
+  const subcourses = ['69ed6fb1ad45e39f4a699ff0', '69ed6fc7ad45e39f4a699ff1', '69ed6fecad45e39f4a699ff2', '69ed7003ad45e39f4a699ff3', '69ed7023ad45e39f4a699ff4'];
+
+  if(user)
+    subcourses.forEach(sb =>{
+   if(user.subcourses.includes(sb)) checked = true
+  })
+
+  res.status(200).render('camp', {
+    buy_msg: "هل تريد شراء المعسكر",
+    checked
   });
 }))
 
@@ -289,3 +299,6 @@ module.exports = router;
 router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
   res.status(200).render('code-api');
 }))
+
+
+    

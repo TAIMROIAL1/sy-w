@@ -1015,7 +1015,7 @@ a {
 
 /* ورشات */
 
-#workshops {
+#camp {
   max-width: 800px;
   margin: auto;
   text-align: center;
@@ -1026,7 +1026,7 @@ a {
   font-size: 2rem;
   margin-bottom: 1.5rem;
 }
-.workshop {
+.camp {
   padding: 1rem 2.5rem;
   margin: 1rem auto;
   border-radius: 16px;
@@ -1045,7 +1045,7 @@ a {
   user-select: none;
 }
 
-.workshop::before {
+.camp::before {
   content: "";
   position: absolute;
   top: 0;
@@ -1057,21 +1057,21 @@ a {
   transition: left 0.5s ease;
 }
 
-.workshop:hover::before {
+.camp:hover::before {
   left: 100%;
 }
 
-.workshop {
+.camp {
   -webkit-tap-highlight-color: transparent; /* Removes blue overlay on tap */
 }
 
-.workshop:hover {
+.camp:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   background: linear-gradient(135deg, #388e3c, #66bb6a);
 }
 
-.workshop:active {
+.camp:active {
   transform: scale(0.98);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

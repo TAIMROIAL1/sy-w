@@ -41,8 +41,10 @@ codeSchema.methods.activateCode = async function(userId) {
   if(!activatioinCode) return false;
 
   if(this.category.trim().startsWith('workshop')) {
-    const workshopId = this.category.split(':')[1].trim();
-    user.workshops.push(workshopId);
+    // const workshopId = this.category.split(':')[1].trim();
+    // user.workshops.push(workshopId);
+    const subcourses = ['69ed6fb1ad45e39f4a699ff0', '69ed6fc7ad45e39f4a699ff1', '69ed6fecad45e39f4a699ff2', '69ed7003ad45e39f4a699ff3', '69ed7023ad45e39f4a699ff4'];
+    user.subcourses.push(...subcourses);
      const result = await user.save({validateBeforeSave: false});
 
   }

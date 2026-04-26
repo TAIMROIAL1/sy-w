@@ -1,0 +1,47 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width,\
+  initial-scale=1.0')
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='stylesheet' href='/css/camp.css')
+  link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
+  script(defer src="/js/camp.js")
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+body(data-domain=`${domain}` ,style='background-image: url(/imgs/backgroundImage.png);', data-hasCamp=`${checked === true? "hasCamp" : "noCamp"}`)
+  .container
+    section.hero
+      .hero-text
+        h1
+          | &#x645;&#x639; 
+          span  &#x627;&#x644;&#x633;&#x643;&#x631;
+          |  &#x631;&#x62D; &#x62A;&#x62A;&#x633;&#x643;&#x631;
+        p.head
+          | .معسكر علم الأحياء ... طريقك لضمان العلامة الكاملة و فهم ابحاث و نكشات الكتاب
+        .hero-buttons
+          //- a.btn.btn-primary(href='#')
+            | Buy Now
+          a.btn.btn-light(href='#our-features')
+            | تعرف أقسام المعسكر
+      .hero-image
+        img(src='/imgs/camp.png')
+  section#our-features.features
+    .container
+      h2(style="margin-bottom: 40px;")  &#x623;&#x642;&#x633;&#x627;&#x645; &#x627;&#x644;&#x645;&#x639;&#x633;&#x643;&#x631; &#x627;&#x644;&#x633;&#x643;&#x631;&#x64A;
+      .cards
+        .card
+          h3 &#x642;&#x633;&#x645; &#x627;&#x644;&#x634;&#x631;&#x62D;
+          ol.explination-list
+            li
+              a.solving(href="/subcourses/69ed6fb1ad45e39f4a699ff0/lessons") &#x634;&#x631;&#x62D; &#x627;&#x644;&#x645;&#x646;&#x647;&#x62C; &#x628;&#x634;&#x643;&#x644; &#x645;&#x641;&#x635;&#x644;
+            li
+              a.solving(href="/subcourses/69ed6fc7ad45e39f4a699ff1/lessons") &#x634;&#x631;&#x62D; &#x627;&#x644;&#x645;&#x646;&#x647;&#x62C; &#x628;&#x634;&#x643;&#x644; &#x645;&#x631;&#x643;&#x632;
+        .card
+          h3  &#x642;&#x633;&#x645; &#x627;&#x644;&#x62D;&#x644; 
+          ol.solving-list
+            li
+              a.solving(href="/subcourses/69ed6fecad45e39f4a699ff2/lessons")  حل النوطة
+            li
+              a.solving(href="/subcourses/69ed7003ad45e39f4a699ff3/lessons") حل دورات و نماذج استرشادية
+            li
+              a.solving(href="/subcourses/69ed7023ad45e39f4a699ff4/lessons") حل الشامل
