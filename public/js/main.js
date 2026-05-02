@@ -69,6 +69,11 @@ agreeBtn.addEventListener('click', async (e) => {
   return showNotification(data.message, data.status);
 })
 
+if(document.body.dataset.package === 'yes') {
+  document.querySelector('.solve-book').addEventListener('click', function() {
+    location.assign('/subcourses/69f5aa26233985ae8767a9f8/lessons');
+  })
+}
 
 suggestedContainer.addEventListener('click', async function(e){
   const id = e.target.closest('.card')?.dataset.courseid;

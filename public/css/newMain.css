@@ -1015,7 +1015,7 @@ a {
 
 /* ورشات */
 
-#camp {
+#camp, #solve-book {
   max-width: 800px;
   margin: auto;
   text-align: center;

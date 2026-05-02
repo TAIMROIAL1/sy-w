@@ -1,20 +1,6 @@
 extends base
 block content
   // القسم الرئيسي
-  .error.hidden
-    #site-toasts(aria-live="polite" dir="rtl")
-    .toast.toast-success.show(role="status" aria-hidden="false")
-      span.toast-icon
-        svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20")
-          path(d="M20 6L9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round")
-      .toast-text لقد تمت العملية بنجاح
-
-    .toast.toast-error.show.hidden(role="alert" aria-hidden="false")
-      span.toast-icon
-        svg(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20")
-          path(d="M12 8v4M12 16h.01M21 12A9 9 0 1 1 3 12a9 9 0 0 1 18 0z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round")
-      .toast-text هنالك خطأ
-  .backdrop.hidden
     .popup-message
       h2 &#x647;&#x644; &#x62A;&#x631;&#x64A;&#x62F; &#x634;&#x631;&#x627;&#x621; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x61F;
       .buttons
@@ -124,37 +110,37 @@ block content
             p.salary(data-price=50)= `💰 السعر : 50 ATP`
             button.buy-btn اشتري الان 
             //- .later لاحقا..
-    section#camp
-      <h2 style='margin-top: 100px;'>قسم المعسكر :</h2>
-      .camp معسكر العلوم 2026  
-    - if (user && user?.solveBook)
-      section#solve-book
-        <h2 style='margin-top: 100px;'>البكج السكري :</h2>
-        a.solve-book(href='/subcourses/69f5aa26233985ae8767a9f8/lessons') حل النوطة
-    // المسارات
-    section.courses#classes-section
-      h2 المراحل التعليمية :
-      .cards.classes
-        // كارت  ابو وائل مطور ويب
-        each c in classes
-          .card.green(data-classid=`${c._id}`, href=`/classes/${c._id}/courses`)
-            - if(user?.role === 'admin')
-              <i class="bi-trash" data-deletecount="0">&#128465;</i>
-              svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-                path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-                path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-            img.card-img(src=`imgs/courses/${c.photoUrl}`, alt="")
-            .card-header
-              p= c.title 
-              //- span.progress 84% 🌙
-            p.duration ⏰ اضبط ساعتك و جهز مشروبك المفضل و ابدأ مع السكر
-            p مش ضروري تكون عبقري حتى تمشي مع الدكتور إياد...المهم اصرارك... هنا تفهم العلوم
-            .tags
-              span شرح 
-              span حل 
-              span اختبارات
-              span متابعة دورية
-              span تقييم مستوى
+  section#camp
+    <h2 style='margin-top: 30px;'>قسم المعسكر :</h2>
+    .camp معسكر العلوم 2026  
+  - if (user && user?.solveBook)
+    section#solve-book
+      <h2 style='margin-top: 100px;'>البكج السكري :</h2>
+      .solve-book حل النوطة
+  // المسارات
+  section.courses#classes-section
+    h2 المراحل التعليمية :
+    .cards.classes
+      // كارت  ابو وائل مطور ويب
+      each c in classes
+        .card.green(data-classid=`${c._id}`, href=`/classes/${c._id}/courses`)
+          - if(user?.role === 'admin')
+            <i class="bi-trash" data-deletecount="0">&#128465;</i>
+            svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
+              path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
+              path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+          img.card-img(src=`imgs/courses/${c.photoUrl}`, alt="")
+          .card-header
+            p= c.title 
+            //- span.progress 84% 🌙
+          p.duration ⏰ اضبط ساعتك و جهز مشروبك المفضل و ابدأ مع السكر
+          p مش ضروري تكون عبقري حتى تمشي مع الدكتور إياد...المهم اصرارك... هنا تفهم العلوم
+          .tags
+            span شرح 
+            span حل 
+            span اختبارات
+            span متابعة دورية
+            span تقييم مستوى
     //- section.contact-section
       .contact-container
         .section-header
