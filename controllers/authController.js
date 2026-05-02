@@ -59,7 +59,7 @@ exports.checkJWT = catchAsync(async function(req, res, next) {
   
   //3) Check if a user exists PT
 
-    const user = await User.findOne({_id: id, active: true}).select('+role +active');
+    const user = await User.findOne({_id: id, active: true}).select('+role +active +solveBook');
     if(!user) {
       if(!req.originalUrl.startsWith('/api') ) return next();
       return next(new AppError('انت غير مسجل, الرجاء تسجيل الدخول', 401));
@@ -375,5 +375,20 @@ exports.activateUser = catchAsync(async function(req, res, next) {
   res.status(200).json({
     status: 'success',
     message: "User actiivated successfully"
+  })
+})
+
+exports.addPackage = catchAsync(async function(req, res, next) {
+  const { username } = req.body;
+
+  const user = await User.findOne({name: username});
+
+  user.solveBook = true;
+  user.subcourses.push('69f5aa26233985ae8767a9f8')
+  await user.save({validateBeforeSave: false});
+
+  res.status(200).json({
+    status: 'success',
+    message: "package added successfully"
   })
 })

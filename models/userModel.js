@@ -99,6 +99,10 @@ const userSchema =  mongoose.Schema({
   reasonToBlock: {
     type: String
   },
+  solveBook: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 userSchema.pre('save',async function(next) {

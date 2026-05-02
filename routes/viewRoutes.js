@@ -31,12 +31,16 @@ router.get("/", checkJWT, catchAsync(async (req, res) => {
     if(user){
     const subcourses =  [];
     for(let i = 0; i < user.subcourses.length; i++) {
+      if(user.subcourses[i].toString() === "69f5aa26233985ae8767a9f8"){
+        continue;
+      }
       const sc = await Subcourse.findById(user.subcourses[i]);
       if(sc) subcourses.push(sc);
     }
     courses = [...new Set(subcourses.map(sc => sc.course._id.toString()))];
-}
-    res.status(200).render("mainpage", {
+} 
+
+res.status(200).render("mainpage", {
       user,
       classes,
       courses,
@@ -157,6 +161,15 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     }
     const { user } = res.locals;
     const newUser = await User.findById(user._id).populate('subcourses').select('+role');
+    let index;
+    for(let i = 0; i < newUser.subcourses.length; i++) {
+      console.log(newUser.subcourses[i]);
+      if(newUser.subcourses[i]._id.toString() == "69f5aa26233985ae8767a9f8")
+        index = i;
+    }
+    if(!isNaN(index))
+      newUser.subcourses.splice(index, 1);
+    
     res.status(200).render("settings", {
       user: newUser,
       title: 'إعدادت الحساب',

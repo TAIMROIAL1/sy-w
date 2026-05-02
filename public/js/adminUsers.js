@@ -17,7 +17,6 @@ const domain = document.body.dataset.domainid;
 const usernameInput = document.getElementById("username");
 const passwordInput = document.getElementById("password");
 
-
 const allUsers = [];
 let counter = 0;
 let pages = 0;
@@ -46,7 +45,9 @@ function renderUsers(body, users) {
   <td>${user.email}</td>
   <td>${user.value}</td>
   <td class="user-active">${user.active}</td>
-  <td class="activate-btn">activate</td> 
+  <td class="activate-btn">activate</td>
+  <td class="added-package">${user.solveBook? true : false}</td>
+  <td class="add-btn">add</td> 
   </tr>
   `
   });
@@ -86,11 +87,11 @@ const getUsersByValue = async function() {
 
 }
 
-const handleActivate = async function(e) {
+const handleActivateAndAddPackage = async function(e) {
   const { target } = e;
 
   const activateBtn = target.closest('.activate-btn');
-  if(!activateBtn) return;
+  if(activateBtn){
 
   const username = activateBtn.closest('tr').querySelector('.username').textContent;
 
@@ -98,6 +99,18 @@ const handleActivate = async function(e) {
 
   if(res.status === 'success')
     activateBtn.closest('tr').querySelector('.user-active').textContent = 'true'
+  return;
+}
+  const addBtn = target.closest('.add-btn');
+  if(addBtn) {
+    const username = addBtn.closest('tr').querySelector('.username').textContent;
+
+  const res = await ajaxCall(`${domain}/api/v1/users/add-package`, 'POST', {username});
+
+  if(res.status === 'success')
+    addBtn.closest('tr').querySelector('.added-package').textContent = 'true'
+  return;
+  }
 
 }
 
@@ -155,8 +168,9 @@ btnsContainer.addEventListener('click', function(e) {
 
 loginBtn.addEventListener("click", handleLogin);
 
-searchResultsTable.addEventListener('click', handleActivate);
-allResultsTable.addEventListener('click', handleActivate);
+searchResultsTable.addEventListener('click', handleActivateAndAddPackage);
+allResultsTable.addEventListener('click', handleActivateAndAddPackage);
+
 
 searchOptionsBar.addEventListener('click', function(e) {
   const { target } = e;

@@ -127,6 +127,10 @@ block content
     section#camp
       <h2 style='margin-top: 100px;'>قسم المعسكر :</h2>
       .camp معسكر العلوم 2026  
+    - if (user && user?.solveBook)
+      section#solve-book
+        <h2 style='margin-top: 100px;'>البكج السكري :</h2>
+        a.solve-book(href='/subcourses/69f5aa26233985ae8767a9f8/lessons') حل النوطة
     // المسارات
     section.courses#classes-section
       h2 المراحل التعليمية :
