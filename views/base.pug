@@ -9,7 +9,7 @@ html(lang="ar", dir="rtl")
     meta(name='description', content=`${metaContent}`)
     link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-package = `${user.solveBook? 'yes' : 'no'}`, data-domain = `${domain}` , data-role=`${user ? user.role : undefined}`, style='background-image: url(/imgs/backgroundImage.png);')
+  body(data-package = `${user && user.solveBook? 'yes' : 'no'}`, data-domain = `${domain}` , data-role=`${user ? user.role : undefined}`, style='background-image: url(/imgs/backgroundImage.png);')
     header.navbar   
       .logo
         img.list-icon(src="/imgs/list.png", alt="Icon", width="24", height="24")
