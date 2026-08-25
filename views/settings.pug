@@ -7,7 +7,7 @@ html(lang='en')
     link(href="https://unpkg.com/css.gg@2.0.0/icons/css/danger.css"
          rel="stylesheet")
     link(rel="icon" type="image/x-icon" href="/imgs/favicon.ico")
-    title #{title || ''}
+    //- title #{title || ''}
     meta(name='description', content= metaContent || '')
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`, dir='rtl', lang='ar', data-role=`${user.role}`)
