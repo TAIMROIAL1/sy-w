@@ -163,19 +163,26 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     const newUser = await User.findById(user._id).populate('subcourses').select('+role');
     let index;
     for(let i = 0; i < newUser.subcourses.length; i++) {
-      console.log(newUser.subcourses[i]);
+
       if(newUser.subcourses[i]._id.toString() == "69f5aa26233985ae8767a9f8")
         index = i;
     }
     if(!isNaN(index))
       newUser.subcourses.splice(index, 1);
     
+    const title = 'إعدادت الحساب';
+    const metaContent = `تغيير الاسم و البريد و كلمة السر
+جميع كورساتي المفعلة
+تفعيل أكواد الكورسات`;
+
+    console.log("User: ", newUser.name);
+    console.log('Title: ', title);
+    console.log("Meta: ", metaContent)
+
     res.status(200).render("settings", {
       user: newUser,
-      title: 'إعدادت الحساب',
-      metaContent: `تغيير الاسم و البريد و كلمة السر
-جميع كورساتي المفعلة
-تفعيل أكواد الكورسات`
+      title,
+      metaContent 
     });
   })
 );
