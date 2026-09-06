@@ -56,54 +56,7 @@ h2 {
     letter-spacing: .3px;
 }
 
-.correct{
-    border-radius:10px ;
-    position: fixed;
-    top: -125px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  
-    width: 200px;
-    height: 125px;
-    z-index: 100;
-    animation: message 1s ease-out , message-return 1s ease-out 3s  ;
-    animation-fill-mode: forwards;
-   }
 
-   .correct-message{
-    text-align: center;
-    width: 95%;
-   position: absolute;
-   top:55px;
-   right: 5px;
-   }
- 
-   @keyframes message{
-    from{
-  top:-150px;
-    }
-    to{
-  top:15px;
-    }
-  }
-  @keyframes message-return{
-    from{
-  top:15px;
-    }
-    to{
-  top:-150px;
-    }
-  }
-
-.red{
-    background-color: rgb(233, 49, 3);
-}
-.green{
-    background-color: #42fa9e;
-}
 
 .hidden {
     display: none;
@@ -196,7 +149,6 @@ h2 {
     min-width: 0;
     background: var(--bg);
     order: 2;
-    position: relative;
 }
 
 

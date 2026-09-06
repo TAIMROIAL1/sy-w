@@ -1,0 +1,412 @@
+/* ===== Color Palette ===== */
+:root {
+  --purple: #432071;
+  --purple-dark: #321453;
+  --green: #46bd79;
+  --bg: #f7f8fa;
+  --text: #29252e;
+  --border: #dedfe5;
+  --muted: #77757d;
+  --card-bg: #ffffff;
+}
+
+/* ===== Global ===== */
+body {
+  font-family: "Cairo", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Dark Mode Variables ===== */
+body.dark {
+  --bg: #121212;
+  --card-bg: #1e1e1e;
+  --text: #f8f8f8;
+  --muted: #cfcfcf;
+  --border: #444;
+}
+
+body.dark .subscribe-btn {
+  background: #46bd79;
+  color: #fff;
+}
+
+body.dark .lesson-list li span {
+  color: #e6e6e6;
+}
+
+body.dark .lesson-list li {
+  background: #2a2a2a;
+}
+
+body.dark h2,
+body.dark .course-price,
+body.dark .footer-logo {
+  color: #b38cff;
+}
+
+/* ===== Header ===== */
+header {
+  background: var(--card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--purple);
+}
+
+.logo-shape {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--purple);
+}
+
+.auth-buttons button {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  margin-left: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.auth-buttons button:hover {
+  background: var(--purple-dark);
+}
+
+/* ===== Dark Mode Toggle ===== */
+.toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  display: inline-block;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  border-radius: 32px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.slider::before {
+  content: "☀️";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  top: 2px;
+  right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toggle input:checked + .slider {
+  background: var(--purple);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(-28px);
+  content: "🌙";
+}
+
+/* ===== Course Header ===== */
+.course-header {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background: var(--green);
+  border-radius: 0 0 20px 20px;
+  text-align: right;
+  color: #fff;
+}
+
+.course-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.course-header .start-date {
+  font-size: 18px;
+  color: #e8ffe8;
+}
+
+.back-link {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* ===== Main Layout ===== */
+.course-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1000px;
+  margin: 0 auto 40px;
+  padding: 0 20px;
+  gap: 60px;
+}
+
+.course-photo-block {
+  flex: 0 0 45%;
+}
+
+.course-about {
+  flex: 0 0 40%;
+}
+
+/* ===== Photo Block ===== */
+.photo-frame {
+  width: 100%;
+  border: 3px solid #fdfdfd;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 12px;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.course-price {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--purple);
+  margin-bottom: 8px;
+}
+
+.lessons-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.subscribe-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.25s ease;
+  margin-top: 10px;
+}
+
+.subscribe-btn:hover {
+  background: var(--purple);
+}
+
+/* ===== About Box ===== */
+.course-about {
+  background: var(--card-bg);
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 18px;
+}
+
+.course-about h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 8px;
+}
+
+.course-about p {
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* ===== Lessons Section ===== */
+.lessons-section {
+  max-width: 900px;
+  margin: 20px auto;
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.lessons-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.lesson-week {
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.lesson-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lesson-list li {
+  background: #f1f3f6;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lesson-list li span {
+  font-weight: 700;
+  color: var(--purple);
+}
+
+.lesson-list li button {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.lesson-list li button:hover {
+  background: var(--purple);
+}
+
+/* ===== Footer ===== */
+footer {
+  background: var(--card-bg);
+  padding: 30px 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--purple);
+  margin-bottom: 20px;
+}
+
+.footer-logo-shape {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: var(--purple);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-links h3 {
+  color: var(--purple);
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.rights {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .course-main {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .course-photo-block,
+  .course-about {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .course-header {
+    text-align: center;
+  }
+
+  .lessons-section {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 700px) {
+  .auth-buttons button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
+
+/* ===== Dark Mode Fixes ===== */
+body.dark header {
+  background: var(--card-bg);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.08);
+}
+
+body.dark .lesson-list li {
+  background: #3a3a3a;
+}
+
+body.dark footer {
+  background: var(--card-bg);
+  border-top: 1px solid var(--border);
+}

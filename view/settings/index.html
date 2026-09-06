@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#432071" />
+    <title>لوحة التحكم التعليمية</title>
+    <link rel="stylesheet" href="settings.css"/>
+  </head>
+
+  <body>
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+
+    <div class="app-shell">
+      <!-- طبقة الخلفية للموبايل -->
+      <label for="menu-toggle" class="sidebar-overlay"></label>
+
+      <!-- القائمة الرئيسية - أصبحت على اليسار -->
+      <aside class="sidebar">
+        <div class="sidebar-head">
+          <span>القائمة</span>
+          <label for="menu-toggle" class="close-menu" aria-label="إغلاق القائمة"
+            >×</label
+          >
+        </div>
+
+        <nav class="menu">
+          <a class="menu-item active item-number-1" href="#">
+            <span class="menu-icon">⌂</span>
+            <span>المعلومات الرئيسية</span>
+          </a>
+
+          <a class="menu-item item-number-2" href="#">
+            <span class="menu-icon">▣</span>
+            <span>الكورسات المفعلة</span>
+          </a>
+
+          <a class="menu-item item-number-3" href="#">
+            <span class="menu-icon">?</span>
+            <span>تفعيل الأكواد</span>
+          </a>
+        </nav>
+      </aside>
+
+      <div class="page">
+        <!-- الهيدر -->
+        <header class="topbar">
+          <div class="profile">
+            <div class="avatar">أ</div>
+            <div class="profile-name">أحمد خالد</div>
+            <span class="chevron">⌄</span>
+          </div>
+
+          <div class="header-actions">
+            <label
+              for="menu-toggle"
+              class="mobile-menu-button"
+              aria-label="فتح القائمة"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </label>
+
+            <div class="notification"></div>
+          </div>
+        </header>
+
+        <main class="content">
+          <!-- المعلومات الشخصية -->
+          <section class="card info-card section-1">
+            <h2>المعلومات الشخصية</h2>
+
+            <div class="info-grid">
+              <div class="info-box">
+                <div class="info-icon">♙</div>
+                <div class="info-text">
+                  <span class="label">الاسم الكامل</span>
+                  <strong>أحمد خالد أحمد</strong>
+                </div>
+              </div>
+
+              <div class="info-box">
+                <div class="info-icon">✉</div>
+                <div class="info-text">
+                  <span class="label">البريد الإلكتروني</span>
+                  <strong>ahmed@gmail.com</strong>
+                </div>
+              </div>
+
+              <div class="info-box">
+                <div class="info-icon">♧</div>
+                <div class="info-text">
+                  <span class="label">نوع الحساب</span>
+                  <strong>جوجل</strong>
+                </div>
+              </div>
+
+              <!-- إعادة تعيين كلمة المرور -->
+              <div class="password-box">
+                <div class="info-icon password-icon">🔒</div>
+                <div class="password-content">
+                  <span class="label">كلمة المرور</span>
+                  <input class="border-reset-btn" type="text" />
+                  <button class="reset-password" type="button">
+                    إعادة تعيين كلمة المرور
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="card color-card section-1">
+            <h2>الوضع المظلم</h2>
+
+            <div class="color-row">
+              <div class="toggle-wrap">
+                <label class="toggle">
+                  <input type="checkbox" id="dark-toggle" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- الكورسات -->
+          <section class="card courses-card section-2 hidden">
+            <h2>الكورسات المفعلة</h2>
+
+            <div class="courses-grid">
+              <article class="course">
+                <div class="course-image image-one">
+                  <span>دورة التصميم الجرافيكي<br />للمبتدئين</span>
+                </div>
+                <h3>دورة التصميم الجرافيكي للمبتدئين</h3>
+                <div class="progress-row">
+                  <span>التقدم</span>
+                  <b>25%</b>
+                </div>
+                <div class="progress"><span style="width: 25%"></span></div>
+                <div class="course-footer">
+                  <span>أكمل</span>
+                  <button>مفعل</button>
+                </div>
+              </article>
+
+              <article class="course">
+                <div class="course-image image-two">
+                  <span>أساسيات البرمجة بلغة<br />بايثون</span>
+                </div>
+                <h3>أساسيات البرمجة بلغة بايثون</h3>
+                <div class="progress-row">
+                  <span>التقدم</span>
+                  <b>60%</b>
+                </div>
+                <div class="progress"><span style="width: 60%"></span></div>
+                <div class="course-footer">
+                  <span>متقدم</span>
+                  <button>مفعل</button>
+                </div>
+              </article>
+
+              <article class="course">
+                <div class="course-image image-three">
+                  <span>أساسيات البرمجة بلغة<br />بايثون</span>
+                </div>
+                <h3>أساسيات البرمجة بلغة بايثون</h3>
+                <div class="progress-row">
+                  <span>التقدم</span>
+                  <b>40%</b>
+                </div>
+                <div class="progress"><span style="width: 40%"></span></div>
+                <div class="course-footer">
+                  <span>متقدم</span>
+                  <button>مفعل</button>
+                </div>
+              </article>
+
+              <article class="course">
+                <div class="course-image image-four">
+                  <span>دورة التصميم الجرافيكي<br />للمبتدئين</span>
+                </div>
+                <h3>دورة التصميم الجرافيكي للمبتدئين</h3>
+                <div class="progress-row">
+                  <span>التقدم</span>
+                  <b>75%</b>
+                </div>
+                <div class="progress"><span style="width: 75%"></span></div>
+                <div class="course-footer">
+                  <span>متقدم</span>
+                  <button>مفعل</button>
+                </div>
+              </article>
+
+              <article class="course">
+                <div class="course-image image-five">
+                  <span>دورة التصميم الجرافيكي<br />للمبتدئين</span>
+                </div>
+                <h3>دورة التصميم الجرافيكي للمبتدئين</h3>
+                <div class="progress-row">
+                  <span>التقدم</span>
+                  <b>85%</b>
+                </div>
+                <div class="progress"><span style="width: 85%"></span></div>
+                <div class="course-footer">
+                  <span>متقدم</span>
+                  <button>مفعل</button>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- تفعيل الأكواد -->
+          <section class="card activation-card section-3 hidden">
+            <h2>تفعيل الأكواد</h2>
+
+            <div class="activation-row">
+              <input type="text" placeholder="أدخل الكود هنا" />
+              <button class="activate-btn" type="button">تفعيل الكود</button>
+            </div>
+
+            <div class="messages">
+              <h3>جانب من النظام:</h3>
+              <ul>
+                <li>يرجى التحقق من صحة الكود قبل النقر على التفعيل</li>
+                <li>يرجى التحقق من صحة الكود قبل إتمام التفعيل</li>
+                <li>يرجى التحقق من صحة الكود قبل تنفيذ التفعيل</li>
+              </ul>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script src="./main.js"></script>
+  </body>
+</html>

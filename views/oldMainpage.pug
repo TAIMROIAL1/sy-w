@@ -1,0 +1,181 @@
+extends base
+block content
+  // القسم الرئيسي
+    .popup-message
+      h2 &#x647;&#x644; &#x62A;&#x631;&#x64A;&#x62F; &#x634;&#x631;&#x627;&#x621; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x61F;
+      .buttons
+        button.confirm-btn &#x62A;&#x623;&#x643;&#x64A;&#x62F;
+        button.cancel-btn &#x625;&#x644;&#x63A;&#x627;&#x621;
+  .promo
+    section.hero
+      .promo-img-container
+        img.promo-img(src='/imgs/الصورة-الرئيسية.png')
+      .promo-text-container
+        h1 مستقبلك في يديك...هنا تفهم العلوم وتحسها سكرة 
+        p أهلا وسهلا في بيتك التاني !
+        p رح تلاقي كلشي بتحتاجه لتتفوق بالعلوم
+        p خطة منظمة، شرح سهل ومتابعة مستمرة لحد ما توصل
+        - if(!user)
+          a.promo-link-sign(href='/sign-up') أنشئ حسابك الآن
+        p مين د. إياد سكر ؟!
+        P.last-text إياد سكر مدرس علم أحياء، إلي سنوات بساعد الطلاب يوصلوا للكلية الهدف يلي الن سنوات بيحلموا فيها .. كل ما تحتاجه رح تلاقي هنا بالمنصة السكرية
+        //- <a href="imgs/add.png" download>Download img</a>
+  section.courses
+    h2 ليه تشترك معانا؟
+    .cards
+      // كارت  ابو وائل مطور ويب
+      a.card.purple
+        p.num 1
+        p.card-des شرح بسيط و مفهوم
+      a.card.purple
+        p.num 2
+        p.card-des فيديوهات برسومات توضيحية
+      a.card.purple
+        p.num 3
+        p.card-des تمارين تفاعلية على الدروس
+      a.card.purple
+        p.num 4
+        p.card-des مرونة كاملة في المذاكرة
+      a.card.purple
+        p.num 5
+        p.card-des اختبارات مستمرة
+      a.card.purple
+        p.num 6
+        p.card-des محتوى متكامل ومنظم
+  .courses
+    h2 بعض كورسات المنصة :
+    .cards#suggested-courses
+      // كارت  ابو وائل مطور ويب
+      .card.purple(data-courseid=`68e2af9370fdce837ecf39e9`, href=`/courses/68e2af9370fdce837ecf39e9/subcourses`)
+        - if(user?.role === 'admin')
+         <i class="bi-trash" data-deletecount="0">&#128465;</i>
+         svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
+            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
+            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+        img.card-img(src=`imgs/courses/neurology.jpg`, alt="")
+        .card-header
+          p كورس العصبية 
+          //- span.progress 84% 🌙
+        p.duration ⏰ اضبط ساعتك يوم السبت والاثنين والأربعاء ع 8 مساءً 
+        p= `📘11 درس عصبية تمنحك مفتاح الوعي! \n نخوض رحلة إلى مركز التحكم في الجسم وأعقد شبكة اتصالات، نحلل فيها العصبون ونكتشف كيف يتم تنسيق الإحساس والحركة، وصولاً لأسرار النوم والذاكرة والعقل الباطن التي تنتظرك لتبدأ الرحلة` 
+        .tags
+          span شرح 
+          span حل 
+          span اختبارات
+          span متابعة دورية
+        - if((user && !courses.includes(`68e2af9370fdce837ecf39e9`)) || !user)
+          .price-container
+            p.salary(data-price= 100)= `💰 السعر : 100 ATP`
+            button.buy-btn اشتري الان 
+      // كارت علم البيانات
+      .card.green(data-courseid=`68e2afd670fdce837ecf3a05`, href=`/courses/68e2afd670fdce837ecf3a05/subcourses`)
+        - if(user?.role === 'admin')
+          <i class="bi-trash" data-deletecount="0">&#128465;</i>
+          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
+            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
+            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+        img.card-img(src=`imgs/courses/receptors.jpg`, alt="")
+        .card-header
+          p المستقبلات
+        p.duration ⏰ يتم تحديد التوقيت تبعا لخطة الفصل الأول
+        p= `📘 6 دروس مستقبلات: جهاز استخباراتك الداخلي جاهز! \n لننقل الأخبار ونبقى على ارتباط بالتبدلات، بدءًا من خلايا شعراتا سبايكي إلى العين وخلاياها، لفك شفرة العالم المحيط بك وبداخلك`
+        .tags
+          span شرح 
+          span حل 
+          span اختبارات
+          span متابعة دورية
+        - if((user && !courses.includes(`68e2afd670fdce837ecf3a05`)) || !user)
+          .price-container
+            p.salary(data-price=60)= `💰 السعر : 60 ATP`
+            button.buy-btn اشتري الان  
+            //- .later لاحقا..
+      .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
+        - if(user?.role === 'admin')
+          <i class="bi-trash" data-deletecount="0">&#128465;</i>
+          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
+            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
+            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+        img.card-img(src=`imgs/courses/hormones.jpg`, alt="")
+        .card-header
+          p الهرمونات
+        p.duration= `⏰ يتم تحديد التوقيت تبعا لخطة الفصل الأول`
+        p= `📘 التوازن يتحقق في 4 دروس هرمونات! \n سنُتقن التنسيق العصبي والهرموني بدءًا من الـ (Big Boss) ومايسترو الغدد، لنستكشفها شكليًا ووظيفيًا ومرضيًا، ونختتم بمواد التنسيق النباتية التي تضبط العمليات الفيزيولوجية.`
+        .tags
+          span شرح 
+          span حل 
+          span اختبارات
+          span متابعة دورية
+        - if((user && !courses.includes(`68e2afc470fdce837ecf39f7`)) || !user)
+          .price-container
+            p.salary(data-price=50)= `💰 السعر : 50 ATP`
+            button.buy-btn اشتري الان 
+            //- .later لاحقا..
+  section#camp
+    <h2 style='margin-top: 30px;'>قسم المعسكر :</h2>
+    .camp معسكر العلوم 2026  
+  - if (user && user?.solveBook)
+    section#solve-book
+      <h2 style='margin-top: 100px;'>البكج السكري :</h2>
+      .solve-book حل النوطة
+  // المسارات
+  section.courses#classes-section
+    h2 المراحل التعليمية :
+    .cards.classes
+      // كارت  ابو وائل مطور ويب
+      each c in classes
+        .card.green(data-classid=`${c._id}`, href=`/classes/${c._id}/courses`)
+          - if(user?.role === 'admin')
+            <i class="bi-trash" data-deletecount="0">&#128465;</i>
+            svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
+              path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
+              path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
+          img.card-img(src=`imgs/courses/${c.photoUrl}`, alt="")
+          .card-header
+            p= c.title 
+            //- span.progress 84% 🌙
+          p.duration ⏰ اضبط ساعتك و جهز مشروبك المفضل و ابدأ مع السكر
+          p مش ضروري تكون عبقري حتى تمشي مع الدكتور إياد...المهم اصرارك... هنا تفهم العلوم
+          .tags
+            span شرح 
+            span حل 
+            span اختبارات
+            span متابعة دورية
+            span تقييم مستوى
+    //- section.contact-section
+      .contact-container
+        .section-header
+          h2.section-title تواصل معنا 
+          .title-underline
+        .contact-content-grid
+          .contact-info-container
+            h3.contact-subtitle لنتكلم عن مشكاتك 
+            p.contact-text
+              | I&apos;m currently available for freelance work. If you have a project that you want to get started, think you need my help with something, or just fancy saying hello, then get in touch.
+            .contact-details-list
+              .contact-detail-item
+                .icon-bg
+                  i.icon-color(data-feather="mail")
+                span.detail-text rayansalameh@gmail.com
+              .contact-detail-item
+                .icon-bg
+                  i.icon-color(data-feather="phone")
+                span.detail-text 0949808802
+              .contact-detail-item
+                .icon-bg
+                  i.icon-color(data-feather="map-pin")
+                span.detail-text syria
+          .contact-form-container
+            form.contact-form
+              div
+                label.form-label(for="name") الاسم
+                input#name.form-input(type="text", name="name", required)
+              div
+                label.form-label(for="email") الايميل 
+                input#email.form-input(type="email", name="email", required)
+              div
+                label.form-label(for="message") الرسالة
+                textarea#message.form-textarea(name="message", rows="5", required)
+              button.submit-button(type="submit")
+                | ارسال الرسالة
+block scripts
+  script(defer, type='module', src='/js/main.js')

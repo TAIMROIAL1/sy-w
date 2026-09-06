@@ -1,181 +1,297 @@
-extends base
-block content
-  // القسم الرئيسي
-    .popup-message
-      h2 &#x647;&#x644; &#x62A;&#x631;&#x64A;&#x62F; &#x634;&#x631;&#x627;&#x621; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x61F;
-      .buttons
-        button.confirm-btn &#x62A;&#x623;&#x643;&#x64A;&#x62F;
-        button.cancel-btn &#x625;&#x644;&#x63A;&#x627;&#x621;
-  .promo
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title &#x627;&#x64A;&#x627;&#x62F; &#x633;&#x643;&#x631; - &#x645;&#x646;&#x635;&#x62A;&#x643; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649; &#x644;&#x62A;&#x639;&#x644;&#x645; &#x627;&#x644;&#x639;&#x644;&#x648;&#x645;
+  link(href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='/css/mainpage.css')
+  base(target='_blank')
+- const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+body
+  // Navbar
+  nav.navbar
+    .navbar-inner
+      .logo
+        div
+          .logo-text &#x627;&#x64A;&#x627;&#x62F; &#x633;&#x643;&#x631;
+          .logo-sub &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628; &#x628;&#x633;&#x64A;&#x637;
+      .nav-links
+        a.active(href='#') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+        a(href='#') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+        a(href='#') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
+        a(href=`${domain}/settings`) اعدادات الحساب
+      button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+      .menu-toggle-wrap
+        button.mobile-menu-btn
+          svg(width='28' height='28' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+            line(x1='3' y1='12' x2='21' y2='12')
+            line(x1='3' y1='6' x2='21' y2='6')
+            line(x1='3' y1='18' x2='21' y2='18')
+        label.toggle
+          input#dark-toggle(type='checkbox')
+          span.slider
+    #mobileMenu.mobile-menu
+      a.active(href='#') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+      a(href='#') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+      a(href='#') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
+      a(href=`${domain}/settings`) اعدادات الحساب
+  // Main Content
+  main
+    // Hero Section
     section.hero
-      .promo-img-container
-        img.promo-img(src='/imgs/الصورة-الرئيسية.png')
-      .promo-text-container
-        h1 مستقبلك في يديك...هنا تفهم العلوم وتحسها سكرة 
-        p أهلا وسهلا في بيتك التاني !
-        p رح تلاقي كلشي بتحتاجه لتتفوق بالعلوم
-        p خطة منظمة، شرح سهل ومتابعة مستمرة لحد ما توصل
-        - if(!user)
-          a.promo-link-sign(href='/sign-up') أنشئ حسابك الآن
-        p مين د. إياد سكر ؟!
-        P.last-text إياد سكر مدرس علم أحياء، إلي سنوات بساعد الطلاب يوصلوا للكلية الهدف يلي الن سنوات بيحلموا فيها .. كل ما تحتاجه رح تلاقي هنا بالمنصة السكرية
-        //- <a href="imgs/add.png" download>Download img</a>
-  section.courses
-    h2 ليه تشترك معانا؟
-    .cards
-      // كارت  ابو وائل مطور ويب
-      a.card.purple
-        p.num 1
-        p.card-des شرح بسيط و مفهوم
-      a.card.purple
-        p.num 2
-        p.card-des فيديوهات برسومات توضيحية
-      a.card.purple
-        p.num 3
-        p.card-des تمارين تفاعلية على الدروس
-      a.card.purple
-        p.num 4
-        p.card-des مرونة كاملة في المذاكرة
-      a.card.purple
-        p.num 5
-        p.card-des اختبارات مستمرة
-      a.card.purple
-        p.num 6
-        p.card-des محتوى متكامل ومنظم
-  .courses
-    h2 بعض كورسات المنصة :
-    .cards#suggested-courses
-      // كارت  ابو وائل مطور ويب
-      .card.purple(data-courseid=`68e2af9370fdce837ecf39e9`, href=`/courses/68e2af9370fdce837ecf39e9/subcourses`)
-        - if(user?.role === 'admin')
-         <i class="bi-trash" data-deletecount="0">&#128465;</i>
-         svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-        img.card-img(src=`imgs/courses/neurology.jpg`, alt="")
-        .card-header
-          p كورس العصبية 
-          //- span.progress 84% 🌙
-        p.duration ⏰ اضبط ساعتك يوم السبت والاثنين والأربعاء ع 8 مساءً 
-        p= `📘11 درس عصبية تمنحك مفتاح الوعي! \n نخوض رحلة إلى مركز التحكم في الجسم وأعقد شبكة اتصالات، نحلل فيها العصبون ونكتشف كيف يتم تنسيق الإحساس والحركة، وصولاً لأسرار النوم والذاكرة والعقل الباطن التي تنتظرك لتبدأ الرحلة` 
-        .tags
-          span شرح 
-          span حل 
-          span اختبارات
-          span متابعة دورية
-        - if((user && !courses.includes(`68e2af9370fdce837ecf39e9`)) || !user)
-          .price-container
-            p.salary(data-price= 100)= `💰 السعر : 100 ATP`
-            button.buy-btn اشتري الان 
-      // كارت علم البيانات
-      .card.green(data-courseid=`68e2afd670fdce837ecf3a05`, href=`/courses/68e2afd670fdce837ecf3a05/subcourses`)
-        - if(user?.role === 'admin')
-          <i class="bi-trash" data-deletecount="0">&#128465;</i>
-          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-        img.card-img(src=`imgs/courses/receptors.jpg`, alt="")
-        .card-header
-          p المستقبلات
-        p.duration ⏰ يتم تحديد التوقيت تبعا لخطة الفصل الأول
-        p= `📘 6 دروس مستقبلات: جهاز استخباراتك الداخلي جاهز! \n لننقل الأخبار ونبقى على ارتباط بالتبدلات، بدءًا من خلايا شعراتا سبايكي إلى العين وخلاياها، لفك شفرة العالم المحيط بك وبداخلك`
-        .tags
-          span شرح 
-          span حل 
-          span اختبارات
-          span متابعة دورية
-        - if((user && !courses.includes(`68e2afd670fdce837ecf3a05`)) || !user)
-          .price-container
-            p.salary(data-price=60)= `💰 السعر : 60 ATP`
-            button.buy-btn اشتري الان  
-            //- .later لاحقا..
-      .card.green(data-courseid=`68e2afc470fdce837ecf39f7`, href=`/courses/68e2afc470fdce837ecf39f7/subcourses`)
-        - if(user?.role === 'admin')
-          <i class="bi-trash" data-deletecount="0">&#128465;</i>
-          svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-            path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-            path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-        img.card-img(src=`imgs/courses/hormones.jpg`, alt="")
-        .card-header
-          p الهرمونات
-        p.duration= `⏰ يتم تحديد التوقيت تبعا لخطة الفصل الأول`
-        p= `📘 التوازن يتحقق في 4 دروس هرمونات! \n سنُتقن التنسيق العصبي والهرموني بدءًا من الـ (Big Boss) ومايسترو الغدد، لنستكشفها شكليًا ووظيفيًا ومرضيًا، ونختتم بمواد التنسيق النباتية التي تضبط العمليات الفيزيولوجية.`
-        .tags
-          span شرح 
-          span حل 
-          span اختبارات
-          span متابعة دورية
-        - if((user && !courses.includes(`68e2afc470fdce837ecf39f7`)) || !user)
-          .price-container
-            p.salary(data-price=50)= `💰 السعر : 50 ATP`
-            button.buy-btn اشتري الان 
-            //- .later لاحقا..
-  section#camp
-    <h2 style='margin-top: 30px;'>قسم المعسكر :</h2>
-    .camp معسكر العلوم 2026  
-  - if (user && user?.solveBook)
-    section#solve-book
-      <h2 style='margin-top: 100px;'>البكج السكري :</h2>
-      .solve-book حل النوطة
-  // المسارات
-  section.courses#classes-section
-    h2 المراحل التعليمية :
-    .cards.classes
-      // كارت  ابو وائل مطور ويب
-      each c in classes
-        .card.green(data-classid=`${c._id}`, href=`/classes/${c._id}/courses`)
-          - if(user?.role === 'admin')
-            <i class="bi-trash" data-deletecount="0">&#128465;</i>
-            svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-              path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-              path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-          img.card-img(src=`imgs/courses/${c.photoUrl}`, alt="")
-          .card-header
-            p= c.title 
-            //- span.progress 84% 🌙
-          p.duration ⏰ اضبط ساعتك و جهز مشروبك المفضل و ابدأ مع السكر
-          p مش ضروري تكون عبقري حتى تمشي مع الدكتور إياد...المهم اصرارك... هنا تفهم العلوم
-          .tags
-            span شرح 
-            span حل 
-            span اختبارات
-            span متابعة دورية
-            span تقييم مستوى
-    //- section.contact-section
-      .contact-container
-        .section-header
-          h2.section-title تواصل معنا 
-          .title-underline
-        .contact-content-grid
-          .contact-info-container
-            h3.contact-subtitle لنتكلم عن مشكاتك 
-            p.contact-text
-              | I&apos;m currently available for freelance work. If you have a project that you want to get started, think you need my help with something, or just fancy saying hello, then get in touch.
-            .contact-details-list
-              .contact-detail-item
-                .icon-bg
-                  i.icon-color(data-feather="mail")
-                span.detail-text rayansalameh@gmail.com
-              .contact-detail-item
-                .icon-bg
-                  i.icon-color(data-feather="phone")
-                span.detail-text 0949808802
-              .contact-detail-item
-                .icon-bg
-                  i.icon-color(data-feather="map-pin")
-                span.detail-text syria
-          .contact-form-container
-            form.contact-form
-              div
-                label.form-label(for="name") الاسم
-                input#name.form-input(type="text", name="name", required)
-              div
-                label.form-label(for="email") الايميل 
-                input#email.form-input(type="email", name="email", required)
-              div
-                label.form-label(for="message") الرسالة
-                textarea#message.form-textarea(name="message", rows="5", required)
-              button.submit-button(type="submit")
-                | ارسال الرسالة
-block scripts
-  script(defer, type='module', src='/js/main.js')
+      .hero-inner
+        .hero-content
+          h1.hero-title
+            | &#x645;&#x646;&#x635;&#x62A;&#x643; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649; &#x644;&#x62A;&#x639;&#x644;&#x645;
+            br
+            | &#x648;&#x641;&#x647;&#x645; &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628;
+            br
+            | &#x628;&#x633;&#x64A;&#x637; &#x648;&#x645;&#x645;&#x62A;&#x639;
+          p.hero-subtitle
+            | &#x627;&#x647;&#x644;&#x627;&#x64B; &#x628;&#x64A;&#x643; &#x641;&#x64A; &#x628;&#x64A;&#x62A;&#x643; &#x627;&#x644;&#x62A;&#x627;&#x646;&#x64A;! &#x633;&#x648;&#x627;&#x621; &#x643;&#x646;&#x62A; &#x641;&#x64A; &#x623;&#x648;&#x644;&#x649;&#x60C; &#x62A;&#x627;&#x646;&#x64A;&#x629;&#x60C; &#x623;&#x648; &#x62A;&#x627;&#x644;&#x62A;&#x629; &#x62B;&#x627;&#x646;&#x648;&#x64A;&#x60C;
+            | &#x647;&#x646;&#x627; &#x647;&#x62A;&#x644;&#x627;&#x642;&#x64A; &#x643;&#x644; &#x627;&#x644;&#x644;&#x64A; &#x62A;&#x62D;&#x62A;&#x627;&#x62C;&#x647; &#x639;&#x644;&#x634;&#x627;&#x646; &#x62A;&#x62A;&#x641;&#x648;&#x642; &#x641;&#x64A; &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x648;&#x62A;&#x641;&#x647;&#x645;&#x647;&#x627; &#x635;&#x62D;&#x60C;
+            | &#x648;&#x62A;&#x637;&#x628;&#x642;&#x647;&#x627; &#x628;&#x633;&#x647;&#x648;&#x644;&#x629;.
+          .hero-stats
+            .hero-stat
+              .hero-stat-num +2.2K
+              .hero-stat-label &#x645;&#x62A;&#x627;&#x628;&#x639;&#x64A;&#x646; &#x639;&#x644;&#x649; &#x627;&#x644;&#x64A;&#x648;&#x62A;&#x64A;&#x648;&#x628;
+            .hero-stat
+              .hero-stat-num +680
+              .hero-stat-label &#x645;&#x62A;&#x627;&#x628;&#x639;&#x64A;&#x646; &#x639;&#x644;&#x649; &#x627;&#x644;&#x641;&#x64A;&#x633;&#x628;&#x648;&#x643;
+        .hero-avatar-wrap
+          .hero-avatar
+            svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.5')
+              path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
+              circle(cx='12' cy='7' r='4')
+      .hero-deco-1
+      .hero-deco-2
+    // Why Subscribe Section
+    section.section.why-section
+      .section-inner
+        h2.section-title &#x644;&#x64A;&#x647; &#x62A;&#x634;&#x62A;&#x631;&#x643; &#x645;&#x639;&#x627;&#x646;&#x627;&#x61F;
+        .why-grid
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
+              | 1
+            h3 &#x634;&#x631;&#x62D; &#x628;&#x633;&#x64A;&#x637; &#x648;&#x645;&#x641;&#x647;&#x648;&#x645;
+            p &#x634;&#x631;&#x62D; &#x645;&#x628;&#x633;&#x637; &#x644;&#x645;&#x641;&#x627;&#x647;&#x64A;&#x645; &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x627;&#x644;&#x635;&#x639;&#x628;&#x629; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628; &#x633;&#x644;&#x633;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #10b981, #34d399)')
+              | 2
+            h3 &#x641;&#x64A;&#x62F;&#x64A;&#x648;&#x647;&#x627;&#x62A; &#x628;&#x631;&#x633;&#x648;&#x645;&#x627;&#x62A; &#x62A;&#x648;&#x636;&#x64A;&#x62D;&#x64A;&#x629;
+            p &#x631;&#x633;&#x648;&#x645;&#x627;&#x62A; &#x645;&#x62A;&#x62D;&#x631;&#x643;&#x629; &#x62A;&#x648;&#x636;&#x64A;&#x62D;&#x64A;&#x629; &#x62A;&#x633;&#x627;&#x639;&#x62F;&#x643; &#x639;&#x644;&#x649; &#x627;&#x644;&#x641;&#x647;&#x645; &#x627;&#x644;&#x639;&#x645;&#x64A;&#x642;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #7c3aed, #10b981)')
+              | 3
+            h3 &#x62A;&#x645;&#x627;&#x631;&#x64A;&#x646; &#x62A;&#x641;&#x627;&#x639;&#x644;&#x64A;&#x629; &#x639;&#x644;&#x649; &#x627;&#x644;&#x62F;&#x631;&#x648;&#x633;
+            p &#x62A;&#x645;&#x627;&#x631;&#x64A;&#x646; &#x628;&#x639;&#x62F; &#x643;&#x644; &#x62F;&#x631;&#x633; &#x644;&#x62A;&#x62B;&#x628;&#x64A;&#x62A; &#x627;&#x644;&#x645;&#x639;&#x644;&#x648;&#x645;&#x629;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #8b5cf6, #a78bfa)')
+              | 4
+            h3 &#x645;&#x631;&#x648;&#x646;&#x629; &#x643;&#x627;&#x645;&#x644;&#x629; &#x641;&#x64A; &#x627;&#x644;&#x645;&#x630;&#x627;&#x643;&#x631;&#x629;
+            p &#x630;&#x627;&#x643;&#x631; &#x641;&#x64A; &#x623;&#x64A; &#x648;&#x642;&#x62A; &#x648;&#x645;&#x646; &#x623;&#x64A; &#x645;&#x643;&#x627;&#x646; &#x628;&#x62F;&#x648;&#x646; &#x642;&#x64A;&#x648;&#x62F;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #059669, #10b981)')
+              | 5
+            h3 &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;&#x627;&#x62A; &#x645;&#x633;&#x62A;&#x645;&#x631;&#x629;
+            p &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;&#x627;&#x62A; &#x62F;&#x648;&#x631;&#x64A;&#x629; &#x644;&#x642;&#x64A;&#x627;&#x633; &#x645;&#x633;&#x62A;&#x648;&#x627;&#x643; &#x648;&#x627;&#x644;&#x62A;&#x637;&#x648;&#x631; &#x627;&#x644;&#x645;&#x633;&#x62A;&#x645;&#x631;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
+              | 6
+            h3 &#x645;&#x62D;&#x62A;&#x648;&#x649; &#x645;&#x62A;&#x643;&#x627;&#x645;&#x644; &#x648;&#x645;&#x646;&#x638;&#x645;
+            p &#x645;&#x646;&#x647;&#x62C; &#x645;&#x646;&#x638;&#x645; &#x648;&#x645;&#x62A;&#x633;&#x644;&#x633;&#x644; &#x64A;&#x633;&#x647;&#x644; &#x639;&#x644;&#x64A;&#x643; &#x627;&#x644;&#x645;&#x630;&#x627;&#x643;&#x631;&#x629;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #10b981, #34d399)')
+              | 7
+            h3 &#x62A;&#x62D;&#x62F;&#x64A;&#x62B; &#x645;&#x633;&#x62A;&#x645;&#x631; &#x62D;&#x633;&#x628; &#x627;&#x644;&#x645;&#x646;&#x647;&#x62C;
+            p &#x645;&#x62D;&#x62A;&#x648;&#x649; &#x64A;&#x62A;&#x645; &#x62A;&#x62D;&#x62F;&#x64A;&#x62B;&#x647; &#x628;&#x627;&#x633;&#x62A;&#x645;&#x631;&#x627;&#x631; &#x644;&#x64A;&#x62A;&#x648;&#x627;&#x641;&#x642; &#x645;&#x639; &#x627;&#x644;&#x645;&#x646;&#x647;&#x62C;
+          .why-card
+            .why-num(style='background: linear-gradient(135deg, #7c3aed, #10b981)')
+              | 8
+            h3 &#x645;&#x62C;&#x62A;&#x645;&#x639; &#x637;&#x644;&#x627;&#x628;&#x64A; &#x636;&#x62E;&#x645;
+            p &#x627;&#x646;&#x636;&#x645; &#x644;&#x645;&#x62C;&#x62A;&#x645;&#x639; &#x645;&#x646; &#x627;&#x644;&#x637;&#x644;&#x627;&#x628; &#x627;&#x644;&#x645;&#x62A;&#x645;&#x64A;&#x632;&#x64A;&#x646; &#x648;&#x627;&#x644;&#x645;&#x62A;&#x62D;&#x645;&#x633;&#x64A;&#x646;
+    // Courses Section
+    section.section.courses-section
+      .section-inner
+        h2.section-title &#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;&#x646;&#x627; &#x627;&#x644;&#x645;&#x62A;&#x627;&#x62D;&#x629;
+        p.section-subtitle &#x644;&#x644;&#x639;&#x627;&#x645; 2026/2027
+        .courses-grid
+          .course-card
+            .course-img(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
+              .course-badge(style='background: #10b981')
+                | &#x645;&#x62A;&#x627;&#x62D; &#x627;&#x644;&#x622;&#x646;
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
+                path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
+                path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
+            .course-body
+              h3 &#x643;&#x648;&#x631;&#x633; &#x627;&#x644;&#x639;&#x635;&#x628;&#x64A;&#x629;
+              p &#x634;&#x631;&#x62D; &#x645;&#x641;&#x635;&#x644; &#x644;&#x628;&#x62D;&#x62B; &#x627;&#x644;&#x639;&#x635;&#x628;&#x64A;&#x629;
+              .course-footer
+                span.course-price(style='color: #7c3aed') 299 &#x62C;.&#x645;
+                button.course-btn(style='\
+                background: linear-gradient(135deg, #7c3aed, #8b5cf6);\
+                ')
+                  | &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+          .course-card
+            .course-img(style='background: linear-gradient(135deg, #10b981, #34d399)')
+              .course-badge(style='background: #7c3aed')
+                | &#x627;&#x644;&#x623;&#x643;&#x62B;&#x631; &#x645;&#x628;&#x64A;&#x639;&#x627;&#x64B;
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
+                path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
+                path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
+            .course-body
+              h3 &#x628;&#x62D;&#x62B; &#x627;&#x644;&#x647;&#x631;&#x645;&#x648;&#x646;&#x627;&#x62A;
+              p &#x634;&#x631;&#x62D; &#x628;&#x62D;&#x62B; &#x627;&#x644;&#x647;&#x631;&#x645;&#x648;&#x646;&#x627;&#x62A;
+              .course-footer
+                span.course-price(style='color: #10b981') 349 &#x62C;.&#x645;
+                button.course-btn(style='\
+                background: linear-gradient(135deg, #10b981, #34d399);\
+                ')
+                  | &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+    // Features Detail Section
+    section.section.features-section
+      .section-inner
+        .feature-row
+          .feature-text
+            .feature-icon-box(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='2')
+                path(d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z')
+                polyline(points='14 2 14 8 20 8')
+                line(x1='16' y1='13' x2='8' y2='13')
+                line(x1='16' y1='17' x2='8' y2='17')
+                polyline(points='10 9 9 9 8 9')
+            h3.feature-title &#x62A;&#x646;&#x638;&#x64A;&#x645; &#x627;&#x644;&#x62F;&#x631;&#x648;&#x633; &#x648;&#x627;&#x644;&#x648;&#x62D;&#x62F;&#x627;&#x62A;
+            p.feature-desc
+              | &#x643;&#x648;&#x631;&#x633;&#x627;&#x62A; &#x645;&#x64F;&#x642;&#x633;&#x651;&#x645;&#x629; &#x644;&#x648;&#x62D;&#x62F;&#x627;&#x62A; &#x635;&#x63A;&#x64A;&#x631;&#x629; &#x639;&#x644;&#x634;&#x627;&#x646; &#x62A;&#x630;&#x627;&#x643;&#x631; &#x628;&#x62A;&#x631;&#x62A;&#x64A;&#x628; &#x648;&#x62A;&#x650;&#x641;&#x636;&#x651;&#x644; &#x645;&#x64F;&#x62A;&#x627;&#x628;&#x639;
+              | &#x628;&#x633;&#x647;&#x648;&#x644;&#x629;. &#x643;&#x644; &#x648;&#x62D;&#x62F;&#x629; &#x628;&#x646;&#x647;&#x627;&#x64A;&#x62A;&#x647;&#x627; &#x62A;&#x645;&#x627;&#x631;&#x64A;&#x646; &#x648;&#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631; &#x642;&#x635;&#x64A;&#x631;.
+          .feature-img-wrap
+            .feature-img-box(style='\
+            background: linear-gradient(\
+            135deg,\
+            rgba(124, 58, 237, 0.1),\
+            rgba(16, 185, 129, 0.1)\
+            );\
+            border-color: rgba(124, 58, 237, 0.3);\
+            ')
+              svg(viewbox='0 0 24 24' fill='none' stroke='#7C3AED' stroke-width='1')
+                rect(x='3' y='3' width='7' height='7' rx='1')
+                rect(x='14' y='3' width='7' height='7' rx='1')
+                rect(x='14' y='14' width='7' height='7' rx='1')
+                rect(x='3' y='14' width='7' height='7' rx='1')
+        .feature-row.reverse
+          .feature-img-wrap
+            .feature-img-box(style='\
+            background: linear-gradient(\
+            135deg,\
+            rgba(16, 185, 129, 0.1),\
+            rgba(124, 58, 237, 0.1)\
+            );\
+            border-color: rgba(16, 185, 129, 0.3);\
+            ')
+              svg(viewbox='0 0 24 24' fill='none' stroke='#10B981' stroke-width='1')
+                polygon(points='23 7 16 12 23 17 23 7')
+                rect(x='1' y='5' width='15' height='14' rx='2' ry='2')
+          .feature-text
+            .feature-icon-box(style='background: linear-gradient(135deg, #10b981, #34d399)')
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='2')
+                polygon(points='23 7 16 12 23 17 23 7')
+                rect(x='1' y='5' width='15' height='14' rx='2' ry='2')
+            h3.feature-title &#x62F;&#x631;&#x648;&#x633; &#x628;&#x627;&#x644;&#x641;&#x64A;&#x62F;&#x64A;&#x648; &#x648;&#x627;&#x644;&#x635;&#x648;&#x631; &#x627;&#x644;&#x62A;&#x648;&#x636;&#x64A;&#x62D;&#x64A;&#x629;
+            p.feature-desc
+              | &#x634;&#x631;&#x648;&#x62D;&#x627;&#x62A; &#x645;&#x635;&#x648;&#x651;&#x631;&#x629; &#x645;&#x64F;&#x641;&#x635;&#x651;&#x644;&#x629; &#x645;&#x639; &#x631;&#x633;&#x648;&#x645;&#x627;&#x62A; &#x62A;&#x648;&#x636;&#x64A;&#x62D;&#x64A;&#x629; &#x648;&#x623;&#x633;&#x626;&#x644;&#x629; &#x634;&#x627;&#x626;&#x639;&#x629; &#x645;&#x64F;&#x62C;&#x627;&#x628; &#x639;&#x646;&#x647;&#x627;.
+              | &#x643;&#x644; &#x62F;&#x631;&#x633; &#x628;&#x62C;&#x648;&#x62F;&#x629; &#x639;&#x627;&#x644;&#x64A;&#x629; &#x648;&#x635;&#x648;&#x62A; &#x648;&#x627;&#x636;&#x62D;.
+        .feature-row
+          .feature-text
+            .feature-icon-box(style='background: linear-gradient(135deg, #8b5cf6, #a78bfa)')
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='2')
+                path(d='M9 11l3 3L22 4')
+                path(d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11')
+            h3.feature-title &#x62A;&#x637;&#x628;&#x64A;&#x642;&#x627;&#x62A; &#x648;&#x62A;&#x645;&#x627;&#x631;&#x64A;&#x646; &#x62A;&#x641;&#x627;&#x639;&#x644;&#x64A;&#x629;
+            p.feature-desc
+              | &#x62A;&#x645;&#x627;&#x631;&#x64A;&#x646; &#x62A;&#x641;&#x627;&#x639;&#x644;&#x64A;&#x629; &#x628;&#x639;&#x62F; &#x643;&#x644; &#x62F;&#x631;&#x633; &#x639;&#x644;&#x634;&#x627;&#x646; &#x62A;&#x62B;&#x628;&#x62A; &#x627;&#x644;&#x645;&#x639;&#x644;&#x648;&#x645;&#x629; &#x648;&#x62A;&#x62E;&#x62A;&#x628;&#x631; &#x646;&#x641;&#x633;&#x643;. &#x646;&#x62A;&#x627;&#x626;&#x62C;
+              | &#x641;&#x648;&#x631;&#x64A;&#x629; &#x645;&#x639; &#x634;&#x631;&#x62D; &#x644;&#x644;&#x625;&#x62C;&#x627;&#x628;&#x627;&#x62A; &#x627;&#x644;&#x635;&#x62D;&#x64A;&#x62D;&#x629;.
+          .feature-img-wrap
+            .feature-img-box(style='\
+            background: linear-gradient(\
+            135deg,\
+            rgba(139, 92, 246, 0.1),\
+            rgba(16, 185, 129, 0.1)\
+            );\
+            border-color: rgba(139, 92, 246, 0.3);\
+            ')
+              svg(viewbox='0 0 24 24' fill='none' stroke='#8B5CF6' stroke-width='1')
+                path(d='M9 11l3 3L22 4')
+                path(d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11')
+    // About Section
+    section.section.about-section
+      .section-inner
+        h2.section-title &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
+        .about-card
+          .about-avatar-wrap
+            .about-avatar
+              .about-avatar-inner
+                svg(viewbox='0 0 24 24' fill='none' stroke='#7C3AED' stroke-width='1.2')
+                  path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
+                  circle(cx='12' cy='7' r='4')
+          .about-info
+            h3.about-name &#x62F;/ &#x627;&#x64A;&#x627;&#x62F; &#x633;&#x643;&#x631;
+            .about-features
+              .about-feature
+                .about-feature-icon(style='\
+                background: linear-gradient(135deg, #7c3aed, #8b5cf6);\
+                ')
+                  svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='2')
+                    polygon(points='23 7 16 12 23 17 23 7')
+                    rect(x='1' y='5' width='15' height='14' rx='2' ry='2')
+                div
+                  .about-feature-title &#x634;&#x631;&#x648;&#x62D;&#x627;&#x62A; &#x641;&#x64A;&#x62F;&#x64A;&#x648;
+                  .about-feature-desc &#x634;&#x631;&#x648;&#x62D;&#x627;&#x62A; &#x641;&#x64A;&#x62F;&#x64A;&#x648; &#x62A;&#x641;&#x635;&#x64A;&#x644;&#x64A;&#x629;
+              .about-feature
+                .about-feature-icon(style='\
+                background: linear-gradient(135deg, #10b981, #34d399);\
+                ')
+                  svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='2')
+                    path(d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9')
+                    path(d='M13.73 21a2 2 0 0 1-3.46 0')
+                div
+                  .about-feature-title &#x631;&#x633;&#x645; &#x648; &#x62A;&#x648;&#x636;&#x64A;&#x62D;
+                  .about-feature-desc
+                    | &#x631;&#x633;&#x645; &#x639;&#x644;&#x649; &#x627;&#x644;&#x634;&#x627;&#x634;&#x629; &#x644;&#x634;&#x631;&#x62D; &#x627;&#x644;&#x627;&#x641;&#x643;&#x627;&#x631;
+              .about-feature
+                .about-feature-icon(style='\
+                background: linear-gradient(135deg, #8b5cf6, #a78bfa);\
+                ')
+                  svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='2')
+                    path(d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z')
+                    polyline(points='14 2 14 8 20 8')
+                    line(x1='16' y1='13' x2='8' y2='13')
+                    line(x1='16' y1='17' x2='8' y2='17')
+                    polyline(points='10 9 9 9 8 9')
+                div
+                  .about-feature-title &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;&#x627;&#x62A; &#x648;&#x648;&#x627;&#x62C;&#x628;&#x627;&#x62A;
+                  .about-feature-desc &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;&#x627;&#x62A; &#x648;&#x648;&#x627;&#x62C;&#x628;&#x627;&#x62A; &#x62F;&#x648;&#x631;&#x64A;&#x629;
+    // CTA Section
+    section.cta-section
+      .cta-deco-1
+      .cta-deco-2
+      .cta-inner
+        .cta-avatar
+          svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.5')
+            path(d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2')
+            circle(cx='12' cy='7' r='4')
+        h2.cta-title &#x635;&#x62D;&#x635;&#x62D; &#x634;&#x648;&#x64A;&#x629; &#x648;&#x634;&#x62F; &#x62D;&#x64A;&#x644;&#x643; &#x645;&#x639;&#x627;&#x646;&#x627;&mldr;
+        p.cta-text
+          | &#x647;&#x646;&#x645;&#x634;&#x64A;&#x647;&#x627; &#x633;&#x648;&#x627; &#x62E;&#x637;&#x648;&#x629; &#x628;&#x62E;&#x637;&#x648;&#x629; &#x644;&#x62D;&#x62F; &#x645;&#x627; &#x62A;&#x644;&#x645; &#x627;&#x644;&#x645;&#x646;&#x647;&#x62C; &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x648;&#x62A;&#x628;&#x642;&#x649; &#x644;&#x639;&#x628;&#x647; &#x641;&#x64A; &#x627;&#x64A;&#x62F;&#x643;.
+        button.cta-btn &#x627;&#x628;&#x62F;&#x623; &#x631;&#x62D;&#x644;&#x62A;&#x643; &#x627;&#x644;&#x622;&#x646;
+  // Footer
+  footer.footer
+    .footer-inner
+      .footer-links
+        a(href='#') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+        a(href='#') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+        a(href='#') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
+        a(href='#') &#x633;&#x64A;&#x627;&#x633;&#x629; &#x627;&#x644;&#x62E;&#x635;&#x648;&#x635;&#x64A;&#x629;
+        a(href='#') &#x627;&#x644;&#x634;&#x631;&#x648;&#x637; &#x648;&#x627;&#x644;&#x623;&#x62D;&#x643;&#x627;&#x645;
+      .footer-copy
+        p &#x62C;&#x645;&#x64A;&#x639; &#x627;&#x644;&#x62D;&#x642;&#x648;&#x642; &#x645;&#x62D;&#x641;&#x648;&#x638;&#x629; &copy; 2026 &mdash; &#x627;&#x64A;&#x627;&#x62F; &#x633;&#x643;&#x631;
+  script(src='/js/mainpage.js')

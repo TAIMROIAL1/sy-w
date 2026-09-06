@@ -175,10 +175,6 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
 جميع كورساتي المفعلة
 تفعيل أكواد الكورسات`;
 
-    console.log("User: ", newUser.name);
-    console.log('Title: ', title);
-    console.log("Meta: ", metaContent)
-
     res.status(200).render("settings", {
       user: newUser,
       title,

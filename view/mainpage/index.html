@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>اياد سكر - منصتك الأولى لتعلم العلوم</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <base target="_blank" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <div class="logo">
+          <div class="logo-icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div>
+            <div class="logo-text">اياد سكر</div>
+            <div class="logo-sub">العلوم بأسلوب بسيط</div>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="#" class="active">الرئيسية</a>
+          <a href="#">الكورسات</a>
+          <a href="#">عن المدرس</a>
+          <a href="#">تواصل معنا</a>
+        </div>
+        <button class="nav-cta">اشترك الآن</button>
+        <div class="menu-toggle-wrap">
+          <button
+            class="mobile-menu-btn"
+            onclick="
+              document.getElementById('mobileMenu').style.display =
+                document.getElementById('mobileMenu').style.display === 'block'
+                  ? 'none'
+                  : 'block'
+            "
+          >
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <label class="toggle">
+            <input type="checkbox" id="dark-toggle" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="mobile-menu">
+        <a href="#" class="active">الرئيسية</a>
+        <a href="#">الكورسات</a>
+        <a href="#">عن المدرس</a>
+        <a href="#">تواصل معنا</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              منصتك الأولى لتعلم<br />وفهم العلوم بأسلوب<br />بسيط وممتع
+            </h1>
+            <p class="hero-subtitle">
+              اهلاً بيك في بيتك التاني! سواء كنت في أولى، تانية، أو تالتة ثانوي،
+              هنا هتلاقي كل اللي تحتاجه علشان تتفوق في العلوم وتفهمها صح،
+              وتطبقها بسهولة.
+            </p>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <div class="hero-stat-num">+2.2K</div>
+                <div class="hero-stat-label">متابعين على اليوتيوب</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-num">+680</div>
+                <div class="hero-stat-label">متابعين على الفيسبوك</div>
+              </div>
+            </div>
+          </div>
+          <div class="hero-avatar-wrap">
+            <div class="hero-avatar">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="white"
+                stroke-width="1.5"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="hero-deco-1"></div>
+        <div class="hero-deco-2"></div>
+      </section>
+
+      <!-- Why Subscribe Section -->
+      <section class="section why-section">
+        <div class="section-inner">
+          <h2 class="section-title">ليه تشترك معانا؟</h2>
+          <div class="why-grid">
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #7c3aed, #8b5cf6)"
+              >
+                1
+              </div>
+              <h3>شرح بسيط ومفهوم</h3>
+              <p>شرح مبسط لمفاهيم العلوم الصعبة بأسلوب سلس</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #10b981, #34d399)"
+              >
+                2
+              </div>
+              <h3>فيديوهات برسومات توضيحية</h3>
+              <p>رسومات متحركة توضيحية تساعدك على الفهم العميق</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #7c3aed, #10b981)"
+              >
+                3
+              </div>
+              <h3>تمارين تفاعلية على الدروس</h3>
+              <p>تمارين بعد كل درس لتثبيت المعلومة</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #8b5cf6, #a78bfa)"
+              >
+                4
+              </div>
+              <h3>مرونة كاملة في المذاكرة</h3>
+              <p>ذاكر في أي وقت ومن أي مكان بدون قيود</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #059669, #10b981)"
+              >
+                5
+              </div>
+              <h3>اختبارات مستمرة</h3>
+              <p>اختبارات دورية لقياس مستواك والتطور المستمر</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #7c3aed, #8b5cf6)"
+              >
+                6
+              </div>
+              <h3>محتوى متكامل ومنظم</h3>
+              <p>منهج منظم ومتسلسل يسهل عليك المذاكرة</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #10b981, #34d399)"
+              >
+                7
+              </div>
+              <h3>تحديث مستمر حسب المنهج</h3>
+              <p>محتوى يتم تحديثه باستمرار ليتوافق مع المنهج</p>
+            </div>
+
+            <div class="why-card">
+              <div
+                class="why-num"
+                style="background: linear-gradient(135deg, #7c3aed, #10b981)"
+              >
+                8
+              </div>
+              <h3>مجتمع طلابي ضخم</h3>
+              <p>انضم لمجتمع من الطلاب المتميزين والمتحمسين</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Courses Section -->
+      <section class="section courses-section">
+        <div class="section-inner">
+          <h2 class="section-title">كورساتنا المتاحة</h2>
+          <p class="section-subtitle">للعام 2026/2027</p>
+
+          <div class="courses-grid">
+            <div class="course-card">
+              <div
+                class="course-img"
+                style="background: linear-gradient(135deg, #7c3aed, #8b5cf6)"
+              >
+                <div class="course-badge" style="background: #10b981">
+                  متاح الآن
+                </div>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="1.2"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                </svg>
+              </div>
+              <div class="course-body">
+                <h3>كورس العصبية</h3>
+                <p>شرح مفصل لبحث العصبية</p>
+                <div class="course-footer">
+                  <span class="course-price" style="color: #7c3aed"
+                    >299 ج.م</span
+                  >
+                  <button
+                    class="course-btn"
+                    style="
+                      background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+                    "
+                  >
+                    اشترك الآن
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="course-card">
+              <div
+                class="course-img"
+                style="background: linear-gradient(135deg, #10b981, #34d399)"
+              >
+                <div class="course-badge" style="background: #7c3aed">
+                  الأكثر مبيعاً
+                </div>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="1.2"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                </svg>
+              </div>
+              <div class="course-body">
+                <h3>بحث الهرمونات</h3>
+                <p>شرح بحث الهرمونات</p>
+                <div class="course-footer">
+                  <span class="course-price" style="color: #10b981"
+                    >349 ج.م</span
+                  >
+                  <button
+                    class="course-btn"
+                    style="
+                      background: linear-gradient(135deg, #10b981, #34d399);
+                    "
+                  >
+                    اشترك الآن
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Detail Section -->
+      <section class="section features-section">
+        <div class="section-inner">
+          <div class="feature-row">
+            <div class="feature-text">
+              <div
+                class="feature-icon-box"
+                style="background: linear-gradient(135deg, #7c3aed, #8b5cf6)"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                  />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+              </div>
+              <h3 class="feature-title">تنظيم الدروس والوحدات</h3>
+              <p class="feature-desc">
+                كورسات مُقسّمة لوحدات صغيرة علشان تذاكر بترتيب وتِفضّل مُتابع
+                بسهولة. كل وحدة بنهايتها تمارين واختبار قصير.
+              </p>
+            </div>
+            <div class="feature-img-wrap">
+              <div
+                class="feature-img-box"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(124, 58, 237, 0.1),
+                    rgba(16, 185, 129, 0.1)
+                  );
+                  border-color: rgba(124, 58, 237, 0.3);
+                "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#7C3AED"
+                  stroke-width="1"
+                >
+                  <rect x="3" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="3" width="7" height="7" rx="1" />
+                  <rect x="14" y="14" width="7" height="7" rx="1" />
+                  <rect x="3" y="14" width="7" height="7" rx="1" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="feature-row reverse">
+            <div class="feature-img-wrap">
+              <div
+                class="feature-img-box"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(16, 185, 129, 0.1),
+                    rgba(124, 58, 237, 0.1)
+                  );
+                  border-color: rgba(16, 185, 129, 0.3);
+                "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#10B981"
+                  stroke-width="1"
+                >
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                </svg>
+              </div>
+            </div>
+            <div class="feature-text">
+              <div
+                class="feature-icon-box"
+                style="background: linear-gradient(135deg, #10b981, #34d399)"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                >
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                </svg>
+              </div>
+              <h3 class="feature-title">دروس بالفيديو والصور التوضيحية</h3>
+              <p class="feature-desc">
+                شروحات مصوّرة مُفصّلة مع رسومات توضيحية وأسئلة شائعة مُجاب عنها.
+                كل درس بجودة عالية وصوت واضح.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-row">
+            <div class="feature-text">
+              <div
+                class="feature-icon-box"
+                style="background: linear-gradient(135deg, #8b5cf6, #a78bfa)"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="2"
+                >
+                  <path d="M9 11l3 3L22 4" />
+                  <path
+                    d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                  />
+                </svg>
+              </div>
+              <h3 class="feature-title">تطبيقات وتمارين تفاعلية</h3>
+              <p class="feature-desc">
+                تمارين تفاعلية بعد كل درس علشان تثبت المعلومة وتختبر نفسك. نتائج
+                فورية مع شرح للإجابات الصحيحة.
+              </p>
+            </div>
+            <div class="feature-img-wrap">
+              <div
+                class="feature-img-box"
+                style="
+                  background: linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.1),
+                    rgba(16, 185, 129, 0.1)
+                  );
+                  border-color: rgba(139, 92, 246, 0.3);
+                "
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#8B5CF6"
+                  stroke-width="1"
+                >
+                  <path d="M9 11l3 3L22 4" />
+                  <path
+                    d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="section about-section">
+        <div class="section-inner">
+          <h2 class="section-title">عن المدرس</h2>
+
+          <div class="about-card">
+            <div class="about-avatar-wrap">
+              <div class="about-avatar">
+                <div class="about-avatar-inner">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#7C3AED"
+                    stroke-width="1.2"
+                  >
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="about-info">
+              <h3 class="about-name">د/ اياد سكر</h3>
+              <div class="about-features">
+                <div class="about-feature">
+                  <div
+                    class="about-feature-icon"
+                    style="
+                      background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+                    "
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <polygon points="23 7 16 12 23 17 23 7" />
+                      <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="about-feature-title">شروحات فيديو</div>
+                    <div class="about-feature-desc">شروحات فيديو تفصيلية</div>
+                  </div>
+                </div>
+                <div class="about-feature">
+                  <div
+                    class="about-feature-icon"
+                    style="
+                      background: linear-gradient(135deg, #10b981, #34d399);
+                    "
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="about-feature-title">رسم و توضيح</div>
+                    <div class="about-feature-desc">
+                      رسم على الشاشة لشرح الافكار
+                    </div>
+                  </div>
+                </div>
+                <div class="about-feature">
+                  <div
+                    class="about-feature-icon"
+                    style="
+                      background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+                    "
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="white"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="16" y1="13" x2="8" y2="13" />
+                      <line x1="16" y1="17" x2="8" y2="17" />
+                      <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="about-feature-title">اختبارات وواجبات</div>
+                    <div class="about-feature-desc">اختبارات وواجبات دورية</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="cta-section">
+        <div class="cta-deco-1"></div>
+        <div class="cta-deco-2"></div>
+
+        <div class="cta-inner">
+          <div class="cta-avatar">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="1.5"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <h2 class="cta-title">صحصح شوية وشد حيلك معانا…</h2>
+          <p class="cta-text">
+            هنمشيها سوا خطوة بخطوة لحد ما تلم المنهج العلوم وتبقى لعبه في ايدك.
+          </p>
+          <button class="cta-btn">ابدأ رحلتك الآن</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-links">
+          <a href="#">الرئيسية</a>
+          <a href="#">الكورسات</a>
+          <a href="#">عن المدرس</a>
+          <a href="#">سياسة الخصوصية</a>
+          <a href="#">الشروط والأحكام</a>
+        </div>
+        <div class="footer-copy">
+          <p>جميع الحقوق محفوظة © 2026 — اياد سكر</p>
+        </div>
+      </div>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>
