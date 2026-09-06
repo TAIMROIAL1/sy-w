@@ -71,10 +71,6 @@ const showNotification = function (msg, type) {
   }, 5000);
 };
 
-listBtn.addEventListener("click", (e) => {
-  list.classList.toggle("hidden");
-});
-
 const ajaxCall = async function (url, data) {
   const response = await fetch(url, {
     method: "POST",
@@ -86,6 +82,10 @@ const ajaxCall = async function (url, data) {
 
   return await response.json();
 };
+
+listBtn.addEventListener("click", (e) => {
+  list.classList.toggle("hidden");
+});
 
 btnsList.addEventListener("click", (e) => {
   const clicked = e.target.closest(".btn");

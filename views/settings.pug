@@ -5,10 +5,11 @@ head
   meta(name='theme-color' content='#432071')
   title &#x644;&#x648;&#x62D;&#x629; &#x627;&#x644;&#x62A;&#x62D;&#x643;&#x645; &#x627;&#x644;&#x62A;&#x639;&#x644;&#x64A;&#x645;&#x64A;&#x629;
   link(rel='stylesheet' href='/css/settings.css')
-body
+- const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+body(data-domain=domain)
   .layer.hidden
     .logout-container 
-      p.logout-par هل تريد تسجيل الخروج
+      p.logout-par ؟هل تريد تسجيل الخروج
       logout-btns-container
         button.logout-btn.logout-accept= 'تاكيد'
         button.logout-btn.logout-cancel= 'الغاء'
@@ -32,14 +33,13 @@ body
           span.menu-icon ?
           span &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
     .page
-      .correct.green
-        .correct-message تم تفعيل الكود 
+      .notifi.hidden
+        .notifi-message
       // الهيدر
       header.topbar
         .profile
-          .avatar &#x623;
-          .profile-name &#x623;&#x62D;&#x645;&#x62F; &#x62E;&#x627;&#x644;&#x62F;
-          span.chevron &#x2304;
+          .avatar= user.name[0]
+          .profile-name= user.name
         .header-actions
           label.mobile-menu-button(for='menu-toggle' aria-label='فتح القائمة')
             span
@@ -55,24 +55,24 @@ body
               .info-icon &#x2659;
               .info-text
                 span.label &#x627;&#x644;&#x627;&#x633;&#x645; &#x627;&#x644;&#x643;&#x627;&#x645;&#x644;
-                strong &#x623;&#x62D;&#x645;&#x62F; &#x62E;&#x627;&#x644;&#x62F; &#x623;&#x62D;&#x645;&#x62F;
+                strong= user.name
             .info-box
               .info-icon &#x2709;
               .info-text
                 span.label &#x627;&#x644;&#x628;&#x631;&#x64A;&#x62F; &#x627;&#x644;&#x625;&#x644;&#x643;&#x62A;&#x631;&#x648;&#x646;&#x64A;
-                strong ahmed@gmail.com
+                strong= user.email
             .info-box
               .info-icon &#x2667;
               .info-text
                 span.label &#x646;&#x648;&#x639; &#x627;&#x644;&#x62D;&#x633;&#x627;&#x628;
-                strong &#x62C;&#x648;&#x62C;&#x644;
+                strong= user.role === 'admin'? "ادمن":"طالب"
             // إعادة تعيين كلمة المرور
             .password-box
               .info-icon.password-icon &#x1F512;
               .password-content
                 span.label &#x643;&#x644;&#x645;&#x629; &#x627;&#x644;&#x645;&#x631;&#x648;&#x631;
-                input.border-reset-btn(type='text')
-                button.reset-password(type='button')
+                input.reset-password-input(type='text')
+                button.reset-password-btn(type='button')
                   | &#x625;&#x639;&#x627;&#x62F;&#x629; &#x62A;&#x639;&#x64A;&#x64A;&#x646; &#x643;&#x644;&#x645;&#x629; &#x627;&#x644;&#x645;&#x631;&#x648;&#x631;
         section.card.color-card.section-1
           h2 &#x627;&#x644;&#x648;&#x636;&#x639; &#x627;&#x644;&#x645;&#x638;&#x644;&#x645;
@@ -164,8 +164,8 @@ body
         section.card.activation-card.section-3.hidden
           h2 &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
           .activation-row
-            input(type='text' placeholder='أدخل الكود هنا')
-            button.activate-btn(type='button') &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
+            input.activate-code-input(type='text' placeholder='أدخل الكود هنا')
+            button.activate-code-btn(type='button') &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x643;&#x648;&#x62F;
           .messages
             h3 &#x62C;&#x627;&#x646;&#x628; &#x645;&#x646; &#x627;&#x644;&#x646;&#x638;&#x627;&#x645;:
             ul

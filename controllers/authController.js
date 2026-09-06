@@ -230,16 +230,14 @@ exports.checkFingerPrint = function(req, res, next) {
 exports.updatePassword = catchAsync(async function(req, res, next) {
   const { user } = req;
 
-  const { currentPassword, password, passwordConfirm} = req.body;
+  const {password} = req.body;
 
-  if(!currentPassword) return next(new AppError('الرجاء ادخال كلمة السر الحالية', 400, 'current-password'));
   if(!password) return next(new AppError('الرجاء ادخال كلمة السر الجديدة', 400, 'password'));
-  if(!currentPassword) return next(new AppError('الرجاء تأكيد كلمة السر', 400, 'password-confirm'));
   
-  if(! await user.correctPassword(currentPassword, user.password)) return next(new AppError('كلمة السر غير صحيحة', 400, 'current-password'));
+  // if(! await user.correctPassword(currentPassword, user.password)) return next(new AppError('كلمة السر غير صحيحة', 400, 'current-password'));
 
   user.password = password;
-  user.passwordConfirm = passwordConfirm;
+  user.passwordConfirm = password;
 
   const err1 = user.validateSync('password');
   const err2 = user.validateSync('passwordConfirm')

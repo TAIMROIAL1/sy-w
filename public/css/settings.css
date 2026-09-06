@@ -56,7 +56,7 @@ h2 {
     letter-spacing: .3px;
 }
 
-.correct{
+.notifi{
     border-radius:10px ;
     position: fixed;
     top: -125px;
@@ -73,12 +73,10 @@ h2 {
     animation-fill-mode: forwards;
    }
 
-   .correct-message{
+   .notifi-message{
+    color: black;
     text-align: center;
     width: 95%;
-   position: absolute;
-   top:55px;
-   right: 5px;
    }
  
    @keyframes message{
@@ -424,7 +422,7 @@ h2 {
     text-overflow: ellipsis;
 }
 
-.reset-password {
+.reset-password-btn {
     background: rgba(0,0,0,.05);
     color: var(--accent);
     border: 1px solid rgba(0,0,0,.08);
@@ -432,10 +430,11 @@ h2 {
     border-radius: 8px;
     font-weight: 700;
     transition: .25s ease;
+    cursor: pointer;
 }
 
-.reset-password:hover {
-    background: rgba(0,0,0,.12);
+.reset-password-btn:hover {
+    background: rgba(175, 68, 119, 0.12);
 }
 
 
@@ -595,7 +594,7 @@ h2 {
     color: #aaa;
 }
 
-.activate-btn {
+.activate-code-btn {
     width: 100%;
     height: 48px;
     border: 0;
@@ -608,7 +607,7 @@ h2 {
     box-shadow: inset 0 0 0 2px #6b348f;
 }
 
-.activate-btn:hover {
+.activate-code-btn:hover {
     filter: brightness(.97);
 }
 
@@ -876,7 +875,7 @@ h2 {
         grid-template-columns: 1fr;
         direction: rtl;
     }
-    .activate-btn,
+    .activate-code-btn,
     .activation-row input {
         height: 45px;
     }
@@ -913,7 +912,7 @@ h2 {
         min-height: auto;
         font-size: 10px;
     }
-    .reset-password {
+    .reset-password-btn {
         font-size: 10px;
     }
 }
@@ -954,8 +953,6 @@ h2 {
     background-color: gray;
 }
 
-.border-reset-btn {
+.reset-password-input {
     border-radius: 10px;
 }
-
-.activate-btn1 {}
