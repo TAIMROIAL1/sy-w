@@ -66,9 +66,6 @@ function handleLogout() {
 
   document.body.style.overflow = 'hidden';
     layer.style.overflow = 'hidden';
-    if (screen.width < 500 ) {
-      list.classList.add("hidden");
-    }
     return layer.classList.remove("hidden");
 
 }
