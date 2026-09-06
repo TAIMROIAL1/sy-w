@@ -262,13 +262,34 @@ body {
   overflow: hidden;
 }
 
+.hero-img{
+  width: 270px;
+  height: 270px;
+  border-radius: 50%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+
 .hero-inner {
   max-width: 1100px;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   align-items: center;
   gap: 40px;
+}
+
+@media (max-width: 600px) {
+  .hero-inner {
+    flex-direction: column;
+  }
+  .hero-avatar-wrap {
+    margin-top: 58px;
+  }
+  .hero-img {
+    width: 320px;
+    height: 320px;
+  }
 }
 
 .hero-content {
@@ -465,6 +486,7 @@ body {
   transition: transform 0.2s;
   cursor: pointer;
   max-width: 360px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .course-card:hover {
@@ -663,6 +685,22 @@ body {
   text-align: center;
   min-width: 180px;
 }
+@media (max-width: 611px) {
+  .about-card {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .about-avatar-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .about-info {
+    text-align: center;
+  }
+}
 
 .about-avatar {
   width: 200px;
@@ -681,6 +719,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.about-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
 .about-avatar-inner svg {
@@ -950,6 +995,10 @@ body {
     height: 70px;
   }
   .about-avatar {
+    width: 160px;
+    height: 160px;
+  }
+  .about-img {
     width: 160px;
     height: 160px;
   }

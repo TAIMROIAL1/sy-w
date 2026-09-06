@@ -4,7 +4,8 @@ const sections = document.querySelectorAll('section');
 const menuBtns = document.querySelectorAll('.menu-item');
 const menu = document.querySelector('.sidebar');
 
-const listToggleInput = document.getElementById('menu-toggle');
+
+const layer = document.querySelector(".layer");
 
 const toggle = document.getElementById("dark-toggle");
 
@@ -16,10 +17,13 @@ const domain = document.body.dataset.domain;
 // Inputs
 const resetPasswordInput = document.querySelector('.reset-password-input');
 const activateCodeInput = document.querySelector('.activate-code-input');
+const listToggleInput = document.getElementById('menu-toggle');
 
 // Buttons
 const resetPasswordBtn = document.querySelector('.reset-password-btn');
 const activateCodeBtn = document.querySelector('.activate-code-btn');
+const acceptLogoutBtn = document.querySelector(".logout-accept");
+const cancelLogoutBtn = document.querySelector(".logout-cancel");
 
 // Helper Functions
 
@@ -57,6 +61,18 @@ function closeList () {
     listToggleInput.checked = false;
 }
 
+function handleLogout() {
+  closeList();
+
+  document.body.style.overflow = 'hidden';
+    layer.style.overflow = 'hidden';
+    if (screen.width < 500 ) {
+      list.classList.add("hidden");
+    }
+    return layer.classList.remove("hidden");
+
+}
+
 // Listeners
 
 // Menu Bubble listener
@@ -65,6 +81,9 @@ menu.addEventListener('click', (e) => {
 
     if(!menuBtn || menuBtn.classList.contains('active')) return;
 
+    if(menuBtn.classList.contains("logout-btn")) {
+      return handleLogout();
+    }
 
     const itemNumber = Number([...menuBtn.classList].find(className => className.startsWith('item-number')).split('-')[2]);
 
@@ -135,6 +154,15 @@ activateCodeBtn.addEventListener("click", async (e) => {
   activateCodeBtn.classList.remove('hidden');
 });
 
+cancelLogoutBtn.addEventListener("click", () => {
+  layer.classList.add("hidden");
+  document.body.style.overflow = 'auto';
+});
+
+acceptLogoutBtn.addEventListener("click", async () => {
+  await ajaxCall(`${domain}/api/v1/users/logout`, {});
+  location.assign("/");
+});
 // Init
 
 // Checks dark mode

@@ -10,7 +10,7 @@ body(data-domain=domain)
   .layer.hidden
     .logout-container 
       p.logout-par ؟هل تريد تسجيل الخروج
-      logout-btns-container
+      .logout-btns-container
         button.logout-btn.logout-accept= 'تاكيد'
         button.logout-btn.logout-cancel= 'الغاء'
   input#menu-toggle.menu-toggle(type='checkbox')
@@ -32,6 +32,9 @@ body(data-domain=domain)
         a.menu-item.item-number-3(role="button")
           span.menu-icon ?
           span &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
+        a.menu-item.logout-btn(role="button")
+          span.menu-icon X
+          span تسجيل الخروج
     .page
       .notifi.hidden
         .notifi-message
