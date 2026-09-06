@@ -87,6 +87,7 @@ body {
   padding: 8px 16px;
   border-radius: 10px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .nav-links a:hover {
@@ -118,6 +119,17 @@ body {
 .nav-cta:hover {
   transform: scale(1.03);
 }
+.balance {
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+  color: white;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(14, 180, 95, 0.25);
+}
+
+
 
 .mobile-menu-btn {
   display: none;
@@ -130,7 +142,7 @@ body {
 
 .mobile-menu {
   display: none;
-  background: white;
+  background: var(--card-bg);
   border-top: 1px solid rgba(124, 58, 237, 0.1);
   padding: 12px 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -139,12 +151,14 @@ body {
 .mobile-menu a {
   display: block;
   text-decoration: none;
-  color: #4b5563;
+  color: var(--muted);
+  background-color: var(--card-bg);
   font-weight: 500;
   font-size: 15px;
   padding: 10px 0;
   border-bottom: 1px solid rgba(124, 58, 237, 0.08);
   transition: color 0.2s;
+  cursor: pointer;
 }
 
 .mobile-menu a:last-child {
@@ -556,8 +570,11 @@ body {
   margin-bottom: 0;
 }
 
-.feature-row.reverse {
+.feature-row.reverse  {
   flex-direction: row-reverse;
+}
+.feature-row.reverse  .feature-img-wrap{
+  justify-content: flex-end;
 }
 
 .feature-row.reverse .feature-text {
@@ -600,9 +617,11 @@ body {
 }
 
 .feature-img-wrap {
+  display: flex;
   flex: 0 0 120px;
   text-align: center;
   min-width: 220px;
+  justify-content: flex-start;
 }
 
 .feature-img-box {
@@ -613,7 +632,7 @@ body {
   align-items: center;
   justify-content: center;
   border: 2px dashed;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .feature-img-box svg {
@@ -833,6 +852,7 @@ body {
   text-decoration: none;
   font-size: 14px;
   transition: color 0.2s;
+  cursor: pointer;
 }
 
 .footer-links a:hover {
@@ -1006,5 +1026,31 @@ body {
   }
   .about-features {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) and (min-width: 470) {
+  .feature-desc {
+    font-size: 13px;
+  }
+  .feature-title {
+    font-size: 17px;
+  }
+  .feature-img-box{
+    width: 170px;
+    height: 170px;
+  }
+}
+
+@media (max-width: 469px) {
+  .feature-desc {
+    font-size: 11px;
+  }
+  .feature-title {
+    font-size: 15px;
+  }
+  .feature-img-box{
+    width: 140px;
+    height: 140px;
   }
 }

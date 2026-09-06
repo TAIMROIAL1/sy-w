@@ -7,7 +7,7 @@ head
   link(rel='stylesheet' href='/css/mainpage.css')
   base(target='_blank')
 - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-body
+body(data-domain= domain)
   // Navbar
   nav.navbar
     .navbar-inner
@@ -16,11 +16,14 @@ body
           .logo-text &#x627;&#x64A;&#x627;&#x62F; &#x633;&#x643;&#x631;
           .logo-sub &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628; &#x628;&#x633;&#x64A;&#x637;
       .nav-links
-        a.active(href='#') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
-        a(href='#') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
-        a(href='#') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
-        a(href=`${domain}/settings`) اعدادات الحساب
-      button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+        a.active.section-button.section-button-1(role='button') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+        a.section-button.section-button-2(role='button') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+        a.section-button.section-button-3(role='button') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
+        a.settings-btn(role='button') اعدادات الحساب
+      - if(!user)
+        button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+      - if(user)
+        .balance= `${user.value} ATP`
       .menu-toggle-wrap
         button.mobile-menu-btn
           svg(width='28' height='28' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
@@ -31,14 +34,14 @@ body
           input#dark-toggle(type='checkbox')
           span.slider
     #mobileMenu.mobile-menu
-      a.active(href='#') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
-      a(href='#') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
-      a(href='#') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
-      a(href=`${domain}/settings`) اعدادات الحساب
+      a.active.section-button.section-button-1(role="button") &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+      a.section-button.section-button-2(role="button") &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+      a.section-button.section-button-3(role="button") &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
+      a.settings-btn(role="button") اعدادات الحساب
   // Main Content
   main
     // Hero Section
-    section.hero
+    section.hero.section-number-1
       .hero-inner
         .hero-content
           h1.hero-title
@@ -111,7 +114,7 @@ body
             h3 &#x645;&#x62C;&#x62A;&#x645;&#x639; &#x637;&#x644;&#x627;&#x628;&#x64A; &#x636;&#x62E;&#x645;
             p &#x627;&#x646;&#x636;&#x645; &#x644;&#x645;&#x62C;&#x62A;&#x645;&#x639; &#x645;&#x646; &#x627;&#x644;&#x637;&#x644;&#x627;&#x628; &#x627;&#x644;&#x645;&#x62A;&#x645;&#x64A;&#x632;&#x64A;&#x646; &#x648;&#x627;&#x644;&#x645;&#x62A;&#x62D;&#x645;&#x633;&#x64A;&#x646;
     // Courses Section
-    section.section.courses-section
+    section.section.courses-section.section-number-2
       .section-inner
         h2.section-title &#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;&#x646;&#x627; &#x627;&#x644;&#x645;&#x62A;&#x627;&#x62D;&#x629;
         p.section-subtitle &#x644;&#x644;&#x639;&#x627;&#x645; 2026/2027
@@ -197,9 +200,7 @@ body
                 polygon(points='23 7 16 12 23 17 23 7')
                 rect(x='1' y='5' width='15' height='14' rx='2' ry='2')
             h3.feature-title &#x62F;&#x631;&#x648;&#x633; &#x628;&#x627;&#x644;&#x641;&#x64A;&#x62F;&#x64A;&#x648; &#x648;&#x627;&#x644;&#x635;&#x648;&#x631; &#x627;&#x644;&#x62A;&#x648;&#x636;&#x64A;&#x62D;&#x64A;&#x629;
-            p.feature-desc
-              | &#x634;&#x631;&#x648;&#x62D;&#x627;&#x62A; &#x645;&#x635;&#x648;&#x651;&#x631;&#x629; &#x645;&#x64F;&#x641;&#x635;&#x651;&#x644;&#x629; &#x645;&#x639; &#x631;&#x633;&#x648;&#x645;&#x627;&#x62A; &#x62A;&#x648;&#x636;&#x64A;&#x62D;&#x64A;&#x629; &#x648;&#x623;&#x633;&#x626;&#x644;&#x629; &#x634;&#x627;&#x626;&#x639;&#x629; &#x645;&#x64F;&#x62C;&#x627;&#x628; &#x639;&#x646;&#x647;&#x627;.
-              | &#x643;&#x644; &#x62F;&#x631;&#x633; &#x628;&#x62C;&#x648;&#x62F;&#x629; &#x639;&#x627;&#x644;&#x64A;&#x629; &#x648;&#x635;&#x648;&#x62A; &#x648;&#x627;&#x636;&#x62D;.
+            p.feature-desc كورس مقسم الى وحدات صغيرة
         .feature-row
           .feature-text
             .feature-icon-box(style='background: linear-gradient(135deg, #8b5cf6, #a78bfa)')
@@ -223,7 +224,7 @@ body
                 path(d='M9 11l3 3L22 4')
                 path(d='M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11')
     // About Section
-    section.section.about-section
+    section.section.about-section.section-number-3
       .section-inner
         h2.section-title &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
         .about-card
@@ -287,11 +288,9 @@ body
   footer.footer
     .footer-inner
       .footer-links
-        a(href='#') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
-        a(href='#') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
-        a(href='#') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
-        a(href='#') &#x633;&#x64A;&#x627;&#x633;&#x629; &#x627;&#x644;&#x62E;&#x635;&#x648;&#x635;&#x64A;&#x629;
-        a(href='#') &#x627;&#x644;&#x634;&#x631;&#x648;&#x637; &#x648;&#x627;&#x644;&#x623;&#x62D;&#x643;&#x627;&#x645;
+        a.section-button.section-button-1(role="button") &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+        a.section-button.section-button-2(role="button") &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
+        a.section-button.section-button-3(role="button") &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
       .footer-copy
         p &#x62C;&#x645;&#x64A;&#x639; &#x627;&#x644;&#x62D;&#x642;&#x648;&#x642; &#x645;&#x62D;&#x641;&#x648;&#x638;&#x629; &copy; 2026 &mdash; &#x627;&#x64A;&#x627;&#x62F; &#x633;&#x643;&#x631;
   script(src='/js/mainpage.js')
