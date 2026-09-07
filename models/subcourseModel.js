@@ -17,6 +17,9 @@ const subcourseSchema = new mongoose.Schema({
   course: {
     type: mongoose.Schema.ObjectId,
     ref: 'Course'
+  },
+  startDate: {
+    type: String,
   }
 })
 

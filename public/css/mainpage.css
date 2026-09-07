@@ -685,7 +685,7 @@ body {
   text-align: center;
   min-width: 180px;
 }
-@media (max-width: 611px) {
+@media (max-width: 627px) {
   .about-card {
     justify-content: center;
     text-align: center;
@@ -773,11 +773,15 @@ body {
 }
 
 .about-feature-title {
+  width: 100%;
+  text-align: start;
   font-weight: 600;
   color: var(--text);
 }
 
 .about-feature-desc {
+  width: 100%;
+  text-align: start;
   font-size: 13px;
   color: var(--muted);
 }

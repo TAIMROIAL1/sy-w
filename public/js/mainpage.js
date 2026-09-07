@@ -1,12 +1,17 @@
 // Variables Definitions
 
+// Elements
 const darkToggle = document.getElementById('dark-toggle');
-
-const navbar = document.querySelector('.navbar');
-
 const sections = [...document.querySelectorAll('section')].filter(sec => [...sec.classList].find(className => className.startsWith('section-number')));
 
+// Attributes
 const domain = document.body.dataset.domain;
+
+// Containers
+const navbar = document.querySelector('.navbar');
+const coursesContainer = document.querySelector('.courses-grid');
+const footerLinksContainer = document.querySelector('.footer-links');
+
 // Buttons
 const menuButton = document.querySelector('.mobile-menu-btn');
 const sectionButtons = document.querySelectorAll('.section-button');
@@ -98,7 +103,7 @@ document.querySelector('.cta-btn').addEventListener('click', () => {
     })
 });
 
-document.querySelector('.footer-links').addEventListener('click', (e) => {
+footerLinksContainer.addEventListener('click', (e) => {
   const clicked = e.target;
 
   if(clicked.closest('.section-button')) {
@@ -117,6 +122,24 @@ document.querySelector('.footer-links').addEventListener('click', (e) => {
       top: window.scrollY + rect.top - offset,
       behavior: "smooth"
     })
+  }
+});
+
+coursesContainer.addEventListener('click', (e) => {
+  const clicked = e.target;
+
+  if(clicked.closest('.course-btn')) {
+
+  }
+
+  else if(clicked.closest('.course-card')) {
+    const card = clicked.closest('.course-card');
+    const state = card.dataset.activeState;
+    const courseId = card.dataset.courseId;
+    console.log(state);
+    if(state && state === 'active' && courseId) {
+      location.assign(`${domain}/courses/${courseId}/view`);
+    }
   }
 });
 

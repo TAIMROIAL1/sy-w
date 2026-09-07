@@ -83,30 +83,25 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
   })
 );
 
-router.get("/courses/:courseId/subcourses", checkJWT, catchAsync(async (req, res) => {
+router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
   let user = undefined;
   if (res.locals.user) {
       user  = res.locals.user;
   }
 
     const { courseId } = req.params;
-    const courseName = await Course.findById(courseId);
+    const course = await Subcourse.findById(courseId);
 
-    if(!courseName) return res.status(400).json({
+    if(!course) return res.status(400).json({
       status: 'fail',
       message: 'هذا الكورس غير موجود'
     });
 
-    const subcourses = await Subourse.find({ course: courseId });
-    
-    const subcoursesId = subcourses.map(sc => sc._id.toString());
-
-    res.status(200).render("subcourses", {
+    res.status(200).render("courses", {
       user,
-      subcourses,
-      subcoursesId,
-      title: courseName.title,
-      active: courseName.active,
+      course,
+      title: course.title,
+      active: course.active,
       metaContent: `الشرح لكامل لمنهاج الكتاب
 شرح جميع الرسمات
 تحديد كامل على الكتاب

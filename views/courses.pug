@@ -1,66 +1,98 @@
-extends base
-
-//- block content
-//-   .c
-//-     .correct.hidden
-//-       .correct-message you buy it 
-//-   .div-cours
-//-     - const coursesTitle = courses.length > 0? 'الكورسات' : 'لم يتم نشر اي كورسات بعد'
-//-     p.cours= coursesTitle
-//-   .courses
-//-     - if(courses)
-//-       each c , i in courses
-//-           a.first-cours.course-view(data-courseid= `${c._id}`, href=`/courses/${c._id}/subcourses`)
-//-             - if(user?.role === 'admin')
-//-               i.bi-trash(data-deletecount= 0) &#128465;
-//-               svg.bi-edit(xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16')
-//-                 path(d='M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z')
-//-                 path(fill-rule='evenodd' d='M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z')
-//-             img.first-cours-img(src=`/imgs/courses/${c.photoUrl}`, alt=`course card`)
-//-             .class-info 
-//-               .asab= c.title
-//-               - if(user)
-//-                 - if(!user.subcourses.some(sc => subcourses[i].includes(sc.toString())))
-//-                   .price-container
-//-                     .price= c.price
-//-                     buttton.buy شراء الكورس
-//-               - if(!user)
-//-                 .price-container
-//-                   .price= c.price
-//-               .about-cours= c.description
-            
-//-   - if(user?.role === 'admin')
-//-     button.upload-btn +
-  
-block content 
-  section.courses#classes-section
-    .cards.classes
-      // كارت  ابو وائل مطور ويب
-      each c , i in courses
-        .card.green(data-courseid=`${c._id}`, href=`/courses/${c._id}/subcourses`)
-          - if(user?.role === 'admin')
-            <i class="bi-trash" data-deletecount="0">&#128465;</i>
-            svg.bi-edit(xmlns="http://www.w3.org/2000/svg", width="16", height="16", fill="currentColor", viewBox="0 0 16 16")
-              path(d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z")
-              path(fill-rule="evenodd", d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z")
-          img.card-img(src=`/imgs/courses/${c.photoUrl}`, alt="")
-          .card-header
-            p= c.title 
-            //- span.progress 84% 🌙
-          p.duration= c.time
-          p= `${c.description}`
-          .tags
-            span شرح 
-            span حل 
-            span اختبارات
-            span متابعة دورية
-            span تقييم مستوى
-          - if((user && !user.subcourses.some(sc => subcourses[i].includes(sc.toString()))) || !user)
-            .price-container
-              p.salary(data-price= `${c.price}`)= `💰 السعر : ${c.price} ATP`
-              - if(c.active)
-                button.buy-btn اشتري الان
-              - if(!c.active)
-                p.later لاحقا..
-block scripts
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title &#x643;&#x648;&#x631;&#x633; &#x627;&#x644;&#x628;&#x627;&#x628; &#x627;&#x644;&#x623;&#x648;&#x644; &#x648;&#x627;&#x644;&#x62B;&#x627;&#x646;&#x64A;
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='/css/courses.css')
+- const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+body(data-domain=domain)
+  // Header
+  header
+    .logo
+      span Studyou
+    - if(!user)
+      .auth-buttons
+        button &#x62A;&#x633;&#x62C;&#x64A;&#x644; &#x627;&#x644;&#x62F;&#x62E;&#x648;&#x644;
+    - if(user)
+      .balance= `${user.value} ATP`
+    .dark-toggle
+      label.toggle
+        input#darkModeSwitch(type='checkbox')
+        span.slider
+  // Course Header
+  section.course-header
+    .course-header-inner
+      a.back-link(href=`${domain}/`) &larr; &#x627;&#x644;&#x639;&#x648;&#x62F;&#x629;
+      h1= course.title
+      p.start-date= `بداية نزول المحتوى ${course.startDate}`
+  // Main Course Layout
+  section.course-main
+    .course-photo-block
+      .photo-frame
+        img.course-img(src=`/imgs/courses/${course.photoUrl}` alt=course.title)
+      .price-row
+        .course-price= course.price 
+          span ATP
+        p.lessons-label= `يشمل جميع دروس ${course.title}`
+      .div-subscribe-btn
+        a.subscribe-btn(href='#') &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+    .course-about
+      h2 &#x639;&#x646; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;
+      p= course.description
+  // Lessons
+  .lessons-section
+    h2 &#x627;&#x644;&#x62F;&#x631;&#x648;&#x633;
+    .lesson-week الدرس الأول
+    ul.lesson-list
+      li
+        span.lesson-index 01
+        span.lesson-name &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+        button &#x25B6; &#x62A;&#x634;&#x63A;&#x64A;&#x644;
+      li
+        span.lesson-index 02
+        span.lesson-name &#x643;&#x648;&#x64A;&#x632; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+        button &#x61F; &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;
+      li
+        span.lesson-index 03
+        span.lesson-name &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+        button &#x1F4C4; &#x648;&#x627;&#x62C;&#x628;
+      li
+        span.lesson-index 04
+        span.lesson-name &#x62D;&#x644; &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+        button &#x2705; &#x627;&#x644;&#x62D;&#x644;
+      li
+        span.lesson-index 05
+        span.lesson-name &#x643;&#x62A;&#x627;&#x628; &#x627;&#x644;&#x627;&#x645;&#x62A;&#x62D;&#x627;&#x646; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649; &#x627;&#x644;&#x628;&#x627;&#x628; &#x627;&#x644;&#x623;&#x648;&#x644;
+        button &#x1F4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+  // Footer
+  footer
+    .footer-logo
+      span  د/ إياد سكر
+    .footer-links
+      div
+        h3 &#x627;&#x644;&#x633;&#x648;&#x634;&#x64A;&#x627;&#x644; &#x645;&#x64A;&#x62F;&#x64A;&#x627;
+        ul
+          li
+            a(href='https://www.facebook.com/share/1DvgbBYDmN/') &#x641;&#x64A;&#x633;&#x628;&#x648;&#x643;
+          li
+            a(href='https://www.instagram.com/dr.eyadsukar?igsh=M2Nya2NmdGg2bmZr') &#x627;&#x646;&#x633;&#x62A;&#x62C;&#x631;&#x627;&#x645;
+          li
+            a(href='#') تلجرام
+          li
+            a(href='https://youtube.com/@iyadsukar_7979?si=q_7hit36Ic_K7xmC') &#x64A;&#x648;&#x62A;&#x64A;&#x648;&#x628;
+      div
+        h3 &#x627;&#x644;&#x635;&#x641;&#x62D;&#x627;&#x62A;
+        ul
+          li
+            a(href=`${domain}/`) &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
+          - if(user)
+            li
+              a(href=`${domain}/settings`) الإعدادات
+          - if(!user)
+            li
+              a(href=`${domain}/sign-up`) التسجيل
+    p.rights &copy; 2026 &#x62C;&#x645;&#x64A;&#x639; &#x627;&#x644;&#x62D;&#x642;&#x648;&#x642; &#x645;&#x62D;&#x641;&#x648;&#x638;&#x629;
   script(src='/js/courses.js')
