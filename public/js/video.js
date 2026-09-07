@@ -395,6 +395,8 @@ const previousButton =
 const nextButton =
     document.getElementById("nextQuestion");
 
+const btnPrimary = document.querySelector('.btn-primary');
+
 
 /* =========================================
    OPEN QUIZ
@@ -418,6 +420,17 @@ quizButtons.forEach(button => {
     });
 
 });
+
+btnPrimary.addEventListener("click", () => {
+
+        const quizId = "lesson1";
+
+        startQuiz(quizId);
+
+        closeMobileSidebar();
+
+    });
+
 
 
 /* =========================================
