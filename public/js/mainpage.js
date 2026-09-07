@@ -136,7 +136,7 @@ coursesContainer.addEventListener('click', (e) => {
     const card = clicked.closest('.course-card');
     const state = card.dataset.activeState;
     const courseId = card.dataset.courseId;
-    console.log(state);
+
     if(state && state === 'active' && courseId) {
       location.assign(`${domain}/courses/${courseId}/view`);
     }

@@ -4,14 +4,19 @@ toggle.addEventListener("change", () => {
   document.body.classList.toggle("page-dark-mode");
 
   if (document.body.classList.contains("page-dark-mode")) {
-    localStorage.setItem("mode", "dark");
+    localStorage.setItem("darkMode", "dark");
   } else {
-    localStorage.setItem("mode", "light");
+    localStorage.removeItem("darkMode");
   }
 });
 
-// Load saved mode
-if (localStorage.getItem("mode") === "dark") {
-  document.body.classList.add("page-dark-mode");
-  toggle.checked = true;
-}
+
+// Checks dark mode
+(() => {
+    const darkMode = localStorage.getItem('darkMode');
+    if(darkMode) {
+        toggle.checked = true;
+        document.body.classList.toggle("page-dark-mode");
+    }
+
+})();
