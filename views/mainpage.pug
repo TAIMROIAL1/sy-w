@@ -8,6 +8,14 @@ head
   base(target='_blank')
 - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
 body(data-domain= domain)
+  .notifi.hidden
+    .notifi-message
+  .backdrop.hidden
+    .popup-message
+      h2= buy_msg || "هل تريد شراء الكورس؟"
+      .buttons
+        button.confirm-btn &#x62A;&#x623;&#x643;&#x64A;&#x62F;
+        button.cancel-btn &#x625;&#x644;&#x63A;&#x627;&#x621;        
   // Navbar
   nav.navbar
     .navbar-inner
@@ -23,7 +31,9 @@ body(data-domain= domain)
       - if(!user)
         button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
       - if(user)
-        .balance= `${user.value} ATP`
+        .balance-container
+          div ATP 
+          .balance= `${user.value}`
       .menu-toggle-wrap
         button.mobile-menu-btn
           svg(width='28' height='28' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
@@ -122,8 +132,8 @@ body(data-domain= domain)
         .courses-grid
           .course-card(data-active-state="active" data-course-id="6a9eac6701a147cc688bb5f0")
             .course-img(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
-              .course-badge(style='background: #10b981')
-                | مجاني
+              //- .course-badge(style='background: #10b981')
+              //-   | مجاني
               svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
                 path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
                 path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
@@ -131,11 +141,12 @@ body(data-domain= domain)
               h3 &#x643;&#x648;&#x631;&#x633; &#x627;&#x644;&#x639;&#x635;&#x628;&#x64A;&#x629;
               p &#x634;&#x631;&#x62D; &#x645;&#x641;&#x635;&#x644; &#x644;&#x628;&#x62D;&#x62B; &#x627;&#x644;&#x639;&#x635;&#x628;&#x64A;&#x629;
               .course-footer
-                span.course-price(style='color: #7c3aed') 150 ATP
-                button.course-btn(style='\
-                background: linear-gradient(135deg, #7c3aed, #8b5cf6);\
-                ')
-                  | &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+                - if(!(user && user.subcourses.includes("6a9eac6701a147cc688bb5f0")))
+                  span.course-price(style='color: #7c3aed') 150 ATP
+                  button.course-btn(style='\
+                  background: linear-gradient(135deg, #7c3aed, #8b5cf6);\
+                  ')
+                    | &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
           .course-card
             .course-img(style='background: linear-gradient(135deg, #10b981, #34d399)')
               .course-badge(style='background: #7c3aed')
@@ -148,10 +159,57 @@ body(data-domain= domain)
               p شرح مفصل لبحث الهرمونات
               .course-footer
                 span.course-price(style='color: #10b981') 75 ATP
-                button.course-btn(style='\
-                background: linear-gradient(135deg, #10b981, #34d399);\
-                ')
-                  | &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+          .course-card
+            .course-img(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
+              .course-badge(style='background: #7c3aed')
+                | مقفل
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
+                path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
+                path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
+            .course-body
+              h3 كورس السمتقبلات
+              p شرح مفصل لبحث المستقبلات
+              .course-footer
+                - if(!(user && user.subcourses.includes("6a9eac6701a147cc688bb5f0")))
+                  span.course-price(style='color: #7c3aed') 90 ATP
+          .course-card
+            .course-img(style='background: linear-gradient(135deg, #10b981, #34d399)')
+              .course-badge(style='background: #7c3aed')
+                | مقفل
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
+                path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
+                path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
+            .course-body
+              h3 كورس تكاثر الأحياء
+              p شرح مفصل لبحث تكاثر الأحياء
+              .course-footer
+                span.course-price(style='color: #10b981') 90 ATP
+          .course-card
+            .course-img(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
+              .course-badge(style='background: #7c3aed')
+                | مقفل
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
+                path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
+                path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
+            .course-body
+              h3 كورس تكاثر الإنسان
+              p شرح مفصل لبحث تكاثر الإنسان
+              .course-footer
+                - if(!(user && user.subcourses.includes("6a9eac6701a147cc688bb5f0")))
+                  span.course-price(style='color: #7c3aed') 150 ATP
+          .course-card
+            .course-img(style='background: linear-gradient(135deg, #10b981, #34d399)')
+              .course-badge(style='background: #7c3aed')
+                | مقفل
+              svg(viewbox='0 0 24 24' fill='none' stroke='white' stroke-width='1.2')
+                path(d='M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z')
+                path(d='M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z')
+            .course-body
+              h3 كورس الوراثة
+              p شرح مفصل لبحث الوراثة
+              .course-footer
+                span.course-price(style='color: #10b981') 75 ATP
+   
     // Features Detail Section
     section.section.features-section
       .section-inner

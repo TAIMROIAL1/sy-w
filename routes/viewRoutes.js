@@ -117,12 +117,15 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
 
     const { subcourseId } = req.params;
 
+    const course = await Subcourse.findById(subcourseId);
+
     const lessons = await Lesson.find({ subcourse: subcourseId });
 
     const { user } = res.locals;
     
     res.status(200).render("video", {
       user,
+      course,
       lessons,
       title: "الدروس",
       metaContent: "هنا تفهم العلوم!"

@@ -5,6 +5,9 @@ const lessonSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter a title']
   },
+  subtitle: {
+    type: String
+  },
   num: {
     type: Number,
     required: [true, 'Please enter a number']
@@ -21,21 +24,33 @@ const lessonSchema = new mongoose.Schema({
     ref: 'Workshop'
   },
   videos: [{
+    fileType: {
+      type: String,
+    },
+    filePath: {
+      type: String
+    },
+
+    questions: [{
+      type: mongoose.Schema.ObjectId,
+      ref: "Question"
+    }],
+
     title: {
       type: String,
       required: [true, 'Please enter a title']
     },
+    subtitle: {
+      type: String,
+    },
     info: {
       type: String,
-      required: [true, 'Please enter a video info']
     },
     videoUrl: {
-      type: String,
-      required: [true, 'Please enter a video url']
+      type: String
     },
     duration: {
-      type: String,
-      required: [true, 'Please enter a video duration']
+      type: String
     },
     date: {
       type: Date,

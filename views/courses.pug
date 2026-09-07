@@ -8,7 +8,8 @@ head
   link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap' rel='stylesheet')
   link(rel='stylesheet' href='/css/courses.css')
 - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-body(data-domain=domain)
+- const checkCourse = user?.subcourses.includes(course._id.toString());
+body(data-domain=domain, data-course-id=course._id.toString())
   // Header
   header
     .logo
@@ -37,36 +38,97 @@ body(data-domain=domain)
         .course-price= course.price 
           span ATP
         p.lessons-label= `يشمل جميع دروس ${course.title}`
-      .div-subscribe-btn
-        a.subscribe-btn(href='#') &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+      .course-btn-container
+        - if(!(user && checkCourse))
+          .course-btn.subscribe-btn &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+        - if(user && checkCourse)
+        .course-btn.enter-course-btn دخول الكورس
     .course-about
       h2 &#x639;&#x646; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;
       p= course.description
   // Lessons
   .lessons-section
-    h2 &#x627;&#x644;&#x62F;&#x631;&#x648;&#x633;
-    .lesson-week الدرس الأول
-    ul.lesson-list
-      li
-        span.lesson-index 01
-        span.lesson-name &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
-        button &#x25B6; &#x62A;&#x634;&#x63A;&#x64A;&#x644;
-      li
-        span.lesson-index 02
-        span.lesson-name &#x643;&#x648;&#x64A;&#x632; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
-        button &#x61F; &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;
-      li
-        span.lesson-index 03
-        span.lesson-name &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
-        button &#x1F4C4; &#x648;&#x627;&#x62C;&#x628;
-      li
-        span.lesson-index 04
-        span.lesson-name &#x62D;&#x644; &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
-        button &#x2705; &#x627;&#x644;&#x62D;&#x644;
-      li
-        span.lesson-index 05
-        span.lesson-name &#x643;&#x62A;&#x627;&#x628; &#x627;&#x644;&#x627;&#x645;&#x62A;&#x62D;&#x627;&#x646; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649; &#x627;&#x644;&#x628;&#x627;&#x628; &#x627;&#x644;&#x623;&#x648;&#x644;
-        button &#x1F4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+    .lessons-scroll
+      // الدرس الأول
+      .course-lesson.active
+        button.course-lesson-header(type='button')
+          .lesson-name-index
+            span
+              | &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x623;&#x648;&#x644;
+            span.lesson-index 01.
+          span.lesson-arrow &#x2304;
+        .course-lesson-content
+          ul.lesson-list
+            li
+              span.lesson-index 01.
+              span.lesson-name
+                | &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | &#x25B6; فيديو
+            li
+              span.lesson-index 02
+              span.lesson-name
+                | &#x643;&#x648;&#x64A;&#x632; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | 🖊️ اختبار 
+            li
+              span.lesson-index 03
+              span.lesson-name
+                | &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | 📑 واجب
+            li
+              span.lesson-index 04
+              span.lesson-name
+                | &#x62D;&#x644; &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | &#x2705; &#x627;&#x644;&#x62D;&#x644;
+            li
+              span.lesson-index 05
+              span.lesson-name
+                | &#x643;&#x62A;&#x627;&#x628; &#x627;&#x644;&#x627;&#x645;&#x62A;&#x62D;&#x627;&#x646;
+              button
+                | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+      // الدرس الثاني
+      .course-lesson
+        button.course-lesson-header(type='button')
+          .lesson-name-index
+            span
+              | الدرس الثاني
+            span.lesson-index 02.
+          span.lesson-arrow &#x2304;
+        .course-lesson-content
+          ul.lesson-list
+            li
+              span.lesson-index 01.
+              span.lesson-name
+                | &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | &#x25B6; &#x62A;&#x634;&#x63A;&#x64A;&#x644;
+            li
+              span.lesson-index 02
+              span.lesson-name
+                | &#x643;&#x648;&#x64A;&#x632; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | 🖊️ اختبار 
+            li
+              span.lesson-index 03
+              span.lesson-name
+                | &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | 📑 واجب
+            li
+              span.lesson-index 04
+              span.lesson-name
+                | &#x62D;&#x644; &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+              button
+                | &#x2705; &#x627;&#x644;&#x62D;&#x644;
+            li
+              span.lesson-index 05
+              span.lesson-name
+                | &#x643;&#x62A;&#x627;&#x628; &#x627;&#x644;&#x627;&#x645;&#x62A;&#x62D;&#x627;&#x646;
+              button
+                | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
   // Footer
   footer
     .footer-logo

@@ -93,7 +93,7 @@ header {
     font-weight: 800;
     font-size: 20px;
     letter-spacing: -0.01em;
-    color: var(--purple-text);
+    color: var(--purple);
 }
 
 .logo-shape {
@@ -303,12 +303,11 @@ header {
     text-align: end;
 }
 
-.course-btn-container {
+.div-subscribe-btn {
     display: flex;
 }
 
-.course-btn {
-    cursor: pointer;
+.subscribe-btn {
     display: block;
     width: 100%;
     text-align: center;
@@ -323,7 +322,7 @@ header {
     transition: background 0.2s var(--ease), transform 0.15s var(--ease);
 }
 
-.course-btn:hover {
+.subscribe-btn:hover {
     transform: translateY(-2px);
 }
 
@@ -439,10 +438,6 @@ header {
 }
 
 .lesson-list li button:hover {
-    opacity: 0.8;
-}
-
-.lesson-list li:hover{
     opacity: 0.8;
 }
 
@@ -619,7 +614,7 @@ footer {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     margin-bottom: 10px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 
@@ -639,7 +634,6 @@ footer {
     font-weight: 800;
     cursor: pointer;
     text-align: right;
-    direction: rtl;
     transition: background 0.2s var(--ease), color 0.2s var(--ease);
 }
 
@@ -648,12 +642,6 @@ footer {
     color: var(--purple-text);
 }
 
-.lesson-name-index {
-    display: flex;
-    flex-direction: row-reverse;
-    direction: rtl;
-    gap: 2px;
-}
 
 /* Arrow */
 
@@ -672,25 +660,6 @@ footer {
 
 
 /* Content */
-
-.course-lesson-content {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-6px);
-    transition:
-        max-height 0.35s var(--ease),
-        opacity 0.25s var(--ease),
-        transform 0.35s var(--ease);
-}
-
-.course-lesson.active .course-lesson-content {
-    max-height: 500px; /* enough space */
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
 
 .course-lesson-content {
     display: none;

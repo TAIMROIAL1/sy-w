@@ -1,511 +1,890 @@
-const listOpnBtn = document.querySelector(".hamburger-menu");
-const list = document.querySelector(".lessons-sidebar");
+/* =========================================
+   LESSON ACCORDION
+========================================= */
 
-const btnsContainers = document.querySelectorAll(".btns-flex-container");
-const videoContainer = document.querySelectorAll(".video-item");
+const lessons = document.querySelectorAll(".lesson");
 
-const uploadLessonBtn = document.querySelector("#lesson");
-const uploadQuestionBtn = document.querySelector("#question");
+lessons.forEach(lesson => {
 
-// The notifcation message
-const notifcation = document.querySelector(".error");
+    const header = lesson.querySelector(".lesson-header");
 
-const domain = document.body.dataset.domain;
+    if (!header) return;
 
-const videoToPlayContainer = document.querySelector(".video-player-container");
-const videoTitle = document.querySelector(".lesson-title-main");
-const descriptionBox = document.querySelector(".lesson-description-box");
-const aboutVideo = document.querySelector(".description-video-about");
-const videoDuration = document.querySelector(".video-duration");
-const videoDate = document.querySelector(".video-date");
-const questionsSection = document.querySelector(".questions-section");
+    header.addEventListener("click", () => {
 
-const role = document.body.dataset.role;
-const username = document.body.dataset.username;
-
-const submitAnswersBtn = document.querySelector(".submit-answers-btn");
-let questions = [];
-const questionAdminHTML = `
-<i class="bi-trash delete-question-btn" data-deletecount="0">&#128465;</i>
-<svg class="bi-edit edit-question-btn" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
-    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
-  </svg>
-`;
-const submitBtnContainer = document.querySelector(
-  ".submit-answers-btn-container"
-);
-
-let screenState = false;
-
-const showNotification = function (msg, type) {
-  notifcation.classList.toggle("hidden");
-
-  type === "success" ? (type = "success") : (type = "error");
-
-  const notifcationPopup = notifcation.querySelector(`.toast-${type}`);
-
-  notifcationPopup.classList.remove("hidden");
-
-  const notifcationMsg = notifcationPopup.querySelector(".toast-text");
-  notifcationMsg.textContent = msg;
-  setTimeout(() => {
-    notifcation.classList.toggle("hidden");
-    [...notifcation.querySelectorAll(".toast")].forEach((t) =>
-      t.classList.add("hidden")
-    );
-  }, 5000);
-};
-
-const handleDocumentClick = function (e) {
-  const clickedList = e.target.closest(".lessons-sidebar");
-  if (clickedList) return;
-
-  if (e.target.closest(".hamburger-menu")) return;
-  if (!list.classList.contains("hidden")) list.classList.add("hidden");
-};
-
-const createQuestionHTML = async function (text, answers, id) {
-  const questionDiv = document.createElement("div");
-  questionDiv.classList.add("question-card");
-  questionDiv.setAttribute("data-questionid", id);
-  questionDiv.innerHTML = `
-        ${role === "admin" ? questionAdminHTML : ""}
-        <p class="question-text">${text}</p>
-        <div  class="answer-options">
-        <div data-answernum= 0 class="answer-option">${answers[0]}</div>
-        <div data-answernum= 1 class="answer-option">${answers[1]}</div>
-        <div data-answernum= 2 class="answer-option">${answers[2]}</div>
-        <div data-answernum= 3 class="answer-option">${answers[3]}</div>
-        </div>
-  `;
-  questions.push(questionDiv);
-  submitBtnContainer.insertAdjacentElement(`beforebegin`, questionDiv);
-};
-
-const addL = function (tit) {
-  const fl = document.createElement("div");
-  const sl = document.createElement("div");
-  const tl = document.createElement("div");
-  const ll = document.createElement("div");
-  fl.classList.add("fl");
-  sl.classList.add("sl");
-  tl.classList.add("tl");
-  ll.classList.add("ll");
-
-  fl.textContent = username[0];
-  sl.textContent = username[1];
-  tl.textContent = username[2];
-  ll.textContent = username[username.length - 1];
-
-  tit.append(fl);
-  tit.append(sl);
-  tit.append(tl);
-  tit.append(ll);
-};
-
-const styleDate = function (date) {
-  const newDate = new Date(date);
-  const day = newDate.getDate();
-  const year = newDate.getFullYear();
-  const arabicMonths = [
-    "كانون الثاني",
-    "شباط",
-    "أذار",
-    "نيسان",
-    "أيار",
-    "حزيران",
-    "تموز",
-    "أب",
-    "أيلول",
-    "تشرين الأول",
-    "تشرين الثاني",
-    "كانون الأول",
-  ];
-  const month = arabicMonths[newDate.getMonth()];
-  return `${day}/${newDate.getMonth() + 1}/${year}`;
-};
-
-const initDescriptionBox = function (clicked) {
-  const videoInfo = clicked.dataset.videoinfo;
-  const duration = clicked.dataset.videoduration;
-  const initialDate = clicked.dataset.videodate;
-  aboutVideo.textContent = videoInfo;
-  videoDuration.textContent = duration;
-  videoDate.textContent = styleDate(initialDate);
-
-  descriptionBox.classList.remove("hidden");
-};
-const createQuestions = async function (clicked) {
-  list.classList.add("hidden");
-
-  // Highlight video
-  [...document.querySelectorAll(".video-item")].forEach((vi) =>
-    vi.classList.remove("active")
-  );
-  clicked.classList.add("active");
-
-  // Setting the video Section
-  const title = clicked.querySelector(".video-title").textContent;
-  videoTitle.textContent = title;
-
-  // Setting the Description Section
-  initDescriptionBox(clicked);
-
-  // Setting the Questions Section
-  submitBtnContainer.classList.add("hidden");
-  questions = [];
-  const oldQuestions = [...document.querySelectorAll(".question-card")];
-  if (oldQuestions && oldQuestions.length > 0) {
-    oldQuestions.forEach((oq) => oq.remove());
-  }
-
-  let subcourseId;
-  let workshopId;
-  let questionsToLoad;
-  const hrefParts = location.href.split('/');
-  if(hrefParts[3] === 'subcourses'){
-   subcourseId = location.href.split("/")[4];
-
-  questionsToLoad = await ajaxCall(
-    `${domain}/api/v1/videos/${clicked.dataset.videoid}/questions`,
-    "POST",
-    { subcourseId }
-    );
-  }
-
-  else if(hrefParts[3] === 'workshops'){
-    workshopId = location.href.split("/")[4];
-
-  questionsToLoad = await ajaxCall(
-    `${domain}/api/v1/workshops/videos/${clicked.dataset.videoid}/questions`,
-    "POST",
-    { workshopId }
-    );
-  }
-  if (questionsToLoad.data.questions.length > 0) {
-    questionsToLoad.data.questions.forEach((q) =>
-      createQuestionHTML(q.text, q.answers, q._id)
-    );
-    questionsSection.classList.remove("hidden");
-    submitBtnContainer.classList.remove("hidden");
-  }
-  // Setting the video
-  const videoElement = clicked.closest(".video-item");
-  const videoId = videoElement.dataset.videoid;
-  document.body.setAttribute("data-videoid", videoId);
-
-  videoToPlayContainer.innerHTML = `
-     <div style="position:relative; height:100%; width:100%;"><iframe class="my-iframe" src="${videoElement.dataset.videourl}" loading="lazy" style="border:0;border-radius:6px;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
-     `;
-};
-
-const ajaxCall = async function (url, method, data = undefined) {
-  const fetchOpts = {};
-  fetchOpts.method = method;
-  fetchOpts.headers = { "Content-Type": "application/json" };
-  if (data) fetchOpts.body = JSON.stringify(data);
-  const response = await fetch(url, fetchOpts);
-  const data2 = await response.json();
-  return data2;
-};
-
-const handleQuestionSectionClick = async function (e) {
-  if (role === "admin") {
-    const videoId = location.href.split("/")[4];
-    const clicked1 = e.target.closest(".bi-edit");
-    if (clicked1) {
-      const questionId =
-        clicked1?.closest(".question-card")?.dataset.questionid;
-      return location.assign(`/videos/${videoId}/edit-question/${questionId}`);
-    }
-
-    const clicked2 = e.target.closest(".bi-trash");
-    if (clicked2) {
-      const deleteCount = Number(clicked2.dataset.deletecount);
-
-      if (deleteCount !== 2) return clicked2.dataset.deletecount++;
-
-      const questionToDelete =
-        clicked2.closest(".question-card").dataset.questionid;
-
-      const response = await fetch(
-        `${domain}/api/v1/videos/${videoId}/questions/${questionToDelete}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
+        if (lesson.classList.contains("locked")) {
+            return;
         }
-      );
 
-      const data = await response.json();
+        lesson.classList.toggle("open");
 
-      showNotification(data.message, data.status);
-      if (data.status === "success") {
-        return setTimeout(() => {
-          location.reload(true);
-        }, 1500);
-      }
-    }
-  }
-  const clicked3 = e.target.closest(".answer-option");
-  if (clicked3) {
-    const answerContainer = clicked3.closest(".answer-options");
-    [...answerContainer.querySelectorAll(".answer-option")].forEach((cb) =>
-      cb.classList.remove("selected")
-    );
-    clicked3.classList.add("selected");
-  }
-};
-
-if(role === 'admin'){
-uploadQuestionBtn.addEventListener("click", function (e) {
-  const videoId = [...document.querySelectorAll(".video-item")]?.find((vi) =>
-    vi.classList.contains("active")
-  )?.dataset?.videoid;
-  if (!videoId) return;
-  location.assign(`/videos/${videoId}/upload-question`);
-});
-}
-document.addEventListener("click", handleDocumentClick);
-
-listOpnBtn.addEventListener("click", (e) => {
-  list.classList.toggle("hidden");
-});
-if (role === "admin") {
-  uploadLessonBtn.addEventListener("click", (e) => {
-    const hrefParts = location.href.split("/"); 
-    if(hrefParts[3] === 'subcourses'){
-    const subcourseId = hrefParts[4];
-    location.assign(`/subcourses/${subcourseId}/upload-lesson`);
-  }
-
-  else if(hrefParts[3] === 'workshops'){
-    const workshopId = hrefParts[4];
-    location.assign(`/workshops/${workshopId}/upload-lesson`);
-  }
-});
-
-  btnsContainers.forEach((btnsContainer) => {
-    btnsContainer.addEventListener("click", async (e) => {
-      if (e.target.closest(".video-item")) return;
-
-      const lessonId = e.target.closest(".my-details").dataset.lessonid;
-      const subcourseId = location.href.split("/")[4];
-      const clicked1 = e.target.closest(".bi-edit");
-      if (clicked1) {
-        return location.assign(
-          `/subcourses/${subcourseId}/edit-lesson/${
-            clicked1.closest(".my-details").dataset.lessonid
-          }`
-        );
-      }
-
-      const clicked2 = e.target.closest(".bi-trash");
-      if (clicked2) {
-        const deleteCount = Number(clicked2.dataset.deletecount);
-
-        if (deleteCount !== 2) {
-          if (deleteCount === 0) clicked2.classList.add("trash1");
-          if (deleteCount === 1) {
-            clicked2.classList.remove("trash1");
-            clicked2.classList.add("trash2");
-          }
-          return clicked2.dataset.deletecount++;
-        }
-        const lessonToDelete = e.target.closest(".my-details");
-
-        const response = await fetch(
-          `${domain}/api/v1/subcourses/${subcourseId}/lessons/${lessonToDelete.dataset.lessonid}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({}),
-          }
-        );
-
-        const data = await response.json();
-
-        showNotification(data.message, data.status);
-        if (data.status === "success") {
-          return setTimeout(() => {
-            location.reload(true);
-          }, 1500);
-        }
-      }
-
-      const clicked3 = e.target.closest(".upload-video");
-
-      if (clicked3) {
-        return location.assign(`/lessons/${lessonId}/upload-video`);
-      }
     });
-  });
-}
 
-[...document.querySelectorAll("details")].forEach((d) => {
-  d.addEventListener("click", function (e) {
-    e.preventDefault();
-    let active = false;
-    if (!d.hasAttribute("open") && !d.hasAttribute("open2")) active = true;
-    if (
-      !(e.target.classList.contains("lesson-title")) &&
-      !(e.target.tagName === "SPAN")
-    ){
-      return;
-}
-    [...document.querySelectorAll("details")].forEach((det) =>
-      det.removeAttribute("open")
-    );
-
-    if (active) d.setAttribute("open", "true");
-  });
 });
 
-videoContainer.forEach((btnsContainer) => {
-  btnsContainer.addEventListener("click", async (e) => {
-    const lessonId = e.target.closest(".my-details").dataset.lessonid;
-    const clicked1 = e.target.closest(".bi-edit");
-    if (clicked1) {
-      return location.assign(
-        `/lessons/${lessonId}/edit-video/${
-          clicked1.closest(".video-item").dataset.videoid
-        }`
-      );
-    }
 
-    const clicked2 = e.target.closest(".bi-trash");
+/* =========================================
+   MOBILE SIDEBAR
+========================================= */
 
-    if (clicked2) {
-      const deleteCount = Number(clicked2.dataset.deletecount);
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("sidebarOverlay");
 
-      if (deleteCount !== 2) {
-        return clicked2.dataset.deletecount++;
-      }
-      const videoToDelete = clicked2.closest(".video-item").dataset.videoid;
-      const response = await fetch(
-        `${domain}/api/v1/lessons/${lessonId}/videos/${videoToDelete}`,
+const openSidebar = document.getElementById("openSidebar");
+const closeSidebar = document.getElementById("closeSidebar");
+
+
+openSidebar.addEventListener("click", () => {
+
+    sidebar.classList.add("mobile-open");
+
+    overlay.classList.add("active");
+
+});
+
+
+closeSidebar.addEventListener("click", closeMobileSidebar);
+
+overlay.addEventListener("click", closeMobileSidebar);
+
+
+function closeMobileSidebar() {
+
+    sidebar.classList.remove("mobile-open");
+
+    overlay.classList.remove("active");
+
+}
+
+
+/* =========================================
+   QUIZ DATA
+========================================= */
+
+const quizzes = {
+
+    lesson1: [
+
         {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
+            question: "أي مما يلي ليس من أقسام الجهاز العصبي المركزي:",
+
+            options: [
+                "الدماغ البيني",
+                "السويقتان المخيتان",
+                "العقد العصبية",
+                "الوطاء"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "يدعى تراكم السائل الدماغي الشوكي في بطينات وزيادة حجمها:",
+
+            options: [
+                "سكتة دماغية",
+                "استسقاء دماغي",
+                "شقيقة",
+                "صرع"
+            ],
+
+            correct: 1
+        },
+
+        {
+            question: "يزداد احتمالية حدوث سكتة بانخفاض:",
+
+            options: [
+                "ضغط الدم",
+                "وزن الجسم",
+                "النشاط البدني",
+                "التدخين"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "يشتق الجهاز العصبي من الوريقة الجنينية:",
+
+            options: [
+                "الخارجية",
+                "الوسطى",
+                "الداخلية",
+                "كل ما سبق صحيح"
+            ],
+
+            correct: 0
+        },
+
+        {
+            question: "بنية تقق بين الدماغ المتوسط من الأعلى والبصلة السيسائية من الأسفل:",
+
+            options: [
+                "الدماغ البيني",
+                "المخ",
+                "الحدبة الحلقية",
+                "الوطاء"
+            ],
+
+            correct: 2
         }
-      );
 
-      const data = await response.json();
+    ],
 
-      showNotification(data.message, data.status);
-      if (data.status === "success") {
-        return setTimeout(() => {
-          location.reload(true);
-        }, 1500);
-      }
-    }
 
-    const clicked3 = e.target.closest(".video-item");
+    lesson2: [
 
-    if (clicked3) {
-      createQuestions(clicked3);
-    }
-  });
+        {
+            question: "إذا كان x + 5 = 10 فما قيمة x ؟",
+
+            options: [
+                "3",
+                "4",
+                "5",
+                "6"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "إذا كان x - 3 = 7 فما قيمة x ؟",
+
+            options: [
+                "8",
+                "9",
+                "10",
+                "11"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "ما قيمة x في المعادلة 2x = 10 ؟",
+
+            options: [
+                "2",
+                "3",
+                "5",
+                "10"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "إذا كان x + 2 = 8 فما قيمة x ؟",
+
+            options: [
+                "4",
+                "5",
+                "6",
+                "7"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "ما قيمة x في المعادلة x / 2 = 4 ؟",
+
+            options: [
+                "4",
+                "6",
+                "8",
+                "10"
+            ],
+
+            correct: 2
+        }
+
+    ],
+
+
+    lesson3: [
+
+        {
+            question: "ما درجة المعادلة 2x + 5 = 10 ؟",
+
+            options: [
+                "الأولى",
+                "الثانية",
+                "الثالثة",
+                "الرابعة"
+            ],
+
+            correct: 0
+        },
+
+        {
+            question: "ما قيمة x في 3x = 12 ؟",
+
+            options: [
+                "2",
+                "3",
+                "4",
+                "5"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "إذا كان x - 8 = 2 فما قيمة x ؟",
+
+            options: [
+                "8",
+                "9",
+                "10",
+                "11"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "ما قيمة x في 5x = 25 ؟",
+
+            options: [
+                "3",
+                "4",
+                "5",
+                "6"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "إذا كان x + 10 = 15 فما قيمة x ؟",
+
+            options: [
+                "3",
+                "4",
+                "5",
+                "6"
+            ],
+
+            correct: 2
+        }
+
+    ],
+
+
+    lesson4: [
+
+        {
+            question: "إذا كان x > 5، فأي قيمة تحقق المتباينة؟",
+
+            options: [
+                "3",
+                "4",
+                "5",
+                "6"
+            ],
+
+            correct: 3
+        },
+
+        {
+            question: "أي رمز يعني أصغر من؟",
+
+            options: [
+                ">",
+                "<",
+                "=",
+                "≥"
+            ],
+
+            correct: 1
+        },
+
+        {
+            question: "أي رمز يعني أكبر من؟",
+
+            options: [
+                "<",
+                "=",
+                ">",
+                "≤"
+            ],
+
+            correct: 2
+        },
+
+        {
+            question: "إذا كان x < 10، فأي قيمة صحيحة؟",
+
+            options: [
+                "12",
+                "11",
+                "10",
+                "8"
+            ],
+
+            correct: 3
+        },
+
+        {
+            question: "أي متباينة صحيحة؟",
+
+            options: [
+                "8 > 10",
+                "5 < 9",
+                "7 > 12",
+                "3 = 8"
+            ],
+
+            correct: 1
+        }
+
+    ]
+
+};
+
+
+/* =========================================
+   QUIZ VARIABLES
+========================================= */
+
+let currentQuiz = [];
+
+let currentQuestionIndex = 0;
+
+let userAnswers = [];
+
+let selectedQuizId = null;
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const videoView = document.getElementById("videoView");
+
+const quizView = document.getElementById("quizView");
+
+const loadingView = document.getElementById("loadingView");
+
+const resultView = document.getElementById("resultView");
+
+
+const questionText =
+    document.getElementById("questionText");
+
+const optionsContainer =
+    document.getElementById("optionsContainer");
+
+
+const currentQuestion =
+    document.getElementById("currentQuestion");
+
+const totalQuestions =
+    document.getElementById("totalQuestions");
+
+
+const quizProgressBar =
+    document.getElementById("quizProgressBar");
+
+
+const previousButton =
+    document.getElementById("prevQuestion");
+
+const nextButton =
+    document.getElementById("nextQuestion");
+
+
+/* =========================================
+   OPEN QUIZ
+========================================= */
+
+const quizButtons =
+    document.querySelectorAll(".quiz-resource");
+
+
+quizButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const quizId =
+            button.dataset.quiz;
+
+        startQuiz(quizId);
+
+        closeMobileSidebar();
+
+    });
+
 });
 
-questionsSection.addEventListener("click", handleQuestionSectionClick);
 
-const highlightAnswers = function (results) {
-  const checks = [...document.querySelectorAll(".question-card")];
-  results.forEach((result) => {
-    const check = checks.find(
-      (ch) => ch.dataset.questionid == result.questionId
-    );
-    const checked = check.querySelector(".selected");
-    if (result.solvedRight == true) {
-      checked.classList.remove("selected");
-      checked.classList.add("right");
+/* =========================================
+   START QUIZ
+========================================= */
+
+function startQuiz(quizId) {
+
+    selectedQuizId = quizId;
+
+    currentQuiz = quizzes[quizId];
+
+    currentQuestionIndex = 0;
+
+    userAnswers =
+        new Array(currentQuiz.length).fill(null);
+
+
+    showView(quizView);
+
+    renderQuestion();
+
+}
+
+
+/* =========================================
+   RENDER QUESTION
+========================================= */
+
+function renderQuestion() {
+
+    const question =
+        currentQuiz[currentQuestionIndex];
+
+
+    questionText.textContent =
+        question.question;
+
+
+    currentQuestion.textContent =
+        currentQuestionIndex + 1;
+
+
+    totalQuestions.textContent =
+        currentQuiz.length;
+
+
+    optionsContainer.innerHTML = "";
+
+
+    const letters = [
+        "أ",
+        "ب",
+        "ج",
+        "د"
+    ];
+
+
+    question.options.forEach((option, index) => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "option-btn";
+
+
+        if (
+            userAnswers[currentQuestionIndex] === index
+        ) {
+
+            button.classList.add("selected");
+
+        }
+
+
+        button.innerHTML = `
+
+            <span class="option-letter">
+                ${letters[index]}
+            </span>
+
+            <span>
+                ${option}
+            </span>
+
+        `;
+
+
+        button.addEventListener("click", () => {
+
+            selectAnswer(index);
+
+        });
+
+
+        optionsContainer.appendChild(button);
+
+    });
+
+
+    updateProgress();
+
+    updateButtons();
+
+}
+
+
+/* =========================================
+   SELECT ANSWER
+========================================= */
+
+function selectAnswer(index) {
+
+    userAnswers[currentQuestionIndex] =
+        index;
+
+
+    const buttons =
+        document.querySelectorAll(".option-btn");
+
+
+    buttons.forEach((button, buttonIndex) => {
+
+        button.classList.toggle(
+            "selected",
+            buttonIndex === index
+        );
+
+    });
+
+}
+
+
+/* =========================================
+   PROGRESS
+========================================= */
+
+function updateProgress() {
+
+    const progress =
+        (
+            (currentQuestionIndex + 1) /
+            currentQuiz.length
+        ) * 100;
+
+
+    quizProgressBar.style.width =
+        progress + "%";
+
+}
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+function updateButtons() {
+
+    if (currentQuestionIndex === 0) {
+
+        previousButton.disabled = true;
+
+        previousButton.style.opacity = ".5";
+
     } else {
-      if (checked) {
-        checked.classList.remove("selected");
-        checked.classList.add("false");
-      }
-      const answers = [...check.querySelectorAll(".answer-option")];
-      const correctCheckBox = answers.find(
-        (answer) => Number(answer.dataset.answernum) + 1 == result.correctAnswer
-      );
-      correctCheckBox.classList.add("expected");
+
+        previousButton.disabled = false;
+
+        previousButton.style.opacity = "1";
+
     }
-  });
-};
 
-const handleSubmit = async function () {
-  const solvedQuestions = questions.map((q) => {
-    const questionId = q.closest(".question-card").dataset.questionid;
-    let answer = -1;
-    const checked = q.closest(".question-card").querySelector(".selected");
 
-    if (checked)
-      answer = Number(checked.closest(".answer-option").dataset.answernum) + 1;
-    return { id: questionId, answer };
-  });
+    if (
+        currentQuestionIndex ===
+        currentQuiz.length - 1
+    ) {
 
-  const videoId = document.body.dataset.videoid;
+        nextButton.innerHTML = `
 
-  
-  const hrefParts = location.href.split('/');
+            إنهاء الاختبار
 
-  const subcourseId = hrefParts[4];
-  const workshopId = hrefParts[4];
-  let results;
+            <i class="fa-solid fa-check"></i>
 
-  if(hrefParts[3] === 'subcourses'){
-   const response = await ajaxCall(
-    `${domain}/api/v1/videos/${videoId}/questions/solve-questions`,
-    "POST",
-    { solvedQuestions, subcourseId }
-  );
-    results = response.results;
+        `;
+
+    } else {
+
+        nextButton.innerHTML = `
+
+            التالي
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        `;
+
+    }
+
 }
 
-  else if(hrefParts[3] === 'workshops') {
-    const response = await ajaxCall(
-    `${domain}/api/v1/workshops/videos/${videoId}/questions/solve-questions`,
-    "POST",
-    { solvedQuestions, workshopId }
-  );
-    results = response.results;
-  }
-  highlightAnswers(results);
-  submitAnswersBtn.removeEventListener("click", handleSubmit);
-  questionsSection.removeEventListener("click", handleQuestionSectionClick);
-  setTimeout(() => {
-    const answerBtns = questionsSection.querySelectorAll(".answer-option");
-    answerBtns.forEach((ab) => {
-      ab.classList.remove("selected");
-      ab.classList.remove("right");
-      ab.classList.remove("false");
-      ab.classList.remove("expected");
-      submitAnswersBtn.addEventListener("click", handleSubmit);
-      questionsSection.addEventListener("click", handleQuestionSectionClick);
+
+/* =========================================
+   NEXT QUESTION
+========================================= */
+
+nextButton.addEventListener("click", () => {
+
+
+    /*
+        لا يسمح بالانتقال
+        إذا لم يختر الطالب إجابة
+    */
+
+    if (
+        userAnswers[currentQuestionIndex] === null
+    ) {
+
+        alert("يرجى اختيار إجابة أولاً");
+
+        return;
+
+    }
+
+
+    /*
+        إذا كان آخر سؤال
+    */
+
+    if (
+        currentQuestionIndex ===
+        currentQuiz.length - 1
+    ) {
+
+        finishQuiz();
+
+        return;
+
+    }
+
+
+    currentQuestionIndex++;
+
+    renderQuestion();
+
+});
+
+
+/* =========================================
+   PREVIOUS QUESTION
+========================================= */
+
+previousButton.addEventListener("click", () => {
+
+    if (currentQuestionIndex > 0) {
+
+        currentQuestionIndex--;
+
+        renderQuestion();
+
+    }
+
+});
+
+
+/* =========================================
+   FINISH QUIZ
+========================================= */
+
+function finishQuiz() {
+
+    /*
+        التأكد أن جميع الأسئلة محلولة
+    */
+
+    const unanswered =
+        userAnswers.includes(null);
+
+
+    if (unanswered) {
+
+        alert(
+            "يجب الإجابة عن جميع الأسئلة قبل إنهاء الاختبار"
+        );
+
+        return;
+
+    }
+
+
+    /*
+        إخفاء الاختبار
+        وإظهار اللودر
+    */
+
+    showView(loadingView);
+
+
+    /*
+        محاكاة عملية التصحيح
+        لمدة 2 ثانية
+    */
+
+    setTimeout(() => {
+
+        calculateResult();
+
+    }, 2000);
+
+}
+
+
+/* =========================================
+   CALCULATE RESULT
+========================================= */
+
+function calculateResult() {
+
+    let correct = 0;
+
+
+    currentQuiz.forEach((question, index) => {
+
+        if (
+            userAnswers[index] ===
+            question.correct
+        ) {
+
+            correct++;
+
+        }
+
     });
-  }, 15000);
-};
 
-submitAnswersBtn.addEventListener("click", handleSubmit);
 
-// TODO
-// const handleFullScreen = function() {
-//   if(document.fullscreenElement && !screenState){
-//     screenState = true;
-//     setTimeout(() => {
-//       document.exitFullscreen();
-//       screenState = false;
-//     }, 10 * 60 * 1000);
-// }
-// }
+    const total =
+        currentQuiz.length;
 
-// document.addEventListener('fullscreenchange', handleFullScreen);
+
+    const wrong =
+        total - correct;
+
+
+    const percentage =
+        Math.round(
+            (correct / total) * 100
+        );
+
+
+    /*
+        عرض النتيجة
+    */
+
+    document.getElementById(
+            "scorePercentage"
+        ).textContent =
+        percentage + "%";
+
+
+    document.getElementById(
+            "correctAnswers"
+        ).textContent =
+        correct;
+
+
+    document.getElementById(
+            "wrongAnswers"
+        ).textContent =
+        wrong;
+
+
+    document.getElementById(
+            "resultTotal"
+        ).textContent =
+        total;
+
+
+    /*
+        الرسالة حسب النتيجة
+    */
+
+    const message =
+        document.getElementById(
+            "resultMessage"
+        );
+
+
+    if (percentage >= 90) {
+
+        message.textContent =
+            "ممتاز جداً! أداء رائع، استمر بهذا المستوى.";
+
+    } else if (percentage >= 70) {
+
+        message.textContent =
+            "أحسنت! نتيجة جيدة ويمكنك الوصول إلى الأفضل.";
+
+    } else if (percentage >= 50) {
+
+        message.textContent =
+            "نتيجة مقبولة، ننصحك بمراجعة الدرس مرة أخرى.";
+
+    } else {
+
+        message.textContent =
+            "لا بأس، حاول مراجعة الدرس وإعادة الاختبار.";
+
+    }
+
+
+    showView(resultView);
+
+}
+
+
+/* =========================================
+   RETRY QUIZ
+========================================= */
+
+document.getElementById(
+    "retryQuiz"
+).addEventListener("click", () => {
+
+    startQuiz(selectedQuizId);
+
+});
+
+
+/* =========================================
+   BACK TO LESSON
+========================================= */
+
+document.getElementById(
+    "backToLesson"
+).addEventListener("click", () => {
+
+    showView(videoView);
+
+});
+
+
+/* =========================================
+   SHOW VIEW
+========================================= */
+
+function showView(view) {
+
+    document
+        .querySelectorAll(".page-view")
+        .forEach(item => {
+
+            item.classList.remove(
+                "active-view"
+            );
+
+        });
+
+
+    view.classList.add(
+        "active-view"
+    );
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}

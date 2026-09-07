@@ -55,7 +55,7 @@ agreeBtn.addEventListener('click', async (e) => {
     price.remove();
     buyBtn.remove();
   }
-  if(data.message === `لقد اشتريت هذا الكورس او جزء منه`){
+  else if(data.message === `لقد اشتريت هذا الكورس او جزء منه`){
     price.remove();
     buyBtn.remove();
   }

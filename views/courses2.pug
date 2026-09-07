@@ -1,0 +1,205 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title كورس الباب الأول والثاني
+  link(rel='preconnect' href='https://fonts.googleapis.com')
+  link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
+  link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap' rel='stylesheet')
+  link(rel='stylesheet' href='/css/courses.css')
+
+- const domain = process.env.DOMAIN_ACTIVE === 'local' ? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+
+body(data-domain=domain)
+
+  // ================= HEADER =================
+  header
+    .logo
+      span Studyou
+
+    - if(!user)
+      .auth-buttons
+        button تسجيل الدخول
+
+    - if(user)
+      .balance= `${user.value} ATP`
+
+    .dark-toggle
+      label.toggle
+        input#darkModeSwitch(type='checkbox')
+        span.slider
+
+
+  // ================= COURSE HEADER =================
+  section.course-header
+    .course-header-inner
+      a.back-link(href=`${domain}/`) &larr; العودة
+      h1= course.title
+      p.start-date= `بداية نزول المحتوى ${course.startDate}`
+
+
+  // ================= MAIN COURSE LAYOUT =================
+  section.course-main
+    .course-photo-block
+      .photo-frame
+        img.course-img(src=`/imgs/courses/${course.photoUrl}` alt=course.title)
+
+      .price-row
+        .course-price
+          | #{course.price}
+          span ATP
+
+        p.lessons-label= `يشمل جميع دروس ${course.title}`
+
+      .div-subscribe-btn
+        a.subscribe-btn(href='#') اشترك الآن
+
+    .course-about
+      h2 عن الكورس
+      p= course.description
+
+
+  // ================= LESSONS SECTION =================
+  .lessons-section
+    h2 الدروس
+
+    .lessons-scroll
+      // الدرس الأول
+      .course-lesson
+        button.course-lesson-header(type='button')
+          span
+          span.lesson-index 01
+            |                     &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x623;&#x648;&#x644;
+            span.lesson-arrow &#x2304;
+        .course-lesson-content
+            ul.lesson-list
+            li
+                span.lesson-index 01
+                span.lesson-name
+                | &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+                button
+                | &#x25B6; &#x62A;&#x634;&#x63A;&#x63A;&#x64A;&#x644;
+            li
+                span.lesson-index 02
+                span.lesson-name
+                | &#x643;&#x648;&#x64A;&#x632; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+                button
+                | &#x61F; &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;
+            li
+                span.lesson-index 03
+                span.lesson-name
+                | &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+                button
+                | &#xF4C4; &#x648;&#x627;&#x62C;&#x628;
+            li
+                span.lesson-index 04
+                span.lesson-name
+                | &#x62D;&#x644; &#x648;&#x627;&#x62C;&#x628; &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x623;&#x648;&#x644;&#x649;
+                button
+                | &#x2705; &#x627;&#x644;&#x62D;&#x644;
+            li
+                span.lesson-index 05
+                span.lesson-name
+                | &#x643;&#x62A;&#x627;&#x628; &#x627;&#x644;&#x627;&#x645;&#x62A;&#x62D;&#x627;&#x646;
+                button
+                | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+        // الدرس الثاني
+        .course-lesson
+        button.course-lesson-header(type='button')
+            span
+            span.lesson-index 02
+            |                     &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x62B;&#x627;&#x646;&#x64A;
+            span.lesson-arrow &#x2304;
+        .course-lesson-content
+            ul.lesson-list
+            li
+                span.lesson-index 01
+                span.lesson-name &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x62B;&#x627;&#x646;&#x64A;&#x629;
+                button
+                | &#x25B6; &#x62A;&#x634;&#x63A;&#x64A;&#x644;
+            li
+                span.lesson-index 02
+                span.lesson-name &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631; &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x62B;&#x627;&#x646;&#x64A;
+                button
+                | &#x2753; &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;
+            li
+                span.lesson-index 03
+                span.lesson-name &#x645;&#x644;&#x641; &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x62B;&#x627;&#x646;&#x64A;
+                button
+                | &#x1F4C4; &#x645;&#x644;&#x641;
+        // الدرس الثالث
+        .course-lesson
+        button.course-lesson-header(type='button')
+            span
+            span.lesson-index 03
+            |                     &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x62B;&#x627;&#x644;&#x62B;
+            span.lesson-arrow &#x2304;
+        .course-lesson-content
+            ul.lesson-list
+            li
+                span.lesson-index 01
+                span.lesson-name &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x62B;&#x627;&#x644;&#x62B;&#x629;
+                button
+                | &#x25B6; &#x62A;&#x634;&#x63A;&#x64A;&#x644;
+            li
+                span.lesson-index 02
+                span.lesson-name &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631; &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x62B;&#x627;&#x644;&#x62B;
+                button
+                | &#x2753; &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;
+            li
+                span.lesson-index 03
+                span.lesson-name &#x645;&#x644;&#x641; &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x62B;&#x627;&#x644;&#x62B;
+                button
+                | &#x1F4C4; &#x645;&#x644;&#x641;
+        // الدرس الرابع
+        .course-lesson
+        button.course-lesson-header(type='button')
+            span
+            span.lesson-index 04
+            |                     &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x631;&#x627;&#x628;&#x639;
+            span.lesson-arrow &#x2304;
+        .course-lesson-content
+            ul.lesson-list
+            li
+                span.lesson-index 01
+                span.lesson-name &#x627;&#x644;&#x645;&#x62D;&#x627;&#x636;&#x631;&#x629; &#x627;&#x644;&#x631;&#x627;&#x628;&#x639;&#x629;
+                button
+                | &#x25B6; &#x62A;&#x634;&#x63A;&#x64A;&#x644;
+            li
+                span.lesson-index 02
+                span.lesson-name &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631; &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x631;&#x627;&#x628;&#x639;
+                button
+                | &#x2753; &#x627;&#x62E;&#x62A;&#x628;&#x627;&#x631;
+            li
+                span.lesson-index 03
+                span.lesson-name &#x645;&#x644;&#x641; &#x627;&#x644;&#x62F;&#x631;&#x633; &#x627;&#x644;&#x631;&#x627;&#x628;&#x639;
+                button
+                | &#x1F4C4; &#x645;&#x644;&#x641;
+    |     &grave;&grave;&grave;
+
+  // ================= FOOTER =================
+  footer
+    .footer-logo
+      span د/ إياد سكر
+
+    .footer-links
+      div
+        h3 السوشيال ميديا
+        ul
+          li: a(href='https://www.facebook.com/share/1DvgbBYDmN/') فيسبوك
+          li: a(href='https://www.instagram.com/dr.eyadsukar?igsh=M2Nya2NmdGg2bmZr') انستجرام
+          li: a(href='#') تلجرام
+          li: a(href='https://youtube.com/@iyadsukar_7979?si=q_7hit36Ic_K7xmC') يوتيوب
+
+      div
+        h3 الصفحات
+        ul
+          li: a(href=`${domain}/`) الرئيسية
+          - if(user)
+            li: a(href=`${domain}/settings`) الإعدادات
+          - if(!user)
+            li: a(href=`${domain}/sign-up`) التسجيل
+
+    p.rights &copy; 2026 جميع الحقوق محفوظة
+
+  script(src='/js/courses.js')

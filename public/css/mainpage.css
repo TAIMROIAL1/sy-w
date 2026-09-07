@@ -16,6 +16,130 @@ body {
   color: var(--text);
 }
 
+/* Back-drop */
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 110;
+}
+
+.popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 20;
+    width: 300px;
+}
+
+.popup-message h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.buttons button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.confirm-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+.hidden {
+  display: none;
+}
+
+.notifi{
+    border-radius:10px ;
+    position: fixed;
+    top: -125px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    width: 200px;
+    height: 125px;
+    z-index: 200;
+    animation-fill-mode: forwards;
+   }
+
+   .show-notifi {
+  animation: message 1s ease-out forwards;
+}
+
+.hide-notifi {
+  animation: message-return 1s ease-out forwards;
+}
+
+   .notifi-message{
+    color: black;
+    text-align: center;
+    width: 95%;
+   }
+ 
+   @keyframes message{
+    from{
+  top:-150px;
+    }
+    to{
+  top:15px;
+    }
+  }
+  @keyframes message-return{
+    from{
+  top:15px;
+    }
+    to{
+  top:-150px;
+    }
+  }
+
+.red{
+    background-color: rgb(233, 49, 3);
+}
+.green{
+    background-color: #42fa9e;
+}
 
 /* ========== NAVBAR ========== */
 .navbar {
@@ -119,7 +243,10 @@ body {
 .nav-cta:hover {
   transform: scale(1.03);
 }
-.balance {
+
+.balance-container {
+  display: flex;
+  gap: 5px;
   background: linear-gradient(135deg, var(--green-dark), var(--green));
   color: white;
   padding: 8px 18px;
@@ -128,8 +255,6 @@ body {
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(14, 180, 95, 0.25);
 }
-
-
 
 .mobile-menu-btn {
   display: none;
@@ -487,6 +612,7 @@ body {
   cursor: pointer;
   max-width: 360px;
   -webkit-tap-highlight-color: transparent;
+  min-width: 219px;
 }
 
 .course-card:hover {

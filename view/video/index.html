@@ -1,893 +1,551 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>المنصة التعليمية</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
-    <link rel="stylesheet" href="index.css">
-</head>
+    <link rel="stylesheet" href="index.css" />
+  </head>
 
-<body>
-
+  <body>
     <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
+      <div class="logo">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>منصتي التعليمية</span>
+      </div>
 
-        <div class="logo">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <span>منصتي التعليمية</span>
+      <div class="navbar-left">
+        <button class="mobile-toggle-btn" id="openSidebar">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="student-info">
+          <div class="student-avatar">أ</div>
+
+          <div>
+            <strong>أحمد محمد</strong>
+            <small>طالب</small>
+          </div>
         </div>
-
-        <div class="navbar-left">
-
-            <button class="mobile-toggle-btn" id="openSidebar">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
-            <div class="student-info">
-
-                <div class="student-avatar">
-                    أ
-                </div>
-
-                <div>
-                    <strong>أحمد محمد</strong>
-                    <small>طالب</small>
-                </div>
-
-            </div>
-
-        </div>
-
+      </div>
     </header>
-
 
     <!-- ================= MAIN ================= -->
 
     <main class="main-container">
+      <!-- ================= SIDEBAR ================= -->
 
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div>
+            <span class="course-label">الكورس</span>
+            <h2>الرياضيات</h2>
+          </div>
 
-        <!-- ================= SIDEBAR ================= -->
+          <button class="close-sidebar" id="closeSidebar">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
 
-        <aside class="sidebar" id="sidebar">
+        <!-- Progress -->
 
-            <div class="sidebar-header">
+        <div class="course-progress">
+          <div class="progress-top">
+            <span>
+              <i class="fa-solid fa-book-open"></i>
+              تقدمك في الكورس
+            </span>
 
-                <div>
-                    <span class="course-label">الكورس</span>
-                    <h2>الرياضيات</h2>
-                </div>
+            <strong>65%</strong>
+          </div>
 
-                <button class="close-sidebar" id="closeSidebar">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+          <div class="progress">
+            <span style="width: 65%"></span>
+          </div>
 
+          <small> 13 من 20 درس مكتمل </small>
+        </div>
+
+        <!-- Lessons -->
+
+        <div class="lessons-list">
+          <!-- LESSON 1 -->
+
+          <div class="lesson active open">
+            <div class="lesson-header">
+              <div class="lesson-number">01</div>
+
+              <div class="lesson-title">
+                <h3>المحاضرة الأولى</h3>
+
+                <span> العمليات على الأعداد </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down arrow"></i>
             </div>
 
+            <div class="lesson-content">
+              <!-- VIDEO -->
+
+              <button class="lesson-resource video-resource">
+                <span class="resource-icon video">
+                  <i class="fa-solid fa-play"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> فيديو الدرس </strong>
+
+                  <small> 45 دقيقة </small>
+                </span>
+
+                <i class="fa-solid fa-circle-check completed"></i>
+              </button>
+
+              <!-- PDF -->
+
+              <button class="lesson-resource">
+                <span class="resource-icon pdf">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> ملف PDF </strong>
+
+                  <small> ملخص المحاضرة </small>
+                </span>
+
+                <i class="fa-solid fa-download resource-action"></i>
+              </button>
+
+              <!-- QUIZ -->
+
+              <button class="lesson-resource quiz-resource" data-quiz="lesson1">
+                <span class="resource-icon quiz">
+                  <i class="fa-solid fa-clipboard-question"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> اختبار الدرس </strong>
+
+                  <small> 5 أسئلة </small>
+                </span>
+
+                <i class="fa-solid fa-chevron-left resource-action"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- LESSON 2 -->
+
+          <div class="lesson">
+            <div class="lesson-header">
+              <div class="lesson-number">02</div>
+
+              <div class="lesson-title">
+                <h3>المحاضرة الثانية</h3>
+
+                <span> المعادلات الرياضية </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down arrow"></i>
+            </div>
+
+            <div class="lesson-content">
+              <button class="lesson-resource">
+                <span class="resource-icon video">
+                  <i class="fa-solid fa-play"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> فيديو الدرس </strong>
+
+                  <small> 38 دقيقة </small>
+                </span>
+
+                <i class="fa-regular fa-circle resource-action"></i>
+              </button>
+
+              <button class="lesson-resource">
+                <span class="resource-icon pdf">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> ملف PDF </strong>
+
+                  <small> ملخص المحاضرة </small>
+                </span>
+
+                <i class="fa-solid fa-download resource-action"></i>
+              </button>
+
+              <button class="lesson-resource quiz-resource" data-quiz="lesson2">
+                <span class="resource-icon quiz">
+                  <i class="fa-solid fa-clipboard-question"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> اختبار الدرس </strong>
+
+                  <small> 5 أسئلة </small>
+                </span>
+
+                <i class="fa-solid fa-chevron-left resource-action"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- LESSON 3 -->
+
+          <div class="lesson">
+            <div class="lesson-header">
+              <div class="lesson-number">03</div>
+
+              <div class="lesson-title">
+                <h3>المحاضرة الثالثة</h3>
+
+                <span> المعادلات من الدرجة الأولى </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down arrow"></i>
+            </div>
+
+            <div class="lesson-content">
+              <button class="lesson-resource">
+                <span class="resource-icon video">
+                  <i class="fa-solid fa-play"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> فيديو الدرس </strong>
+
+                  <small> 52 دقيقة </small>
+                </span>
+
+                <i class="fa-regular fa-circle resource-action"></i>
+              </button>
+
+              <button class="lesson-resource">
+                <span class="resource-icon pdf">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> ملف PDF </strong>
+
+                  <small> ملخص المحاضرة </small>
+                </span>
+
+                <i class="fa-solid fa-download resource-action"></i>
+              </button>
+
+              <button class="lesson-resource quiz-resource" data-quiz="lesson3">
+                <span class="resource-icon quiz">
+                  <i class="fa-solid fa-clipboard-question"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> اختبار الدرس </strong>
+
+                  <small> 5 أسئلة </small>
+                </span>
+
+                <i class="fa-solid fa-chevron-left resource-action"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- LESSON 4 -->
+
+          <div class="lesson">
+            <div class="lesson-header">
+              <div class="lesson-number">04</div>
+
+              <div class="lesson-title">
+                <h3>المحاضرة الرابعة</h3>
+
+                <span> المتباينات </span>
+              </div>
+
+              <i class="fa-solid fa-chevron-down arrow"></i>
+            </div>
+
+            <div class="lesson-content">
+              <button class="lesson-resource">
+                <span class="resource-icon video">
+                  <i class="fa-solid fa-play"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> فيديو الدرس </strong>
+
+                  <small> 41 دقيقة </small>
+                </span>
+
+                <i class="fa-regular fa-circle resource-action"></i>
+              </button>
+
+              <button class="lesson-resource">
+                <span class="resource-icon pdf">
+                  <i class="fa-solid fa-file-pdf"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> ملف PDF </strong>
+
+                  <small> ملخص المحاضرة </small>
+                </span>
+
+                <i class="fa-solid fa-download resource-action"></i>
+              </button>
+
+              <button class="lesson-resource quiz-resource" data-quiz="lesson4">
+                <span class="resource-icon quiz">
+                  <i class="fa-solid fa-clipboard-question"></i>
+                </span>
+
+                <span class="resource-info">
+                  <strong> اختبار الدرس </strong>
+
+                  <small> 5 أسئلة </small>
+                </span>
+
+                <i class="fa-solid fa-chevron-left resource-action"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ================= CONTENT ================= -->
+
+      <section class="content-area">
+        <!-- ================= VIDEO VIEW ================= -->
+
+        <div id="videoView" class="page-view active-view">
+          <div class="video-container">
+            <div class="video-placeholder">
+              <div class="play-big">
+                <i class="fa-solid fa-play"></i>
+              </div>
+
+              <span> فيديو المحاضرة الأولى </span>
+            </div>
+          </div>
+
+          <div class="video-details-card">
+            <div class="video-header-info">
+              <div>
+                <span class="badge"> المحاضرة الأولى </span>
+
+                <h1>العمليات على الأعداد</h1>
+              </div>
+
+              <button class="btn btn-success">
+                <i class="fa-solid fa-check"></i>
+
+                تم إكمال الدرس
+              </button>
+            </div>
+
+            <div class="video-meta">
+              <span>
+                <i class="fa-regular fa-clock"></i>
+                45 دقيقة
+              </span>
+
+              <span>
+                <i class="fa-solid fa-book"></i>
+                الوحدة الأولى
+              </span>
+
+              <span>
+                <i class="fa-solid fa-chart-simple"></i>
+                مستوى متوسط
+              </span>
+            </div>
+
+            <hr class="divider" />
+
+            <p class="video-description">
+              في هذه المحاضرة سنتعرف على العمليات الأساسية على الأعداد والقواعد
+              المهمة التي تساعدك على حل المسائل الرياضية بطريقة صحيحة.
+            </p>
+
+            <div class="navigation-buttons">
+              <button class="btn btn-secondary">
+                <i class="fa-solid fa-arrow-right"></i>
+                الدرس السابق
+              </button>
+
+              <button class="btn btn-primary">
+                الدرس التالي
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= QUIZ VIEW ================= -->
+
+        <div id="quizView" class="page-view">
+          <div class="quiz-card">
+            <!-- Quiz Header -->
+
+            <div class="quiz-header">
+              <div>
+                <span class="badge"> اختبار الدرس </span>
+
+                <h1>اختبار العمليات على الأعداد</h1>
+
+                <p>أجب عن جميع الأسئلة التالية</p>
+              </div>
+
+              <div class="question-counter">
+                السؤال
+                <strong id="currentQuestion"> 1 </strong> من
+
+                <strong id="totalQuestions"> 5 </strong>
+              </div>
+            </div>
 
             <!-- Progress -->
 
-            <div class="course-progress">
-
-                <div class="progress-top">
-
-                    <span>
-                        <i class="fa-solid fa-book-open"></i>
-                        تقدمك في الكورس
-                    </span>
-
-                    <strong>65%</strong>
-
-                </div>
-
-                <div class="progress">
-                    <span style="width:65%"></span>
-                </div>
-
-                <small>
-                    13 من 20 درس مكتمل
-                </small>
-
+            <div class="quiz-progress">
+              <div id="quizProgressBar"></div>
             </div>
 
+            <!-- Question -->
 
-            <!-- Lessons -->
+            <div class="question-box">
+              <span class="question-label"> السؤال </span>
 
-            <div class="lessons-list">
+              <h2 id="questionText">كم يساوي 5 + 3 ؟</h2>
 
+              <!-- Options -->
 
-                <!-- LESSON 1 -->
-
-                <div class="lesson active open">
-
-                    <div class="lesson-header">
-
-                        <div class="lesson-number">
-                            01
-                        </div>
-
-                        <div class="lesson-title">
-
-                            <h3>
-                                المحاضرة الأولى
-                            </h3>
-
-                            <span>
-                                العمليات على الأعداد
-                            </span>
-
-                        </div>
-
-                        <i class="fa-solid fa-chevron-down arrow"></i>
-
-                    </div>
-
-
-                    <div class="lesson-content">
-
-                        <!-- VIDEO -->
-
-                        <button class="lesson-resource video-resource">
-
-                            <span class="resource-icon video">
-                                <i class="fa-solid fa-play"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    فيديو الدرس
-                                </strong>
-
-                                <small>
-                                    45 دقيقة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-circle-check completed"></i>
-
-                        </button>
-
-
-                        <!-- PDF -->
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon pdf">
-                                <i class="fa-solid fa-file-pdf"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    ملف PDF
-                                </strong>
-
-                                <small>
-                                    ملخص المحاضرة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-download resource-action"></i>
-
-                        </button>
-
-
-                        <!-- QUIZ -->
-
-                        <button class="lesson-resource quiz-resource" data-quiz="lesson1">
-
-                            <span class="resource-icon quiz">
-                                <i class="fa-solid fa-clipboard-question"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    اختبار الدرس
-                                </strong>
-
-                                <small>
-                                    5 أسئلة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-chevron-left resource-action"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- LESSON 2 -->
-
-                <div class="lesson">
-
-                    <div class="lesson-header">
-
-                        <div class="lesson-number">
-                            02
-                        </div>
-
-                        <div class="lesson-title">
-
-                            <h3>
-                                المحاضرة الثانية
-                            </h3>
-
-                            <span>
-                                المعادلات الرياضية
-                            </span>
-
-                        </div>
-
-                        <i class="fa-solid fa-chevron-down arrow"></i>
-
-                    </div>
-
-
-                    <div class="lesson-content">
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon video">
-                                <i class="fa-solid fa-play"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    فيديو الدرس
-                                </strong>
-
-                                <small>
-                                    38 دقيقة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-regular fa-circle resource-action"></i>
-
-                        </button>
-
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon pdf">
-                                <i class="fa-solid fa-file-pdf"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    ملف PDF
-                                </strong>
-
-                                <small>
-                                    ملخص المحاضرة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-download resource-action"></i>
-
-                        </button>
-
-
-                        <button class="lesson-resource quiz-resource" data-quiz="lesson2">
-
-                            <span class="resource-icon quiz">
-                                <i class="fa-solid fa-clipboard-question"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    اختبار الدرس
-                                </strong>
-
-                                <small>
-                                    5 أسئلة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-chevron-left resource-action"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- LESSON 3 -->
-
-                <div class="lesson">
-
-                    <div class="lesson-header">
-
-                        <div class="lesson-number">
-                            03
-                        </div>
-
-                        <div class="lesson-title">
-
-                            <h3>
-                                المحاضرة الثالثة
-                            </h3>
-
-                            <span>
-                                المعادلات من الدرجة الأولى
-                            </span>
-
-                        </div>
-
-                        <i class="fa-solid fa-chevron-down arrow"></i>
-
-                    </div>
-
-
-                    <div class="lesson-content">
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon video">
-                                <i class="fa-solid fa-play"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    فيديو الدرس
-                                </strong>
-
-                                <small>
-                                    52 دقيقة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-regular fa-circle resource-action"></i>
-
-                        </button>
-
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon pdf">
-                                <i class="fa-solid fa-file-pdf"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    ملف PDF
-                                </strong>
-
-                                <small>
-                                    ملخص المحاضرة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-download resource-action"></i>
-
-                        </button>
-
-
-                        <button class="lesson-resource quiz-resource" data-quiz="lesson3">
-
-                            <span class="resource-icon quiz">
-                                <i class="fa-solid fa-clipboard-question"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    اختبار الدرس
-                                </strong>
-
-                                <small>
-                                    5 أسئلة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-chevron-left resource-action"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- LESSON 4 -->
-
-                <div class="lesson">
-
-                    <div class="lesson-header">
-
-                        <div class="lesson-number">
-                            04
-                        </div>
-
-                        <div class="lesson-title">
-
-                            <h3>
-                                المحاضرة الرابعة
-                            </h3>
-
-                            <span>
-                                المتباينات
-                            </span>
-
-                        </div>
-
-                        <i class="fa-solid fa-chevron-down arrow"></i>
-
-                    </div>
-
-
-                    <div class="lesson-content">
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon video">
-                                <i class="fa-solid fa-play"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    فيديو الدرس
-                                </strong>
-
-                                <small>
-                                    41 دقيقة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-regular fa-circle resource-action"></i>
-
-                        </button>
-
-
-                        <button class="lesson-resource">
-
-                            <span class="resource-icon pdf">
-                                <i class="fa-solid fa-file-pdf"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    ملف PDF
-                                </strong>
-
-                                <small>
-                                    ملخص المحاضرة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-download resource-action"></i>
-
-                        </button>
-
-
-                        <button class="lesson-resource quiz-resource" data-quiz="lesson4">
-
-                            <span class="resource-icon quiz">
-                                <i class="fa-solid fa-clipboard-question"></i>
-                            </span>
-
-                            <span class="resource-info">
-
-                                <strong>
-                                    اختبار الدرس
-                                </strong>
-
-                                <small>
-                                    5 أسئلة
-                                </small>
-
-                            </span>
-
-                            <i class="fa-solid fa-chevron-left resource-action"></i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
+              <div class="options-grid" id="optionsContainer">
+                <!-- JS -->
+              </div>
             </div>
 
-        </aside>
+            <!-- Footer -->
 
+            <div class="quiz-footer">
+              <button class="btn btn-secondary" id="prevQuestion">
+                <i class="fa-solid fa-arrow-right"></i>
 
-        <!-- ================= CONTENT ================= -->
+                السابق
+              </button>
 
-        <section class="content-area">
+              <button class="btn btn-primary" id="nextQuestion">
+                التالي
 
+                <i class="fa-solid fa-arrow-left"></i>
+              </button>
+            </div>
+          </div>
+        </div>
 
-            <!-- ================= VIDEO VIEW ================= -->
+        <!-- ================= LOADER ================= -->
 
-            <div id="videoView" class="page-view active-view">
+        <div id="loadingView" class="page-view loading-view">
+          <div class="loader-card">
+            <div class="loader"></div>
 
-                <div class="video-container">
+            <h2>جاري تصحيح الاختبار</h2>
 
-                    <div class="video-placeholder">
+            <p>لحظات ويتم عرض نتيجتك...</p>
+          </div>
+        </div>
 
-                        <div class="play-big">
-                            <i class="fa-solid fa-play"></i>
-                        </div>
+        <!-- ================= RESULT ================= -->
 
-                        <span>
-                            فيديو المحاضرة الأولى
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="video-details-card">
-
-                    <div class="video-header-info">
-
-                        <div>
-
-                            <span class="badge">
-                                المحاضرة الأولى
-                            </span>
-
-                            <h1>
-                                العمليات على الأعداد
-                            </h1>
-
-                        </div>
-
-                        <button class="btn btn-success">
-
-                            <i class="fa-solid fa-check"></i>
-
-                            تم إكمال الدرس
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="video-meta">
-
-                        <span>
-                            <i class="fa-regular fa-clock"></i>
-                            45 دقيقة
-                        </span>
-
-                        <span>
-                            <i class="fa-solid fa-book"></i>
-                            الوحدة الأولى
-                        </span>
-
-                        <span>
-                            <i class="fa-solid fa-chart-simple"></i>
-                            مستوى متوسط
-                        </span>
-
-                    </div>
-
-
-                    <hr class="divider">
-
-
-                    <p class="video-description">
-
-                        في هذه المحاضرة سنتعرف على العمليات الأساسية على الأعداد والقواعد المهمة التي تساعدك على حل المسائل الرياضية بطريقة صحيحة.
-
-                    </p>
-
-
-                    <div class="navigation-buttons">
-
-                        <button class="btn btn-secondary">
-                            <i class="fa-solid fa-arrow-right"></i>
-                            الدرس السابق
-                        </button>
-
-                        <button class="btn btn-primary">
-                            الدرس التالي
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
+        <div id="resultView" class="page-view">
+          <div class="result-card">
+            <div class="result-icon">
+              <i class="fa-solid fa-trophy"></i>
             </div>
 
+            <span class="result-label"> النتيجة النهائية </span>
 
-            <!-- ================= QUIZ VIEW ================= -->
+            <h1>أحسنت!</h1>
 
-            <div id="quizView" class="page-view">
-
-
-                <div class="quiz-card">
-
-
-                    <!-- Quiz Header -->
-
-                    <div class="quiz-header">
-
-                        <div>
-
-                            <span class="badge">
-                                اختبار الدرس
-                            </span>
-
-                            <h1>
-                                اختبار العمليات على الأعداد
-                            </h1>
-
-                            <p>
-                                أجب عن جميع الأسئلة التالية
-                            </p>
-
-                        </div>
-
-                        <div class="question-counter">
-
-                            السؤال
-                            <strong id="currentQuestion">
-                                1
-                            </strong> من
-
-                            <strong id="totalQuestions">
-                                5
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Progress -->
-
-                    <div class="quiz-progress">
-
-                        <div id="quizProgressBar"></div>
-
-                    </div>
-
-
-                    <!-- Question -->
-
-                    <div class="question-box">
-
-                        <span class="question-label">
-                            السؤال
-                        </span>
-
-                        <h2 id="questionText">
-                            كم يساوي 5 + 3 ؟
-                        </h2>
-
-
-                        <!-- Options -->
-
-                        <div class="options-grid" id="optionsContainer">
-
-                            <!-- JS -->
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- Footer -->
-
-                    <div class="quiz-footer">
-
-                        <button class="btn btn-secondary" id="prevQuestion">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                            السابق
-
-                        </button>
-
-
-                        <button class="btn btn-primary" id="nextQuestion">
-
-                            التالي
-
-                            <i class="fa-solid fa-arrow-left"></i>
-
-                        </button>
-
-                    </div>
-
-
-                </div>
-
+            <div class="score">
+              <span id="scorePercentage"> 80% </span>
             </div>
 
+            <p class="result-message" id="resultMessage">
+              نتيجة رائعة، استمر بالتقدم!
+            </p>
 
-            <!-- ================= LOADER ================= -->
+            <!-- Stats -->
 
-            <div id="loadingView" class="page-view loading-view">
-
-                <div class="loader-card">
-
-                    <div class="loader"></div>
-
-                    <h2>
-                        جاري تصحيح الاختبار
-                    </h2>
-
-                    <p>
-                        لحظات ويتم عرض نتيجتك...
-                    </p>
-
+            <div class="result-stats">
+              <div class="result-stat">
+                <div class="stat-icon correct">
+                  <i class="fa-solid fa-check"></i>
                 </div>
 
-            </div>
+                <span> الإجابات الصحيحة </span>
 
+                <strong id="correctAnswers"> 4 </strong>
+              </div>
 
-            <!-- ================= RESULT ================= -->
-
-            <div id="resultView" class="page-view">
-
-
-                <div class="result-card">
-
-
-                    <div class="result-icon">
-
-                        <i class="fa-solid fa-trophy"></i>
-
-                    </div>
-
-
-                    <span class="result-label">
-                        النتيجة النهائية
-                    </span>
-
-
-                    <h1>
-                        أحسنت!
-                    </h1>
-
-
-                    <div class="score">
-
-                        <span id="scorePercentage">
-                            80%
-                        </span>
-
-                    </div>
-
-
-                    <p class="result-message" id="resultMessage">
-                        نتيجة رائعة، استمر بالتقدم!
-                    </p>
-
-
-                    <!-- Stats -->
-
-                    <div class="result-stats">
-
-
-                        <div class="result-stat">
-
-                            <div class="stat-icon correct">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-
-                            <span>
-                                الإجابات الصحيحة
-                            </span>
-
-                            <strong id="correctAnswers">
-                                4
-                            </strong>
-
-                        </div>
-
-
-                        <div class="result-stat">
-
-                            <div class="stat-icon wrong">
-                                <i class="fa-solid fa-xmark"></i>
-                            </div>
-
-                            <span>
-                                الإجابات الخاطئة
-                            </span>
-
-                            <strong id="wrongAnswers">
-                                1
-                            </strong>
-
-                        </div>
-
-
-                        <div class="result-stat">
-
-                            <div class="stat-icon total">
-                                <i class="fa-solid fa-list"></i>
-                            </div>
-
-                            <span>
-                                مجموع الأسئلة
-                            </span>
-
-                            <strong id="resultTotal">
-                                5
-                            </strong>
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- Actions -->
-
-                    <div class="result-actions">
-
-                        <button class="btn btn-primary" id="retryQuiz">
-
-                            <i class="fa-solid fa-rotate-right"></i>
-
-                            إعادة الاختبار
-
-                        </button>
-
-
-                        <button class="btn btn-secondary" id="backToLesson">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                            العودة إلى الدرس
-
-                        </button>
-
-                    </div>
-
-
+              <div class="result-stat">
+                <div class="stat-icon wrong">
+                  <i class="fa-solid fa-xmark"></i>
                 </div>
 
+                <span> الإجابات الخاطئة </span>
+
+                <strong id="wrongAnswers"> 1 </strong>
+              </div>
+
+              <div class="result-stat">
+                <div class="stat-icon total">
+                  <i class="fa-solid fa-list"></i>
+                </div>
+
+                <span> مجموع الأسئلة </span>
+
+                <strong id="resultTotal"> 5 </strong>
+              </div>
             </div>
 
+            <!-- Actions -->
 
-        </section>
+            <div class="result-actions">
+              <button class="btn btn-primary" id="retryQuiz">
+                <i class="fa-solid fa-rotate-right"></i>
 
+                إعادة الاختبار
+              </button>
+
+              <button class="btn btn-secondary" id="backToLesson">
+                <i class="fa-solid fa-arrow-right"></i>
+
+                العودة إلى الدرس
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-
 
     <!-- Overlay -->
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-
     <script src="script.js"></script>
-
-</body>
-
+  </body>
 </html>
