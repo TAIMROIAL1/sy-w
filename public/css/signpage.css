@@ -1,47 +1,39 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
 :root{
-  --yalo: #10b981;        /* updated green: deep emerald */
+  --yalo: #bbfb4c;
   --blue: #5285e8;
   --white: #f0f5f4;
   --black: #181818;
 }
-
-/* PAGE BACKGROUND — gradient */
 html,body{
   display: grid;
   height: 100%;
   width: 100%;
   place-items: center;
-  background: linear-gradient(135deg, #7c3aed 0%, #5285e8 50%, #10b981 100%);
+ background-color: var(--white);
 }
 
-/* SUCCESS CHECKMARK CONTAINER — keep structure, only recolor */
+* {
+  padding: 0;
+  margin: 0
+}
+
 .wrappeer {
-  border: solid hsl(94, 51%, 51%);
+  border:  solid hsl(94, 51%, 51%);
   border-radius: 900px;
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* dark card but not too dark */
-  background-color: #2f2f2f;
-
-  /* stronger shadow */
-  box-shadow:
-    0px 10px 25px rgba(0,0,0,0.55),
-    0px 0px 12px rgba(108, 76, 196, 0.25);
-
-  position: relative;
-  top: 0;
+  background-color:#ffffff;
+ position: relative;
+ top: 0;
 }
 
 .animated-check {
@@ -51,47 +43,39 @@ html,body{
 
 .animated-check path {
   fill: none;
-  stroke: #bbfb4c; /* bright green accent */
+  stroke: hsl(94, 51%, 51%);
   stroke-width: 4;
   stroke-dasharray: 23;
   stroke-dashoffset: 23;
   animation: draw 1s linear forwards;
   stroke-linecap: round;
-  stroke-linejoin: round;
+  stroke-linejoin: round
 }
 
 @keyframes draw {
-  to { stroke-dashoffset: 0; }
+  to {
+      stroke-dashoffset: 0
+  }
 }
+
 
 ::selection{
   background: #5442f3;
   color: #fff;
 }
-
-/* MAIN CARD — dark but readable */
 .wrapper{
   overflow: hidden;
   min-width: 330px;
   max-width: 400px;
-
-  /* dark card but not too dark */
-  background: #2f2f2f;
-
+  background:var(--blue);
   padding: 30px;
-  border-radius: 12px;
-
-  /* deeper shadow + slight purple glow */
-  box-shadow:
-    0px 10px 25px rgba(0,0,0,0.65),
-    0px 0px 14px rgba(108, 76, 196, 0.35);
+  border-radius: 5px;
+  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
 }
-
 .wrapper .title-text{
   display: flex;
   width: 200%;
 }
-
 .slide{
   color: var(--white);
 }
@@ -104,8 +88,6 @@ html,body{
   text-align: center;
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
-
-/* SLIDE CONTROLS */
 .wrapper .slide-controls{
   position: relative;
   display: flex;
@@ -114,17 +96,13 @@ html,body{
   overflow: hidden;
   margin: 30px 0 10px 0;
   justify-content: space-between;
-
-  border: 1px solid #3a3a3a;
+  border: 1px solid lightgrey;
   border-radius: 5px;
-
-  background: #1e1e1e;
 }
-
 .slide-controls .slide{
   height: 100%;
   width: 100%;
-  color: var(--white);
+  color: var(--black);
   font-size: 18px;
   font-weight: 500;
   text-align: center;
@@ -133,11 +111,9 @@ html,body{
   z-index: 1;
   transition: all 0.6s ease;
 }
-
 .slide-controls label.signup{
   color: #ffffff;
 }
-
 .slide-controls .slider-tab{
   position: absolute;
   height: 100%;
@@ -148,107 +124,82 @@ html,body{
   background: var(--yalo);
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
-
 input[type="radio"]{
   display: none;
 }
-
 #signup:checked ~ .slider-tab{
   left: 50%;
 }
-
 #signup:checked ~ label.signup{
-  color: var(--black);
+  color:var(--black);
   cursor: default;
   user-select: none;
 }
-
 #signup:checked ~ label.login{
   color: #ffffff;
 }
-
 #login:checked ~ label.signup{
   color: #ffffff;
 }
-
 #login:checked ~ label.login{
   cursor: default;
   user-select: none;
 }
-
-/* FORM */
 .wrapper .form-container{
   width: 100%;
   overflow: hidden;
 }
-
 .form-container .form-inner{
   display: flex;
   width: 200%;
 }
-
 .form-container .form-inner form{
   width: 50%;
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
-
 .form-inner form .field{
   height: 50px;
   width: 100%;
   margin-top: 20px;
 }
-
 .form-inner form .field input{
   height: 100%;
   width: 100%;
   outline: none;
   padding-left: 15px;
   border-radius: 5px;
-
-  background: #1e1e1e;
-  color: var(--white);
-
-  border: 1px solid #3a3a3a;
+  border: 1px solid lightgrey;
   border-bottom-width: 2px;
-
   font-size: 17px;
   transition: all 0.3s ease;
 }
-
 .form-inner form .field input:focus{
-  border-color: #7c3aed;
+  border-color: #000000;
+  /* box-shadow: inset 0 0 3px #fb6aae; */
 }
-
 .form-inner form .field input::placeholder{
   color: #999;
   transition: all 0.3s ease;
 }
-
 form .field input:focus::placeholder{
   color: #b3b3b3;
 }
-
 .form-inner form .pass-link{
   margin-top: 21px;
 }
-
 .form-inner form .signup-link{
   text-align: center;
   margin-top: 30px;
 }
-
 .form-inner form .pass-link a,
 .form-inner form .signup-link a{
-  color: var(--blue);
+  color: #0028da;
   text-decoration: none;
 }
-
 .form-inner form .pass-link a:hover,
 .form-inner form .signup-link a:hover{
   text-decoration: underline;
 }
-
-/* BUTTON */
 form .btn{
   height: 50px;
   width: 100%;
@@ -256,7 +207,6 @@ form .btn{
   position: relative;
   overflow: hidden;
 }
-
 form .btn .btn-layer{
   height: 100%;
   width: 300%;
@@ -264,16 +214,14 @@ form .btn .btn-layer{
   left: -100%;
   background: var(--yalo);
   border-radius: 5px;
-  transition: all 0.4s ease;
+  transition: all 0.4s ease;;
 }
-
 form .btn:hover .btn-layer{
   left: 0;
 }
-
 form .btn input[type="submit"]{
   height: 100%;
-  width: 100%;
+  width: 100%;  
   z-index: 1;
   position: relative;
   background: none;
@@ -285,16 +233,12 @@ form .btn input[type="submit"]{
   font-weight: 500;
   cursor: pointer;
 }
-
-/* SUCCESS TEXT */
 .created{
-  margin-left: 20px;
+ margin-left: 20px;
   color: #b3b3b3;
 }
-
-/* ERRORS */
 .gg-danger {
-  color:#ff0000d7;
+  color:#ff0000d7;  
   box-sizing: border-box;
   position: relative;
   display:block;
@@ -302,55 +246,54 @@ form .btn input[type="submit"]{
   width: 20px;
   height: 20px;
   border: 2px solid;
-  border-radius: 40px;
-}
-
-.gg-danger::after,
-.gg-danger::before {
+  border-radius: 40px
+ }
+ 
+ .gg-danger::after,
+ .gg-danger::before {
   content: "";
   display:block;
   box-sizing: border-box;
+  
   border-radius: 3px;
   width: 2px;
   background: currentColor;
-}
-
-.gg-danger::after {
+ 
+ }
+ 
+ .gg-danger::after {
   top: 2px;
-  height: 8px;
-}
-
-.gg-danger::before {
+  height: 8px
+ }
+ 
+ .gg-danger::before {
   height: 2px;
-  bottom: 2px;
-}
-
-.error{
+  bottom: 2px
+ } 
+ .error{
   display: flex;
   align-content: center;
-}
-
-.error-message{
+ }
+ 
+ .error-message{
+  font-size: 5px;
   margin-left: 5px;
   color: red;
   font-size: 13px;
-}
-
-.red{
+ }
+ .red{
   color: red;
-}
-
-/* SPINNER */
-.spinner{
+ }
+ .spinner{
   display: flex;
   justify-content: center;
-}
-
+ }
+ /* HTML: <div class="loader"></div> */
 .loader {
   width: 65px;
   aspect-ratio: 1;
   --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
-  background:
+  background: 
     var(--_c) top,
     var(--_c) left,
     var(--_c) right,
@@ -358,9 +301,7 @@ form .btn input[type="submit"]{
   background-size: 12px 12px;
   animation: l7 1s infinite;
 }
-
-@keyframes l7 { to { transform: rotate(.5turn); } }
-
-.hidden{
+@keyframes l7 {to{transform: rotate(.5turn)}}
+ .hidden{
   display: none;
 }

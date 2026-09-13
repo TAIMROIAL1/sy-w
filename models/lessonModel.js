@@ -30,7 +30,9 @@ const lessonSchema = new mongoose.Schema({
     filePath: {
       type: String
     },
-
+    num: {
+      type: Number
+    },
     questions: [{
       type: mongoose.Schema.ObjectId,
       ref: "Question"
@@ -57,6 +59,11 @@ const lessonSchema = new mongoose.Schema({
       default: Date.now
     }
   }]
+})
+
+lessonSchema.pre('save', function(next) {
+  this.videos.forEach((vid, i )=> vid.num = i);
+  next();
 })
 
 const Lesson = mongoose.model('Lesson', lessonSchema);

@@ -92,6 +92,23 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
     const { courseId } = req.params;
     const course = await Subcourse.findById(courseId);
 
+    const lessons = (await Lesson.find({subcourse: course._id}).select('+videos.num'));
+
+    if(!user?.subcourses.includes(course._id.toString())) {
+      for(let i = 1; i < lessons.length; i++) {
+        lessons[i].videos = [];
+      }
+    }
+    for(let i = 0; i < lessons.length - 1; i++) {
+      for(j = i + 1; j < lessons.length; j++) {
+        if(lessons[i].num > lessons[j].num) {
+          const a = lessons[i];
+          lessons[i] = lessons[j];
+          lessons[j] = a;
+        }
+      }
+    }
+
     if(!course) return res.status(400).json({
       status: 'fail',
       message: 'هذا الكورس غير موجود'
@@ -100,6 +117,7 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
     res.status(200).render("courses", {
       user,
       course,
+      lessons,
       title: course.title,
       active: course.active,
       metaContent: `الشرح لكامل لمنهاج الكتاب
