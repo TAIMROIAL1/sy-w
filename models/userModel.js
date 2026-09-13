@@ -102,7 +102,17 @@ const userSchema =  mongoose.Schema({
   solveBook: {
     type: Boolean,
     default: false,
-  }
+  },
+ courseProgress: [{
+  courseId: { type: mongoose.Schema.ObjectId, ref: "Subcourse" },
+  achievedVideos: {
+    achievedVideosCount: { type: Number, default: 0 },
+    videoNumber: { type: Number, default: 0 },
+    lessonNum: { type: Number, default: 1 }
+  },
+  achievedPercentage: { type: Number, default: 0 }
+}]
+
 })
 
 userSchema.pre('save',async function(next) {

@@ -8,8 +8,10 @@ html(lang="ar" dir="rtl")
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css")
     link(rel="stylesheet" href="/css/video.css")
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  - const achievedLesson = 1;
-  body(data-domain=domain)
+  - const totalVideos = lessons.reduce((sum,lesson) => { return sum + lesson.videos.length;}, 0);
+  - const achievedLesson = courseProgress.achievedVideos.lessonNum;
+  - const achievedRes = courseProgress.achievedVideos.videoNumber;
+  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson)
     // ================= NAVBAR =================
     header.navbar
       .logo
@@ -17,14 +19,15 @@ html(lang="ar" dir="rtl")
         span Studyou - د/ إياد سكر
 
       .navbar-left
+        label.toggle
+          input#dark-toggle(type='checkbox')
+          span.slider
         button.mobile-toggle-btn#openSidebar
           i.fa-solid.fa-bars
-
         .student-info
-          .student-avatar أ
+          .student-avatar= user.name[0]
           div
             strong= user.name
-            small= `${user.role === 'admin'? "أدمن": "طالب"}`
 
     // ================= MAIN =================
     main.main-container
@@ -40,24 +43,24 @@ html(lang="ar" dir="rtl")
             i.fa-solid.fa-xmark
 
         // Progress
-        .course-progress
+        .course-progress(data-total-videos=totalVideos)
           .progress-top
             span
               i.fa-solid.fa-book-open
               | تقدمك في الكورس
-            strong= `${Math.ceil((achievedLesson/lessons.length) * 100)}%`
+            .progress-percentage(style="color: var(--accent);")= `${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`
 
           .progress
-            span(style=`width: ${Math.ceil((achievedLesson/lessons.length) * 100)}%`)
+            span(style=`width: ${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`)
 
-          small= `${achievedLesson} من ${lessons.length} درس مكتمل`
+          small.progress-sentence= `${courseProgress.achievedVideos.achievedVideosCount} من ${totalVideos} درس مكتمل`
 
         // Lessons
         .lessons-list
-          each lesson in lessons
-            .lesson.active.open
+          each lesson, i in lessons
+            .lesson.open(data-lesson-id= lesson._id.toString() data-num= lesson.num)
               .lesson-header
-                .lesson-number 01
+                .lesson-number= lesson.num > 9? lesson.num + '.': `0` + lesson.num + "."
 
                 .lesson-title
                   h3= lesson.title
@@ -66,34 +69,75 @@ html(lang="ar" dir="rtl")
                 i.fa-solid.fa-chevron-down.arrow
 
               .lesson-content
-                each video in lesson.videos
-                  - if(video.fileType === 'video')
-                    // VIDEO
-                    button.lesson-resource.video-resource
-                      span.resource-icon.video
+                each video, j in lesson.videos
+                  button.lesson-resource(
+                    class=[
+                      video.fileType + "-resource",
+                      achievedLesson < i + 1 || (achievedLesson == i + 1 && achievedRes < j)? "locked":""
+                    ]
+
+                    data-quiz=(video.fileType === "quiz" ? "lesson1" : null)
+                    data-video-url=(video.fileType === "video"? video.videoUrl : null)
+                    data-num= video.num
+                    data-badge=(video.fileType === "video"? lesson.title : null)
+                    data-title=(video.fileType === "video"? video.title : null)
+                    data-duration=(video.fileType === "video"? video.duration : null)
+                    data-description=(video.fileType === "video"? video.info : null)
+                  )
+                    span.resource-icon(class=video.fileType)
+                      if (achievedLesson < i + 1|| (achievedLesson == i + 1 && achievedRes < j))
+                        i.fa-solid.fa-lock.resource-action
+                      else if video.fileType === "video"
                         i.fa-solid.fa-play
-                      span.resource-info
-                        strong= video.title
-                        small= video.duration
-                      i.fa-solid.fa-circle-check.completed
-                  - if(video.fileType === 'pdf')
-                    // PDF
-                    button.lesson-resource
-                      span.resource-icon.pdf
+                      else if video.fileType === "pdf"
                         i.fa-solid.fa-file-pdf
-                      span.resource-info
-                        strong ملف PDF
-                        small= video.title
-                      i.fa-solid.fa-download.resource-action
-                  - if(video.fileType === 'quiz')
-                    // QUIZ
-                    button.lesson-resource.quiz-resource(data-quiz="lesson1")
-                      span.resource-icon.quiz
+                      else if video.fileType === "quiz"
                         i.fa-solid.fa-clipboard-question
-                      span.resource-info
-                        strong= video.title
+
+                    span.resource-info
+                      strong= video.title
+                      if video.fileType === "video"
+                        small= video.duration
+                      if video.fileType === "pdf"
+                        small= video.title
+                      if video.fileType === "quiz"
                         small= `${video.questions.length} أسألة`
-                      i.fa-solid.fa-chevron-left.resource-action
+                    i.state-mark.fa-solid(class=[achievedLesson < i + 1|| (achievedLesson == i + 1 && achievedRes <= j)? "fa-chevron-left resource-aciton" : "fa-circle-check completed"])
+                    // Action icon
+                    //- if video.fileType === "video"
+                    //-   i.fa-solid
+                    //- if video.fileType === "pdf"
+                    //-   i.fa-solid.fa-download.resource-action
+                    //- if video.fileType === "quiz"
+                    //-   i.fa-solid.fa-chevron-left.resource-action
+
+                  //- - if(video.fileType === 'video')
+                  //-   // VIDEO
+                  //-   button.lesson-resource.video-resource(class={active: video.num == 0})
+                  //-     span.resource-icon.video
+                  //-       i.fa-solid.fa-play
+                  //-     span.resource-info
+                  //-       strong= video.title
+                  //-       small= video.duration
+                  //-     i.fa-solid.fa-circle-check.completed
+                  //- - if(video.fileType === 'pdf')
+                  //-   // PDF
+                  //-   button.lesson-resource
+                  //-     span.resource-icon.pdf
+                  //-       i.fa-solid.fa-file-pdf
+                  //-     span.resource-info
+                  //-       strong ملف PDF
+                  //-       small= video.title
+                  //-     i.fa-solid.fa-download.resource-action
+                  //- - if(video.fileType === 'quiz')
+                  //-   // QUIZ
+                  //-   button.lesson-resource.quiz-resource(data-quiz="lesson1")
+                  //-     span.resource-icon.quiz
+                  //-       i.fa-solid.fa-clipboard-question
+                  //-     span.resource-info
+                  //-       strong= video.title
+                  //-       small= `${video.questions.length} أسألة`
+                  //-     i.fa-solid.fa-chevron-left.resource-action
                   
       // ================= CONTENT =================
       section.content-area
@@ -101,7 +145,7 @@ html(lang="ar" dir="rtl")
         // ================= VIDEO VIEW =================
         #videoView.page-view.active-view
           .video-container
-            div(style="position:relative; height:100%; width:100%;")
+            //- div(style="position:relative; height:100%; width:100%;")
               iframe.my-iframe(
                 src="https://iframe.mediadelivery.net/embed/506218/4bfa97e9-adaf-4064-b91a-bb687db18d14?autoplay=false&loop=false&muted=true&preload=true&responsive=true"
                 loading="lazy"
@@ -118,17 +162,17 @@ html(lang="ar" dir="rtl")
           .video-details-card
             .video-header-info
               div
-                span.badge الدرس الأول
-                h1 المحاضرة الأولى
-
-              button.btn.btn-success
+                span.badge.video-badge الدرس الثاني
+                h1.video-title المحاضرة الثانية
+              
+              button.btn.btn-success.hidden
                 i.fa-solid.fa-check
                 | تم إكمال الدرس
 
             .video-meta
-              span
+              span.duration-container
                 i.fa-regular.fa-clock
-                | 20:22 دقيقة
+                | 20:23 دقيقة
               span
                 i.fa-solid.fa-book
                 | الوحدة الأولى
@@ -136,14 +180,14 @@ html(lang="ar" dir="rtl")
             hr.divider
 
             p.video-description
-              | في هذه المحاضرة سنتعرف على الجهاز العصبي بقسميه
+              | في هذه المحاضرة سنتعرف على الجهاز العصبي
             .navigation-buttons
-              //- button.btn.btn-secondary
-              //-   i.fa-solid.fa-arrow-right
-              //-   | الدرس السابق
+              button.btn.btn-secondary
+                i.fa-solid.fa-arrow-right
+                | الدرس السابق
 
               button.btn.btn-primary
-                | حل الاختبار
+                | الدرس التالي
                 i.fa-solid.fa-arrow-left
 
         // ================= QUIZ VIEW =================
@@ -152,7 +196,7 @@ html(lang="ar" dir="rtl")
             .quiz-header
               div
                 span.badge اختبار الدرس
-                h1 اختبار العمليات على الأعداد
+                h1.quiz-title
                 p أجب عن جميع الأسئلة التالية
 
               .question-counter
@@ -183,8 +227,8 @@ html(lang="ar" dir="rtl")
         #loadingView.page-view.loading-view
           .loader-card
             .loader
-            h2 جاري تصحيح الاختبار
-            p لحظات ويتم عرض نتيجتك...
+            h2.lodaer-title جاري تصحيح الاختبار
+            p.loader-description لحظات ويتم عرض نتيجتك...
 
         // ================= RESULT =================
         #resultView.page-view
@@ -226,24 +270,8 @@ html(lang="ar" dir="rtl")
 
               button.btn.btn-secondary#backToLesson
                 i.fa-solid.fa-arrow-right
-                | العودة إلى الدرس
 
     // Overlay
     .sidebar-overlay#sidebarOverlay
 
-    script(src="/js/video.js")
-
-     // PDF
-              
-                  
-                
-                  
-                
-
-              // QUIZ
-              
-                
-                  
-                span.resource-info
-                  
-                
+    script(src="/js/video.js")                

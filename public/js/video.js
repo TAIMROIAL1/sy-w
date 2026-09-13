@@ -2,26 +2,43 @@
    LESSON ACCORDION
 ========================================= */
 
+const darkToggle = document.getElementById('dark-toggle');
+
 const lessons = document.querySelectorAll(".lesson");
+const { domain }= document.body.dataset;
 
-lessons.forEach(lesson => {
+const { achievedLesson, achievedResource }= document.body.dataset;
 
-    const header = lesson.querySelector(".lesson-header");
+console.log(achievedLesson, achievedResource);
 
-    if (!header) return;
+lessons.forEach((lesson) => {
+  const header = lesson.querySelector(".lesson-header");
 
-    header.addEventListener("click", () => {
+  if (!header) return;
 
-        if (lesson.classList.contains("locked")) {
-            return;
-        }
+  header.addEventListener("click", () => {
+    if (lesson.classList.contains("locked")) {
+      return;
+    }
 
-        lesson.classList.toggle("open");
-
-    });
-
+    lesson.classList.toggle("open");
+  });
 });
+/* ========================================= 
+    Helper Functions
+==========================================*/
 
+const ajaxCall = async function (url, data) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+};
 
 /* =========================================
    MOBILE SIDEBAR
@@ -33,317 +50,201 @@ const overlay = document.getElementById("sidebarOverlay");
 const openSidebar = document.getElementById("openSidebar");
 const closeSidebar = document.getElementById("closeSidebar");
 
-
 openSidebar.addEventListener("click", () => {
+  sidebar.classList.add("mobile-open");
 
-    sidebar.classList.add("mobile-open");
-
-    overlay.classList.add("active");
-
+  overlay.classList.add("active");
 });
-
 
 closeSidebar.addEventListener("click", closeMobileSidebar);
 
 overlay.addEventListener("click", closeMobileSidebar);
 
-
 function closeMobileSidebar() {
+  sidebar.classList.remove("mobile-open");
 
-    sidebar.classList.remove("mobile-open");
-
-    overlay.classList.remove("active");
-
+  overlay.classList.remove("active");
 }
-
 
 /* =========================================
    QUIZ DATA
 ========================================= */
 
 const quizzes = {
+  lesson1: [
+    {
+      question: "أي مما يلي ليس من أقسام الجهاز العصبي المركزي:",
 
-    lesson1: [
+      options: [
+        "الدماغ البيني",
+        "السويقتان المخيتان",
+        "العقد العصبية",
+        "الوطاء",
+      ],
 
-        {
-            question: "أي مما يلي ليس من أقسام الجهاز العصبي المركزي:",
+      correct: 2,
+    },
 
-            options: [
-                "الدماغ البيني",
-                "السويقتان المخيتان",
-                "العقد العصبية",
-                "الوطاء"
-            ],
+    {
+      question: "يدعى تراكم السائل الدماغي الشوكي في بطينات وزيادة حجمها:",
 
-            correct: 2
-        },
+      options: ["سكتة دماغية", "استسقاء دماغي", "شقيقة", "صرع"],
 
-        {
-            question: "يدعى تراكم السائل الدماغي الشوكي في بطينات وزيادة حجمها:",
+      correct: 1,
+    },
 
-            options: [
-                "سكتة دماغية",
-                "استسقاء دماغي",
-                "شقيقة",
-                "صرع"
-            ],
+    {
+      question: "يزداد احتمالية حدوث سكتة بانخفاض:",
 
-            correct: 1
-        },
+      options: ["ضغط الدم", "وزن الجسم", "النشاط البدني", "التدخين"],
 
-        {
-            question: "يزداد احتمالية حدوث سكتة بانخفاض:",
+      correct: 2,
+    },
 
-            options: [
-                "ضغط الدم",
-                "وزن الجسم",
-                "النشاط البدني",
-                "التدخين"
-            ],
+    {
+      question: "يشتق الجهاز العصبي من الوريقة الجنينية:",
 
-            correct: 2
-        },
+      options: ["الخارجية", "الوسطى", "الداخلية", "كل ما سبق صحيح"],
 
-        {
-            question: "يشتق الجهاز العصبي من الوريقة الجنينية:",
+      correct: 0,
+    },
 
-            options: [
-                "الخارجية",
-                "الوسطى",
-                "الداخلية",
-                "كل ما سبق صحيح"
-            ],
+    {
+      question:
+        "بنية تقق بين الدماغ المتوسط من الأعلى والبصلة السيسائية من الأسفل:",
 
-            correct: 0
-        },
+      options: ["الدماغ البيني", "المخ", "الحدبة الحلقية", "الوطاء"],
 
-        {
-            question: "بنية تقق بين الدماغ المتوسط من الأعلى والبصلة السيسائية من الأسفل:",
+      correct: 2,
+    },
+  ],
 
-            options: [
-                "الدماغ البيني",
-                "المخ",
-                "الحدبة الحلقية",
-                "الوطاء"
-            ],
+  lesson2: [
+    {
+      question: "إذا كان x + 5 = 10 فما قيمة x ؟",
 
-            correct: 2
-        }
+      options: ["3", "4", "5", "6"],
 
-    ],
+      correct: 2,
+    },
 
+    {
+      question: "إذا كان x - 3 = 7 فما قيمة x ؟",
 
-    lesson2: [
+      options: ["8", "9", "10", "11"],
 
-        {
-            question: "إذا كان x + 5 = 10 فما قيمة x ؟",
+      correct: 2,
+    },
 
-            options: [
-                "3",
-                "4",
-                "5",
-                "6"
-            ],
+    {
+      question: "ما قيمة x في المعادلة 2x = 10 ؟",
 
-            correct: 2
-        },
+      options: ["2", "3", "5", "10"],
 
-        {
-            question: "إذا كان x - 3 = 7 فما قيمة x ؟",
+      correct: 2,
+    },
 
-            options: [
-                "8",
-                "9",
-                "10",
-                "11"
-            ],
+    {
+      question: "إذا كان x + 2 = 8 فما قيمة x ؟",
 
-            correct: 2
-        },
+      options: ["4", "5", "6", "7"],
 
-        {
-            question: "ما قيمة x في المعادلة 2x = 10 ؟",
-
-            options: [
-                "2",
-                "3",
-                "5",
-                "10"
-            ],
+      correct: 2,
+    },
 
-            correct: 2
-        },
+    {
+      question: "ما قيمة x في المعادلة x / 2 = 4 ؟",
 
-        {
-            question: "إذا كان x + 2 = 8 فما قيمة x ؟",
+      options: ["4", "6", "8", "10"],
 
-            options: [
-                "4",
-                "5",
-                "6",
-                "7"
-            ],
+      correct: 2,
+    },
+  ],
 
-            correct: 2
-        },
+  lesson3: [
+    {
+      question: "ما درجة المعادلة 2x + 5 = 10 ؟",
 
-        {
-            question: "ما قيمة x في المعادلة x / 2 = 4 ؟",
+      options: ["الأولى", "الثانية", "الثالثة", "الرابعة"],
 
-            options: [
-                "4",
-                "6",
-                "8",
-                "10"
-            ],
+      correct: 0,
+    },
 
-            correct: 2
-        }
+    {
+      question: "ما قيمة x في 3x = 12 ؟",
 
-    ],
+      options: ["2", "3", "4", "5"],
 
+      correct: 2,
+    },
 
-    lesson3: [
+    {
+      question: "إذا كان x - 8 = 2 فما قيمة x ؟",
 
-        {
-            question: "ما درجة المعادلة 2x + 5 = 10 ؟",
+      options: ["8", "9", "10", "11"],
 
-            options: [
-                "الأولى",
-                "الثانية",
-                "الثالثة",
-                "الرابعة"
-            ],
+      correct: 2,
+    },
 
-            correct: 0
-        },
+    {
+      question: "ما قيمة x في 5x = 25 ؟",
 
-        {
-            question: "ما قيمة x في 3x = 12 ؟",
+      options: ["3", "4", "5", "6"],
 
-            options: [
-                "2",
-                "3",
-                "4",
-                "5"
-            ],
+      correct: 2,
+    },
 
-            correct: 2
-        },
+    {
+      question: "إذا كان x + 10 = 15 فما قيمة x ؟",
 
-        {
-            question: "إذا كان x - 8 = 2 فما قيمة x ؟",
+      options: ["3", "4", "5", "6"],
 
-            options: [
-                "8",
-                "9",
-                "10",
-                "11"
-            ],
+      correct: 2,
+    },
+  ],
 
-            correct: 2
-        },
+  lesson4: [
+    {
+      question: "إذا كان x > 5، فأي قيمة تحقق المتباينة؟",
 
-        {
-            question: "ما قيمة x في 5x = 25 ؟",
+      options: ["3", "4", "5", "6"],
 
-            options: [
-                "3",
-                "4",
-                "5",
-                "6"
-            ],
+      correct: 3,
+    },
 
-            correct: 2
-        },
+    {
+      question: "أي رمز يعني أصغر من؟",
 
-        {
-            question: "إذا كان x + 10 = 15 فما قيمة x ؟",
+      options: [">", "<", "=", "≥"],
 
-            options: [
-                "3",
-                "4",
-                "5",
-                "6"
-            ],
+      correct: 1,
+    },
 
-            correct: 2
-        }
+    {
+      question: "أي رمز يعني أكبر من؟",
 
-    ],
+      options: ["<", "=", ">", "≤"],
 
+      correct: 2,
+    },
 
-    lesson4: [
+    {
+      question: "إذا كان x < 10، فأي قيمة صحيحة؟",
 
-        {
-            question: "إذا كان x > 5، فأي قيمة تحقق المتباينة؟",
+      options: ["12", "11", "10", "8"],
 
-            options: [
-                "3",
-                "4",
-                "5",
-                "6"
-            ],
+      correct: 3,
+    },
 
-            correct: 3
-        },
+    {
+      question: "أي متباينة صحيحة؟",
 
-        {
-            question: "أي رمز يعني أصغر من؟",
+      options: ["8 > 10", "5 < 9", "7 > 12", "3 = 8"],
 
-            options: [
-                ">",
-                "<",
-                "=",
-                "≥"
-            ],
-
-            correct: 1
-        },
-
-        {
-            question: "أي رمز يعني أكبر من؟",
-
-            options: [
-                "<",
-                "=",
-                ">",
-                "≤"
-            ],
-
-            correct: 2
-        },
-
-        {
-            question: "إذا كان x < 10، فأي قيمة صحيحة؟",
-
-            options: [
-                "12",
-                "11",
-                "10",
-                "8"
-            ],
-
-            correct: 3
-        },
-
-        {
-            question: "أي متباينة صحيحة؟",
-
-            options: [
-                "8 > 10",
-                "5 < 9",
-                "7 > 12",
-                "3 = 8"
-            ],
-
-            correct: 1
-        }
-
-    ]
-
+      correct: 1,
+    },
+  ],
 };
-
 
 /* =========================================
    QUIZ VARIABLES
@@ -357,7 +258,6 @@ let userAnswers = [];
 
 let selectedQuizId = null;
 
-
 /* =========================================
    ELEMENTS
 ========================================= */
@@ -370,145 +270,168 @@ const loadingView = document.getElementById("loadingView");
 
 const resultView = document.getElementById("resultView");
 
+const questionText = document.getElementById("questionText");
 
-const questionText =
-    document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
 
-const optionsContainer =
-    document.getElementById("optionsContainer");
+const currentQuestion = document.getElementById("currentQuestion");
 
+const totalQuestions = document.getElementById("totalQuestions");
 
-const currentQuestion =
-    document.getElementById("currentQuestion");
+const quizProgressBar = document.getElementById("quizProgressBar");
 
-const totalQuestions =
-    document.getElementById("totalQuestions");
+const previousButton = document.getElementById("prevQuestion");
 
+const nextButton = document.getElementById("nextQuestion");
 
-const quizProgressBar =
-    document.getElementById("quizProgressBar");
+const btnPrimary = document.querySelector(".btn-primary");
 
+const lessonsList = document.querySelector(".lessons-list");
 
-const previousButton =
-    document.getElementById("prevQuestion");
+const videoContainer = document.querySelector('.video-container');
 
-const nextButton =
-    document.getElementById("nextQuestion");
+// Video View Elements
+const videoBadge = document.querySelector('.video-badge');
+const videoTitle = document.querySelector('.video-title');
+const videoDuration = document.querySelector('.fa-regular');
+const videoDescription = document.querySelector('.video-description');
 
-const btnPrimary = document.querySelector('.btn-primary');
+// Loader View Elements
+const loaderTitle = document.querySelector('.lodaer-title');
+const lodaerDescription = document.querySelector('.loader-description');
 
+// Quiz View Elements
+const quizTitle = document.querySelector('.quiz-title');
+
+// Result View Elements
+const resultBtn = document.getElementById('backToLesson');
+
+// Progress Elements
+const progressPercentage= document.querySelector('.progress-percentage');
+const progressBar = document.querySelector('.progress');
+const progressSentence = document.querySelector('.progress-sentence');
 
 /* =========================================
-   OPEN QUIZ
+   List Listeners
 ========================================= */
 
-const quizButtons =
-    document.querySelectorAll(".quiz-resource");
+lessonsList.addEventListener("click", async function (e) {
+  const clicked = e.target;
 
+  // Check if User clicked A resource
+  const lessonRes = clicked.closest(".lesson-resource");
 
-quizButtons.forEach(button => {
+  if (lessonRes) {
+    if(lessonRes.classList.contains('active')) return closeMobileSidebar();
 
-    button.addEventListener("click", () => {
+    if(lessonRes.classList.contains('locked')) return;
 
-        const quizId =
-            button.dataset.quiz;
+    [...document.querySelectorAll('.lesson-resource')].forEach(res => res.classList.remove('active'));
 
-        startQuiz(quizId);
+    lessonRes.classList.add('active');
 
+    // Video Rescource
+    if (lessonRes.classList.contains("video-resource")) {
+      const url = lessonRes.dataset.videoUrl;
+      showView(videoView, url);
+      updateVideoView(lessonRes);
+      closeMobileSidebar();
+    }
+    // Quiz Resource
+    else if (lessonRes.classList.contains("quiz-resource")) {
         closeMobileSidebar();
-
-    });
-
+        updateLodaerView('جاري تحميل الأسألة', 'لحظات و يتم بدء الاختبار');
+        showView(loadingView);
+        const {questions} = (await ajaxCall(
+    `${domain}/api/v1/questions`,
+    {subcourseId: location.href.split('/')[4] ,resourceNum: lessonRes.dataset.num, lessonId: lessonRes.closest('.lesson').dataset.lessonId}
+    )).data;
+    quizTitle.textContent = lessonRes.querySelector('strong').textContent;
+        startQuiz(questions);
+    }
+    // PDF Resource
+    else {
+    }
+  }
 });
 
-btnPrimary.addEventListener("click", () => {
+btnPrimary.addEventListener("click", () => { 
+  const currentRes = [...document.querySelectorAll(".lesson-resource")].find(res => res.classList.contains('active'));
+  const currentLesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active'));
+  let inNextLesson = false;
+  let nextRes = currentRes.nextElementSibling;
+  [...document.querySelectorAll('.lesson-resource')].forEach(res => res.classList.remove('active'));
+    if(!nextRes) {nextRes = currentLesson.nextElementSibling.querySelector('.lesson-resource');
+        inNextLesson = true;
+}
+    nextRes.classList.add('active');
+    updateUserProgress(nextRes, inNextLesson? currentLesson.nextElementSibling: currentLesson);
+    currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
+    currentRes.querySelector('.state-mark').classList.remove('resource-action');
+    currentRes.querySelector('.state-mark').classList.add('fa-circle-check');
+    currentRes.querySelector('.state-mark').classList.add('completed');
+  moveToRes(nextRes);
 
-        const quizId = "lesson1";
-
-        startQuiz(quizId);
-
-        closeMobileSidebar();
-
-    });
+  closeMobileSidebar();
+});
 
 
+async function updateUserProgress(newRes, newLesson) {
+const response = await ajaxCall(`${domain}/api/v1/users/update-progress`, {subcourseId: location.href.split('/')[4], newRes: newRes.dataset.num, newLesson: newLesson.dataset.num});
 
+if(response.status === 'success') {
+    const courseProgress = response.data;
+    const {totalVideos} = document.querySelector('.course-progress').dataset;
+    document.body.dataset.achievedLesson = newLesson;
+    document.body.dataset.achievedResource = newRes;
+
+    progressPercentage.textContent = `${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`;
+    progressBar.querySelector('span').style.width = `${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`;
+    progressSentence.textContent = `${courseProgress.achievedVideos.achievedVideosCount} من ${totalVideos} درس مكتمل`
+};
+}
 /* =========================================
    START QUIZ
 ========================================= */
 
-function startQuiz(quizId) {
+function startQuiz(questions) {
+  currentQuestionIndex = 0;
 
-    selectedQuizId = quizId;
-
-    currentQuiz = quizzes[quizId];
-
-    currentQuestionIndex = 0;
-
-    userAnswers =
-        new Array(currentQuiz.length).fill(null);
-
-
-    showView(quizView);
-
-    renderQuestion();
-
+  userAnswers = new Array(questions.length).fill(null);
+  
+  currentQuiz = questions;
+  renderQuestion();
+  
+  showView(quizView);
 }
-
 
 /* =========================================
    RENDER QUESTION
 ========================================= */
 
 function renderQuestion() {
+  const question = currentQuiz[currentQuestionIndex];
+  questionText.textContent = question.text;
+  questionText.setAttribute('questionId', currentQuiz[currentQuestionIndex]._id.toString());
 
-    const question =
-        currentQuiz[currentQuestionIndex];
+  currentQuestion.textContent = currentQuestionIndex + 1;
 
+  totalQuestions.textContent = currentQuiz.length;
 
-    questionText.textContent =
-        question.question;
+  optionsContainer.innerHTML = "";
 
+  const letters = ["أ", "ب", "ج", "د"];
 
-    currentQuestion.textContent =
-        currentQuestionIndex + 1;
+  question.answers.forEach((option, index) => {
+    const button = document.createElement("button");
 
+    button.className = "option-btn";
 
-    totalQuestions.textContent =
-        currentQuiz.length;
+    if (userAnswers[currentQuestionIndex]?.index === index) {
+      button.classList.add("selected");
+    }
 
-
-    optionsContainer.innerHTML = "";
-
-
-    const letters = [
-        "أ",
-        "ب",
-        "ج",
-        "د"
-    ];
-
-
-    question.options.forEach((option, index) => {
-
-        const button =
-            document.createElement("button");
-
-
-        button.className =
-            "option-btn";
-
-
-        if (
-            userAnswers[currentQuestionIndex] === index
-        ) {
-
-            button.classList.add("selected");
-
-        }
-
-
-        button.innerHTML = `
+    button.innerHTML = `
 
             <span class="option-letter">
                 ${letters[index]}
@@ -520,119 +443,75 @@ function renderQuestion() {
 
         `;
 
-
-        button.addEventListener("click", () => {
-
-            selectAnswer(index);
-
-        });
-
-
-        optionsContainer.appendChild(button);
-
+    button.addEventListener("click", () => {
+      selectAnswer(index, questionText.getAttribute("questionId"));
     });
 
+    optionsContainer.appendChild(button);
+  });
 
-    updateProgress();
+  updateProgress();
 
-    updateButtons();
-
+  updateButtons();
 }
-
 
 /* =========================================
    SELECT ANSWER
 ========================================= */
 
-function selectAnswer(index) {
+function selectAnswer(index, questionId) {
+  userAnswers[currentQuestionIndex] = {index, questionId};
 
-    userAnswers[currentQuestionIndex] =
-        index;
+  const buttons = document.querySelectorAll(".option-btn");
 
-
-    const buttons =
-        document.querySelectorAll(".option-btn");
-
-
-    buttons.forEach((button, buttonIndex) => {
-
-        button.classList.toggle(
-            "selected",
-            buttonIndex === index
-        );
-
-    });
-
+  buttons.forEach((button, buttonIndex) => {
+    button.classList.toggle("selected", buttonIndex === index);
+  });
 }
-
 
 /* =========================================
    PROGRESS
 ========================================= */
 
 function updateProgress() {
+  const progressP = ((currentQuestionIndex + 1) / currentQuiz.length) * 100;
 
-    const progress =
-        (
-            (currentQuestionIndex + 1) /
-            currentQuiz.length
-        ) * 100;
-
-
-    quizProgressBar.style.width =
-        progress + "%";
-
+  quizProgressBar.style.width = progressP + "%";
 }
-
 
 /* =========================================
    BUTTONS
 ========================================= */
 
 function updateButtons() {
+  if (currentQuestionIndex === 0) {
+    previousButton.disabled = true;
 
-    if (currentQuestionIndex === 0) {
+    previousButton.style.opacity = ".5";
+  } else {
+    previousButton.disabled = false;
 
-        previousButton.disabled = true;
+    previousButton.style.opacity = "1";
+  }
 
-        previousButton.style.opacity = ".5";
-
-    } else {
-
-        previousButton.disabled = false;
-
-        previousButton.style.opacity = "1";
-
-    }
-
-
-    if (
-        currentQuestionIndex ===
-        currentQuiz.length - 1
-    ) {
-
-        nextButton.innerHTML = `
+  if (currentQuestionIndex === currentQuiz.length - 1) {
+    nextButton.innerHTML = `
 
             إنهاء الاختبار
 
             <i class="fa-solid fa-check"></i>
 
         `;
-
-    } else {
-
-        nextButton.innerHTML = `
+  } else {
+    nextButton.innerHTML = `
 
             التالي
 
             <i class="fa-solid fa-arrow-left"></i>
 
         `;
-
-    }
-
+  }
 }
-
 
 /* =========================================
    NEXT QUESTION
@@ -640,264 +519,253 @@ function updateButtons() {
 
 nextButton.addEventListener("click", () => {
 
+  if (userAnswers[currentQuestionIndex] === null) {
+    alert("يرجى اختيار إجابة أولاً");
 
-    /*
-        لا يسمح بالانتقال
-        إذا لم يختر الطالب إجابة
-    */
+    return;
+  }
 
-    if (
-        userAnswers[currentQuestionIndex] === null
-    ) {
-
-        alert("يرجى اختيار إجابة أولاً");
-
-        return;
-
-    }
-
-
-    /*
+  /*
         إذا كان آخر سؤال
     */
 
-    if (
-        currentQuestionIndex ===
-        currentQuiz.length - 1
-    ) {
+  if (currentQuestionIndex === currentQuiz.length - 1) {
+    finishQuiz();
 
-        finishQuiz();
+    return;
+  }
 
-        return;
+  currentQuestionIndex++;
 
-    }
-
-
-    currentQuestionIndex++;
-
-    renderQuestion();
-
+  renderQuestion();
 });
-
 
 /* =========================================
    PREVIOUS QUESTION
 ========================================= */
 
 previousButton.addEventListener("click", () => {
+  if (currentQuestionIndex > 0) {
+    currentQuestionIndex--;
 
-    if (currentQuestionIndex > 0) {
-
-        currentQuestionIndex--;
-
-        renderQuestion();
-
-    }
-
+    renderQuestion();
+  }
 });
-
 
 /* =========================================
    FINISH QUIZ
 ========================================= */
 
 function finishQuiz() {
-
-    /*
+  /*
         التأكد أن جميع الأسئلة محلولة
     */
 
-    const unanswered =
-        userAnswers.includes(null);
+  const unanswered = userAnswers.includes(null);
 
+  if (unanswered) {
+    alert("يجب الإجابة عن جميع الأسئلة قبل إنهاء الاختبار");
 
-    if (unanswered) {
+    return;
+  }
 
-        alert(
-            "يجب الإجابة عن جميع الأسئلة قبل إنهاء الاختبار"
-        );
-
-        return;
-
-    }
-
-
-    /*
+  /*
         إخفاء الاختبار
         وإظهار اللودر
     */
 
     showView(loadingView);
 
-
-    /*
-        محاكاة عملية التصحيح
-        لمدة 2 ثانية
-    */
-
-    setTimeout(() => {
-
-        calculateResult();
-
-    }, 2000);
-
+    calculateResult();
 }
-
 
 /* =========================================
    CALCULATE RESULT
 ========================================= */
 
-function calculateResult() {
+async function calculateResult() {
+    const { lessonId }= [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active')).dataset;
+    const resourceNum = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active')).dataset.num;
+  const { correct } = await ajaxCall(`${domain}/api/v1/questions/solve-questions`, {solvedQuestions: userAnswers, subcourseId: location.href.split('/')[4], lessonId, resourceNum});
 
-    let correct = 0;
+  const total = currentQuiz.length;
 
+  const wrong = total - correct;
 
-    currentQuiz.forEach((question, index) => {
+  const percentage = Math.round((correct / total) * 100);
 
-        if (
-            userAnswers[index] ===
-            question.correct
-        ) {
-
-            correct++;
-
-        }
-
-    });
-
-
-    const total =
-        currentQuiz.length;
-
-
-    const wrong =
-        total - correct;
-
-
-    const percentage =
-        Math.round(
-            (correct / total) * 100
-        );
-
-
-    /*
+  /*
         عرض النتيجة
     */
 
-    document.getElementById(
-            "scorePercentage"
-        ).textContent =
-        percentage + "%";
+  document.getElementById("scorePercentage").textContent = percentage + "%";
 
+  document.getElementById("correctAnswers").textContent = correct;
 
-    document.getElementById(
-            "correctAnswers"
-        ).textContent =
-        correct;
+  document.getElementById("wrongAnswers").textContent = wrong;
 
+  document.getElementById("resultTotal").textContent = total;
 
-    document.getElementById(
-            "wrongAnswers"
-        ).textContent =
-        wrong;
-
-
-    document.getElementById(
-            "resultTotal"
-        ).textContent =
-        total;
-
-
-    /*
+  /*
         الرسالة حسب النتيجة
     */
 
-    const message =
-        document.getElementById(
-            "resultMessage"
-        );
+  const message = document.getElementById("resultMessage");
 
+  if (percentage >= 90) {
+    message.textContent = "ممتاز جداً! أداء رائع، استمر بهذا المستوى.";
+  } else if (percentage >= 70) {
+    message.textContent = "أحسنت! نتيجة جيدة ويمكنك الوصول إلى الأفضل.";
+  } else if (percentage >= 50) {
+    message.textContent = "نتيجة مقبولة، ننصحك بمراجعة الدرس مرة أخرى.";
+  } else {
+    message.textContent = "لا بأس، حاول مراجعة الدرس وإعادة الاختبار.";
+  }
 
-    if (percentage >= 90) {
+  resultBtn.textContent = percentage > 80? "الدرس التالي" : "العودة الى الدرس";
+  
+  resultBtn.setAttribute("action", percentage > 80 ? "next" : "back");
 
-        message.textContent =
-            "ممتاز جداً! أداء رائع، استمر بهذا المستوى.";
-
-    } else if (percentage >= 70) {
-
-        message.textContent =
-            "أحسنت! نتيجة جيدة ويمكنك الوصول إلى الأفضل.";
-
-    } else if (percentage >= 50) {
-
-        message.textContent =
-            "نتيجة مقبولة، ننصحك بمراجعة الدرس مرة أخرى.";
-
-    } else {
-
-        message.textContent =
-            "لا بأس، حاول مراجعة الدرس وإعادة الاختبار.";
-
-    }
-
-
-    showView(resultView);
-
+  showView(resultView);
 }
 
+resultBtn.addEventListener('click', () => {
+    const currentRes = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
+    const currentLesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active'));
+
+    let newRes;
+    let inNextLesson = false;
+    
+    if(resultBtn.getAttribute('action') === "next") {
+        newRes = currentRes.nextElementSibling;
+        if(!newRes){
+            let nextLesson = currentLesson.nextElementSibling;
+            inNextLesson = true;
+        if(!nextLesson){
+            newRes = currentRes.previousElementSibling;
+        }
+        newRes = nextLesson.querySelector('.lesson-resource');
+        }
+    }
+    else
+        newRes = currentRes.previousElementSibling;
+
+    [...document.querySelectorAll('.lesson-resource')].forEach(res => res.classList.remove('active'));
+
+    newRes.classList.add('active');
+    [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
+    newRes.closest('.lesson').classList.add('active');
+
+    updateUserProgress(newRes, inNextLesson? currentLesson.nextElementSibling: currentLesson)
+    moveToRes(newRes);
+})
 
 /* =========================================
    RETRY QUIZ
 ========================================= */
 
-document.getElementById(
-    "retryQuiz"
-).addEventListener("click", () => {
-
-    startQuiz(selectedQuizId);
-
+document.getElementById("retryQuiz").addEventListener("click", () => {
+  startQuiz(currentQuiz);
 });
-
-
-/* =========================================
-   BACK TO LESSON
-========================================= */
-
-document.getElementById(
-    "backToLesson"
-).addEventListener("click", () => {
-
-    showView(videoView);
-
-});
-
 
 /* =========================================
    SHOW VIEW
 ========================================= */
 
-function showView(view) {
+function showView(view, url=null) {
+  document.querySelectorAll(".page-view").forEach((item) => {
+    if(item.id === "videoView") {
+        videoContainer.innerHTML = '';
+    }
+    item.classList.remove("active-view");
+  });
 
-    document
-        .querySelectorAll(".page-view")
-        .forEach(item => {
+  if(view.id === "videoView") buildVideoView(url);
 
-            item.classList.remove(
-                "active-view"
-            );
+  view.classList.add("active-view");
 
-        });
-
-
-    view.classList.add(
-        "active-view"
-    );
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
 }
+
+function buildVideoView(url) {
+  videoContainer.innerHTML = `<div style="position:relative; height:100%; width:100%;">
+  <iframe
+    class="my-iframe"
+    src="${url}"
+    loading="lazy"
+    style="border:0; border-radius:6px; position:absolute; top:0; height:100%; width:100%;"
+    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+    allowfullscreen="true">
+  </iframe>
+</div>
+`;
+}
+
+function updateVideoView(video) {
+    const {badge, title, duration, description} = video.dataset;
+
+    videoBadge.textContent = badge;
+    videoTitle.textContent = title;
+    document.querySelector('.duration-container').textContent = duration;
+    videoDescription.textContent = description;
+    
+}
+
+function updateLodaerView(title, description) {
+    loaderTitle.textContent = title;
+    lodaerDescription.textContent = description;
+}
+
+async function init() {
+
+const darkMode = localStorage.getItem('darkMode');
+    if(darkMode) {
+        darkToggle.checked = true;
+        document.body.classList.toggle("page-dark-mode");
+    }
+
+const lesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.dataset.num == achievedLesson);
+lesson.classList.add('active');
+const res = [...lesson.querySelectorAll('.lesson-resource')].find(res => res.dataset.num == achievedResource);
+res.classList.add('active');
+
+moveToRes(res);
+}
+
+async function moveToRes(res) {
+res.classList.remove('locked');
+if(res.classList.contains('video-resource')) {
+    res.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-play'></i>";
+    const url = res.dataset.videoUrl;
+    showView(videoView, url);
+    updateVideoView(res);
+    closeMobileSidebar();
+}
+
+else if(res.classList.contains('quiz-resource')) {
+    res.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-clipboard-question'></i>"
+    updateLodaerView('جاري تحميل الأسألة', 'لحظات و يتم بدء الاختبار');
+    showView(loadingView);
+    const {questions} = (await ajaxCall(
+    `${domain}/api/v1/questions`,
+    {subcourseId: location.href.split('/')[4] ,resourceNum: res.dataset.num, lessonId: res.closest('.lesson').dataset.lessonId}
+    )).data;
+    quizTitle.textContent = res.querySelector('strong').textContent;
+    startQuiz(questions);
+}
+}
+
+darkToggle.addEventListener('change', () => {
+    document.body.classList.toggle('page-dark-mode', darkToggle.checked);
+
+    if(darkToggle.checked) {
+        localStorage.setItem("darkMode", "active");
+    } else {
+        localStorage.removeItem("darkMode");
+    }
+});
+
+init();

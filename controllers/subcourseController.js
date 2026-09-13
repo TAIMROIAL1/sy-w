@@ -52,6 +52,16 @@ exports.activateSubcourse = catchAsync(async function(req, res, next) {
 
   user.value -= subcourse.price;
   user.subcourses.push(subcourseId);
+  const course ={
+    courseId: subcourseId,
+    achievedPercentage: 0,
+    achievedVideos: {
+      achievedVideosCount: 0,
+      videoNumber: 0,
+      lessonNum: 1
+    }
+  }; 
+  user.courseProgress.push(course);
 
   await user.save({ validateBeforeSave: false });
   res.status(200).json({

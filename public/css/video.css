@@ -6,25 +6,50 @@
     --primary: #6c5ce7;
     --primary-hover: #5b4bc4;
     --primary-light: #f0edff;
+
     --green: #10b981;
     --green-light: #d1fae5;
+
     --red: #ef4444;
     --red-light: #fee2e2;
+
     --dark: #1e293b;
     --text: #475569;
     --muted: #64748b;
+
     --background: #f8fafc;
     --white: #ffffff;
     --border: #e2e8f0;
+
     --radius: 16px;
     --radius-lg: 20px;
     --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+
+    /* unified system */
+    --bg: var(--background);
+    --card-bg: var(--white);
+    --accent: var(--primary);
+    --video-bg: #0f172a;
 }
 
+/* DARK MODE */
+.page-dark-mode {
+    --bg: #1e1e1e;
+    --text: #f5f5f5;
+    --card-bg: #2a2a2a;
+    --border: #3a3a3a;
+    --accent: #6a4bc4;
+    --shadow: rgba(0,0,0,.45);
+    --video-bg: #0f172a;
+}
 
 /* =========================================
    RESET
 ========================================= */
+
+.lesson-resource.active .fa-chevron-left {
+color: var(--accent);
+}
 
 * {
     margin: 0;
@@ -34,20 +59,22 @@
 }
 
 body {
-    background: var(--background);
-    color: var(--dark);
+    background: var(--bg);
+    color: var(--text);
     direction: rtl;
     min-height: 100vh;
 }
 
-
+.hidden {
+    display: none !important;
+}
 /* =========================================
    NAVBAR
 ========================================= */
 
 .navbar {
     height: 72px;
-    background: var(--white);
+    background: var(--card-bg);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -62,7 +89,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: var(--primary);
+    color: var(--accent);
     font-size: 20px;
     font-weight: 800;
 }
@@ -83,15 +110,10 @@ body {
     gap: 20px;
 }
 
-.student-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 .student-info strong {
     display: block;
     font-size: 14px;
+    color: var(--text);
 }
 
 .student-info small {
@@ -104,7 +126,7 @@ body {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: var(--primary);
+    background: var(--accent);
     color: white;
     display: flex;
     align-items: center;
@@ -116,13 +138,63 @@ body {
     display: none;
     border: 0;
     background: var(--primary-light);
-    color: var(--primary);
+    color: var(--accent);
     width: 42px;
     height: 42px;
     border-radius: 10px;
     cursor: pointer;
 }
 
+/* =========================================
+   DARK MODE TOGGLE
+========================================= */
+
+.toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  display: inline-block;
+  margin-inline-start: 10px;
+}
+
+.toggle input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #cfcfcf;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.slider::before {
+  content: "☀️";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.toggle input:checked + .slider {
+  background: var(--accent);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(-28px);
+  content: "🌙";
+}
 
 /* =========================================
    MAIN
@@ -147,13 +219,12 @@ body {
     min-width: 0;
 }
 
-
 /* =========================================
    SIDEBAR
 ========================================= */
 
 .sidebar {
-    background: var(--white);
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
@@ -181,18 +252,17 @@ body {
 .sidebar-header h2 {
     margin-top: 4px;
     font-size: 21px;
+    color: var(--text);
 }
-
 .close-sidebar {
     display: none;
     border: none;
-    background: #f1f5f9;
-    color: var(--dark);
+    background: var(--card-bg);
+    color: var(--text);
     width: 36px;
     height: 36px;
     border-radius: 9px;
 }
-
 
 /* =========================================
    COURSE PROGRESS
@@ -210,16 +280,17 @@ body {
     justify-content: space-between;
     margin-bottom: 10px;
     font-size: 13px;
+    color: var(--text);
 }
 
 .progress-top span {
-    color: var(--primary);
+    color: var(--accent);
     font-weight: 600;
 }
 
 .progress {
     height: 7px;
-    background: #ddd8ff;
+    background: var(--primary-light);
     border-radius: 20px;
     overflow: hidden;
 }
@@ -227,7 +298,7 @@ body {
 .progress span {
     display: block;
     height: 100%;
-    background: var(--primary);
+    background: var(--accent);
 }
 
 .course-progress small {
@@ -236,7 +307,6 @@ body {
     color: var(--muted);
     font-size: 11px;
 }
-
 
 /* =========================================
    LESSONS
@@ -252,11 +322,11 @@ body {
     border-radius: 14px;
     margin-bottom: 10px;
     overflow: hidden;
-    background: white;
+    background: var(--card-bg);
 }
 
 .lesson.active {
-    border-color: var(--primary);
+    border-color: var(--accent);
 }
 
 .lesson-header {
@@ -272,7 +342,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    background: #f1f5f9;
+    background: var(--card-bg);
     color: var(--muted);
     display: flex;
     align-items: center;
@@ -282,7 +352,7 @@ body {
 }
 
 .lesson.active .lesson-number {
-    background: var(--primary);
+    background: var(--accent);
     color: white;
 }
 
@@ -293,6 +363,7 @@ body {
 .lesson-title h3 {
     font-size: 14px;
     margin-bottom: 3px;
+    color: var(--text);
 }
 
 .lesson-title span {
@@ -309,7 +380,6 @@ body {
 .lesson.open .arrow {
     transform: rotate(180deg);
 }
-
 
 /* =========================================
    RESOURCES
@@ -335,10 +405,44 @@ body {
     gap: 10px;
     text-align: right;
     cursor: pointer;
+    color: var(--text);
 }
 
 .lesson-resource:hover {
-    background: #f8fafc;
+    background: var(--bg);
+}
+
+.lesson-resource.locked {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: var(--border);
+}
+
+.lesson-resource.locked:hover {
+    background: var(--border);
+}
+
+.lesson-resource.locked .resource-icon {
+    filter: grayscale(1);
+}
+
+.lesson-resource.locked .resource-action {
+    color: var(--muted);
+}
+
+.lesson-resource.active {
+    background: var(--primary-light);
+    border: 1px solid var(--accent);
+    border-radius: 11px;
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
+}
+
+.lesson-resource.active .resource-info strong {
+    color: var(--accent);
+}
+
+.lesson-resource.active .resource-action {
+    color: var(--accent);
 }
 
 .resource-icon {
@@ -351,8 +455,8 @@ body {
 }
 
 .resource-icon.video {
-    background: #ede9fe;
-    color: var(--primary);
+    background: var(--primary-light);
+    color: var(--accent);
 }
 
 .resource-icon.pdf {
@@ -372,6 +476,7 @@ body {
 .resource-info strong {
     display: block;
     font-size: 12px;
+    color: var(--text);
 }
 
 .resource-info small {
@@ -381,14 +486,13 @@ body {
 }
 
 .resource-action {
-    color: #94a3b8;
+    color: var(--muted);
     font-size: 11px;
 }
 
 .completed {
     color: var(--green);
 }
-
 
 /* =========================================
    VIDEO
@@ -397,7 +501,7 @@ body {
 .video-container {
     width: 100%;
     aspect-ratio: 16 / 9;
-    background: #0f172a;
+    background: var(--video-bg);
     border-radius: var(--radius-lg);
     overflow: hidden;
 }
@@ -416,13 +520,12 @@ body {
     width: 75px;
     height: 75px;
     border-radius: 50%;
-    background: var(--primary);
+    background: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 25px;
 }
-
 
 /* =========================================
    VIDEO DETAILS
@@ -430,10 +533,11 @@ body {
 
 .video-details-card {
     margin-top: 20px;
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 25px;
+    color: var(--text);
 }
 
 .video-header-info {
@@ -445,7 +549,7 @@ body {
 .badge {
     display: inline-block;
     background: var(--primary-light);
-    color: var(--primary);
+    color: var(--accent);
     padding: 5px 12px;
     border-radius: 30px;
     font-size: 11px;
@@ -455,6 +559,7 @@ body {
 .video-header-info h1 {
     margin-top: 8px;
     font-size: 24px;
+    color: var(--text);
 }
 
 .video-meta {
@@ -482,8 +587,6 @@ body {
     display: flex;
     justify-content: space-between;
 }
-
-
 /* =========================================
    BUTTONS
 ========================================= */
@@ -498,10 +601,11 @@ body {
     align-items: center;
     justify-content: center;
     gap: 8px;
+    color: var(--text);
 }
 
 .btn-primary {
-    background: var(--primary);
+    background: var(--accent);
     color: white;
 }
 
@@ -511,14 +615,13 @@ body {
 
 .btn-success {
     background: var(--green-light);
-    color: #047857;
+    color: var(--green);
 }
 
 .btn-secondary {
-    background: #f1f5f9;
+    background: var(--card-bg);
     color: var(--text);
 }
-
 
 /* =========================================
    PAGE VIEWS
@@ -532,17 +635,17 @@ body {
     display: block;
 }
 
-
 /* =========================================
    QUIZ
 ========================================= */
 
 .quiz-card {
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 30px;
     box-shadow: var(--shadow);
+    color: var(--text);
 }
 
 .quiz-header {
@@ -555,6 +658,7 @@ body {
 .quiz-header h1 {
     margin-top: 8px;
     font-size: 25px;
+    color: var(--text);
 }
 
 .quiz-header p {
@@ -565,20 +669,19 @@ body {
 
 .question-counter {
     background: var(--primary-light);
-    color: var(--primary);
+    color: var(--accent);
     padding: 10px 15px;
     border-radius: 10px;
     white-space: nowrap;
     font-size: 13px;
 }
 
-
 /* Quiz progress */
 
 .quiz-progress {
     width: 100%;
     height: 8px;
-    background: #e2e8f0;
+    background: var(--border);
     border-radius: 20px;
     margin: 25px 0 35px;
     overflow: hidden;
@@ -587,16 +690,15 @@ body {
 #quizProgressBar {
     height: 100%;
     width: 20%;
-    background: var(--primary);
+    background: var(--accent);
     transition: .3s;
 }
-
 
 /* Question */
 
 .question-label {
     display: inline-block;
-    background: #f1f5f9;
+    background: var(--card-bg);
     color: var(--muted);
     padding: 5px 12px;
     border-radius: 20px;
@@ -606,8 +708,8 @@ body {
 .question-box h2 {
     font-size: 22px;
     margin: 15px 0 25px;
+    color: var(--text);
 }
-
 
 /* Options */
 
@@ -619,7 +721,7 @@ body {
 
 .option-btn {
     border: 2px solid var(--border);
-    background: white;
+    background: var(--card-bg);
     border-radius: 13px;
     padding: 17px;
     display: flex;
@@ -628,33 +730,36 @@ body {
     cursor: pointer;
     text-align: right;
     transition: .2s;
+    color: var(--text);
 }
 
 .option-btn:hover {
-    border-color: var(--primary);
+    color: black;
+    border-color: var(--accent);
     background: var(--primary-light);
 }
 
 .option-btn.selected {
-    border-color: var(--primary);
+    border-color: var(--accent);
     background: var(--primary-light);
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .option-letter {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #f1f5f9;
+    background: var(--card-bg);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
     flex-shrink: 0;
+    color: var(--text);
 }
 
 .option-btn.selected .option-letter {
-    background: var(--primary);
+    background: var(--accent);
     color: white;
 }
 
@@ -665,7 +770,6 @@ body {
     display: flex;
     justify-content: space-between;
 }
-
 
 /* =========================================
    LOADER
@@ -683,18 +787,19 @@ body {
 
 .loader-card {
     text-align: center;
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: 60px;
     width: 100%;
+    color: var(--text);
 }
 
 .loader {
     width: 65px;
     height: 65px;
     border: 5px solid var(--primary-light);
-    border-top-color: var(--primary);
+    border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: auto auto 25px;
@@ -708,6 +813,7 @@ body {
 
 .loader-card h2 {
     font-size: 20px;
+    color: var(--text);
 }
 
 .loader-card p {
@@ -715,18 +821,18 @@ body {
     margin-top: 8px;
 }
 
-
 /* =========================================
    RESULT
 ========================================= */
 
 .result-card {
-    background: white;
+    background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     padding: 45px;
     text-align: center;
+    color: var(--text);
 }
 
 .result-icon {
@@ -750,6 +856,7 @@ body {
 .result-card h1 {
     margin-top: 7px;
     font-size: 28px;
+    color: var(--text);
 }
 
 .score {
@@ -759,7 +866,7 @@ body {
 .score span {
     font-size: 65px;
     font-weight: 900;
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .result-message {
@@ -777,6 +884,7 @@ body {
     border: 1px solid var(--border);
     border-radius: 14px;
     padding: 18px;
+    background: var(--card-bg);
 }
 
 .stat-icon {
@@ -801,7 +909,7 @@ body {
 
 .stat-icon.total {
     background: var(--primary-light);
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .result-stat span {
@@ -814,6 +922,7 @@ body {
     display: block;
     font-size: 25px;
     margin-top: 5px;
+    color: var(--text);
 }
 
 .result-actions {
@@ -821,7 +930,6 @@ body {
     justify-content: center;
     gap: 12px;
 }
-
 
 /* =========================================
    MOBILE SIDEBAR
@@ -838,8 +946,6 @@ body {
 .sidebar-overlay.active {
     display: block;
 }
-
-
 /* =========================================
    TABLET
 ========================================= */
@@ -851,7 +957,6 @@ body {
         padding: 18px;
     }
 }
-
 
 /* =========================================
    MOBILE
@@ -882,6 +987,8 @@ body {
         z-index: 1000;
         border-radius: 0;
         transition: right .3s ease;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
     }
     .sidebar.mobile-open {
         right: 0;
@@ -890,6 +997,8 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        background: var(--card-bg);
+        color: var(--text);
     }
     .video-header-info {
         flex-direction: column;
@@ -905,7 +1014,6 @@ body {
     }
 }
 
-
 /* =========================================
    SMALL MOBILE
 ========================================= */
@@ -913,12 +1021,15 @@ body {
 @media (max-width: 576px) {
     .quiz-card {
         padding: 18px;
+        background: var(--card-bg);
     }
     .quiz-header h1 {
         font-size: 20px;
+        color: var(--text);
     }
     .question-box h2 {
         font-size: 18px;
+        color: var(--text);
     }
     .quiz-footer {
         flex-direction: column;
@@ -929,9 +1040,11 @@ body {
     }
     .result-card {
         padding: 25px 15px;
+        background: var(--card-bg);
     }
     .score span {
         font-size: 50px;
+        color: var(--accent);
     }
     .result-actions {
         flex-direction: column;
@@ -940,3 +1053,7 @@ body {
         width: 100%;
     }
 }
+
+/* =========================================
+   END OF FILE
+========================================= */

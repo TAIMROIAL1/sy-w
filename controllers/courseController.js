@@ -88,7 +88,12 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
 
   user.value -= course.price;
 
-  subcourses.forEach(sc => user.subcourses.push(sc._id));
+  subcourses.forEach(sc => {
+    user.subcourses.push(sc._id)
+
+  });
+
+
 
   await user.save({validateBeforeSave: false});
 

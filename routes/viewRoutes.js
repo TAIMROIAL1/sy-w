@@ -139,12 +139,25 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
 
     const lessons = await Lesson.find({ subcourse: subcourseId });
 
+    for(let i = 0; i < lessons.length - 1; i++) {
+      for(let j = i + 1; j < lessons.length; j ++) {
+       if(lessons[i].num > lessons[j].num) {
+        const a = lessons[i];
+        lessons[i] = lessons[j];
+        lessons[j] = a;
+       } 
+      }
+    }
+
     const { user } = res.locals;
     
+    const courseProgress = user.courseProgress.find(course => course.courseId == subcourseId);
+    console.log(courseProgress);
     res.status(200).render("video", {
       user,
       course,
       lessons,
+      courseProgress,
       title: "الدروس",
       metaContent: "هنا تفهم العلوم!"
     });

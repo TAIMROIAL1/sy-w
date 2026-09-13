@@ -390,3 +390,27 @@ exports.addPackage = catchAsync(async function(req, res, next) {
     message: "package added successfully"
   })
 })
+
+exports.updateProgress = catchAsync(async function(req, res, next) {
+  const { user } = req;
+  const {newRes, newLesson, subcourseId} = req.body;
+
+  let updatedCourseProgress;
+
+  user.courseProgress.forEach((course,i) => {
+    if(course.courseId == subcourseId && (user.courseProgress[i].achievedVideos.lessonNum < newLesson || (user.courseProgress[i].achievedVideos.lessonNum == newLesson && user.courseProgress[i].achievedVideos.videoNumber < newRes))){
+      user.courseProgress[i].achievedVideos.videoNumber = newRes;
+      user.courseProgress[i].achievedVideos.lessonNum = newLesson;
+      user.courseProgress[i].achievedVideos.achievedVideosCount++;
+      updatedCourseProgress = user.courseProgress[i];
+    }
+  })
+
+  user.save({validateBeforeSave: false});
+
+  res.status(200).json({
+    status: "success",
+    message: "تم تحديث التقدم",
+    data: updatedCourseProgress
+  })
+})

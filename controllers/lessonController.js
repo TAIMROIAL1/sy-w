@@ -193,11 +193,20 @@ exports.deleteQuestion = catchAsync(async function(req, res, next) {
 })
 
 exports.getQuestions = catchAsync(async function(req, res, next) {
-  const { videoId } = req.params;
+  const { lessonId, resourceNum } = req.body;
 
-  if(!videoId) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  if(!lessonId || !resourceNum) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
-  const questions = await Question.find({video: videoId}).select('-correctAnswer');
+  const lesson = await Lesson.findById(lessonId)
+  .populate({
+    path: "videos.questions",
+    model: "Question"
+  }).exec();
+
+  const questions = lesson.videos[resourceNum].questions.map(question => {
+    delete question.correctAnswer;
+    return question;
+  });
 
   if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
@@ -211,22 +220,30 @@ exports.getQuestions = catchAsync(async function(req, res, next) {
 })
 
 exports.solveQuestions = catchAsync(async function(req, res, next) {
-  const { videoId } = req.params;
-  const { solvedQuestions } = req.body;
+  const { lessonId, resourceNum, solvedQuestions } = req.body;
 
-  if(!videoId || !solvedQuestions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  if(!lessonId || !resourceNum || !solvedQuestions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
-  const questions = await Question.find({video: videoId});
+  console.log(lessonId, resourceNum);
+
+  const {questions} = (await Lesson.findById(lessonId).populate({
+    path: "videos.questions",
+    model: "Question"
+  }).exec()).videos[resourceNum];
+
+  console.log(questions);
 
   if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
-  const results = questions.map(q => {
-    const solvedQuestion = solvedQuestions.find(sq => sq.id == q._id);
-    return {questionId: q._id, solvedRight: solvedQuestion.answer == q.correctAnswer, correctAnswer: q.correctAnswer, yourAnswer: solvedQuestion.answer}
+  let correct = 0;
+
+  solvedQuestions.forEach(sq => {
+    if(questions.find(q => sq.questionId == q._id.toString()).correctAnswer == sq.index)
+      correct++;
   })
 
   res.status(200).json({
     status: 'success',
-    results
+    correct
   })
 })
