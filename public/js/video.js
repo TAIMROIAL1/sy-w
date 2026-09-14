@@ -602,7 +602,7 @@ function finishQuiz() {
         إخفاء الاختبار
         وإظهار اللودر
     */
-
+    updateLodaerView("جاري تقييم الاجابات", "لحظات و يتم عرض النتيجة");
     showView(loadingView);
 
     calculateResult();
