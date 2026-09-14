@@ -76,7 +76,7 @@ html(lang="en", dir="ltr")
                 .gg-danger
                 .error-message
             .field
-              input.dob-singup(type="date", placeholder="تاريخ الميلاد", required, style="direction: ltr; text-align: left;")
+              input.dob-singup(type="text", placeholder="DD.MM.YYYY", required, value="01.01.2009", pattern="\d{2}\.\d{2}\.\d{4}")
               .error.error-dob.hidden
                 .gg-danger
                 .error-message
