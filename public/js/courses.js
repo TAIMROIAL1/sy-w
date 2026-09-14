@@ -17,7 +17,7 @@ const agreeBtn = document.querySelector(".confirm-btn");
 
 const price = document.querySelector('.course-price');
 
-const loginBtn = document.querySelector('.login-btn');
+const loginBtn = document.querySelector('.nav-cta');
 
 let notifiTimeout;
 
@@ -132,7 +132,16 @@ lessonsContainer.addEventListener("click", (e) => {
 
   if (!enterBtn) return;
   const {courseId} = document.body.dataset;
-  location.assign(`${domain}/subcourses/${courseId}/lessons`);
+  location.assign(`${domain}`);
+  const url = new URL(`/subcourses/${courseId}/lessons`, window.location.origin);
+
+const {resNum, lessonNum} = enterBtn.dataset
+
+url.searchParams.set("resNum", resNum);
+url.searchParams.set("lessonNum", lessonNum);
+
+location.assign(url);
+
 });
 
 document.querySelectorAll('.course-lesson-header').forEach(header => {

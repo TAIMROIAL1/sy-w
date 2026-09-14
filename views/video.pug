@@ -11,7 +11,8 @@ html(lang="ar" dir="rtl")
   - const totalVideos = lessons.reduce((sum,lesson) => { return sum + lesson.videos.length;}, 0);
   - const achievedLesson = courseProgress.achievedVideos.lessonNum;
   - const achievedRes = courseProgress.achievedVideos.videoNumber;
-  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson)
+  - const toRes = resNum && lessonNum && (lessonNum < achievedLesson || (lessonNum == achievedLesson && resNum < achievedRes))? true: false;
+  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson data-to-res= toRes? '1':null)
     // ================= NAVBAR =================
     header.navbar
       .logo
@@ -22,12 +23,12 @@ html(lang="ar" dir="rtl")
         label.toggle
           input#dark-toggle(type='checkbox')
           span.slider
-        button.mobile-toggle-btn#openSidebar
-          i.fa-solid.fa-bars
         .student-info
           .student-avatar= user.name[0]
           div
             strong= user.name
+        button.mobile-toggle-btn#openSidebar
+          i.fa-solid.fa-bars
 
     // ================= MAIN =================
     main.main-container
@@ -58,7 +59,7 @@ html(lang="ar" dir="rtl")
         // Lessons
         .lessons-list
           each lesson, i in lessons
-            .lesson.open(data-lesson-id= lesson._id.toString() data-num= lesson.num)
+            .lesson.open(data-lesson-id= lesson._id.toString() data-num= lesson.num class=[toRes && i + 1 == lessonNum? 'active':""])
               .lesson-header
                 .lesson-number= lesson.num > 9? lesson.num + '.': `0` + lesson.num + "."
 
@@ -73,7 +74,8 @@ html(lang="ar" dir="rtl")
                   button.lesson-resource(
                     class=[
                       video.fileType + "-resource",
-                      achievedLesson < i + 1 || (achievedLesson == i + 1 && achievedRes < j)? "locked":""
+                      achievedLesson < i + 1 || (achievedLesson == i + 1 && achievedRes < j)? "locked":"",
+                      toRes && resNum == j && lessonNum == i + 1? "active":""
                     ]
 
                     data-quiz=(video.fileType === "quiz" ? "lesson1" : null)
@@ -182,11 +184,11 @@ html(lang="ar" dir="rtl")
             p.video-description
               | في هذه المحاضرة سنتعرف على الجهاز العصبي
             .navigation-buttons
-              button.btn.btn-secondary
+              button.btn.btn-secondary#prevLesson(class=[achievedLesson == 1 && achievedRes == 0 ? "hidden": ""])
                 i.fa-solid.fa-arrow-right
                 | الدرس السابق
 
-              button.btn.btn-primary
+              button.btn.btn-primary#nextLesson
                 | الدرس التالي
                 i.fa-solid.fa-arrow-left
 

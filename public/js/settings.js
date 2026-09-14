@@ -14,6 +14,7 @@ const notificationMsg = document.querySelector('.notifi-message')
 
 const domain = document.body.dataset.domain;
 
+const coursesSection = document.querySelector('.section-2');
 // Inputs
 const resetPasswordInput = document.querySelector('.reset-password-input');
 const activateCodeInput = document.querySelector('.activate-code-input');
@@ -91,6 +92,15 @@ menu.addEventListener('click', (e) => {
     sections.forEach(sec => sec.classList.contains(`section-${itemNumber}`)? sec.classList.remove('hidden') : sec.classList.add('hidden'));
     
     closeList();
+})
+
+coursesSection.addEventListener('click', (e) => {
+  const clicked = e.target.closest('.enter-course-btn');
+
+  if(!clicked) return;
+
+  const { courseId }= clicked.closest('article').dataset;
+  location.assign(`${domain}/subcourses/${courseId}/lessons`)
 })
 
 // Dark mode Toggle Listener

@@ -99,6 +99,12 @@ h2 {
     cursor: pointer;
   }
 
+  .enter-course-btn{ 
+    cursor: pointer;
+  }
+  .enter-course-btn:hover {
+    opacity: 0.8;
+  }
 .notifi{
     border-radius:10px ;
     position: fixed;
@@ -524,32 +530,10 @@ h2 {
     
 }
 
-.course-image::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,.25), rgba(0,0,0,.45));
-}
-
-
-.image-one {
-    background: linear-gradient(135deg, #1c2e63, #7d2b83);
-}
-
-.image-two {
-    background: linear-gradient(135deg, #25385c, #4c1d78);
-}
-
-.image-three {
-    background: linear-gradient(135deg, #302154, #772f79);
-}
-
-.image-four {
-    background: linear-gradient(135deg, #16495b, #8b3e63);
-}
-
-.image-five {
-    background: linear-gradient(135deg, #392157, #7d3a86);
+.course-img {
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10%;
 }
 
 .course h3 {

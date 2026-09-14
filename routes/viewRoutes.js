@@ -94,6 +94,16 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
 
     const lessons = (await Lesson.find({subcourse: course._id}).select('+videos.num'));
 
+    for(let i = 0; i < lessons.length - 1; i++) {
+      for(let j = i + 1; j < lessons.length; j ++) {
+       if(lessons[i].num > lessons[j].num) {
+        const a = lessons[i];
+        lessons[i] = lessons[j];
+        lessons[j] = a;
+       } 
+      }
+    }
+
     if(!user?.subcourses.includes(course._id.toString())) {
       for(let i = 1; i < lessons.length; i++) {
         lessons[i].videos = [];
@@ -129,9 +139,12 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
 );
 
 router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse, catchAsync(async (req, res) => {
-    if (!res.locals.user) {
+    if (!res.locals.user) {z
       return res.status(200).render("toSign");
     }
+
+    const {resNum, lessonNum} = req.query;
+    console.log(resNum, lessonNum);
 
     const { subcourseId } = req.params;
 
@@ -157,6 +170,8 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
       user,
       course,
       lessons,
+      resNum,
+      lessonNum,
       courseProgress,
       title: "الدروس",
       metaContent: "هنا تفهم العلوم!"
@@ -199,6 +214,38 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     if(!isNaN(index))
       newUser.subcourses.splice(index, 1);
     
+    const courses = await Promise.all(
+    user.subcourses.map(id => Subcourse.findById(id))
+    );
+
+    const courseSummaries = await Promise.all(
+  courses.map(async (course) => {
+
+    // 1. Get lessons for this course
+    const lessons = await Lesson.find({ subcourse: course._id });
+
+    // 2. Count total videos inside all lessons
+    const totalVideos = lessons.reduce((sum, lesson) => {
+      return sum + (lesson.videos?.length || 0);
+    }, 0);
+
+    // 3. Find matching courseProgress entry
+    const progress = user.courseProgress.find(
+      (p) => p.courseId.toString() === course._id.toString()
+    );
+
+    // 4. Extract achievedVideosCount (default 0 if missing)
+    const achievedVideosCount = progress?.achievedVideos?.achievedVideosCount || 0;
+
+    // 5. Return clean object
+    return {
+      courseId: course._id,
+      totalVideos,
+      achievedVideosCount
+    };
+  })
+);    
+
     const title = 'إعدادت الحساب';
     const metaContent = `تغيير الاسم و البريد و كلمة السر
 جميع كورساتي المفعلة
@@ -207,7 +254,9 @@ router.get("/settings", checkJWT, catchAsync(async (req, res) => {
     res.status(200).render("settings", {
       user: newUser,
       title,
-      metaContent 
+      metaContent,
+      courses,
+      courseSummaries
     });
   })
 );

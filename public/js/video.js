@@ -284,7 +284,7 @@ const previousButton = document.getElementById("prevQuestion");
 
 const nextButton = document.getElementById("nextQuestion");
 
-const btnPrimary = document.querySelector(".btn-primary");
+const btnPrimary = document.getElementById("nextLesson");
 
 const lessonsList = document.querySelector(".lessons-list");
 
@@ -295,6 +295,7 @@ const videoBadge = document.querySelector('.video-badge');
 const videoTitle = document.querySelector('.video-title');
 const videoDuration = document.querySelector('.fa-regular');
 const videoDescription = document.querySelector('.video-description');
+const prevLessonBtn = document.getElementById('prevLesson');
 
 // Loader View Elements
 const loaderTitle = document.querySelector('.lodaer-title');
@@ -322,7 +323,9 @@ lessonsList.addEventListener("click", async function (e) {
   const lessonRes = clicked.closest(".lesson-resource");
 
   if (lessonRes) {
-    if(lessonRes.classList.contains('active')) return closeMobileSidebar();
+    if(lessonRes.classList.contains('active')) {
+      return closeMobileSidebar();
+    }
 
     if(lessonRes.classList.contains('locked')) return;
 
@@ -330,11 +333,14 @@ lessonsList.addEventListener("click", async function (e) {
 
     lessonRes.classList.add('active');
 
+    [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
+      lessonRes.closest('.lesson').classList.add('active');
+
     // Video Rescource
     if (lessonRes.classList.contains("video-resource")) {
       const url = lessonRes.dataset.videoUrl;
-      showView(videoView, url);
       updateVideoView(lessonRes);
+      showView(videoView, url);
       closeMobileSidebar();
     }
     // Quiz Resource
@@ -365,7 +371,10 @@ btnPrimary.addEventListener("click", () => {
         inNextLesson = true;
 }
     nextRes.classList.add('active');
-    updateUserProgress(nextRes, inNextLesson? currentLesson.nextElementSibling: currentLesson);
+    [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
+    nextRes.closest('.lesson').classList.add('active');
+
+    updateUserProgress(nextRes.dataset.num, inNextLesson? currentLesson.nextElementSibling.dataset.num: currentLesson.dataset.num);
     currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
     currentRes.querySelector('.state-mark').classList.remove('resource-action');
     currentRes.querySelector('.state-mark').classList.add('fa-circle-check');
@@ -375,11 +384,31 @@ btnPrimary.addEventListener("click", () => {
   closeMobileSidebar();
 });
 
+prevLessonBtn.addEventListener('click', function() {
+  const currentRes = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
+
+  let prevRes;
+
+  if(currentRes.dataset.num == 0)
+    prevRes = currentRes.closest('.lesson').previousElementSibling.lastElementChild.lastElementChild;
+  else
+    prevRes = currentRes.previousElementSibling;
+
+
+  [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
+  prevRes.closest('.lesson').classList.add('active');
+
+  currentRes.classList.remove('active');
+  prevRes.classList.add('active');
+  moveToRes(prevRes);
+})
 
 async function updateUserProgress(newRes, newLesson) {
-const response = await ajaxCall(`${domain}/api/v1/users/update-progress`, {subcourseId: location.href.split('/')[4], newRes: newRes.dataset.num, newLesson: newLesson.dataset.num});
+const response = await ajaxCall(`${domain}/api/v1/users/update-progress`, {subcourseId: location.href.split('/')[4], newRes, newLesson});
 
-if(response.status === 'success') {
+console.log(response);
+if(response.status === 'success' && response.data) {
+  console.log('hi');
     const courseProgress = response.data;
     const {totalVideos} = document.querySelector('.course-progress').dataset;
     document.body.dataset.achievedLesson = newLesson;
@@ -584,8 +613,10 @@ function finishQuiz() {
 ========================================= */
 
 async function calculateResult() {
-    const { lessonId }= [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active')).dataset;
-    const resourceNum = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active')).dataset.num;
+    const currentLesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active'));
+    const currentRes =  [...currentLesson.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
+    const { lessonId }= currentLesson.dataset;
+    const resourceNum = currentRes.dataset.num;
   const { correct } = await ajaxCall(`${domain}/api/v1/questions/solve-questions`, {solvedQuestions: userAnswers, subcourseId: location.href.split('/')[4], lessonId, resourceNum});
 
   const total = currentQuiz.length;
@@ -622,10 +653,44 @@ async function calculateResult() {
     message.textContent = "لا بأس، حاول مراجعة الدرس وإعادة الاختبار.";
   }
 
-  resultBtn.textContent = percentage > 80? "الدرس التالي" : "العودة الى الدرس";
+  const lastLesson = document.querySelector('.lessons-list').lastElementChild;
+  const lastRes = lastLesson.lastElementChild.lastElementChild;
+  const isLastRes = currentLesson.dataset.num == lastLesson.dataset.num && resourceNum == lastRes.dataset.num;
+  resultBtn.textContent = percentage > 80 && !isLastRes? "الدرس التالي" : "العودة الى الدرس";
   
-  resultBtn.setAttribute("action", percentage > 80 ? "next" : "back");
+  resultBtn.setAttribute("action", percentage > 80 && !isLastRes? "next" : "back");
 
+  let newRes;
+  let inNextLesson = false;
+    
+    if(resultBtn.getAttribute('action') === "next") {
+        newRes = currentRes.nextElementSibling;
+        if(!newRes){
+            let nextLesson = currentLesson.nextElementSibling;
+            inNextLesson = true;
+        if(!nextLesson){
+            newRes = currentRes.previousElementSibling;
+        }
+        newRes = nextLesson.querySelector('.lesson-resource');
+        }
+    }
+    else
+        newRes = currentRes.previousElementSibling;
+  if(percentage > 80){
+  newRes.classList.remove('locked');
+  if(newRes.classList.contains('video-resource')) {
+    newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-play'></i>";
+  } 
+  
+  else if(newRes.classList.contains('quiz-resource')) {
+     newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-clipboard-question'></i>"
+  }
+  updateUserProgress(isLastRes? Number(currentRes.dataset.num) : newRes.dataset.num, inNextLesson? currentLesson.nextElementSibling.dataset.num: currentLesson.dataset.num)
+  currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
+    currentRes.querySelector('.state-mark').classList.remove('resource-action');
+    currentRes.querySelector('.state-mark').classList.add('fa-circle-check');
+    currentRes.querySelector('.state-mark').classList.add('completed');
+}
   showView(resultView);
 }
 
@@ -656,7 +721,7 @@ resultBtn.addEventListener('click', () => {
     [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
     newRes.closest('.lesson').classList.add('active');
 
-    updateUserProgress(newRes, inNextLesson? currentLesson.nextElementSibling: currentLesson)
+    
     moveToRes(newRes);
 })
 
@@ -712,6 +777,17 @@ function updateVideoView(video) {
     document.querySelector('.duration-container').textContent = duration;
     videoDescription.textContent = description;
     
+    const resNum = video.dataset.num;
+    const lessonNum = video.closest('.lesson').dataset.num;
+
+    if(lessonNum == 1 && resNum == 0) prevLessonBtn.classList.add('hidden')
+      else
+    prevLessonBtn.classList.remove('hidden');
+
+    const lastLesson = document.querySelector('.lessons-list').lastElementChild; 
+    if(lessonNum == lastLesson.dataset.num && resNum == lastLesson.lastElementChild.lastElementChild.dataset.num) btnPrimary.classList.add('hidden');
+    else btnPrimary.classList.remove('hidden');
+    
 }
 
 function updateLodaerView(title, description) {
@@ -727,10 +803,16 @@ const darkMode = localStorage.getItem('darkMode');
         document.body.classList.toggle("page-dark-mode");
     }
 
+    let res;
+if(!document.body.dataset.toRes) {
 const lesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.dataset.num == achievedLesson);
 lesson.classList.add('active');
-const res = [...lesson.querySelectorAll('.lesson-resource')].find(res => res.dataset.num == achievedResource);
+res = [...lesson.querySelectorAll('.lesson-resource')].find(res => res.dataset.num == achievedResource);
 res.classList.add('active');
+}
+else {
+res = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
+}
 
 moveToRes(res);
 }

@@ -253,6 +253,108 @@ header {
     color: #fff;
     border-color: var(--purple-dark);
 }
+.navbar {
+  background: var(--card-bg);
+  padding: 0 4px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px var(--shadow);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction:row-reverse ;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, #7c3aed, #10b981);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.logo-sub {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+  background: rgba(124, 58, 237, 0.06);
+}
+
+.nav-links a.active {
+  color: #7c3aed;
+  font-weight: 600;
+  background: rgba(124, 58, 237, 0.08);
+}
+
+.nav-cta {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.nav-cta:hover {
+  transform: scale(1.03);
+}
 
 .balance-container {
   display: flex;
@@ -266,47 +368,92 @@ header {
   box-shadow: 0 4px 12px rgba(14, 180, 95, 0.25);
 }
 
-/* ===== Dark Mode Toggle ===== */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #7c3aed;
+}
+
+.mobile-menu {
+  display: none;
+  background: var(--card-bg);
+  border-top: 1px solid rgba(124, 58, 237, 0.1);
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.mobile-menu a {
+  display: block;
+  text-decoration: none;
+  color: var(--muted);
+  background-color: var(--card-bg);
+  font-weight: 500;
+  font-size: 15px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(124, 58, 237, 0.08);
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.mobile-menu a:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu a:hover,
+.mobile-menu a.active {
+  color: #7c3aed;
+  font-weight: 600;
+}
 
 .toggle {
-    position: relative;
-    width: 56px;
-    height: 30px;
-    display: inline-block;
+  position: relative;
+  width: 60px;
+  height: 32px;
+  display: inline-block;
+  margin-inline-start: 10px;
 }
 
 .toggle input {
-    display: none;
+  display: none;
 }
 
 .slider {
-    position: absolute;
-    inset: 0;
-    background: var(--border);
-    border-radius: 32px;
-    cursor: pointer;
-    transition: background 0.3s var(--ease);
+  position: absolute;
+  inset: 0;
+  background: #cfcfcf;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .slider::before {
-    content: "☀️";
-    position: absolute;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: var(--card-bg);
-    top: 2px;
-    right: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    transition: transform 0.3s var(--ease);
-    box-shadow: var(--shadow-soft);
+  content: "☀️";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: white;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
+.menu-toggle-wrap {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+}
 .toggle input:checked+.slider {
-    background: var(--purple);
+    background: var(--accent);
 }
 
 .toggle input:checked+.slider::before {
@@ -871,3 +1018,5 @@ footer {
         font-size: 14px;
     }
 }
+
+/* ===== Make Courses Page Header Match Main Page Navbar ===== */

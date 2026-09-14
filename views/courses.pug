@@ -17,22 +17,38 @@ body(data-domain=domain, data-course-id=course._id.toString())
       h2= buy_msg || "هل تريد شراء الكورس؟"
       .buttons
         button.confirm-btn &#x62A;&#x623;&#x643;&#x64A;&#x62F;
-        button.cancel-btn &#x625;&#x644;&#x63A;&#x627;&#x621;        
-  // Header
-  header
-    .logo
-      span Studyou
-    - if(!user)
-      .auth-buttons
-        button.login-btn &#x62A;&#x633;&#x62C;&#x64A;&#x644; &#x627;&#x644;&#x62F;&#x62E;&#x648;&#x644;
-    - if(user)
-      .balance-container
-        div ATP 
-        .balance=`${user.value}`
-    .dark-toggle
-      label.toggle
-        input#darkModeSwitch(type='checkbox')
-        span.slider
+        button.cancel-btn &#x625;&#x644;&#x63A;&#x627;&#x621;   
+  nav.navbar
+    .navbar-inner
+      .logo
+        div
+          .logo-text د/ إياد سكر
+          .logo-sub &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628; &#x628;&#x633;&#x64A;&#x637;
+      - if(!user)
+        button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
+      - if(user)
+        .balance-container
+          div ATP 
+          .balance= `${user.value}`
+      .menu-toggle-wrap
+        label.toggle
+          input#darkModeSwitch(type='checkbox')
+          span.slider     
+  //- // Header
+  //- header
+  //-   .logo
+  //-     span Studyou
+  //-   - if(!user)
+  //-     .auth-buttons
+  //-       button.login-btn &#x62A;&#x633;&#x62C;&#x64A;&#x644; &#x627;&#x644;&#x62F;&#x62E;&#x648;&#x644;
+  //-   - if(user)
+  //-     .balance-container
+  //-       div ATP 
+  //-       .balance=`${user.value}`
+  //-   .dark-toggle
+  //-     label.toggle
+  //-       input#darkModeSwitch(type='checkbox')
+  //-       span.slider
   // Course Header
   section.course-header
     .course-header-inner
@@ -75,20 +91,23 @@ body(data-domain=domain, data-course-id=course._id.toString())
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
-                    button.enter-lesson
-                      | &#x25B6; فيديو
+                    - if(user)
+                      button.enter-lesson(data-res-num=video.num data-lesson-num=lesson.num)
+                        | &#x25B6; فيديو
                 - if (video.fileType === "quiz")
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
-                    button
-                      | 🖊️ اختبار 
+                    - if(user)
+                      button.enter-lesson(data-res-num=video.num data-lesson-num=lesson.num)
+                        | 🖊️ اختبار 
                 - if (video.fileType === "pdf")
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
-                    button
-                      | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+                    - if(user)
+                      button
+                        | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
       
   // Footer
   footer

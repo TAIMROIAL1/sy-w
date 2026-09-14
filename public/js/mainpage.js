@@ -60,6 +60,12 @@ const showNotification = function (msg, type) {
 
 // Listeners
 
+document.addEventListener('click', (e) => {
+  if(e.target.closest('.mobile-menu-btn')) return;
+  if(document.getElementById('mobileMenu').style.display !== 'none')
+    document.getElementById('mobileMenu').style.display = 'none';
+})
+
 menuButton.addEventListener('click', () => {
   document.getElementById('mobileMenu').style.display = document.getElementById('mobileMenu').style.display === 'block'
       ? 'none'
@@ -112,9 +118,10 @@ window.addEventListener("orientationchange", () => {
 });
 
 [...sections].forEach(sec => {
+  console.log(sec);
   const options = {
     root: null,
-    threshold: 0.5
+    threshold: 0.3
   }
 
   const secNumber = [...sec.classList].find(className => className.startsWith('section-number')).split('-')[2];
@@ -122,6 +129,7 @@ window.addEventListener("orientationchange", () => {
   const observer = new IntersectionObserver(([entry], obs) => {
 
     if(entry.isIntersecting){
+      console.log('yes');
       sectionButtons.forEach(btn => btn.classList.contains(`section-button-${secNumber}`) ? btn.classList.add('active') : btn.classList.remove('active'));}
     else 
       [...sectionButtons].find(btn => btn.classList.contains(`section-button-${secNumber}`)).classList.remove('active');
