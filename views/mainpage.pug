@@ -27,7 +27,8 @@ body(data-domain= domain)
         a.active.section-button.section-button-1(role='button') &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
         a.section-button.section-button-2(role='button') &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
         a.section-button.section-button-3(role='button') &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
-        a.settings-btn(role='button') اعدادات الحساب
+        - if(user)
+          a.settings-btn(role='button') اعدادات الحساب
       - if(!user)
         button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
       - if(user)
@@ -47,7 +48,8 @@ body(data-domain= domain)
       a.active.section-button.section-button-1(role="button") &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
       a.section-button.section-button-2(role="button") &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;
       a.section-button.section-button-3(role="button") &#x639;&#x646; &#x627;&#x644;&#x645;&#x62F;&#x631;&#x633;
-      a.settings-btn(role="button") اعدادات الحساب
+      - if(user)
+        a.settings-btn(role="button") اعدادات الحساب
   // Main Content
   main
     // Hero Section

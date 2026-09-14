@@ -8,18 +8,10 @@
 }
 
 :root{
-  --yalo: #10b981;        /* الأخضر اللائق */
+  --yalo: #10b981;        /* updated green: deep emerald */
   --blue: #5285e8;
-  --white: #ffffff;
+  --white: #f0f5f4;
   --black: #181818;
-
-  --purple: #7c3aed;
-  --purple-dark: #5b21b6;
-  --purple-light: #a78bfa;
-  --surface: #f6f4fb;
-  --ink: #241b3d;
-  --muted: #7a7290;
-  --border: #e6e1f5;
 }
 
 /* PAGE BACKGROUND — gradient */
@@ -28,23 +20,25 @@ html,body{
   height: 100%;
   width: 100%;
   place-items: center;
-  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 45%, #10b981 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #5285e8 50%, #10b981 100%);
 }
 
 /* SUCCESS CHECKMARK CONTAINER — keep structure, only recolor */
 .wrappeer {
-  border: solid var(--yalo);
+  border: solid hsl(94, 51%, 51%);
   border-radius: 900px;
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background-color: var(--white);
+  /* dark card but not too dark */
+  background-color: #2f2f2f;
 
+  /* stronger shadow */
   box-shadow:
-    0px 10px 25px rgba(76, 29, 149, 0.25),
-    0px 0px 12px rgba(16, 185, 129, 0.25);
+    0px 10px 25px rgba(0,0,0,0.55),
+    0px 0px 12px rgba(108, 76, 196, 0.25);
 
   position: relative;
   top: 0;
@@ -57,7 +51,7 @@ html,body{
 
 .animated-check path {
   fill: none;
-  stroke: var(--yalo);
+  stroke: #bbfb4c; /* bright green accent */
   stroke-width: 4;
   stroke-dasharray: 23;
   stroke-dashoffset: 23;
@@ -71,45 +65,42 @@ html,body{
 }
 
 ::selection{
-  background: var(--purple);
+  background: #5442f3;
   color: #fff;
 }
 
-/* MAIN CARD — light, modern */
+/* MAIN CARD — dark but readable */
 .wrapper{
   overflow: hidden;
   min-width: 330px;
   max-width: 400px;
 
-  background: var(--white);
+  /* dark card but not too dark */
+  background: #2f2f2f;
 
   padding: 30px;
-  border-radius: 18px;
+  border-radius: 12px;
 
+  /* deeper shadow + slight purple glow */
   box-shadow:
-    0px 20px 45px rgba(76, 29, 149, 0.25),
-    0px 0px 0px 1px rgba(124, 58, 237, 0.06);
+    0px 10px 25px rgba(0,0,0,0.65),
+    0px 0px 14px rgba(108, 76, 196, 0.35);
 }
 
 .wrapper .title-text{
   display: flex;
   width: 200%;
-  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
-}
-
-.wrapper:has(#signup:checked) .title-text{
-  transform: translateX(-50%);
 }
 
 .slide{
-  color: var(--ink);
+  color: var(--white);
 }
 
 .wrapper .title{
-  color: var(--ink);
+  color: var(--white);
   width: 50%;
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 35px;
+  font-weight: 600;
   text-align: center;
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
@@ -124,17 +115,17 @@ html,body{
   margin: 30px 0 10px 0;
   justify-content: space-between;
 
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: 1px solid #3a3a3a;
+  border-radius: 5px;
 
-  background: var(--surface);
+  background: #1e1e1e;
 }
 
 .slide-controls .slide{
   height: 100%;
   width: 100%;
-  color: var(--muted);
-  font-size: 17px;
+  color: var(--white);
+  font-size: 18px;
   font-weight: 500;
   text-align: center;
   line-height: 48px;
@@ -144,7 +135,7 @@ html,body{
 }
 
 .slide-controls label.signup{
-  color: var(--muted);
+  color: #ffffff;
 }
 
 .slide-controls .slider-tab{
@@ -153,8 +144,8 @@ html,body{
   width: 50%;
   left: 0;
   z-index: 0;
-  border-radius: 7px;
-  background: linear-gradient(135deg, var(--purple) 0%, var(--yalo) 100%);
+  border-radius: 5px;
+  background: var(--yalo);
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
 
@@ -167,21 +158,20 @@ input[type="radio"]{
 }
 
 #signup:checked ~ label.signup{
-  color: #ffffff;
+  color: var(--black);
   cursor: default;
   user-select: none;
 }
 
 #signup:checked ~ label.login{
-  color: var(--muted);
+  color: #ffffff;
 }
 
 #login:checked ~ label.signup{
-  color: var(--muted);
+  color: #ffffff;
 }
 
 #login:checked ~ label.login{
-  color: #ffffff;
   cursor: default;
   user-select: none;
 }
@@ -193,44 +183,13 @@ input[type="radio"]{
 }
 
 .form-container .form-inner{
-  max-height: 420px;   /* adjust height as you like */
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 5px;  /* nice scrollbar spacing */
-  width: 100%;
+  display: flex;
+  width: 200%;
 }
 
-.form-container .form-inner::-webkit-scrollbar {
-  width: 6px;
-}
-.form-container .form-inner::-webkit-scrollbar-thumb {
-  background: var(--purple-light);
-  border-radius: 10px;
-}
 .form-container .form-inner form{
-  width: 100%;
-}
-
-/* اعرض نموذج واحد فقط في كل مرة — الجافاسكربت يتحكم في display و .active */
-.form-container .form-inner form.signup{
-  display: none;
-}
-
-form.login,
-form.signup {
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-
-form.login.active,
-form.signup.active {
-  opacity: 1;
-}
-
-/* fallback: لو تعطّل الجافاسكربت تبقى النماذج ظاهرة */
-.no-js form.login,
-.no-js form.signup {
-  opacity: 1;
+  width: 50%;
+  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
 }
 
 .form-inner form .field{
@@ -239,47 +198,34 @@ form.signup.active {
   margin-top: 20px;
 }
 
-.form-inner form .field input,
-.form-inner form .field select{
+.form-inner form .field input{
   height: 100%;
   width: 100%;
   outline: none;
   padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 8px;
+  border-radius: 5px;
 
-  background: var(--surface);
-  color: var(--ink);
+  background: #1e1e1e;
+  color: var(--white);
 
-  border: 1px solid var(--border);
+  border: 1px solid #3a3a3a;
   border-bottom-width: 2px;
 
-  font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
   transition: all 0.3s ease;
-  appearance: none;
-  -webkit-appearance: none;
 }
 
-.form-inner form .field select{
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%237a7290' stroke-width='2' fill='none' fill-rule='evenodd'/></svg>");
-  background-repeat: no-repeat;
-  background-position: left 15px center;
-  cursor: pointer;
-}
-
-.form-inner form .field input:focus,
-.form-inner form .field select:focus{
-  border-color: var(--purple);
+.form-inner form .field input:focus{
+  border-color: #7c3aed;
 }
 
 .form-inner form .field input::placeholder{
-  color: var(--muted);
+  color: #999;
   transition: all 0.3s ease;
 }
 
 form .field input:focus::placeholder{
-  color: #b3aacb;
+  color: #b3b3b3;
 }
 
 .form-inner form .pass-link{
@@ -293,9 +239,8 @@ form .field input:focus::placeholder{
 
 .form-inner form .pass-link a,
 .form-inner form .signup-link a{
-  color: var(--purple);
+  color: var(--blue);
   text-decoration: none;
-  font-weight: 500;
 }
 
 .form-inner form .pass-link a:hover,
@@ -307,10 +252,9 @@ form .field input:focus::placeholder{
 form .btn{
   height: 50px;
   width: 100%;
-  border-radius: 8px;
+  border-radius: 5px;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
 }
 
 form .btn .btn-layer{
@@ -318,8 +262,8 @@ form .btn .btn-layer{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: linear-gradient(135deg, var(--yalo) 0%, #0ea271 100%);
-  border-radius: 8px;
+  background: var(--yalo);
+  border-radius: 5px;
   transition: all 0.4s ease;
 }
 
@@ -336,16 +280,16 @@ form .btn input[type="submit"]{
   border: none;
   color: #fff;
   padding-left: 0;
-  border-radius: 8px;
-  font-size: 19px;
-  font-weight: 600;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 500;
   cursor: pointer;
 }
 
 /* SUCCESS TEXT */
 .created{
   margin-left: 20px;
-  color: var(--muted);
+  color: #b3b3b3;
 }
 
 /* ERRORS */
@@ -405,7 +349,7 @@ form .btn input[type="submit"]{
 .loader {
   width: 65px;
   aspect-ratio: 1;
-  --_c:no-repeat radial-gradient(farthest-side,var(--purple) 92%,#0000);
+  --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
   background:
     var(--_c) top,
     var(--_c) left,

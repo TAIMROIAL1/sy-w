@@ -1,5 +1,11 @@
-// Combined single-file version of signView.js + signupModel.js + signController.js
 
+
+v2 (latest)
+/attachments/038af04d-22a0-4295-99ce-6d3e24ef6c7f/sign.js
+Sep 14, 10:35 PM
+sign.js
+// Combined single-file version of signView.js + signupModel.js + signController.js
+ 
 const ajaxToServer = async function (url, data) {
   const response = await fetch(url, {
     method: "POST",
@@ -11,10 +17,12 @@ const ajaxToServer = async function (url, data) {
   const data2 = await response.json();
   return data2;
 };
-
+ 
 class SignView {
+  #loginText = document.querySelector(".title-text .login");
   #loginForm = document.querySelector("form.login");
   #signupForm = document.querySelector("form.signup");
+  #loginBtn = document.querySelector("label.login");
   #signupBtn = document.querySelector("label.signup");
   #loginRadio = document.getElementById("login");
   #signupRadio = document.getElementById("signup");
@@ -36,21 +44,29 @@ class SignView {
   #formContainer = document.querySelector(".form-container");
   #check = document.querySelector(".wrappeer");
   #spinner = document.querySelector(".spinner");
-
+ 
   constructor() {
     this.#setMoveListeners();
   }
-
+ 
   #setMoveListeners() {
+    this.#signupBtn.onclick = () => {
+      this.#loginText.style.marginLeft = "-50%";
+    };
+    this.#loginBtn.onclick = () => {
+      this.#loginText.style.marginLeft = "0%";
+    };
     this.#signupLink.onclick = () => {
+      this.#signupRadio.checked = true;
+      this.#signupRadio.dispatchEvent(new Event("change"));
       this.#signupBtn.click();
       return false;
     };
-
+ 
     this.#loginForm.style.display = "block";
     this.#loginForm.classList.add("active");
     this.#signupForm.style.display = "none";
-
+ 
     this.#loginRadio.addEventListener("change", () => {
       this.#signupForm.classList.remove("active");
       setTimeout(() => {
@@ -59,7 +75,7 @@ class SignView {
         requestAnimationFrame(() => this.#loginForm.classList.add("active"));
       }, 350);
     });
-
+ 
     this.#signupRadio.addEventListener("change", () => {
       this.#loginForm.classList.remove("active");
       setTimeout(() => {
@@ -69,15 +85,15 @@ class SignView {
       }, 350);
     });
   }
-
+ 
   setSignUpHandler(handler) {
     this.#signupBtnClick.addEventListener("click", handler);
   }
-
+ 
   setLoginHandler(handler) {
     this.#loginBtnClick.addEventListener("click", handler);
   }
-
+ 
   getInputDataSignup() {
     const Obj = {};
     Obj.name = this.#signupFullName.value.trim();
@@ -93,7 +109,7 @@ class SignView {
     Obj.userAgent = navigator.userAgent;
     return Obj;
   }
-
+ 
   getInputDataLogin() {
     const Obj = {};
     Obj.name = this.#loginFullName.value.trim();
@@ -103,7 +119,7 @@ class SignView {
     Obj.userAgent = navigator.userAgent;
     return Obj;
   }
-
+ 
   toggleSpinner() {
     this.#login.classList.toggle("hidden");
     this.#signup.classList.toggle("hidden");
@@ -111,7 +127,7 @@ class SignView {
     this.#check.classList.add("hidden");
     this.#spinner.classList.toggle("hidden");
   }
-
+ 
   showScucessMessage(msg = "تم انشاء حسابك بنجاح") {
     this.#check.classList.remove("hidden");
     this.#check.querySelector(".created").textContent = msg;
@@ -119,7 +135,7 @@ class SignView {
     this.#signup.classList.toggle("hidden");
     this.#formContainer.classList.toggle("hidden");
   }
-
+ 
   showError(response, type) {
     const errs = [...document.querySelectorAll(".error")];
     errs.forEach((err) => {
@@ -133,11 +149,11 @@ class SignView {
     msgDiv.textContent = response.message.slice(17).split(",")[0];
   }
 }
-
+ 
 const signView = new SignView();
-
+ 
 const domain = document.body.dataset.domain;
-
+ 
 const signUpHandler = async function (e) {
   e.preventDefault();
   const data = signView.getInputDataSignup();
@@ -152,11 +168,11 @@ const signUpHandler = async function (e) {
   }
   if (response.status === "fail") signView.showError(response); //TODO
 };
-
+ 
 const setSignUpBtnClickListener = function () {
   signView.setSignUpHandler(signUpHandler);
 };
-
+ 
 const loginHandler = async function (e) {
   e.preventDefault();
   const data = signView.getInputDataLogin();
@@ -171,14 +187,15 @@ const loginHandler = async function (e) {
   }
   if (response.status === "fail") signView.showError(response, "login");
 };
-
+ 
 const setLoginClickListener = function () {
   signView.setLoginHandler(loginHandler);
 };
-
+ 
 const init = function () {
   setSignUpBtnClickListener();
   setLoginClickListener();
 };
-
+ 
 init();
+ 

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>تسجيل الدخول</title>
+    <meta name="description" content="<%= metaContent %>">
+    <link rel="stylesheet" href="signStyle.css">
+    <link href="https://unpkg.com/css.gg@2.0.0/icons/css/danger.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/sign.js"></script>
+</head>
+<!-- 
+    ملاحظة: المتغير الخاص بـ domain كان يُعرّف في Pug كالتالي:
+    const domain = process.env.DOMAIN_ACTIVE === 'local' ? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+    في HTML خالص يمكنك تمريره من الخادم أو إدخال قيمته مباشرةً.
+  -->
+
+<body data-domain="<%= domain %>">
+    <div class="wrapper">
+        <div class="title-text">
+            <div class="title login">تسجيل الدخول</div>
+            <div class="title signup">انشاء حساب</div>
+        </div>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input id="login" type="radio" name="slide" checked="">
+                <input id="signup" type="radio" name="slide">
+                <label class="slide login" for="login">تسجيل الدخول</label>
+                <label class="slide signup" for="signup">انشاء حساب</label>
+                <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+                <form class="login" action="#">
+                    <div class="field">
+                        <input class="full-name-login" type="text" placeholder="الاسم الكامل" required="">
+                        <div class="error error-name-login hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="password-login" type="password" placeholder="كلمة المرور" required="">
+                        <div class="error error-password-login hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="pass-link"></div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input class="btn-login" type="submit" value="تسجيل الدخول">
+                    </div>
+                    <div class="signup-link">
+                        ليس لديك حساب؟ <a href="">انشاء حساب الان</a>
+                    </div>
+                </form>
+
+                <form class="signup" action="#">
+                    <div class="field">
+                        <input class="full-name-singup" type="text" placeholder="الاسم الكامل" required="">
+                        <div class="error error-name hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="email-singup" type="text" placeholder="البريد الالكتروني" required="">
+                        <div class="error error-email hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="password-singup" type="password" placeholder="كلمة المرور" required="">
+                        <div class="error error-password hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="Cpassword-singup" type="password" placeholder="تاكيد كلمة المرور" required="">
+                        <div class="error error-passwordConfirm hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="studentid-singup" type="text" placeholder="رقم الطالب" required="">
+                        <div class="error error-studentid hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="parentphone-singup" type="tel" placeholder="رقم هاتف ولي الأمر" required="">
+                        <div class="error error-parentphone hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input class="dob-singup" type="date" placeholder="تاريخ الميلاد" required="">
+                        <div class="error error-dob hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <select class="referral-singup" required="">
+                            <option value="" disabled selected>كيف وصلت الينا؟</option>
+                            <option value="facebook">فيسبوك</option>
+                            <option value="instagram">انستغرام</option>
+                            <option value="youtube">يوتيوب</option>
+                            <option value="friend">عن طريق طالب زميل</option>
+                        </select>
+                        <div class="error error-referral hidden">
+                            <div class="gg-danger"></div>
+                            <div class="error-message"></div>
+                        </div>
+                    </div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input class="btn-signup" type="submit" value="انشاء حساب">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="wrappeer hidden">
+            <svg class="animated-check" viewBox="0 0 24 24">
+          <path d="M4.1 12.7L9 17.6 20.3 6.3" fill="none"></path>
+        </svg>
+            <div class="created">your account has been created</div>
+        </div>
+        <div class="spinner hidden">
+            <div class="loader"></div>
+        </div>
+    </div>
+</body>
+
+</html>

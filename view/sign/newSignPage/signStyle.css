@@ -211,9 +211,17 @@ input[type="radio"]{
   width: 100%;
 }
 
-/* اعرض نموذج واحد فقط في كل مرة — الجافاسكربت يتحكم في display و .active */
+/* اعرض نموذج واحد فقط في كل مرة، بارتفاعه الطبيعي فقط — بدون مساحة بيضاء زائدة */
 .form-container .form-inner form.signup{
   display: none;
+}
+
+.form-container:has(#signup:checked) .form-inner form.login{
+  display: none;
+}
+
+.form-container:has(#signup:checked) .form-inner form.signup{
+  display: block;
 }
 
 form.login,
@@ -227,11 +235,6 @@ form.signup.active {
   opacity: 1;
 }
 
-/* fallback: لو تعطّل الجافاسكربت تبقى النماذج ظاهرة */
-.no-js form.login,
-.no-js form.signup {
-  opacity: 1;
-}
 
 .form-inner form .field{
   height: 50px;

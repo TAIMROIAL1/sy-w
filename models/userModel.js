@@ -53,6 +53,40 @@ const userSchema =  mongoose.Schema({
   passwordChangedAt: {
     type: Date
   },
+  studentId: {
+  type: String,
+  required: true,
+  validate: {
+    validator: function (v) {
+      return /^09\d{8}$/.test(v); // starts with 09 + 8 more digits = total 10
+    },
+    message: "رقم غير صالح"
+  }
+},
+
+parentPhone: {
+  type: String,
+  required: true,
+  validate: {
+    validator: function (v) {
+      return /^09\d{8}$/.test(v); // same rule as studentId
+    },
+    message: "رقم غير صالح"
+  }
+},
+
+dob: {
+  type: String,
+  required: true
+  // You can store the raw value from <input type="date"> (YYYY-MM-DD)
+},
+
+referral: {
+  type: String,
+  required: true,
+  enum: ["facebook", "instagram", "youtube", "friend"],
+  message: "طريقة غير صالحة"
+},
   role: {
     type: String,
     enum: {

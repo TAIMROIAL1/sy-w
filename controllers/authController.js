@@ -89,11 +89,11 @@ exports.restrictTo = function(...roles) {
 
 
 exports.signup = catchAsync(async function(req, res, next) {  
-    const { name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent } = req.body;
+    const { name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent, studentId, parentPhone, dob, referral } = req.body;
 
     if(!screenWidth || !screenHeight || !userAgent) return next(new AppError('Validation Error: حدث خطأ', 400, 'name'));
 
-    const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent});
+    const user = await User.create({name, email, password, passwordConfirm, screenWidth, screenHeight, userAgent, studentId, parentPhone, dob, referral});
     const token = signToken(user);
 
     const cookieOptions = {
