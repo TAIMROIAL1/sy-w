@@ -96,6 +96,10 @@ app.use(cors({
 app.use('/', checkLink, checkJWT, overallLimiter);
 app.use('/api', checkLink, checkJWT, apiLimiter);
 
+app.get('/my-favicon/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public','my-favicon', req.params.file));
+})
+
 app.get('/xml/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap.xml'))
 })
