@@ -388,11 +388,11 @@ router.get('/form', checkJWT, restrictTo('admin'), catchAsync(async(req, res) =>
 router.get('/admin-users', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
   res.status(200).render('adminUsers');
 }))
-module.exports = router;
 
 router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
   res.status(200).render('code-api');
 }))
 
 
-    
+
+module.exports = router;

@@ -7,6 +7,12 @@ head
   link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
   link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap' rel='stylesheet')
   link(rel='stylesheet' href='/css/courses.css')
+  <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png?v=20260916" sizes="96x96" />
+  <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg?v=20260916" />
+  <link rel="shortcut icon" href="/my-favicon/favicon.ico?v=20260916" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-favicon/apple-touch-icon.png?v=20260916" />
+  <meta name="apple-mobile-web-app-title" content="Studyou" />
+  <link rel="manifest" href="/my-favicon/site.webmanifest?v=20260916" />
 - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
 - const checkCourse = user?.subcourses.includes(course._id.toString());
 body(data-domain=domain, data-course-id=course._id.toString())

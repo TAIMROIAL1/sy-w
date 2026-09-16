@@ -256,9 +256,6 @@ exports.updateCertainPassword = catchAsync(async function(req, res, next) {
 
   const {password, userID} = req.body;
 
-  console.log("userID : " , userID);
-  console.log("password: ", password);
-
   const user = await User.findOne({name: userID});
 
   console.log(user);
@@ -269,7 +266,9 @@ exports.updateCertainPassword = catchAsync(async function(req, res, next) {
   user.password = password;
 
   const err1 = user.validateSync('password');
-  if(err1) throw err1;
+  if(err1) {
+    console.log(err1);
+    throw err1};
  
   await user.save({ validateBeforeSave: false});
 
