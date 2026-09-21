@@ -79,7 +79,7 @@ agreeBtn.addEventListener("click", async (e) => {
 
   if (data.status === "success") {
     atpNum.textContent =
-      Number(atpNum.textContent) - Number(price.dataset.price);
+      Number(atpNum.textContent) - parseInt(price.textContent);
 
       courseBtn.classList.remove('subscribe-btn');
       courseBtn.classList.add('enter-course-btn');

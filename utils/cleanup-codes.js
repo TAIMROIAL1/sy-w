@@ -1,32 +1,30 @@
 // cleanup-codes.js
 const mongoose = require('mongoose');
-// const Code = require('../models/codeModel');
+const Code = require('../models/codeModel');
 const Workshop = require('../models/workshopsModel');
 const dotenv = require('dotenv');
 dotenv.config({path: '../config.env'});
 
-console.log(process.env.DATABASE_CONNECT_LINK);
-
 mongoose.connect(process.env.DATABASE_CONNECT_LINK, {}).then(async () => {
     console.log('DB connected successfully');
     try {
-        // const result = await Code.deleteMany();
-        // console.log(`Deleted ${result.deletedCount} codes.`);
-        const result = await Workshop.insertMany([{
-            title: "ورشة العصبية",
-            chapter: 'First-Chapter',
-            description: "ورشة العصبية لكل الأبحاث",
-            value: 100,
-            active: true,
-            photoUrl: 'neurologyWorkshop.webp'
-        },{
-            title: "ورشة الهرمونات",
-            chapter: 'First-Chapter',
-            description: "ورشة الهرمونات لكل الأبحاث",
-            value: 100,
-            active: false,
-            photoUrl: 'hormonesWorkshop.webp'
-        }]);
+        const result = await Code.deleteMany();
+        console.log(`Deleted ${result.deletedCount} codes.`);
+        // const result = await Workshop.insertMany([{
+        //     title: "ورشة العصبية",
+        //     chapter: 'First-Chapter',
+        //     description: "ورشة العصبية لكل الأبحاث",
+        //     value: 100,
+        //     active: true,
+        //     photoUrl: 'neurologyWorkshop.webp'
+        // },{
+        //     title: "ورشة الهرمونات",
+        //     chapter: 'First-Chapter',
+        //     description: "ورشة الهرمونات لكل الأبحاث",
+        //     value: 100,
+        //     active: false,
+        //     photoUrl: 'hormonesWorkshop.webp'
+        // }]);
 
         //////////////////////////////////////////
 

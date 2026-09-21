@@ -212,7 +212,8 @@ agreeBtn.addEventListener('click', async (e) => {
   const buyBtn = boughtCourseContainer.querySelector('.course-btn');
   
   if(data.status === 'success') {  
-    atpNum.textContent = Number(atpNum.textContent) - Number(price.dataset.price);
+    atpNum.textContent = Number(atpNum.textContent) - parseInt(price.textContent);
+
 
     price.remove();
     buyBtn.remove();
