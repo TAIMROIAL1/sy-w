@@ -1054,6 +1054,39 @@ body {
     }
 }
 
+.upload-btn{
+    background-color: var(--accent);
+    padding: 10px;
+    text-align: center;
+    font-size: 13px;
+    position: absolute;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    flex-wrap: wrap;
+    cursor: pointer;
+    bottom: 1px;
+    user-select: none;
+}
+
+.upload-btn:hover {
+    opacity: 0.8;
+}
+
+.upload-btn:active {
+    opacity: 0.6;
+}
+
+.lesson-upload-btn {
+    left: calc(50% - 50px - 2.5px);;
+}
+
+.res-upload-btn {
+    left: calc(50% + 2.5px);
+}
 /* =========================================
    END OF FILE
 ========================================= */

@@ -77,13 +77,13 @@ exports.editLesson = catchAsync(async function(req, res, next) {
 
 // TODO test
 exports.addVideo = catchAsync(async function(req, res, next) {
-  const { title, info, videoUrl, duration} = req.body;
+  const { title, subTitle, info, videoUrl, duration} = req.body;
   const { lessonId } = req.params;
 
-  const lesson = await Lesson.findById(lessonId)
+  const lesson = await Lesson.findOne({num: lessonId});
   if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
 
-  lesson.videos.push({title, info, videoUrl, duration});
+  lesson.videos.push({fileType: "video", title, subtitle: subTitle, info, videoUrl, duration, date: new Date(), num: lessons.videos.length - 1});
   await lesson.save({validateBeforeSave: false})
 
   res.status(201).json({

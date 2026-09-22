@@ -815,6 +815,30 @@ res = [...document.querySelectorAll('.lesson-resource')].find(res => res.classLi
 }
 
 moveToRes(res);
+
+if(document.body.dataset.isAdmin == 'admin') {
+  const lessonUpload = document.createElement('div');
+  const resUpload = document.createElement('div');
+  
+  lessonUpload.classList.add('upload-btn');
+  resUpload.classList.add('upload-btn');
+  
+  lessonUpload.classList.add('lesson-upload-btn');
+  resUpload.classList.add('res-upload-btn');
+
+  lessonUpload.textContent = "درس جديد";
+  resUpload.textContent = "ملف جديد";
+
+  document.body.insertAdjacentElement('beforeend',  lessonUpload);
+  document.body.insertAdjacentElement('beforeend',  resUpload);
+
+  [...document.querySelectorAll('.upload-btn')].forEach(btn => {
+    btn.addEventListener('click', function() {
+      const dest = this.classList.contains('lesson-upload-btn') ? `subcourses/${location.href.split('/')[4]}/upload-lesson` : `lessons/${[...document.querySelectorAll('.lesson')].find(les => les.classList.contains('active')).dataset.num}/upload-video`;
+      location.assign(`${domain}/${dest}`);
+    })
+  })
+}
 }
 
 async function moveToRes(res) {

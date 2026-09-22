@@ -145,3 +145,13 @@ label {
 .hidden {
   display: none;
 }
+
+.file-type-btns-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.file-type-btns-container button {
+
+}

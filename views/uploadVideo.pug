@@ -16,9 +16,15 @@ html(lang='ar')
         .upload-class ارفع فيديو
       .container
         .form
+          .file-type.btns-container
+            button.file-type-btn.video-res فيديو
+            button.file-type-btn.quiz-res اختبار
           .label-input
             label(for='video-name', dir='rtl', lang='ar') عنوان الفيديو
           input#video-name.input(type='text')
+          .label-input
+            label(for='video-sub-name', dir='rtl', lang='ar') عنوان فرعي الفيديو
+          input#video-sub-name.input(type='text')
           .label-input
             label(for='video-url', dir='rtl', lang='ar') رابط الفيديو
           input#video-url.input(type='text', dir='rtl', lang='en')

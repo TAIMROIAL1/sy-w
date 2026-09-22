@@ -1,4 +1,5 @@
 const nameInput = document.getElementById('video-name');
+const subNameInput = document.getElementById('video-sub-name')
 const videoUrlInput = document.getElementById('video-url');
 const infoInput = document.getElementById('info');
 const durationInput = document.getElementById('duration');
@@ -30,18 +31,19 @@ const showNotification = function(msg, type) {
 
 uploadBtn.addEventListener('click', async (e) => {
     const title = nameInput.value;
+    const subTitle = subNameInput.value;
     const videoUrl = videoUrlInput.value;
     const info = infoInput.value;
     const duration = durationInput.value;
     
-    if(!title || !info || !videoUrl || !duration) return;
+    if(!title || !info || !videoUrl || !duration || !subTitle) return;
     const lessonId = location.href.split('/')[4]
     const res = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({title, info, videoUrl, duration})
+        body: JSON.stringify({title, subTitle, info, videoUrl, duration})
     })
 
     const data = await res.json();

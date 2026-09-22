@@ -18,7 +18,8 @@ html(lang="ar" dir="rtl")
   - const achievedLesson = courseProgress.achievedVideos.lessonNum;
   - const achievedRes = courseProgress.achievedVideos.videoNumber;
   - const toRes = resNum && lessonNum && (lessonNum < achievedLesson || (lessonNum == achievedLesson && resNum < achievedRes))? true: false;
-  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson data-to-res= toRes? '1':null)
+  - const isAdmin = user.role == "admin";
+  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson data-to-res= toRes? '1':null, data-is-admin= isAdmin? "admin" : null)
     // ================= NAVBAR =================
     header.navbar
       .logo
@@ -170,8 +171,8 @@ html(lang="ar" dir="rtl")
           .video-details-card
             .video-header-info
               div
-                span.badge.video-badge الدرس الثاني
-                h1.video-title المحاضرة الثانية
+                span.badge.video-badge
+                h1.video-title
               
               button.btn.btn-success.hidden
                 i.fa-solid.fa-check
@@ -180,15 +181,12 @@ html(lang="ar" dir="rtl")
             .video-meta
               span.duration-container
                 i.fa-regular.fa-clock
-                | 20:23 دقيقة
               span
                 i.fa-solid.fa-book
-                | الوحدة الأولى
 
             hr.divider
 
             p.video-description
-              | في هذه المحاضرة سنتعرف على الجهاز العصبي
             .navigation-buttons
               button.btn.btn-secondary#prevLesson(class=[achievedLesson == 1 && achievedRes == 0 ? "hidden": ""])
                 i.fa-solid.fa-arrow-right
