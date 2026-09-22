@@ -83,7 +83,7 @@ exports.addVideo = catchAsync(async function(req, res, next) {
   const lesson = await Lesson.findOne({num: lessonId});
   if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
 
-  lesson.videos.push({fileType: "video", title, subtitle: subTitle, info, videoUrl, duration, date: new Date(), num: lessons.videos.length - 1});
+  lesson.videos.push({fileType: "video", title, subtitle: subTitle, info, videoUrl, duration, date: new Date(), num: lesson.videos.length - 1});
   await lesson.save({validateBeforeSave: false})
 
   res.status(201).json({
