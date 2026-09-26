@@ -834,7 +834,8 @@ if(document.body.dataset.isAdmin == 'admin') {
 
   [...document.querySelectorAll('.upload-btn')].forEach(btn => {
     btn.addEventListener('click', function() {
-      const dest = this.classList.contains('lesson-upload-btn') ? `subcourses/${location.href.split('/')[4]}/upload-lesson` : `lessons/${[...document.querySelectorAll('.lesson')].find(les => les.classList.contains('active')).dataset.num}/upload-video`;
+      const lessonNum = [...document.querySelectorAll('.lesson')].find(les => les.classList.contains('open')).dataset.num
+      const dest = this.classList.contains('lesson-upload-btn') ? `subcourses/${location.href.split('/')[4]}/upload-lesson` : `lessons/${location.href.split('/')[4]}/upload-video/${lessonNum}`;
       location.assign(`${domain}/${dest}`);
     })
   })

@@ -146,79 +146,12 @@ label {
   display: none;
 }
 
-.file-type-btns-container,
-.file-type.btns-container {
+.file-type-btns-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  gap: 10px;
-  margin-top: 10px;
 }
 
-.file-type-btn {
-  width: 100px;
-  height: 30px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  background-color: var(--white);
-  box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5);
-}
+.file-type-btns-container button {
 
-.file-type-btn.active {
-  background-color: var(--yalo);
-}
-
-/* ---------------------------------- quiz --------------------------------- */
-
-.question {
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 15px;
-  background-color: rgba(240, 245, 244, 0.25);
-}
-
-.question-header {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.question-number {
-  font-weight: bold;
-}
-
-.remove-question-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  line-height: 1;
-  background-color: rgb(233, 49, 3);
-  color: var(--white);
-}
-
-.add-question-btn {
-  width: 120px;
-  height: 30px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  background-color: var(--yalo);
-  box-shadow: 2px 1px 3px rgba(143, 142, 142, 0.5);
-}
-
-.question .input,
-.question label {
-  width: auto;
-}
-
-.question .input {
-  width: 230px;
-}
-
-.correct-answer {
-  text-align: end;
 }

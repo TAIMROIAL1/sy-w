@@ -24,11 +24,11 @@ exports.getlessons = catchAsync(async function(req, res, next) {
 });
 
 exports.createLesson = catchAsync(async function(req, res, next) {
-  const { title, num, photoUrl } = req.body;
+  const { title, subTitle, lessonNum } = req.body;
   const { subcourseId } = req.params;
   if(!(await Subcourse.findById(subcourseId))) return next(new AppError('هذا الكورس غير موجود', 400));
 
-  const lesson = await Lesson.create({title, num, photoUrl, subcourse: subcourseId});
+  await Lesson.create({title, subtitle: subTitle, num: lessonNum, subcourse: subcourseId, videos: []});
 
   res.status(201).json({
     status: "success",
@@ -77,13 +77,31 @@ exports.editLesson = catchAsync(async function(req, res, next) {
 
 // TODO test
 exports.addVideo = catchAsync(async function(req, res, next) {
-  const { title, subTitle, info, videoUrl, duration} = req.body;
-  const { lessonId } = req.params;
+  const { lessonNum, subcourseId } = req.params;
 
-  const lesson = await Lesson.findOne({num: lessonId});
+  const lesson = await Lesson.findOne({num: lessonNum, subcourse: subcourseId});
+
   if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
 
-  lesson.videos.push({fileType: "video", title, subtitle: subTitle, info, videoUrl, duration, date: new Date(), num: lesson.videos.length - 1});
+  const {fileType} = req.body;
+
+  if(fileType === "video") {
+    const { title, subTitle, info, videoUrl, duration} = req.body;
+    lesson.videos.push({fileType, title, subtitle: subTitle, info, videoUrl, duration, date: new Date(), num: lesson.videos.length - 1});
+  }
+  else if(fileType === 'quiz') {
+    const {title, questionsData} = req.body;
+    console.log(questionsData);
+    const fullQuestions = await Question.create(questionsData);
+    let questions;
+    if(fullQuestions.length) {
+      questions = fullQuestions.map(qu => qu._id);
+    }
+    else
+      questions = [fullQuestions._id];
+
+    lesson.videos.push({fileType, title, questions, date: new Date(), num: lesson.videos.length - 1});
+  }
   await lesson.save({validateBeforeSave: false})
 
   res.status(201).json({

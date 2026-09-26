@@ -17,23 +17,60 @@ html(lang='ar')
       .container
         .form
           .file-type.btns-container
-            button.file-type-btn.video-res فيديو
-            button.file-type-btn.quiz-res اختبار
-          .label-input
-            label(for='video-name', dir='rtl', lang='ar') عنوان الفيديو
-          input#video-name.input(type='text')
-          .label-input
-            label(for='video-sub-name', dir='rtl', lang='ar') عنوان فرعي الفيديو
-          input#video-sub-name.input(type='text')
-          .label-input
-            label(for='video-url', dir='rtl', lang='ar') رابط الفيديو
-          input#video-url.input(type='text', dir='rtl', lang='en')
-          .label-input
-            label(for='info', dir='rtl', lang='ar') معلومات الفيديو
-          input#info.input(type='text', dir='rtl', lang='en')
-          .label-input
-            label(for='duration', dir='rtl', lang='ar') مدة الفيديو
-          input#duration.input(type='text', dir='rtl', lang='en')
+            button.file-type-btn.video-res.active(type='button') فيديو
+            button.file-type-btn.quiz-res(type='button') اختبار
+
+          .video-fields
+            .label-input
+              label(for='video-name', dir='rtl', lang='ar') عنوان الفيديو
+            input#video-name.input(type='text')
+            .label-input
+              label(for='video-sub-name', dir='rtl', lang='ar') عنوان فرعي الفيديو
+            input#video-sub-name.input(type='text')
+            .label-input
+              label(for='video-url', dir='rtl', lang='ar') رابط الفيديو
+            input#video-url.input(type='text', dir='rtl', lang='en')
+            .label-input
+              label(for='info', dir='rtl', lang='ar') معلومات الفيديو
+            input#info.input(type='text', dir='rtl', lang='en')
+            .label-input
+              label(for='duration', dir='rtl', lang='ar') مدة الفيديو
+            input#duration.input(type='text', dir='rtl', lang='en')
+
+          .quiz-fields.hidden
+            .label-input
+              label(for='quiz-name', dir='rtl', lang='ar') عنوان الاختبار
+            input#quiz-name.input(type='text')
+            .questions
+            .btn
+              button.add-question-btn(type='button', dir='rtl', lang='ar') أضف سؤال
+
         .btn
           button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
+
+    //- template used by the JS to build one question block
+    template#question-template
+      .question(dir='rtl')
+        .question-header
+          span.question-number السؤال
+          button.remove-question-btn(type='button') &times;
+        .label-input
+          label(dir='rtl', lang='ar') نص السؤال
+        input.input.question-text(type='text', dir='rtl', lang='ar')
+        .label-input
+          label(dir='rtl', lang='ar') الإجابة 1
+        input.input.answer-input(type='text', dir='rtl', lang='ar')
+        .label-input
+          label(dir='rtl', lang='ar') الإجابة 2
+        input.input.answer-input(type='text', dir='rtl', lang='ar')
+        .label-input
+          label(dir='rtl', lang='ar') الإجابة 3
+        input.input.answer-input(type='text', dir='rtl', lang='ar')
+        .label-input
+          label(dir='rtl', lang='ar') الإجابة 4
+        input.input.answer-input(type='text', dir='rtl', lang='ar')
+        .label-input
+          label(dir='rtl', lang='ar') الإجابة الصحيحة (1-4)
+        input.input.correct-answer(type='number', min='1', max='4', dir='rtl', lang='en')
+
     script(defer, src='/js/uploadVideo.js')

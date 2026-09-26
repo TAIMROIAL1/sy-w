@@ -7,10 +7,10 @@ html(lang='ar')
     link(rel='stylesheet', href='/css/uploadLesson.css')
     title Document
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`)
+  body(data-domain = `${domain}`, data-lesson-num=lessonNum)
     .c
       .correct.hidden
-        .correct-message you buy it 
+        .correct-message
     .center
       .header
         .upload-class ارفع درس
@@ -20,8 +20,8 @@ html(lang='ar')
             label(for='lesson-name', dir='rtl', lang='ar') عنوان الدرس
           input#lesson-name.input(type='text')
           .label-input
-            label(for='image', dir='rtl', lang='ar') صورة الدرس
-          input#image.input(type='text')
+            label(for='capital-name', dir='rtl', lang='ar') عنوان الوحدة
+          input#capital-name.input(type='text')
           .label-input
             label(for='num', dir='rtl', lang='ar') رقم الدرس
           input#num.input(type='number', dir='rtl', lang='en')

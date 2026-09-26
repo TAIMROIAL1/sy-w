@@ -5,7 +5,7 @@ const { addVideo, editVideo, deleteVideo } = require('./../controllers/lessonCon
 
 const router = express.Router({mergeParams: true});
 
-router.post('/', checkJWT, restrictTo('admin'), addVideo);
+router.post('/:lessonNum', checkJWT, restrictTo('admin'), addVideo);
 
 router.post('/:videoId/edit-video', checkJWT, restrictTo('admin'), editVideo);
 

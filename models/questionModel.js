@@ -9,10 +9,6 @@ const questionSchema = new mongoose.Schema({
   }],
   correctAnswer: {
     type: Number
-  },
-  video: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Video'
   }
 })
 

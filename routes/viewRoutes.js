@@ -322,7 +322,7 @@ router.get('/subcourses/:subcourseId/edit-lesson/:lessonId', checkJWT, restrictT
   })
 }))
 
-router.get('/lessons/:lessonId/upload-video', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
+router.get('/lessons/:lessonId/upload-video/:lessonNum', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
   res.status(200).render('uploadVideo');
 }))
 

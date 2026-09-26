@@ -12,16 +12,9 @@ const lessonSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please enter a number']
   },
-  photoUrl: {
-    type: String
-  },
   subcourse: {
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
-  },
-  workshop: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Workshop'
   },
   videos: [{
     fileType: {

@@ -155,7 +155,7 @@ app.use('/api/v1/classes', classRouter);
 app.use('/api/v1/classes/:classId/courses', courseRouter);
 app.use('/api/v1/courses/:courseId/subcourses', subcourseRouter);
 app.use('/api/v1/subcourses/:subcourseId/lessons', lessonRouter);
-app.use('/api/v1/lessons/:lessonId/videos', videoRouter);
+app.use('/api/v1/lessons/:subcourseId/videos', videoRouter);
 app.use('/api/v1/questions', questionRouter);
 app.use('/api/v1/codes', codeRouter);
 app.use('/api/v1/workshops', workshopRouter);

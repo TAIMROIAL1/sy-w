@@ -1,5 +1,5 @@
 const nameInput = document.getElementById('lesson-name');
-const photoUrlInput = document.getElementById('image');
+const capitalNameInput = document.getElementById('capital-name');
 const numberInput = document.getElementById('num');
 const uploadBtn = document.querySelector('.btn-sub');
 const domain = document.body.dataset.domain;
@@ -28,9 +28,9 @@ const showNotification = function(msg, type) {
 
 uploadBtn.addEventListener('click', async (e) => {
     const title = nameInput.value;
-    const photoUrl = photoUrlInput.value;
+    const capitalName = capitalNameInput.value;
     const num = numberInput.value;
-    if(!title || !photoUrl || !num) return;
+    if(!title || !capitalName || !num) return;
      const hrefParts = location.href.split("/");
      let res;
      if(hrefParts[3] === 'subcourses'){
@@ -40,7 +40,7 @@ uploadBtn.addEventListener('click', async (e) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({title, photoUrl, num, subcourse: subcourseId})
+        body: JSON.stringify({title, subTitle: capitalName, lessonNum: num})
     })
 }
 

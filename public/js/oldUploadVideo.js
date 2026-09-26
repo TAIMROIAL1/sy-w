@@ -1,0 +1,75 @@
+const videoNameInput1 = document.getElementById('video-name');
+const subNameInput = document.getElementById('video-sub-name')
+const videoUrlInput = document.getElementById('video-url');
+const infoInput = document.getElementById('info');
+const durationInput = document.getElementById('duration');
+const uploadBtn = document.querySelector('.btn-sub');
+
+const quizNameInput = document.getElementById('quiz-name');
+const fileTypeBtns = [...document.querySelectorAll('.file-type-btn')];
+
+// The notifcation message
+const notifcation = document.querySelector('.correct');
+const notifcationMsg = document.querySelector('.correct-message')
+
+const domain = document.body.dataset.domain;
+
+const showNotification = function(msg, type) {
+  notifcation.classList.toggle('hidden');
+
+  notifcation.classList.remove('green');
+  notifcation.classList.remove('red');
+
+  if(type === 'success')
+    notifcation.classList.add('green');
+  else
+    notifcation.classList.add('red');
+
+  notifcationMsg.textContent = msg;
+  setTimeout(() => {
+      notifcation.classList.toggle('hidden');
+  }, 5000)
+}
+
+
+uploadBtn.addEventListener('click', async (e) => {
+    const title = videoNameInput.value;
+    const subTitle = subNameInput.value;
+    const videoUrl = videoUrlInput.value;
+    const info = infoInput.value;
+    const duration = durationInput.value;
+    
+    if(!title || !info || !videoUrl || !duration || !subTitle) return;
+    const lessonId = location.href.split('/')[6]
+    const res = await fetch(`${domain}/api/v1/lessons/${lessonId}/videos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({title, subTitle, info, videoUrl, duration})
+    })
+
+    const data = await res.json();
+
+    showNotification(data.message, data.status);
+  })
+
+fileTypeBtns.forEach(btn => btn.addEventListener('click', function() {
+  if(this.classList.contains('active')) return;
+
+  fileTypeBtns.forEach(b => b.classList.remove('active'));
+  this.classList.add('active');
+
+ 
+    toggleHidden(videoNameInput1);
+    toggleHidden(subNameInput);
+    toggleHidden(videoUrlInput);
+    toggleHidden(infoInput)
+    toggleHidden(durationInput);
+    toggleHidden(quizNameInput); 
+}))
+
+function toggleHidden(el) {
+  el.classList.toggle('hidden');
+  el.previousElementSibling.classList.toggle('hidden');
+}
