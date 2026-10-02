@@ -6,25 +6,19 @@
     --primary: #6c5ce7;
     --primary-hover: #5b4bc4;
     --primary-light: #f0edff;
-
     --green: #10b981;
     --green-light: #d1fae5;
-
     --red: #ef4444;
     --red-light: #fee2e2;
-
     --dark: #1e293b;
     --text: #475569;
     --muted: #64748b;
-
     --background: #f8fafc;
     --white: #ffffff;
     --border: #e2e8f0;
-
     --radius: 16px;
     --radius-lg: 20px;
     --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
-
     /* unified system */
     --bg: var(--background);
     --card-bg: var(--white);
@@ -32,23 +26,26 @@
     --video-bg: #0f172a;
 }
 
+
 /* DARK MODE */
+
 .page-dark-mode {
     --bg: #1e1e1e;
     --text: #f5f5f5;
     --card-bg: #2a2a2a;
     --border: #3a3a3a;
     --accent: #6a4bc4;
-    --shadow: rgba(0,0,0,.45);
+    --shadow: rgba(0, 0, 0, .45);
     --video-bg: #0f172a;
 }
+
 
 /* =========================================
    RESET
 ========================================= */
 
 .lesson-resource.active .fa-chevron-left {
-color: var(--accent);
+    color: var(--accent);
 }
 
 * {
@@ -68,6 +65,8 @@ body {
 .hidden {
     display: none !important;
 }
+
+
 /* =========================================
    NAVBAR
 ========================================= */
@@ -145,56 +144,58 @@ body {
     cursor: pointer;
 }
 
+
 /* =========================================
    DARK MODE TOGGLE
 ========================================= */
 
 .toggle {
-  position: relative;
-  width: 60px;
-  height: 32px;
-  display: inline-block;
-  margin-inline-start: 10px;
+    position: relative;
+    width: 60px;
+    height: 32px;
+    display: inline-block;
+    margin-inline-start: 10px;
 }
 
 .toggle input {
-  display: none;
+    display: none;
 }
 
 .slider {
-  position: absolute;
-  inset: 0;
-  background: #cfcfcf;
-  border-radius: 32px;
-  cursor: pointer;
-  transition: 0.3s ease;
+    position: absolute;
+    inset: 0;
+    background: #cfcfcf;
+    border-radius: 32px;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .slider::before {
-  content: "☀️";
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: white;
-  top: 2px;
-  right: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  transition: 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    content: "☀️";
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    right: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    transition: 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.toggle input:checked + .slider {
-  background: var(--accent);
+.toggle input:checked+.slider {
+    background: var(--accent);
 }
 
-.toggle input:checked + .slider::before {
-  transform: translateX(-28px);
-  content: "🌙";
+.toggle input:checked+.slider::before {
+    transform: translateX(-28px);
+    content: "🌙";
 }
+
 
 /* =========================================
    MAIN
@@ -218,6 +219,7 @@ body {
 .content-area {
     min-width: 0;
 }
+
 
 /* =========================================
    SIDEBAR
@@ -254,6 +256,7 @@ body {
     font-size: 21px;
     color: var(--text);
 }
+
 .close-sidebar {
     display: none;
     border: none;
@@ -263,6 +266,7 @@ body {
     height: 36px;
     border-radius: 9px;
 }
+
 
 /* =========================================
    COURSE PROGRESS
@@ -307,6 +311,7 @@ body {
     color: var(--muted);
     font-size: 11px;
 }
+
 
 /* =========================================
    LESSONS
@@ -380,6 +385,7 @@ body {
 .lesson.open .arrow {
     transform: rotate(180deg);
 }
+
 
 /* =========================================
    RESOURCES
@@ -494,6 +500,7 @@ body {
     color: var(--green);
 }
 
+
 /* =========================================
    VIDEO
 ========================================= */
@@ -526,6 +533,7 @@ body {
     justify-content: center;
     font-size: 25px;
 }
+
 
 /* =========================================
    VIDEO DETAILS
@@ -587,6 +595,8 @@ body {
     display: flex;
     justify-content: space-between;
 }
+
+
 /* =========================================
    BUTTONS
 ========================================= */
@@ -623,6 +633,7 @@ body {
     color: var(--text);
 }
 
+
 /* =========================================
    PAGE VIEWS
 ========================================= */
@@ -634,6 +645,7 @@ body {
 .active-view {
     display: block;
 }
+
 
 /* =========================================
    QUIZ
@@ -676,6 +688,7 @@ body {
     font-size: 13px;
 }
 
+
 /* Quiz progress */
 
 .quiz-progress {
@@ -694,6 +707,7 @@ body {
     transition: .3s;
 }
 
+
 /* Question */
 
 .question-label {
@@ -710,6 +724,7 @@ body {
     margin: 15px 0 25px;
     color: var(--text);
 }
+
 
 /* Options */
 
@@ -771,6 +786,7 @@ body {
     justify-content: space-between;
 }
 
+
 /* =========================================
    LOADER
 ========================================= */
@@ -820,6 +836,7 @@ body {
     color: var(--muted);
     margin-top: 8px;
 }
+
 
 /* =========================================
    RESULT
@@ -931,6 +948,7 @@ body {
     gap: 12px;
 }
 
+
 /* =========================================
    MOBILE SIDEBAR
 ========================================= */
@@ -946,6 +964,8 @@ body {
 .sidebar-overlay.active {
     display: block;
 }
+
+
 /* =========================================
    TABLET
 ========================================= */
@@ -957,6 +977,7 @@ body {
         padding: 18px;
     }
 }
+
 
 /* =========================================
    MOBILE
@@ -1014,6 +1035,7 @@ body {
     }
 }
 
+
 /* =========================================
    SMALL MOBILE
 ========================================= */
@@ -1054,7 +1076,7 @@ body {
     }
 }
 
-.upload-btn{
+.upload-btn {
     background-color: var(--accent);
     padding: 10px;
     text-align: center;
@@ -1081,12 +1103,338 @@ body {
 }
 
 .lesson-upload-btn {
-    left: calc(50% - 50px - 2.5px);;
+    left: calc(50% - 50px - 2.5px);
+    ;
 }
 
 .res-upload-btn {
     left: calc(50% + 2.5px);
 }
+
+
 /* =========================================
    END OF FILE
 ========================================= */
+
+
+/* =========================================
+   VIDEO TABS + NOTES
+========================================= */
+
+.video-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.video-tab-btn {
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    padding: 11px 18px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: .2s;
+}
+
+.video-tab-btn:hover {
+    color: var(--accent);
+}
+
+.video-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.video-tab-panel {
+    display: none;
+}
+
+.video-tab-panel.active {
+    display: block;
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.notes-title {
+    font-size: 16px;
+    color: var(--text);
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.note-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.note-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.note-text {
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.note-date {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.note-delete {
+    border: 0;
+    background: var(--red-light);
+    color: var(--red);
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.note-delete:hover {
+    opacity: .8;
+}
+
+.notes-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 25px 0;
+    font-size: 14px;
+}
+
+
+/* ---------- Modal ---------- */
+
+.note-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .55);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.note-modal-overlay.active {
+    display: flex;
+}
+
+.note-modal {
+    width: 100%;
+    max-width: 480px;
+    background: var(--card-bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .25);
+    animation: noteModalIn .2s ease;
+}
+
+@keyframes noteModalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.note-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.note-modal-header h3 {
+    font-size: 18px;
+    color: var(--text);
+}
+
+.note-modal-close {
+    border: 0;
+    background: var(--bg);
+    color: var(--text);
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.note-textarea {
+    width: 100%;
+    min-height: 130px;
+    resize: vertical;
+    background: var(--bg);
+    color: var(--text);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+    outline: none;
+    transition: .2s;
+}
+
+.note-textarea:focus {
+    border-color: var(--accent);
+}
+
+.note-modal-footer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.note-modal-footer .btn-secondary {
+    border: 1px solid var(--border);
+}
+
+@media (max-width: 576px) {
+    .notes-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .video-tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 11px 8px;
+    }
+    .note-modal-footer {
+        flex-direction: column-reverse;
+    }
+    .note-modal-footer .btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   SAVE VIDEO BUTTON
+========================================= */
+
+.video-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.video-title-row .video-title {
+    margin-top: 0;
+}
+
+.save-video-btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: color .25s, background .25s, border-color .25s, transform .15s;
+}
+
+.save-video-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.save-video-btn:active {
+    transform: scale(.92);
+}
+
+.save-video-btn.saved {
+    color: var(--accent);
+    background: var(--primary-light);
+    border-color: var(--accent);
+}
+
+
+/* حركة الحفظ */
+
+.save-video-btn.pop i {
+    animation: saveBounce .5s cubic-bezier(.36, 1.6, .5, 1);
+}
+
+.save-video-btn.pop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+    animation: saveRing .5s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes saveBounce {
+    0% {
+        transform: scale(1) rotate(0);
+    }
+    40% {
+        transform: scale(1.5) rotate(-12deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+@keyframes saveRing {
+    from {
+        opacity: .8;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(1.6);
+    }
+}
+
+@media (max-width: 576px) {
+    .save-video-btn {
+        width: 36px;
+        height: 36px;
+    }
+}

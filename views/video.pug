@@ -172,7 +172,10 @@ html(lang="ar" dir="rtl")
             .video-header-info
               div
                 span.badge.video-badge
-                h1.video-title
+                .video-title-row
+                  h1.video-title
+                  button.save-video-btn#saveVideoBtn(type="button" title="حفظ الفيديو" aria-pressed="false")
+                    i.fa-solid.fa-bookmark
               
               button.btn.btn-success.hidden
                 i.fa-solid.fa-check
@@ -184,7 +187,31 @@ html(lang="ar" dir="rtl")
               span
                 i.fa-solid.fa-book
 
-            hr.divider
+                        hr.divider
+
+            //- ===== التبويبات =====
+            .video-tabs
+              button.video-tab-btn.active(type="button" data-tab="tabExplanation")
+                i.fa-solid.fa-circle-info
+                | الشرح
+              button.video-tab-btn(type="button" data-tab="tabNotes")
+                i.fa-solid.fa-note-sticky
+                | ملاحظاتي
+
+            #tabExplanation.video-tab-panel.active
+              p.video-description
+
+            #tabNotes.video-tab-panel
+              .notes-header
+                h3.notes-title ملاحظاتي على هذا الفيديو
+                button.btn.btn-primary#addNoteBtn(type="button")
+                  i.fa-solid.fa-plus
+                  | إضافة ملاحظة
+              .notes-list#notesList
+              p.notes-empty#notesEmpty لا توجد ملاحظات بعد، أضف أول ملاحظة لك.
+
+            .navigation-buttons
+              //- (باقي الأزرار كما هي بدون تغيير)
 
             p.video-description
             .navigation-buttons
@@ -278,6 +305,19 @@ html(lang="ar" dir="rtl")
                 i.fa-solid.fa-arrow-right
 
     // Overlay
+        // ================= NOTE MODAL =================
+    .note-modal-overlay#noteModal
+      .note-modal
+        .note-modal-header
+          h3 إضافة ملاحظة
+          button.note-modal-close#noteModalClose(type="button")
+            i.fa-solid.fa-xmark
+        textarea.note-textarea#noteText(rows="5" placeholder="اكتب ملاحظتك هنا...")
+        .note-modal-footer
+          button.btn.btn-primary#saveNote(type="button") حفظ
+          button.btn.btn-secondary#cancelNote(type="button") إلغاء
     .sidebar-overlay#sidebarOverlay
 
-    script(src="/js/video.js")                
+    script(src="/js/video.js")        
+    script(src="/js/notes.js")        
+    

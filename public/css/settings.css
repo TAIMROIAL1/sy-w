@@ -48,7 +48,12 @@ ul {
     direction: rtl;
 }
 
-body, .card, .topbar, .sidebar, .info-icon, .course-image {
+body,
+.card,
+.topbar,
+.sidebar,
+.info-icon,
+.course-image {
     transition: background .25s ease, color .25s ease, border-color .25s ease;
 }
 
@@ -65,9 +70,9 @@ h2 {
     justify-content: center;
     align-items: center;
     z-index: 101;
-  }
-  
-  .logout-container {
+}
+
+.logout-container {
     border-radius: 20px;
     width: 300px;
     height: 300px;
@@ -76,37 +81,39 @@ h2 {
     display: flex;
     align-items: center;
     flex-direction: column;
-  }
-  
-  .logout-par {
+}
+
+.logout-par {
     text-align: center;
     margin-top: 50px;
     font-size: 2rem;
-  }
-  
-  .logout-btns-container {
+}
+
+.logout-btns-container {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-  }
-  
-  .logout-btn {
+}
+
+.logout-btn {
     border-radius: 5px;
     padding: 6px;
     background: var(--yalo);
     font-size: 2rem;
     cursor: pointer;
-  }
+}
 
-  .enter-course-btn{ 
+.enter-course-btn {
     cursor: pointer;
-  }
-  .enter-course-btn:hover {
+}
+
+.enter-course-btn:hover {
     opacity: 0.8;
-  }
-.notifi{
-    border-radius:10px ;
+}
+
+.notifi {
+    border-radius: 10px;
     position: fixed;
     top: -125px;
     left: 50%;
@@ -114,41 +121,42 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-  
     width: 200px;
     height: 125px;
     z-index: 100;
-    animation: message 1s ease-out , message-return 1s ease-out 3s  ;
+    animation: message 1s ease-out, message-return 1s ease-out 3s;
     animation-fill-mode: forwards;
-   }
+}
 
-   .notifi-message{
+.notifi-message {
     color: black;
     text-align: center;
     width: 95%;
-   }
- 
-   @keyframes message{
-    from{
-  top:-150px;
-    }
-    to{
-  top:15px;
-    }
-  }
-  @keyframes message-return{
-    from{
-  top:15px;
-    }
-    to{
-  top:-150px;
-    }
-  }
+}
 
-.red{
+@keyframes message {
+    from {
+        top: -150px;
+    }
+    to {
+        top: 15px;
+    }
+}
+
+@keyframes message-return {
+    from {
+        top: 15px;
+    }
+    to {
+        top: -150px;
+    }
+}
+
+.red {
     background-color: rgb(233, 49, 3);
 }
-.green{
+
+.green {
     background-color: #42fa9e;
 }
 
@@ -172,13 +180,14 @@ h2 {
     --card-bg: #2a2a2a;
     --accent: #6a4bc4;
     --green: var(--accent);
-    --shadow: rgba(0,0,0,.45);
+    --shadow: rgba(0, 0, 0, .45);
 }
 
 
 /* ============================
    Toggle Switch with Sun/Moon
 ============================ */
+
 .toggle {
     position: relative;
     width: 60px;
@@ -213,14 +222,14 @@ h2 {
     justify-content: center;
     font-size: 15px;
     transition: .3s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
 }
 
-.toggle input:checked + .slider {
+.toggle input:checked+.slider {
     background: var(--accent);
 }
 
-.toggle input:checked + .slider::before {
+.toggle input:checked+.slider::before {
     transform: translateX(-28px);
     content: "🌙";
 }
@@ -320,7 +329,7 @@ h2 {
     width: 100%;
     min-height: 78px;
     background: var(--card-bg);
-    border-bottom: 1px solid rgba(0,0,0,.06);
+    border-bottom: 1px solid rgba(0, 0, 0, .06);
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
@@ -328,7 +337,6 @@ h2 {
     padding: 0 clamp(18px, 2.5vw, 35px);
     backdrop-filter: blur(12px);
 }
-
 
 .profile {
     display: flex;
@@ -399,14 +407,13 @@ h2 {
 .card {
     width: 100%;
     background: var(--card-bg);
-    border: 1px solid rgba(0,0,0,.06);
+    border: 1px solid rgba(0, 0, 0, .06);
     border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .06);
     margin-bottom: 22px;
     padding: clamp(20px, 1.6vw, 26px);
     direction: rtl;
 }
-
 
 .card h2 {
     text-align: right;
@@ -447,7 +454,7 @@ h2 {
     color: #fff;
     border-radius: 10px;
     font-size: 20px;
-    box-shadow: 0 4px 10px rgba(0,0,0,.12);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .12);
 }
 
 .info-text,
@@ -473,9 +480,9 @@ h2 {
 }
 
 .reset-password-btn {
-    background: rgba(0,0,0,.05);
+    background: rgba(0, 0, 0, .05);
     color: var(--accent);
-    border: 1px solid rgba(0,0,0,.08);
+    border: 1px solid rgba(0, 0, 0, .08);
     padding: 2px 5px;
     border-radius: 8px;
     font-weight: 700;
@@ -488,7 +495,6 @@ h2 {
 }
 
 
-
 /* =====================================================
    الكورسات
 ===================================================== */
@@ -499,7 +505,6 @@ h2 {
     gap: 24px;
     direction: rtl;
     color: var(--text);
-
 }
 
 .course {
@@ -510,7 +515,7 @@ h2 {
     border-radius: 12px;
     overflow: hidden;
     background: var(--card-bg);
-    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
 }
 
 .course-image {
@@ -527,7 +532,6 @@ h2 {
     line-height: 1.55;
     position: relative;
     overflow: hidden;
-    
 }
 
 .course-img {
@@ -983,4 +987,229 @@ h2 {
 
 .reset-password-input {
     border-radius: 10px;
+}
+
+
+/* ===== الفيديوهات المحفوظة ===== */
+
+.saved-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+    direction: rtl;
+}
+
+.saved-video {
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card-bg);
+    border: 1px solid rgba(0, 0, 0, .08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.saved-video:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+}
+
+.saved-video-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--purple);
+    position: relative;
+    overflow: hidden;
+}
+
+.saved-video-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.saved-video-thumb::after {
+    content: "▶";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 28px;
+    background: rgba(0, 0, 0, .25);
+    opacity: 0;
+    transition: opacity .2s;
+}
+
+.saved-video:hover .saved-video-thumb::after {
+    opacity: 1;
+}
+
+.saved-video-info {
+    padding: 10px 12px 12px;
+    text-align: right;
+}
+
+.saved-video-title {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.6;
+    color: var(--text);
+}
+
+.saved-video-course {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.saved-empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 20px 0;
+    font-size: 14px;
+}
+
+
+/* ===== الملاحظات المحفوظة ===== */
+
+.notes-lessons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    direction: rtl;
+}
+
+.notes-lesson {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, .08);
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+    width: 100%;
+    transition: background .2s, border-color .2s;
+}
+
+.notes-lesson:hover {
+    border-color: var(--purple-light);
+    background: rgba(104, 64, 146, .07);
+}
+
+.notes-count {
+    flex: 0 0 auto;
+    min-width: 28px;
+    padding: 2px 9px;
+    border-radius: 20px;
+    background: var(--green);
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+}
+
+.notes-back {
+    border: 0;
+    background: var(--purple);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.notes-back:hover {
+    background: var(--purple-light);
+}
+
+.notes-lesson-title {
+    text-align: right;
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 14px;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    direction: rtl;
+}
+
+.note-item {
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-right: 4px solid var(--green);
+    border-radius: 10px;
+    padding: 12px 14px;
+    background: var(--card-bg);
+}
+
+.note-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+.note-text {
+    font-size: 14px;
+    line-height: 1.9;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--text);
+}
+
+.note-edit-area {
+    width: 100%;
+    min-height: 90px;
+    padding: 10px;
+    border: 1.5px solid var(--purple);
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    direction: rtl;
+    outline: none;
+}
+
+.note-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.note-btn {
+    border: 0;
+    border-radius: 7px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+}
+
+.note-btn.edit {
+    background: var(--purple-light);
+}
+
+.note-btn.save {
+    background: var(--green-dark);
+}
+
+.note-btn.cancel {
+    background: #8a8a90;
+}
+
+.note-btn.delete {
+    background: #d9342b;
+}
+
+.note-btn:hover {
+    opacity: .85;
 }

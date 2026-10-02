@@ -38,6 +38,12 @@ body(data-domain=domain)
         a.menu-item.item-number-3(role="button")
           span.menu-icon ?
           span &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
+        a.menu-item.item-number-4(role="button")
+          span.menu-icon ▶
+          span الفيديوهات المحفوظة
+        a.menu-item.item-number-5(role="button")
+          span.menu-icon ✎
+          span الملاحظات المحفوظة
         a.menu-item.logout-btn(role="button")
           span.menu-icon X
           span تسجيل الخروج
@@ -56,6 +62,21 @@ body(data-domain=domain)
             span
           .notification
       main.content
+        // الفيديوهات المحفوظة
+        section.card.saved-videos-card.section-4.hidden
+          h2 الفيديوهات المحفوظة
+          .saved-videos-grid
+          p.saved-empty.hidden لا توجد فيديوهات محفوظة بعد
+
+        // الملاحظات المحفوظة
+        section.card.notes-card.section-5.hidden
+          h2 الملاحظات المحفوظة
+          .notes-lessons
+          p.saved-empty.hidden لا توجد ملاحظات محفوظة بعد
+          .notes-detail.hidden
+            button.notes-back(type='button') → رجوع للدروس
+            h3.notes-lesson-title
+            .notes-list
         // المعلومات الشخصية
         section.card.info-card.section-1
           h2 &#x627;&#x644;&#x645;&#x639;&#x644;&#x648;&#x645;&#x627;&#x62A; &#x627;&#x644;&#x634;&#x62E;&#x635;&#x64A;&#x629;
@@ -122,3 +143,4 @@ body(data-domain=domain)
               li قم بنسخ الكود و لصقه هنا
               li تأكد من صحة الكود قبل التفعيل
   script(src='/js/settings.js')
+  script(src='/js/saved.js')

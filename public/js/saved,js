@@ -1,0 +1,214 @@
+/* ===== الفيديوهات والملاحظات المحفوظة ===== */
+(() => {
+    // عدّل هذه المسارات حسب الـ routes عندك
+    const API = {
+        videos: '/api/saved-videos', // GET
+        notes: '/api/notes', // GET (كل ملاحظات المستخدم)
+        note: (id) => `/api/notes/${id}` // PATCH {text} / DELETE
+    };
+    const videoUrl = (v) => `/video/${v.courseId}/${v.videoId}`; // رابط صفحة الدرس
+
+    const q = (s) => document.querySelector(s);
+    const sec4 = q('.section-4');
+    const sec5 = q('.section-5');
+    const menuItems = document.querySelectorAll('.menu-item[class*="item-number-"]');
+
+    const el = (tag, cls, text) => {
+        const e = document.createElement(tag);
+        if (cls) e.className = cls;
+        if (text !== undefined) e.textContent = text;
+        return e;
+    };
+
+    const getJSON = async(url) => {
+        const r = await fetch(url, { credentials: 'include' });
+        if (!r.ok) throw new Error('request failed');
+        const d = await r.json();
+        return Array.isArray(d) ? d : (d.data || d.items || []);
+    };
+
+    // ---------- التنقل بين الأقسام ----------
+    const hideAllSections = () =>
+        document.querySelectorAll('main.content > section').forEach((s) => s.classList.add('hidden'));
+
+    const setActive = (item) => {
+        menuItems.forEach((m) => m.classList.remove('active'));
+        item.classList.add('active');
+        document.getElementById('menu-toggle').checked = false; // يغلق القائمة في الموبايل
+    };
+
+    q('.item-number-4').addEventListener('click', function() {
+        hideAllSections();
+        sec4.classList.remove('hidden');
+        setActive(this);
+        loadVideos();
+    });
+    q('.item-number-5').addEventListener('click', function() {
+        hideAllSections();
+        sec5.classList.remove('hidden');
+        setActive(this);
+        showLessonsList();
+        loadNotes();
+    });
+    // عند الضغط على العناصر القديمة نخفي الأقسام الجديدة (الكود القديم يظهر أقسامه)
+    [1, 2, 3].forEach((n) => {
+        q(`.item-number-${n}`).addEventListener('click', () => {
+            sec4.classList.add('hidden');
+            sec5.classList.add('hidden');
+        });
+    });
+
+    // ---------- الفيديوهات المحفوظة ----------
+    async function loadVideos() {
+        const grid = sec4.querySelector('.saved-videos-grid');
+        const empty = sec4.querySelector('.saved-empty');
+        grid.replaceChildren();
+        try {
+            const videos = await getJSON(API.videos);
+            empty.classList.toggle('hidden', videos.length > 0);
+            videos.forEach((v) => {
+                const card = el('article', 'saved-video');
+                const thumb = el('div', 'saved-video-thumb');
+                if (v.thumbnail) {
+                    const img = el('img');
+                    img.src = v.thumbnail;
+                    img.alt = '';
+                    img.loading = 'lazy';
+                    thumb.appendChild(img);
+                }
+                const info = el('div', 'saved-video-info');
+                info.append(el('div', 'saved-video-title', v.title || ''),
+                    el('div', 'saved-video-course', v.courseTitle || ''));
+                card.append(thumb, info);
+                card.addEventListener('click', () => { location.href = videoUrl(v); });
+                grid.appendChild(card);
+            });
+        } catch (e) {
+            empty.textContent = 'تعذر تحميل الفيديوهات';
+            empty.classList.remove('hidden');
+        }
+    }
+
+    // ---------- الملاحظات المحفوظة ----------
+    const lessonsBox = sec5.querySelector('.notes-lessons');
+    const detail = sec5.querySelector('.notes-detail');
+    const notesList = sec5.querySelector('.notes-list');
+    const lessonTitle = sec5.querySelector('.notes-lesson-title');
+    const notesEmpty = sec5.querySelector('.saved-empty');
+    let grouped = new Map(); // videoId -> { title, notes: [] }
+    let openLessonId = null;
+
+    function showLessonsList() {
+        detail.classList.add('hidden');
+        lessonsBox.classList.remove('hidden');
+        openLessonId = null;
+    }
+
+    async function loadNotes() {
+        lessonsBox.replaceChildren();
+        try {
+            const notes = await getJSON(API.notes);
+            grouped = new Map();
+            notes.forEach((n) => {
+                const key = n.videoId;
+                if (!grouped.has(key)) grouped.set(key, { title: n.lessonTitle || 'درس', notes: [] });
+                grouped.get(key).notes.push(n);
+            });
+            renderLessons();
+        } catch (e) {
+            notesEmpty.textContent = 'تعذر تحميل الملاحظات';
+            notesEmpty.classList.remove('hidden');
+        }
+    }
+
+    function renderLessons() {
+        lessonsBox.replaceChildren();
+        notesEmpty.textContent = 'لا توجد ملاحظات محفوظة بعد';
+        notesEmpty.classList.toggle('hidden', grouped.size > 0);
+        grouped.forEach((lesson, id) => {
+            const btn = el('button', 'notes-lesson');
+            btn.type = 'button';
+            btn.append(el('span', '', lesson.title), el('span', 'notes-count', String(lesson.notes.length)));
+            btn.addEventListener('click', () => openLesson(id));
+            lessonsBox.appendChild(btn);
+        });
+    }
+
+    function openLesson(id) {
+        const lesson = grouped.get(id);
+        if (!lesson) return showLessonsList();
+        openLessonId = id;
+        lessonsBox.classList.add('hidden');
+        detail.classList.remove('hidden');
+        lessonTitle.textContent = lesson.title;
+        renderNotes(lesson);
+    }
+
+    function renderNotes(lesson) {
+        notesList.replaceChildren();
+        lesson.notes.forEach((n) => notesList.appendChild(buildNote(n, lesson)));
+    }
+
+    function buildNote(n, lesson) {
+        const item = el('div', 'note-item');
+        const meta = el('div', 'note-meta', n.time || (n.createdAt ? new Date(n.createdAt).toLocaleString('ar-EG') : ''));
+        const text = el('div', 'note-text', n.text || '');
+        const actions = el('div', 'note-actions');
+        const editBtn = el('button', 'note-btn edit', 'تعديل');
+        const delBtn = el('button', 'note-btn delete', 'حذف');
+        editBtn.type = delBtn.type = 'button';
+        actions.append(editBtn, delBtn);
+        item.append(meta, text, actions);
+
+        editBtn.addEventListener('click', () => {
+            const area = el('textarea', 'note-edit-area');
+            area.value = n.text || '';
+            const save = el('button', 'note-btn save', 'حفظ');
+            const cancel = el('button', 'note-btn cancel', 'إلغاء');
+            save.type = cancel.type = 'button';
+            const editActions = el('div', 'note-actions');
+            editActions.append(save, cancel);
+            item.replaceChildren(meta, area, editActions);
+            area.focus();
+
+            cancel.addEventListener('click', () => item.replaceWith(buildNote(n, lesson)));
+            save.addEventListener('click', async() => {
+                const value = area.value.trim();
+                if (!value) return;
+                save.disabled = true;
+                try {
+                    const r = await fetch(API.note(n._id), {
+                        method: 'PATCH',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: value })
+                    });
+                    if (!r.ok) throw new Error();
+                    n.text = value;
+                    item.replaceWith(buildNote(n, lesson));
+                } catch (e) { save.disabled = false;
+                    alert('تعذر حفظ التعديل'); }
+            });
+        });
+
+        delBtn.addEventListener('click', async() => {
+            if (!confirm('هل تريد حذف هذه الملاحظة؟')) return;
+            try {
+                const r = await fetch(API.note(n._id), { method: 'DELETE', credentials: 'include' });
+                if (!r.ok) throw new Error();
+                lesson.notes = lesson.notes.filter((x) => x._id !== n._id);
+                if (!lesson.notes.length) { // آخر ملاحظة: نحذف الدرس من القائمة
+                    grouped.delete(openLessonId);
+                    renderLessons();
+                    showLessonsList();
+                } else {
+                    renderNotes(lesson);
+                }
+            } catch (e) { alert('تعذر حذف الملاحظة'); }
+        });
+
+        return item;
+    }
+
+    sec5.querySelector('.notes-back').addEventListener('click', showLessonsList);
+})();
