@@ -852,12 +852,17 @@ if(res.classList.contains('video-resource')) {
 }
 
 else if(res.classList.contains('quiz-resource')) {
+  console.log(res);
+  const lessonId = res.closest('.lesson').dataset.lessonId;
+  const resourceNum = res.dataset.num;
+
+  console.log(lessonId, resourceNum);
     res.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-clipboard-question'></i>"
     updateLodaerView('جاري تحميل الأسألة', 'لحظات و يتم بدء الاختبار');
     showView(loadingView);
     const {questions} = (await ajaxCall(
     `${domain}/api/v1/questions`,
-    {subcourseId: location.href.split('/')[4] ,resourceNum: res.dataset.num, lessonId: res.closest('.lesson').dataset.lessonId}
+    {subcourseId: location.href.split('/')[4] ,resourceNum , lessonId}
     )).data;
     quizTitle.textContent = res.querySelector('strong').textContent;
     startQuiz(questions);

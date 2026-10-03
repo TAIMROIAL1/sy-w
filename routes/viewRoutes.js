@@ -144,7 +144,6 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     }
 
     const {resNum, lessonNum} = req.query;
-    console.log(resNum, lessonNum);
 
     const { subcourseId } = req.params;
 
@@ -165,7 +164,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     const { user } = res.locals;
     
     const courseProgress = user.courseProgress.find(course => course.courseId == subcourseId);
-    console.log(courseProgress);
+
     res.status(200).render("video", {
       user,
       course,

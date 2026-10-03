@@ -91,7 +91,7 @@ exports.addVideo = catchAsync(async function(req, res, next) {
   }
   else if(fileType === 'quiz') {
     const {title, questionsData} = req.body;
-    console.log(questionsData);
+
     const fullQuestions = await Question.create(questionsData);
     let questions;
     if(fullQuestions.length) {
@@ -221,7 +221,8 @@ exports.getQuestions = catchAsync(async function(req, res, next) {
     model: "Question"
   }).exec();
 
-  const questions = lesson.videos[resourceNum].questions.map(question => {
+
+  const questions = lesson.videos.find(vid => vid.num == resourceNum).questions.map(question => {
     delete question.correctAnswer;
     return question;
   });
@@ -242,14 +243,10 @@ exports.solveQuestions = catchAsync(async function(req, res, next) {
 
   if(!lessonId || !resourceNum || !solvedQuestions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
-  console.log(lessonId, resourceNum);
-
   const {questions} = (await Lesson.findById(lessonId).populate({
     path: "videos.questions",
     model: "Question"
   }).exec()).videos[resourceNum];
-
-  console.log(questions);
 
   if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
