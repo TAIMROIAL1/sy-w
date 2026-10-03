@@ -1213,3 +1213,152 @@ h2 {
 .note-btn:hover {
     opacity: .85;
 }
+
+
+/* ===== كاردات الفيديوهات المربعة ===== */
+
+.sv-card {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-top: 4px solid var(--green);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+    text-align: right;
+    direction: rtl;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.sv-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .12);
+}
+
+.sv-play {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: var(--purple);
+    color: #fff;
+    font-size: 18px;
+}
+
+.sv-name {
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.6;
+    color: var(--text);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.sv-reason {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--muted);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.sv-label {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.sv-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px dashed rgba(0, 0, 0, .12);
+    padding-top: 8px;
+}
+
+.sv-delete {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 50%;
+    background: #d9342b;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity .2s, transform .2s;
+}
+
+.sv-delete:hover {
+    opacity: .85;
+    transform: scale(1.1);
+}
+
+
+/* ===== مستطيلات الملاحظات ===== */
+
+.notes-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+    direction: rtl;
+}
+
+.note-rect {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-right: 4px solid var(--green);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+    text-align: right;
+}
+
+.note-rect-text {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--text);
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin-bottom: 10px;
+}
+
+.note-rect-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px dashed rgba(0, 0, 0, .12);
+    padding-top: 8px;
+}
+
+.note-rect-lesson {
+    font-weight: 700;
+    color: var(--purple-light);
+}
+
+@media (max-width: 500px) {
+    .sv-card {
+        padding: 11px;
+    }
+    .sv-name {
+        font-size: 13px;
+    }
+}

@@ -66,12 +66,43 @@ body(data-domain=domain)
         section.card.saved-videos-card.section-4.hidden
           h2 الفيديوهات المحفوظة
           .saved-videos-grid
-          p.saved-empty.hidden لا توجد فيديوهات محفوظة بعد
+            .sv-card(data-id='demo-1')
+              button.sv-delete(type='button' aria-label='إزالة الفيديو') &times;
+              .sv-play ▶
+              h4.sv-name اسم الفيديو هنا
+              p.sv-reason
+                span.sv-label سبب الحفظ:
+                |  لمراجعته قبل الاختبار
+              .sv-meta
+                span.sv-date 2026/10/03
+                span.sv-time 10:30 ص
+            .sv-card(data-id='demo-2')
+              button.sv-delete(type='button' aria-label='إزالة الفيديو') &times;
+              .sv-play ▶
+              h4.sv-name فيديو آخر
+              p.sv-reason
+                span.sv-label سبب الحفظ:
+                |  شرح مهم للمراجعة
+              .sv-meta
+                span.sv-date 2026/10/02
+                span.sv-time 08:15 م
+        p.saved-empty.hidden لا توجد فيديوهات محفوظة بعد
 
         // الملاحظات المحفوظة
         section.card.notes-card.section-5.hidden
           h2 الملاحظات المحفوظة
           .notes-lessons
+          .notes-preview
+            .note-rect(data-id='demo-1')
+              p.note-rect-text نص الملاحظة يظهر هنا داخل المستطيل...
+              .note-rect-meta
+                span.note-rect-lesson الدرس: اسم الدرس
+                span.note-rect-time 2026/10/03 - 10:30 ص
+            .note-rect(data-id='demo-2')
+              p.note-rect-text ملاحظة ثانية للتجربة
+              .note-rect-meta
+                span.note-rect-lesson الدرس: درس آخر
+                span.note-rect-time 2026/10/02 - 08:15 م
           p.saved-empty.hidden لا توجد ملاحظات محفوظة بعد
           .notes-detail.hidden
             button.notes-back(type='button') → رجوع للدروس
