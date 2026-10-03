@@ -24,9 +24,15 @@ lessons.forEach((lesson) => {
       return;
     }
 
-    lesson.classList.toggle("open");
+    const willOpen = !lesson.classList.contains("open");
+    openOnlyLesson(willOpen ? lesson : null);
   });
 });
+
+// only one lesson can be open at a time (or none when lesson is null)
+function openOnlyLesson(lesson) {
+  lessons.forEach((les) => les.classList.toggle("open", les === lesson));
+}
 /* ========================================= 
     Helper Functions
 ==========================================*/
@@ -819,6 +825,8 @@ res = [...document.querySelectorAll('.lesson-resource')].find(res => res.classLi
 // fallback if the achieved lesson / resource no longer exists (deleted or not uploaded yet)
 if(!res) res = [...document.querySelectorAll('.lesson-resource:not(.locked)')].pop() || document.querySelector('.lesson-resource');
 
+openOnlyLesson(null);
+
 if(res) {
   [...document.querySelectorAll('.lesson-resource')].forEach(r => r.classList.remove('active'));
   [...document.querySelectorAll('.lesson')].forEach(l => l.classList.remove('active'));
@@ -845,7 +853,9 @@ if(document.body.dataset.isAdmin == 'admin') {
 
   [...document.querySelectorAll('.upload-btn')].forEach(btn => {
     btn.addEventListener('click', function() {
-      const lessonNum = [...document.querySelectorAll('.lesson')].find(les => les.classList.contains('open')).dataset.num
+      const targetLesson = document.querySelector('.lesson.open') || document.querySelector('.lesson.active');
+      if(this.classList.contains('res-upload-btn') && !targetLesson) return alert('افتح الدرس الذي تريد رفع الملف إليه');
+      const lessonNum = targetLesson && targetLesson.dataset.num;
       const dest = this.classList.contains('lesson-upload-btn') ? `subcourses/${location.href.split('/')[4]}/upload-lesson` : `lessons/${location.href.split('/')[4]}/upload-video/${lessonNum}`;
       location.assign(`${domain}/${dest}`);
     })
@@ -923,6 +933,7 @@ function initAdminActions() {
 }
 
 async function moveToRes(res) {
+openOnlyLesson(res.closest('.lesson'));
 res.classList.remove('locked');
 if(res.classList.contains('video-resource')) {
     res.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-play'></i>";
