@@ -406,7 +406,6 @@ prevLessonBtn.addEventListener('click', function() {
 async function updateUserProgress(newRes, newLesson) {
 const response = await ajaxCall(`${domain}/api/v1/users/update-progress`, {subcourseId: location.href.split('/')[4], newRes, newLesson});
 
-console.log(response);
 if(response.status === 'success' && response.data) {
   console.log('hi');
     const courseProgress = response.data;

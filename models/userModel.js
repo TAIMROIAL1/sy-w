@@ -117,10 +117,6 @@ referral: {
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
   }],
-  workshops: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Workshop'
-  }],
   screenWidth: {
     type: String
   },
@@ -133,11 +129,7 @@ referral: {
   reasonToBlock: {
     type: String
   },
-  solveBook: {
-    type: Boolean,
-    default: false,
-  },
- courseProgress: [{
+  courseProgress: [{
   courseId: { type: mongoose.Schema.ObjectId, ref: "Subcourse" },
   achievedVideos: {
     achievedVideosCount: { type: Number, default: 0 },
@@ -145,7 +137,78 @@ referral: {
     lessonNum: { type: Number, default: 1 }
   },
   achievedPercentage: { type: Number, default: 0 }
-}]
+  }],
+  notes: [{
+    _id: {
+      type: mongoose.Schema.ObjectId,
+      default: () => new mongoose.Types.ObjectId()
+    },
+    subcourseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subcourse",
+      required: [true, "ادخل اي دي الكورس"]
+    },
+    noteText: {
+      type: String,
+      required: [true, "ادخل الملاحظة"]
+    },
+    courseTitle: {
+      type: String,
+      required: [true, "ادخل عنوان الكورس"]
+    },
+    lessonTitle: {
+      type: String,
+      required: [true, "ادخل عنوان الدرس"]
+    },
+    videoTitle: {
+      type: String,
+      required: [true, "ادخل عنوان الفيديو"]
+    },
+    videoNum: {
+      type: Number,
+      required: [true, "ادخل رقم الفيديو"]
+    },
+    lessonNum: {
+      type: Number,
+      required: [true, "ادخل رقم الدرس"]
+    },
+    date: {
+      type: Date,
+      default: () => Date.now()
+    },
+    
+  }],
+  savedVideos: [{
+    _id: {
+      type: mongoose.Schema.ObjectId,
+      default: () => new mongoose.Types.ObjectId()
+    },
+    subcourseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subcourse",
+      required: [true, "ادخل اي دي الكورس"]
+    },
+    courseTitle: { type: String },
+    lessonTitle: { type: String },
+    videoTitle: { type: String },
+    videoNum: {
+      type: Number,
+      required: [true, "ادخل رقم الفيديو"]
+    },
+    lessonNum: {
+      type: Number,
+      required: [true, "ادخل رقم الدرس"]
+    },
+    reason: {
+      type: String,
+      maxLength: [200, "سبب الحفظ طويل جدا"],
+      default: ""
+    },
+    date: {
+      type: Date,
+      default: () => Date.now()
+    }
+  }]
 
 })
 

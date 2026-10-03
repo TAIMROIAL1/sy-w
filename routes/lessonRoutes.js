@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router({mergeParams: true});
-const { checkJWT, restrictTo, checkActivatedSubcourse } = require('./../controllers/authController');
+const { checkJWT, restrictTo } = require('./../controllers/authController');
 const { getlessons, createLesson, addQuestions, deleteLesson, editLesson } = require('./../controllers/lessonController')
 
 router.route('/')

@@ -994,7 +994,7 @@ h2 {
 
 .saved-videos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
     gap: 18px;
     direction: rtl;
 }
@@ -1219,10 +1219,10 @@ h2 {
 
 .sv-card {
     position: relative;
-    aspect-ratio: 1 / 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: 10px;
     padding: 14px;
     border-radius: 14px;
     background: var(--card-bg, #fff);
@@ -1361,4 +1361,111 @@ h2 {
     .sv-name {
         font-size: 13px;
     }
+}
+
+
+/* ===== تحميل وحذف الملاحظات ===== */
+
+.notes-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.notes-loading.hidden {
+    display: none;
+}
+
+.notes-spinner {
+    width: 38px;
+    height: 38px;
+    border: 4px solid rgba(104, 64, 146, .18);
+    border-top-color: var(--purple);
+    border-radius: 50%;
+    animation: notes-spin 1s linear infinite;
+}
+
+@keyframes notes-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.notes-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    color: #d9342b;
+    font-size: 14px;
+    text-align: center;
+}
+
+.notes-retry {
+    border: 0;
+    background: var(--purple);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.note-rect {
+    position: relative;
+    cursor: pointer;
+    padding-left: 48px;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.note-rect:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .1);
+}
+
+.note-rect-video {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+}
+
+.note-rect-delete {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 50%;
+    background: #d9342b;
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: opacity .2s, transform .2s;
+}
+
+.note-rect-delete:hover {
+    opacity: .85;
+    transform: scale(1.1);
+}
+
+/* ===== تحميل الفيديوهات المحفوظة ===== */
+
+.saved-videos-card .notes-error {
+    grid-column: 1 / -1;
+}
+
+.sv-card {
+    cursor: pointer;
+}
+
+.sv-card .saved-video-course {
+    margin-top: 4px;
 }

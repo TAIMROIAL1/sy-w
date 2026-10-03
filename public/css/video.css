@@ -1077,38 +1077,74 @@ body {
 }
 
 .upload-btn {
-    background-color: var(--accent);
-    padding: 10px;
-    text-align: center;
-    font-size: 13px;
-    position: absolute;
-    border-radius: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: fixed;
+    right: 24px;
+    z-index: 900;
+    display: inline-flex;
     align-items: center;
-    width: 50px;
-    flex-wrap: wrap;
+    gap: 8px;
+    min-width: 130px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(108, 92, 231, .35);
     cursor: pointer;
-    bottom: 1px;
     user-select: none;
+    transition: transform .15s, box-shadow .15s, opacity .15s;
+}
+
+.upload-btn::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 15px;
 }
 
 .upload-btn:hover {
-    opacity: 0.8;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(108, 92, 231, .45);
 }
 
 .upload-btn:active {
-    opacity: 0.6;
+    transform: scale(.96);
+    opacity: .85;
 }
 
 .lesson-upload-btn {
-    left: calc(50% - 50px - 2.5px);
-    ;
+    bottom: 84px;
+}
+
+.lesson-upload-btn::before {
+    content: "\f518";
 }
 
 .res-upload-btn {
-    left: calc(50% + 2.5px);
+    bottom: 24px;
+}
+
+.res-upload-btn::before {
+    content: "\f574";
+}
+
+body[data-is-admin="admin"] .content-area {
+    padding-bottom: 130px;
+}
+
+@media (max-width: 576px) {
+    .upload-btn {
+        right: 14px;
+        min-width: 115px;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+    .lesson-upload-btn {
+        bottom: 70px;
+    }
+    .res-upload-btn {
+        bottom: 16px;
+    }
 }
 
 
@@ -1231,6 +1267,49 @@ body {
     color: var(--muted);
     padding: 25px 0;
     font-size: 14px;
+}
+
+
+/* ---------- Notes loading / error ---------- */
+
+.notes-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 30px 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.notes-spinner {
+    width: 38px;
+    height: 38px;
+    border: 4px solid var(--primary-light);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.notes-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    color: var(--red);
+    font-size: 14px;
+    text-align: center;
+}
+
+.notes-error .btn-secondary {
+    border: 1px solid var(--border);
+}
+
+.btn:disabled,
+.note-delete:disabled {
+    opacity: .6;
+    cursor: not-allowed;
 }
 
 
@@ -1384,6 +1463,12 @@ body {
 
 .save-video-btn:active {
     transform: scale(.92);
+}
+
+.save-video-btn.loading,
+.save-video-btn:disabled {
+    cursor: wait;
+    opacity: .75;
 }
 
 .save-video-btn.saved {

@@ -148,6 +148,8 @@ const questionRouter = require('./routes/questionRoutes');
 const codeRouter = require('./routes/codeRoutes');
 const workshopRouter = require('./routes/workshopRoutes');
 const excelFormRouter = require('./routes/excelFormRoutes');
+const notesRouter = require('./routes/notesRouter');
+const savedVideosRouter = require("./routes/savedVideosRoutes");
 
 app.use('/', viewRouter);
 app.use('/api/v1/users', userRouter);
@@ -160,6 +162,8 @@ app.use('/api/v1/questions', questionRouter);
 app.use('/api/v1/codes', codeRouter);
 app.use('/api/v1/workshops', workshopRouter);
 app.use('/api/v1/forms', excelFormRouter);
+app.use('/api/v1/notes/:subcourseId', notesRouter);
+app.use("/api/v1/saved-videos", savedVideosRouter);
 
 app.use(errorController);
 

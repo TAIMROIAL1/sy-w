@@ -207,6 +207,9 @@ html(lang="ar" dir="rtl")
                 button.btn.btn-primary#addNoteBtn(type="button")
                   i.fa-solid.fa-plus
                   | إضافة ملاحظة
+              .notes-loading.hidden#notesLoading
+                .notes-spinner
+                span جاري تحميل الملاحظات...
               .notes-list#notesList
               p.notes-empty#notesEmpty لا توجد ملاحظات بعد، أضف أول ملاحظة لك.
 
@@ -316,6 +319,17 @@ html(lang="ar" dir="rtl")
         .note-modal-footer
           button.btn.btn-primary#saveNote(type="button") حفظ
           button.btn.btn-secondary#cancelNote(type="button") إلغاء
+        // ================= SAVE VIDEO MODAL =================
+    .note-modal-overlay#saveModal
+      .note-modal
+        .note-modal-header
+          h3 حفظ الفيديو
+          button.note-modal-close#saveModalClose(type="button")
+            i.fa-solid.fa-xmark
+        textarea.note-textarea#saveReason(rows="3" maxlength="200" placeholder="سبب الحفظ (اختياري)... مثلا: لمراجعته قبل الاختبار")
+        .note-modal-footer
+          button.btn.btn-primary#confirmSave(type="button") حفظ
+          button.btn.btn-secondary#cancelSave(type="button") إلغاء
     .sidebar-overlay#sidebarOverlay
 
     script(src="/js/video.js")        

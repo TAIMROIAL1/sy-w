@@ -181,3 +181,321 @@ acceptLogoutBtn.addEventListener("click", async () => {
     }
 
 })();
+
+// ================= Saved Notes (server) =================
+
+const notesCard = document.querySelector('.notes-card');
+const notesPreview = document.querySelector('.notes-preview');
+const notesEmptyMsg = notesCard && notesCard.querySelector('.saved-empty');
+const notesLoadingEl = notesCard && notesCard.querySelector('.notes-loading');
+let notesRequestId = 0;
+
+const notesFetch = async function (url, options) {
+  const response = await fetch(url, options);
+  let json = {};
+  try {
+    json = await response.json();
+  } catch (e) {}
+
+  if (!response.ok || json.status === 'fail' || json.status === 'error') {
+    throw new Error(json.message || 'حدث خطأ، حاول مرة أخرى');
+  }
+  return json;
+};
+
+function getSubcourseIds() {
+  const ids = [...document.querySelectorAll('article.course')].map(c => c.dataset.courseId).filter(Boolean);
+  return [...new Set(ids)];
+}
+
+function formatNoteDate(date) {
+  const d = new Date(date);
+  if (!date || isNaN(d)) return '';
+  return d.toLocaleDateString('ar') + ' - ' + d.toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' });
+}
+
+function setNotesLoading(isLoading) {
+  notesLoadingEl.classList.toggle('hidden', !isLoading);
+  if (isLoading) {
+    notesPreview.innerHTML = '';
+    notesEmptyMsg.classList.add('hidden');
+  }
+}
+
+function showNotesError(message) {
+  notesPreview.innerHTML = '';
+  notesEmptyMsg.classList.add('hidden');
+
+  const box = document.createElement('div');
+  box.className = 'notes-error';
+
+  const text = document.createElement('p');
+  text.textContent = message || 'تعذّر تحميل الملاحظات';
+
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.className = 'notes-retry';
+  retry.textContent = 'إعادة المحاولة';
+  retry.addEventListener('click', () => loadSavedNotes());
+
+  box.appendChild(text);
+  box.appendChild(retry);
+  notesPreview.appendChild(box);
+}
+
+function renderSavedNotes(notes) {
+  notesPreview.innerHTML = '';
+  notesEmptyMsg.classList.toggle('hidden', notes.length > 0);
+
+  notes.forEach(note => {
+    const rect = document.createElement('div');
+    rect.className = 'note-rect';
+    rect.dataset.id = note._id;
+    rect.title = 'فتح الفيديو';
+
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'note-rect-delete';
+    del.setAttribute('aria-label', 'حذف الملاحظة');
+    del.innerHTML = '&times;';
+    del.addEventListener('click', (e) => {
+      e.stopPropagation();
+      deleteSavedNote(note);
+    });
+
+    const text = document.createElement('p');
+    text.className = 'note-rect-text';
+    text.textContent = note.noteText || '';
+
+    const video = document.createElement('span');
+    video.className = 'note-rect-video';
+    video.textContent = [note.courseTitle, note.videoTitle].filter(Boolean).join(' • ');
+
+    const meta = document.createElement('div');
+    meta.className = 'note-rect-meta';
+
+    const lesson = document.createElement('span');
+    lesson.className = 'note-rect-lesson';
+    lesson.textContent = `الدرس: ${note.lessonTitle || ''}`;
+
+    const time = document.createElement('span');
+    time.className = 'note-rect-time';
+    time.textContent = formatNoteDate(note.date);
+
+    meta.appendChild(lesson);
+    meta.appendChild(time);
+
+    rect.appendChild(del);
+    rect.appendChild(text);
+    if (video.textContent) rect.appendChild(video);
+    rect.appendChild(meta);
+
+    rect.addEventListener('click', () => {
+      location.assign(`${domain}/subcourses/${note.subcourseId}/lessons?resNum=${note.videoNum}&lessonNum=${note.lessonNum}`);
+    });
+
+    notesPreview.appendChild(rect);
+  });
+}
+
+async function loadSavedNotes() {
+  if (!notesPreview || !notesLoadingEl) return;
+
+  const token = ++notesRequestId;
+  setNotesLoading(true);
+
+  try {
+    const results = await Promise.all(
+      getSubcourseIds().map(id => notesFetch(`${domain}/api/v1/notes/${id}/all-notes`))
+    );
+    if (token !== notesRequestId) return;
+
+    const notes = results
+      .flatMap(res => (Array.isArray(res.data) ? res.data : []))
+      .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+    setNotesLoading(false);
+    renderSavedNotes(notes);
+  } catch (err) {
+    if (token !== notesRequestId) return;
+    setNotesLoading(false);
+    showNotesError(err.message);
+  }
+}
+
+async function deleteSavedNote(note) {
+  setNotesLoading(true);
+
+  try {
+    await notesFetch(`${domain}/api/v1/notes/${note.subcourseId}/delete-note`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ noteId: note._id }),
+    });
+    loadSavedNotes();
+  } catch (err) {
+    showNotification(err.message, 'fail');
+    loadSavedNotes();
+  }
+}
+
+// تحميل الملاحظات عند فتح قسم الملاحظات المحفوظة
+menuBtns.forEach(btn => {
+  if (btn.classList.contains('item-number-5')) btn.addEventListener('click', () => loadSavedNotes());
+});
+
+// ================= Saved Videos (server) =================
+
+const savedCard = document.querySelector('.saved-videos-card');
+const savedGrid = savedCard && savedCard.querySelector('.saved-videos-grid');
+const savedEmptyMsg = savedCard && savedCard.querySelector('.saved-empty');
+const savedLoadingEl = savedCard && savedCard.querySelector('.saved-loading');
+let savedRequestId = 0;
+
+function setSavedLoading(isLoading) {
+  savedLoadingEl.classList.toggle('hidden', !isLoading);
+  if (isLoading) {
+    savedGrid.innerHTML = '';
+    savedEmptyMsg.classList.add('hidden');
+  }
+}
+
+function showSavedError(message) {
+  savedGrid.innerHTML = '';
+  savedEmptyMsg.classList.add('hidden');
+
+  const box = document.createElement('div');
+  box.className = 'notes-error';
+
+  const text = document.createElement('p');
+  text.textContent = message || 'تعذّر تحميل الفيديوهات المحفوظة';
+
+  const retry = document.createElement('button');
+  retry.type = 'button';
+  retry.className = 'notes-retry';
+  retry.textContent = 'إعادة المحاولة';
+  retry.addEventListener('click', () => loadSavedVideos());
+
+  box.appendChild(text);
+  box.appendChild(retry);
+  savedGrid.appendChild(box);
+}
+
+function renderSavedVideos(videos) {
+  savedGrid.innerHTML = '';
+  savedEmptyMsg.classList.toggle('hidden', videos.length > 0);
+
+  videos.forEach(video => {
+    const card = document.createElement('div');
+    card.className = 'sv-card';
+    card.dataset.id = video._id;
+    card.title = 'فتح الفيديو';
+
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'sv-delete';
+    del.setAttribute('aria-label', 'إزالة الفيديو');
+    del.innerHTML = '&times;';
+    del.addEventListener('click', (e) => {
+      e.stopPropagation();
+      removeSavedVideo(video);
+    });
+
+    const play = document.createElement('div');
+    play.className = 'sv-play';
+    play.textContent = '▶';
+
+    const name = document.createElement('h4');
+    name.className = 'sv-name';
+    name.textContent = video.videoTitle || 'فيديو';
+
+    const course = document.createElement('p');
+    course.className = 'saved-video-course';
+    course.textContent = [video.courseTitle, video.lessonTitle].filter(Boolean).join(' • ');
+
+    const reason = document.createElement('p');
+    reason.className = 'sv-reason';
+    const label = document.createElement('span');
+    label.className = 'sv-label';
+    label.textContent = 'سبب الحفظ:';
+    reason.appendChild(label);
+    reason.appendChild(document.createTextNode(' ' + (video.reason || 'بدون سبب')));
+
+    const meta = document.createElement('div');
+    meta.className = 'sv-meta';
+    const d = new Date(video.date);
+    const valid = video.date && !isNaN(d);
+    const dateEl = document.createElement('span');
+    dateEl.className = 'sv-date';
+    dateEl.textContent = valid ? d.toLocaleDateString('ar') : '';
+    const timeEl = document.createElement('span');
+    timeEl.className = 'sv-time';
+    timeEl.textContent = valid ? d.toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' }) : '';
+    meta.appendChild(dateEl);
+    meta.appendChild(timeEl);
+
+    const top = document.createElement('div');
+    top.appendChild(play);
+
+    const body = document.createElement('div');
+    body.appendChild(name);
+    if (course.textContent) body.appendChild(course);
+
+    card.appendChild(del);
+    card.appendChild(top);
+    card.appendChild(body);
+    card.appendChild(reason);
+    card.appendChild(meta);
+
+    card.addEventListener('click', () => {
+      location.assign(`${domain}/subcourses/${video.subcourseId}/lessons?resNum=${video.videoNum}&lessonNum=${video.lessonNum}`);
+    });
+
+    savedGrid.appendChild(card);
+  });
+}
+
+async function loadSavedVideos() {
+  if (!savedGrid || !savedLoadingEl) return;
+
+  const token = ++savedRequestId;
+  setSavedLoading(true);
+
+  try {
+    const results = await Promise.all(
+      getSubcourseIds().map(id => notesFetch(`${domain}/api/v1/saved-videos/${id}/all-saved`))
+    );
+    if (token !== savedRequestId) return;
+
+    const videos = results
+      .flatMap(res => (Array.isArray(res.data) ? res.data : []))
+      .sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+    setSavedLoading(false);
+    renderSavedVideos(videos);
+  } catch (err) {
+    if (token !== savedRequestId) return;
+    setSavedLoading(false);
+    showSavedError(err.message);
+  }
+}
+
+async function removeSavedVideo(video) {
+  setSavedLoading(true);
+
+  try {
+    await notesFetch(`${domain}/api/v1/saved-videos/${video.subcourseId}/unsave-video`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ savedId: video._id }),
+    });
+  } catch (err) {
+    showNotification(err.message, 'fail');
+  }
+  loadSavedVideos();
+}
+
+// تحميل الفيديوهات عند فتح قسم الفيديوهات المحفوظة
+menuBtns.forEach(btn => {
+  if (btn.classList.contains('item-number-4')) btn.addEventListener('click', () => loadSavedVideos());
+});
