@@ -5,12 +5,12 @@ html(lang='ar')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
     link(rel='stylesheet', href='/css/uploadLesson.css')
-    title Document
+    title تعديل درس
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`)
+  body(data-domain = `${domain}` data-subcourse-id=lesson.subcourse.toString() data-lesson-id=lesson._id.toString())
     .c
       .correct.hidden
-        .correct-message you buy it 
+        .correct-message
     .center
       .header
         .upload-class تعديل درس
@@ -18,13 +18,13 @@ html(lang='ar')
         .form
           .label-input
             label(for='lesson-name', dir='rtl', lang='ar') عنوان الدرس
-          input#lesson-name.input(type='text', value=`${lesson.title}`)
+          input#lesson-name.input(type='text', value=lesson.title)
           .label-input
-            label(for='image', dir='rtl', lang='ar') صورة الدرس
-          input#image.input(type='text', value=`${lesson.photoUrl}`)
+            label(for='lesson-sub-name', dir='rtl', lang='ar') عنوان فرعي
+          input#lesson-sub-name.input(type='text', value=lesson.subtitle || '')
           .label-input
             label(for='num', dir='rtl', lang='ar') رقم الدرس
-          input#num.input(type='number', dir='rtl', lang='en', value=`${lesson.num}`)
+          input#num.input(type='number', min='1', dir='rtl', lang='en', value=lesson.num)
         .btn
-          button.btn-sub(dir='rtl', lang='ar') تعديل
+          button.btn-sub(type='button', dir='rtl', lang='ar') تعديل
     script(defer, src='/js/editLesson.js')

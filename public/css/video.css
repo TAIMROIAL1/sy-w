@@ -1523,3 +1523,79 @@ body[data-is-admin="admin"] .content-area {
         height: 36px;
     }
 }
+
+/* =========================================
+   ADMIN EDIT / DELETE BUTTONS
+========================================= */
+
+.admin-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.admin-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--muted);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    cursor: pointer;
+    transition: color .2s, background .2s, border-color .2s, transform .15s;
+}
+
+.admin-btn:hover,
+.admin-btn:focus-visible {
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.admin-btn:active {
+    transform: scale(.92);
+}
+
+.admin-edit:hover,
+.admin-edit:focus-visible {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--primary-light);
+}
+
+.admin-delete:hover,
+.admin-delete:focus-visible {
+    color: var(--red);
+    border-color: var(--red);
+    background: var(--red-light);
+}
+
+.admin-btn.loading {
+    pointer-events: none;
+    opacity: .6;
+}
+
+.lesson-resource .admin-btn {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+/* admin can manage locked resources too */
+.lesson-resource.locked .admin-btn {
+    cursor: pointer;
+}
+
+.page-dark-mode .admin-edit:hover,
+.page-dark-mode .admin-edit:focus-visible {
+    background: transparent;
+}
+
+.page-dark-mode .admin-delete:hover,
+.page-dark-mode .admin-delete:focus-visible {
+    background: transparent;
+}

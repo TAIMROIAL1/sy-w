@@ -1,0 +1,55 @@
+mixin question(q)
+  .question(dir='rtl', data-question-id=q ? q._id.toString() : null)
+    .question-header
+      span.question-number السؤال
+      button.remove-question-btn(type='button') &times;
+    .label-input
+      label(dir='rtl', lang='ar') نص السؤال
+    input.input.question-text(type='text', dir='rtl', lang='ar', value=q ? q.text : '')
+    each n in [0, 1, 2, 3]
+      .label-input
+        label(dir='rtl', lang='ar')= `الإجابة ${n + 1}`
+      input.input.answer-input(type='text', dir='rtl', lang='ar', value=q ? q.answers[n] : '')
+    .label-input
+      label(dir='rtl', lang='ar') الإجابة الصحيحة (1-4)
+    input.input.correct-answer(type='number', min='1', max='4', dir='rtl', lang='en', value=q ? q.correctAnswer + 1 : '')
+
+doctype html
+html(lang='ar')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
+    link(rel='stylesheet', href='/css/uploadVideo.css')
+    title تعديل اختبار
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain = `${domain}` data-subcourse-id=lesson.subcourse.toString() data-lesson-id=lesson._id.toString() data-video-num=quiz.num)
+    .c
+      .correct.hidden
+        .correct-message
+    .center
+      .header
+        .upload-class تعديل اختبار
+      .container
+        .form
+          .quiz-fields
+            .label-input
+              label(for='quiz-name', dir='rtl', lang='ar') عنوان الاختبار
+            input#quiz-name.input(type='text', value=quiz.title)
+            .label-input
+              label(for='num', dir='rtl', lang='ar') ترتيب الاختبار في الدرس
+            input#num.input(type='number', min='0', dir='rtl', lang='en', value=quiz.num)
+            .questions
+              each q in quiz.questions
+                +question(q)
+            .btn
+              button.add-question-btn(type='button', dir='rtl', lang='ar') أضف سؤال
+
+        .btn
+          button.btn-sub(type='button', dir='rtl', lang='ar') تعديل
+
+    //- template used by the JS to build a new question block
+    template#question-template
+      +question(null)
+
+    script(defer, src='/js/editQuiz.js')

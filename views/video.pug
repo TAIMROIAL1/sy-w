@@ -74,6 +74,13 @@ html(lang="ar" dir="rtl")
                   h3= lesson.title
                   span= lesson.subtitle
 
+                if isAdmin
+                  .admin-actions
+                    span.admin-btn.admin-edit(role="button" tabindex="0" title="تعديل الدرس" data-action="edit-lesson")
+                      i.fa-solid.fa-pen
+                    span.admin-btn.admin-delete(role="button" tabindex="0" title="حذف الدرس" data-action="delete-lesson")
+                      i.fa-solid.fa-trash
+
                 i.fa-solid.fa-chevron-down.arrow
 
               .lesson-content
@@ -111,6 +118,12 @@ html(lang="ar" dir="rtl")
                         small= video.title
                       if video.fileType === "quiz"
                         small= `${video.questions.length} أسألة`
+                    if isAdmin
+                      span.admin-actions
+                        span.admin-btn.admin-edit(role="button" tabindex="0" title="تعديل" data-action="edit-video")
+                          i.fa-solid.fa-pen
+                        span.admin-btn.admin-delete(role="button" tabindex="0" title="حذف" data-action="delete-video")
+                          i.fa-solid.fa-trash
                     i.state-mark.fa-solid(class=[achievedLesson < i + 1|| (achievedLesson == i + 1 && achievedRes <= j)? "fa-chevron-left resource-aciton" : "fa-circle-check completed"])
                     // Action icon
                     //- if video.fileType === "video"

@@ -1,48 +1,87 @@
-const nameInput = document.getElementById('lesson-name');
-const photoUrlInput = document.getElementById('image');
-const numberInput = document.getElementById('num');
+const { domain, subcourseId, lessonId } = document.body.dataset;
+const apiBase = `${domain}/api/v1/subcourses/${subcourseId}/lessons`;
+
 const uploadBtn = document.querySelector('.btn-sub');
 
 // The notifcation message
 const notifcation = document.querySelector('.correct');
-const notifcationMsg = document.querySelector('.correct-message')
+const notifcationMsg = document.querySelector('.correct-message');
 
-const domain = document.body.dataset.domain;
-
-const showNotification = function(msg, type) {
-  notifcation.classList.toggle('hidden');
+const showNotification = function (msg, type) {
+  notifcation.classList.remove('hidden');
 
   notifcation.classList.remove('green');
   notifcation.classList.remove('red');
 
-  if(type === 'success')
-    notifcation.classList.add('green');
-  else
-    notifcation.classList.add('red');
+  if (type === 'success') notifcation.classList.add('green');
+  else notifcation.classList.add('red');
 
   notifcationMsg.textContent = msg;
-  setTimeout(() => {
-      notifcation.classList.toggle('hidden');
-  }, 5000)
-}
 
+  // restart the slide in / out animation
+  notifcation.style.animation = 'none';
+  void notifcation.offsetWidth;
+  notifcation.style.animation = '';
 
-uploadBtn.addEventListener('click', async (e) => {
-    const title = nameInput.value;
-    const photoUrl = photoUrlInput.value;
-    const num = numberInput.value;
-    if(!title || !photoUrl || !num) return;
-    const subcourseId = location.href.split('/')[4];
-    const lessonId = location.href.split('/')[6];
-    const res = await fetch(`${domain}/api/v1/subcourses/${subcourseId}/lessons/${lessonId}/edit-lesson`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({title, photoUrl, num, subcourse: subcourseId})
-    })
+  clearTimeout(showNotification.timer);
+  showNotification.timer = setTimeout(() => {
+    notifcation.classList.add('hidden');
+  }, 5000);
+};
 
-    const data = await res.json();
+// go back to the page the admin came from (?redirect=/...)
+const goBack = function () {
+  const redirect = new URLSearchParams(location.search).get('redirect');
+  if (redirect && redirect.startsWith('/') && !redirect.startsWith('//')) location.assign(`${domain}${redirect}`);
+  else history.back();
+};
 
-      showNotification(data.message, data.status);
-  })
+const sendEdit = async function (url, body, successMsg) {
+  uploadBtn.disabled = true;
+
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    let data = {};
+    try { data = await res.json(); } catch (e) {}
+
+    if (!res.ok || data.status !== 'success') {
+      showNotification(data.message || 'حدث خطأ, الرجاء المحاولة مجددا', 'error');
+      uploadBtn.disabled = false;
+      return;
+    }
+
+    showNotification(data.message || successMsg, 'success');
+    setTimeout(goBack, 1500);
+  } catch (err) {
+    showNotification('حدث خطأ, الرجاء المحاولة مجددا', 'error');
+    uploadBtn.disabled = false;
+  }
+};
+
+/* ---------------------------------- lesson --------------------------------- */
+
+const lessonNameInput = document.getElementById('lesson-name');
+const subNameInput = document.getElementById('lesson-sub-name');
+const numInput = document.getElementById('num');
+
+uploadBtn.addEventListener('click', () => {
+  if (uploadBtn.disabled) return;
+
+  const title = lessonNameInput.value.trim();
+  const subtitle = subNameInput.value.trim();
+  const num = numInput.value.trim();
+
+  if (!title || !num) {
+    showNotification('املأ عنوان الدرس ورقمه', 'error');
+    return;
+  }
+
+  sendEdit(`${apiBase}/${lessonId}/edit-lesson`, { title, subtitle, num }, 'تم تعديل الدرس بنجاح');
+});

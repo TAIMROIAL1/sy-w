@@ -8,6 +8,9 @@ const Question = require('./../models/questionModel')
 const Subourse = require("./../models/subcourseModel");
 const Workshop = require('./../models/workshopsModel');
 const catchAsync = require("./../utils/catchAsync");
+
+const {getEditLesson, getEditQuiz, getEditVideo} = require('./../controllers/lessonController');
+
 const { checkJWT, restrictTo, checkActivatedSubcourse, checkActivatedWorkshop } = require("./../controllers/authController");
 const router = express.Router();
 
@@ -307,6 +310,12 @@ router.get("/courses/:courseId/edit-subcourse/:subcourseId", checkJWT, restrictT
 router.get('/subcourses/:subcourseId/upload-lesson', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
   res.status(200).render('uploadLesson');
 }))
+
+router.get('/lessons/:subcourseId/edit-lesson/:lessonId', checkJWT, restrictTo('admin'), getEditLesson);
+
+router.get('/lessons/:subcourseId/edit-video/:lessonId/:videoNum', checkJWT, restrictTo('admin'), getEditVideo);
+
+router.get('/lessons/:subcourseId/edit-quiz/:lessonId/:videoNum', checkJWT, restrictTo('admin'), getEditQuiz);
 
 router.get('/workshops/:workshopId/upload-lesson', checkJWT, restrictTo('admin'), catchAsync(async (req, res) => {
   res.status(200).render('uploadLesson');

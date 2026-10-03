@@ -16,7 +16,10 @@ lessons.forEach((lesson) => {
 
   if (!header) return;
 
-  header.addEventListener("click", () => {
+  header.addEventListener("click", (e) => {
+    // admin edit / delete buttons live inside the header
+    if (e.target.closest(".admin-btn")) return;
+
     if (lesson.classList.contains("locked")) {
       return;
     }
@@ -318,6 +321,9 @@ const progressSentence = document.querySelector('.progress-sentence');
 
 lessonsList.addEventListener("click", async function (e) {
   const clicked = e.target;
+
+  // admin edit / delete buttons live inside the resource
+  if (clicked.closest(".admin-btn")) return;
 
   // Check if User clicked A resource
   const lessonRes = clicked.closest(".lesson-resource");
@@ -652,9 +658,7 @@ async function calculateResult() {
     message.textContent = "لا بأس، حاول مراجعة الدرس وإعادة الاختبار.";
   }
 
-  const lastLesson = document.querySelector('.lessons-list').lastElementChild;
-  const lastRes = lastLesson.lastElementChild.lastElementChild;
-  const isLastRes = currentLesson.dataset.num == lastLesson.dataset.num && resourceNum == lastRes.dataset.num;
+  const isLastRes = currentRes === [...document.querySelectorAll('.lesson-resource')].pop();
   resultBtn.textContent = percentage > 80 && !isLastRes? "الدرس التالي" : "العودة الى الدرس";
   
   resultBtn.setAttribute("action", percentage > 80 && !isLastRes? "next" : "back");
@@ -783,8 +787,7 @@ function updateVideoView(video) {
       else
     prevLessonBtn.classList.remove('hidden');
 
-    const lastLesson = document.querySelector('.lessons-list').lastElementChild; 
-    if(lessonNum == lastLesson.dataset.num && resNum == lastLesson.lastElementChild.lastElementChild.dataset.num) btnPrimary.classList.add('hidden');
+    if(video === [...document.querySelectorAll('.lesson-resource')].pop()) btnPrimary.classList.add('hidden');
     else btnPrimary.classList.remove('hidden');
     
 }
@@ -802,18 +805,27 @@ const darkMode = localStorage.getItem('darkMode');
         document.body.classList.toggle("page-dark-mode");
     }
 
+if(document.body.dataset.isAdmin == 'admin') initAdminActions();
+
     let res;
 if(!document.body.dataset.toRes) {
 const lesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.dataset.num == achievedLesson);
-lesson.classList.add('active');
-res = [...lesson.querySelectorAll('.lesson-resource')].find(res => res.dataset.num == achievedResource);
-res.classList.add('active');
+res = lesson && [...lesson.querySelectorAll('.lesson-resource')].find(res => res.dataset.num == achievedResource);
 }
 else {
 res = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
 }
 
-moveToRes(res);
+// fallback if the achieved lesson / resource no longer exists (deleted or not uploaded yet)
+if(!res) res = [...document.querySelectorAll('.lesson-resource:not(.locked)')].pop() || document.querySelector('.lesson-resource');
+
+if(res) {
+  [...document.querySelectorAll('.lesson-resource')].forEach(r => r.classList.remove('active'));
+  [...document.querySelectorAll('.lesson')].forEach(l => l.classList.remove('active'));
+  res.classList.add('active');
+  res.closest('.lesson').classList.add('active');
+  moveToRes(res);
+}
 
 if(document.body.dataset.isAdmin == 'admin') {
   const lessonUpload = document.createElement('div');
@@ -839,6 +851,75 @@ if(document.body.dataset.isAdmin == 'admin') {
     })
   })
 }
+}
+
+/* =========================================
+   ADMIN EDIT / DELETE
+========================================= */
+
+function initAdminActions() {
+  const subcourseId = location.href.split('/')[4];
+  const lessonsApi = `${domain}/api/v1/subcourses/${subcourseId}/lessons`;
+  const redirect = encodeURIComponent(location.pathname + location.search);
+
+  async function adminDelete(url, btn) {
+    btn.classList.add('loading');
+    try {
+      const response = await fetch(url, { method: 'DELETE' });
+      let data = {};
+      try { data = await response.json(); } catch (e) {}
+
+      if(!response.ok || data.status !== 'success') throw new Error(data.message || 'حدث خطأ, الرجاء المحاولة مجددا');
+
+      alert(data.message || 'تم الحذف بنجاح');
+      location.reload();
+    } catch (err) {
+      btn.classList.remove('loading');
+      alert(err.message);
+    }
+  }
+
+  function handleAdminAction(btn) {
+    const lesson = btn.closest('.lesson');
+    const res = btn.closest('.lesson-resource');
+    const { lessonId } = lesson.dataset;
+    const lessonTitle = lesson.querySelector('.lesson-title h3').textContent.trim();
+
+    switch (btn.dataset.action) {
+      case 'edit-lesson':
+        location.assign(`${domain}/lessons/${subcourseId}/edit-lesson/${lessonId}?redirect=${redirect}`);
+        break;
+      case 'delete-lesson':
+        if(confirm(`هل أنت متأكد من حذف الدرس "${lessonTitle}" وكل الملفات بداخله؟`))
+          adminDelete(`${lessonsApi}/${lessonId}`, btn);
+        break;
+      case 'edit-video': {
+        const page = res.classList.contains('quiz-resource') ? 'edit-quiz' : 'edit-video';
+        location.assign(`${domain}/lessons/${subcourseId}/${page}/${lessonId}/${res.dataset.num}?redirect=${redirect}`);
+        break;
+      }
+      case 'delete-video':
+        if(confirm(`هل أنت متأكد من حذف "${res.querySelector('.resource-info strong').textContent.trim()}"؟`))
+          adminDelete(`${lessonsApi}/${lessonId}/videos/${res.dataset.num}`, btn);
+        break;
+    }
+  }
+
+  document.querySelectorAll('.admin-btn').forEach(btn => {
+    // stopPropagation so the lesson accordion / resource click handlers don't run
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      handleAdminAction(btn);
+    });
+
+    btn.addEventListener('keydown', function(e) {
+      if(e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      e.stopPropagation();
+      handleAdminAction(btn);
+    });
+  });
 }
 
 async function moveToRes(res) {

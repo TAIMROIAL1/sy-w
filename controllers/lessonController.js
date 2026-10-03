@@ -36,9 +36,41 @@ exports.createLesson = catchAsync(async function(req, res, next) {
   })
 });
 
+const isEmpty = value => value === undefined || value === null || String(value).trim() === '';
+
+const getQuizQuestionIds = videos => videos
+  .filter(vid => vid.fileType === 'quiz')
+  .flatMap(vid => vid.questions || []);
+
+// Keeps lesson numbers in a subcourse continuous (1, 2, 3...) and optionally moves one lesson to a new position
+const reorderLessons = async function(subcourseId, movedLesson = null, newNum = null) {
+  let lessons = await Lesson.find({ subcourse: subcourseId }).sort({ num: 1 });
+
+  if(movedLesson) {
+    lessons = lessons.filter(les => les._id.toString() !== movedLesson._id.toString());
+    const index = Math.min(Math.max(newNum - 1, 0), lessons.length);
+    lessons.splice(index, 0, movedLesson);
+  }
+
+  const ops = lessons
+    .map((les, i) => ({ id: les._id, num: i + 1, oldNum: les.num }))
+    .filter(les => les.num !== les.oldNum || (movedLesson && les.id.toString() === movedLesson._id.toString()))
+    .map(les => ({ updateOne: { filter: { _id: les.id }, update: { $set: { num: les.num } } } }));
+
+  if(ops.length) await Lesson.bulkWrite(ops);
+};
+
 exports.deleteLesson = catchAsync(async function(req, res, next) {
   const { lessonId } = req.params;
+  const lesson = await Lesson.findById(lessonId);
+
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 404, 'message'));
+
+  const questionIds = getQuizQuestionIds(lesson.videos);
+  if(questionIds.length) await Question.deleteMany({ _id: { $in: questionIds } });
+
   await Lesson.findByIdAndDelete(lessonId);
+  await reorderLessons(lesson.subcourse);
 
   res.status(200).json({
     status: 'success',
@@ -51,23 +83,28 @@ exports.editLesson = catchAsync(async function(req, res, next) {
 
   const lessonToEdit = await Lesson.findById(lessonId);
 
-  const { title, photoUrl, num } = req.body;
+  if(!lessonToEdit) return next(new AppError('هذا الدرس غير موجود', 404, 'message'));
 
-  if(!title) return next(new AppError('الرجاء ادخال عنوان الدرس', 400, 'message'));
-  if(!photoUrl) return next(new AppError('الرجاء ادخال الصورة', 400, 'message'));
-  if(!num) return next(new AppError('الرجاء ادخال رقم الدرس', 400, 'message'));
+  const { title, subtitle = '', num } = req.body;
 
-  const checkTitle = lessonToEdit.title === title;
-  const checkPhotoUrl = lessonToEdit.photoUrl === photoUrl;
-  const checkNum = lessonToEdit.num === Number(num);
+  if(isEmpty(title)) return next(new AppError('الرجاء ادخال عنوان الدرس', 400, 'message'));
+  if(isEmpty(num)) return next(new AppError('الرجاء ادخال رقم الدرس', 400, 'message'));
 
-  if(checkTitle && checkPhotoUrl && checkNum) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+  const newNum = Number(num);
+  if(!Number.isInteger(newNum) || newNum < 1) return next(new AppError('رقم الدرس يجب أن يكون عدداً صحيحاً أكبر من صفر', 400, 'message'));
 
-  lessonToEdit.title = title;
-  lessonToEdit.photoUrl = photoUrl;
-  lessonToEdit.num = num;
+  const checkTitle = lessonToEdit.title === title.trim();
+  const checkSubtitle = (lessonToEdit.subtitle || '') === subtitle.trim();
+  const checkNum = lessonToEdit.num === newNum;
+
+  if(checkTitle && checkSubtitle && checkNum) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+
+  lessonToEdit.title = title.trim();
+  lessonToEdit.subtitle = subtitle.trim();
 
   await lessonToEdit.save({ validateBeforeSave: false });
+
+  if(!checkNum) await reorderLessons(lessonToEdit.subcourse, lessonToEdit, newNum);
 
   res.status(200).json({
     status: 'success',
@@ -110,24 +147,63 @@ exports.addVideo = catchAsync(async function(req, res, next) {
   })
 });
 
-exports.editVideo = catchAsync(async function(req, res, next) {
-  const { lessonId, videoId } = req.params;
+const findVideoIndex = function(videos, videoNum) {
+  const num = Number(videoNum);
+  if(!Number.isInteger(num)) return -1;
+  return videos.findIndex(vid => vid.num === num);
+};
+
+const findResource = async function(req, next, fileType) {
+  const { lessonId, videoNum } = req.params;
 
   const lesson = await Lesson.findById(lessonId);
-  const videoToEdit = lesson.videos.find(vid => vid._id == videoId);
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 404, 'message'));
 
-  const { title, num } = req.body;
+  const index = findVideoIndex(lesson.videos, videoNum);
+  if(index === -1 || lesson.videos[index].fileType !== fileType)
+    return next(new AppError(fileType === 'quiz' ? 'هذا الاختبار غير موجود' : 'هذا الفيديو غير موجود', 404, 'message'));
 
-  if(!title) return next(new AppError('الرجاء ادخال عنوان الفيديو', 400, 'message'));
-  if(!num) return next(new AppError('الرجاء ادخال رقم الفيديو', 400, 'message'));
+  return { lesson, index, resource: lesson.videos[index] };
+};
 
-  const checkTitle = videoToEdit.title === title;
-  const checkNum = videoToEdit.num === Number(num);
+// num is the position in the videos array (the pre save hook renumbers by index), so moving = changing position
+const moveResource = function(lesson, index, newNum) {
+  const videos = lesson.videos.map(vid => vid.toObject());
+  const [moved] = videos.splice(index, 1);
+  videos.splice(Math.min(newNum, videos.length), 0, moved);
+  lesson.videos = videos;
+};
 
-  if(checkTitle && checkNum) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+const parseResourceNum = function(num, next) {
+  if(isEmpty(num)) return next(new AppError('الرجاء ادخال الرقم', 400, 'message'));
+  const newNum = Number(num);
+  if(!Number.isInteger(newNum) || newNum < 0) return next(new AppError('الرقم يجب أن يكون عدداً صحيحاً', 400, 'message'));
+  return newNum;
+};
 
-  videoToEdit.title = title;
-  videoToEdit.num = num;
+exports.editVideo = catchAsync(async function(req, res, next) {
+  const found = await findResource(req, next, 'video');
+  if(!found) return;
+  const { lesson, index, resource: videoToEdit } = found;
+
+  const fields = ['title', 'subtitle', 'videoUrl', 'info', 'duration'];
+  const data = {};
+  fields.forEach(field => data[field] = typeof req.body[field] === 'string' ? req.body[field].trim() : '');
+
+  if(!data.title) return next(new AppError('الرجاء ادخال عنوان الفيديو', 400, 'message'));
+  if(!data.videoUrl) return next(new AppError('الرجاء ادخال رابط الفيديو', 400, 'message'));
+  if(!data.duration) return next(new AppError('الرجاء ادخال مدة الفيديو', 400, 'message'));
+
+  const newNum = parseResourceNum(req.body.num, next);
+  if(newNum === undefined) return;
+
+  const checkFields = fields.every(field => (videoToEdit[field] || '') === data[field]);
+  const checkNum = videoToEdit.num === newNum;
+
+  if(checkFields && checkNum) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+
+  fields.forEach(field => videoToEdit[field] = data[field]);
+  if(!checkNum) moveResource(lesson, index, newNum);
 
   await lesson.save({ validateBeforeSave: false });
 
@@ -137,11 +213,89 @@ exports.editVideo = catchAsync(async function(req, res, next) {
   })
 })
 
+// body: { title, num, questionsData: [{ _id (existing questions only), text, answers: [4], correctAnswer: 0-3 }] }
+exports.editQuiz = catchAsync(async function(req, res, next) {
+  const found = await findResource(req, next, 'quiz');
+  if(!found) return;
+  const { lesson, index, resource: quiz } = found;
+
+  const title = typeof req.body.title === 'string' ? req.body.title.trim() : '';
+  const { questionsData } = req.body;
+
+  if(!title) return next(new AppError('الرجاء ادخال عنوان الاختبار', 400, 'message'));
+
+  const newNum = parseResourceNum(req.body.num, next);
+  if(newNum === undefined) return;
+
+  if(!Array.isArray(questionsData) || questionsData.length < 1) return next(new AppError('ادخل سؤال واحد على الأقل', 400, 'message'));
+
+  const quizQuestionIds = quiz.questions.map(id => id.toString());
+  const questions = [];
+
+  for(const q of questionsData) {
+    const text = typeof q.text === 'string' ? q.text.trim() : '';
+    const answers = Array.isArray(q.answers) ? q.answers.map(a => String(a).trim()) : [];
+    const correctAnswer = Number(q.correctAnswer);
+
+    if(!text || answers.length !== 4 || answers.some(a => !a)) return next(new AppError('الرجاء اكمال الأسألة', 400, 'message'));
+    if(!Number.isInteger(correctAnswer) || correctAnswer < 0 || correctAnswer > 3) return next(new AppError('الاجابة الصحيحة يجب أن تكون بين 1 و 4', 400, 'message'));
+    if(q._id && !quizQuestionIds.includes(String(q._id))) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400, 'message'));
+
+    questions.push({ _id: q._id ? String(q._id) : null, text, answers, correctAnswer });
+  }
+
+  const oldQuestions = await Question.find({ _id: { $in: quizQuestionIds } });
+  const oldById = new Map(oldQuestions.map(q => [q._id.toString(), q]));
+
+  const sameQuestion = (q, old) => old && old.text === q.text && old.correctAnswer === q.correctAnswer &&
+    q.answers.every((a, i) => old.answers[i] === a);
+
+  const checkTitle = quiz.title === title;
+  const checkNum = quiz.num === newNum;
+  const checkQuestions = questions.length === quizQuestionIds.length &&
+    questions.every((q, i) => q._id === quizQuestionIds[i] && sameQuestion(q, oldById.get(q._id)));
+
+  if(checkTitle && checkNum && checkQuestions) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+
+  const newIds = [];
+  for(const q of questions) {
+    if(q._id) {
+      if(!sameQuestion(q, oldById.get(q._id)))
+        await Question.findByIdAndUpdate(q._id, { text: q.text, answers: q.answers, correctAnswer: q.correctAnswer });
+      newIds.push(q._id);
+    } else {
+      const created = await Question.create({ text: q.text, answers: q.answers, correctAnswer: q.correctAnswer });
+      newIds.push(created._id.toString());
+    }
+  }
+
+  const removedIds = quizQuestionIds.filter(id => !newIds.includes(id));
+  if(removedIds.length) await Question.deleteMany({ _id: { $in: removedIds } });
+
+  quiz.title = title;
+  quiz.questions = newIds;
+  if(!checkNum) moveResource(lesson, index, newNum);
+
+  await lesson.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'تم تعديل الاختبار بنجاح'
+  })
+})
+
 exports.deleteVideo = catchAsync(async function(req, res, next) {
-  const { lessonId, videoId } = req.params;
+  const { lessonId, videoNum } = req.params;
   const lesson = await Lesson.findById(lessonId);
 
-  const videoIndex = lesson.videos.findIndex(vid => vid._id.toString() === videoId.toString());
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 404, 'message'));
+
+  const videoIndex = findVideoIndex(lesson.videos, videoNum);
+
+  if(videoIndex === -1) return next(new AppError('هذا الفيديو غير موجود', 404, 'message'));
+
+  const questionIds = getQuizQuestionIds([lesson.videos[videoIndex]]);
+  if(questionIds.length) await Question.deleteMany({ _id: { $in: questionIds } });
 
   lesson.videos.splice(videoIndex, 1);
 
@@ -262,3 +416,33 @@ exports.solveQuestions = catchAsync(async function(req, res, next) {
     correct
   })
 })
+
+exports.getEditLesson = catchAsync(async function(req, res, next) {
+  const lesson = await Lesson.findById(req.params.lessonId);
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 404));
+ 
+  res.status(200).render('editLesson', { lesson });
+});
+ 
+exports.getEditVideo = catchAsync(async function(req, res, next) {
+  const { lessonId, videoNum } = req.params;
+
+  console.log(lessonId, videoNum);
+  const lesson = await Lesson.findById(lessonId);
+
+  console.log(lesson);
+  const video = lesson && lesson.videos.find(vid => vid.num === Number(videoNum) && vid.fileType === 'video');
+  if(!video) return next(new AppError('هذا الفيديو غير موجود', 404));
+ 
+  res.status(200).render('editVideo', { lesson, video });
+});
+ 
+exports.getEditQuiz = catchAsync(async function(req, res, next) {
+  const { lessonId, videoNum } = req.params;
+  const lesson = await Lesson.findById(lessonId).populate({ path: 'videos.questions', model: 'Question' });
+  const quiz = lesson && lesson.videos.find(vid => vid.num === Number(videoNum) && vid.fileType === 'quiz');
+  if(!quiz) return next(new AppError('هذا الاختبار غير موجود', 404));
+ 
+  res.status(200).render('editQuiz', { lesson, quiz });
+});
+ 
