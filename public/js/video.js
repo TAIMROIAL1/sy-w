@@ -628,7 +628,7 @@ async function calculateResult() {
     const currentRes =  [...currentLesson.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
     const { lessonId }= currentLesson.dataset;
     const resourceNum = currentRes.dataset.num;
-  const { correct } = await ajaxCall(`${domain}/api/v1/questions/solve-questions`, {solvedQuestions: userAnswers, subcourseId: location.href.split('/')[4], lessonId, resourceNum});
+  const { correct, feedBack } = await ajaxCall(`${domain}/api/v1/questions/solve-questions`, {solvedQuestions: userAnswers, subcourseId: location.href.split('/')[4], lessonId, resourceNum});
 
   const total = currentQuiz.length;
 
@@ -647,6 +647,8 @@ async function calculateResult() {
   document.getElementById("wrongAnswers").textContent = wrong;
 
   document.getElementById("resultTotal").textContent = total;
+
+  renderWrongAnswers(feedBack);
 
   /*
         الرسالة حسب النتيجة
@@ -701,6 +703,52 @@ async function calculateResult() {
     currentRes.querySelector('.state-mark').classList.add('completed');
 }
   showView(resultView);
+}
+
+/* =========================================
+   WRONG ANSWERS LIST
+========================================= */
+
+function renderWrongAnswers(feedBack) {
+  const section = document.getElementById("wrongAnswersSection");
+  const list = document.getElementById("wrongAnswersList");
+
+  list.innerHTML = "";
+
+  if (!Array.isArray(feedBack) || feedBack.length === 0) {
+    section.classList.add("hidden");
+    return;
+  }
+
+  feedBack.forEach(({ questionText, answerIndex, answerText }, i) => {
+    const item = document.createElement("li");
+    item.classList.add("wrong-answer-item");
+
+    const question = document.createElement("p");
+    question.classList.add("wrong-answer-question");
+    question.textContent = `${i + 1}. ${questionText}`;
+
+    const answer = document.createElement("div");
+    answer.classList.add("wrong-answer-choice");
+
+    const label = document.createElement("span");
+    label.classList.add("wrong-answer-label");
+    label.textContent = "إجابتك:";
+
+    const number = document.createElement("span");
+    number.classList.add("wrong-answer-number");
+    number.textContent = Number(answerIndex) + 1;
+
+    const text = document.createElement("span");
+    text.classList.add("wrong-answer-text");
+    text.textContent = answerText;
+
+    answer.append(label, number, text);
+    item.append(question, answer);
+    list.appendChild(item);
+  });
+
+  section.classList.remove("hidden");
 }
 
 resultBtn.addEventListener('click', () => {

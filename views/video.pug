@@ -312,6 +312,12 @@ html(lang="ar" dir="rtl")
                 span مجموع الأسئلة
                 strong#resultTotal 5
 
+            .wrong-answers.hidden#wrongAnswersSection
+              h3.wrong-answers-title
+                i.fa-solid.fa-circle-xmark
+                | الأسئلة التي أخطأت فيها
+              ul.wrong-answers-list#wrongAnswersList
+
             .result-actions
               button.btn.btn-primary#retryQuiz
                 i.fa-solid.fa-rotate-right

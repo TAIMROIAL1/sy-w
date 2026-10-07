@@ -948,6 +948,89 @@ body {
     gap: 12px;
 }
 
+.wrong-answers {
+    text-align: right;
+    margin: 0 0 30px;
+}
+
+.wrong-answers-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 14px;
+}
+
+.wrong-answers-title i {
+    color: var(--red);
+}
+
+.wrong-answers-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.wrong-answer-item {
+    border: 1px solid var(--border);
+    border-right: 4px solid var(--red);
+    border-radius: 14px;
+    padding: 16px 18px;
+    background: var(--card-bg);
+}
+
+.wrong-answer-question {
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.wrong-answer-choice {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: var(--red-light);
+    color: var(--red);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.wrong-answer-label {
+    font-weight: 600;
+}
+
+.wrong-answer-number {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--red);
+    color: var(--white);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+.wrong-answer-text {
+    color: var(--dark);
+    word-break: break-word;
+}
+
+.page-dark-mode .wrong-answer-choice {
+    background: rgba(239, 68, 68, .15);
+}
+
+.page-dark-mode .wrong-answer-text {
+    color: var(--text);
+}
+
 
 /* =========================================
    MOBILE SIDEBAR

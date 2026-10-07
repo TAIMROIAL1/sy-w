@@ -404,16 +404,27 @@ exports.solveQuestions = catchAsync(async function(req, res, next) {
 
   if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
+  const feedBack = [];
   let correct = 0;
 
   solvedQuestions.forEach(sq => {
-    if(questions.find(q => sq.questionId == q._id.toString()).correctAnswer == sq.index)
+    const foundQuestion = questions.find(q => sq.questionId == q._id.toString());
+
+    if(foundQuestion.correctAnswer == sq.index)
       correct++;
+    else {
+      feedBack.push({
+      answerIndex: sq.index,
+      answerText: foundQuestion.answers[sq.index],
+      questionText: foundQuestion.text,  
+    })
+    }
   })
 
   res.status(200).json({
     status: 'success',
-    correct
+    correct,
+    feedBack
   })
 })
 
