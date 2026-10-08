@@ -5,7 +5,7 @@
 //   BUNNY_STORAGE_HOST      region host of the zone               e.g. storage.bunnycdn.com (Falkenstein), uk.storage.bunnycdn.com ...
 //   BUNNY_CDN_URL           pull zone connected to the zone       e.g. https://studyou-images.b-cdn.net
 const crypto = require('crypto');
-const AppError = require('./appError');
+const AppError = require('./AppError');
 
 const FOLDER = 'ankiPrivateGroupsCardImages';
 const PHOTO_FOLDER = 'ankiOfficialGroupPhotos';

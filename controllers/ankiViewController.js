@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const AnkiGroup = require('./../models/ankiGroupModel');
 const AnkiCard = require('./../models/ankiCardModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+const AppError = require('./../utils/AppError');
 const { MIN_CARDS_TO_PUBLISH } = require('./ankiController');
 const scheduler = require('./../utils/ankiScheduler');
 
