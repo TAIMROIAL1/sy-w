@@ -667,9 +667,9 @@ async function calculateResult() {
   }
 
   const isLastRes = currentRes === [...document.querySelectorAll('.lesson-resource')].pop();
-  resultBtn.textContent = percentage > 80 && !isLastRes? "الدرس التالي" : "العودة الى الدرس";
+  resultBtn.textContent = percentage >= 80 && !isLastRes? "الدرس التالي" : "العودة الى الدرس";
   
-  resultBtn.setAttribute("action", percentage > 80 && !isLastRes? "next" : "back");
+  resultBtn.setAttribute("action", percentage >= 80 && !isLastRes? "next" : "back");
 
   let newRes;
   let inNextLesson = false;
@@ -687,7 +687,7 @@ async function calculateResult() {
     }
     else
         newRes = currentRes.previousElementSibling;
-  if(percentage > 80){
+  if(percentage >= 80){
   newRes.classList.remove('locked');
   if(newRes.classList.contains('video-resource')) {
     newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-play'></i>";

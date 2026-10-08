@@ -18,7 +18,6 @@ exports.checkLink = function(req, res, next) {
 }
 
 exports.checkJWT = catchAsync(async function(req, res, next) {
-
   if(req.nextLink) {
     req.nextLink = false;
     return next();

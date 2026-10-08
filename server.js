@@ -27,6 +27,8 @@ const server = app.listen(process.env.SERVER_PORT,() => {
   console.log("Port: ",process.env.SERVER_PORT)
 })
 
+require('./utils/ankiSocket').init(server);
+
 process.on('unhandledRejection', (err) => {
   console.log(err.message);
   server.close(() => {

@@ -1,0 +1,124 @@
+extends _layout
+include _mixins
+
+block content
+  main.anki-page.has-bottom-nav#anki-home(data-tab=tab data-min-cards=minCards)
+
+    //- ================= المكتبة =================
+    section.tab-panel(data-panel='library' hidden=tab !== 'library')
+      .page-hero
+        div
+          h1 مكتبتي
+          p أنشئ مجموعات بطاقاتك الخاصة وراجعها متى شئت
+        button.btn.btn-light.create-group-btn(type='button')
+          i.fa-solid.fa-plus
+          |  مجموعة جديدة
+
+      - const totalCards = library.reduce((sum, g) => sum + g.cardsCount, 0)
+      .stats-row
+        .stat-card
+          .stat-icon
+            i.fa-solid.fa-folder
+          div
+            strong#stat-groups= library.length
+            span مجموعة
+        .stat-card
+          .stat-icon.green
+            i.fa-solid.fa-layer-group
+          div
+            strong#stat-cards= totalCards
+            span بطاقة
+        .stat-card
+          .stat-icon.amber
+            i.fa-solid.fa-globe
+          div
+            strong= library.filter(g => g.status === 'published').length
+            span منشورة
+
+      .library-content(hidden=!library.length)
+        .toolbar
+          h2 مجموعاتي
+          .search-box
+            i.fa-solid.fa-magnifying-glass
+            input.group-search(type='search' placeholder='ابحث في مجموعاتك' aria-label='ابحث في مجموعاتك')
+        .groups-grid#library-grid
+          button.create-tile.create-group-btn(type='button')
+            i.fa-solid.fa-plus
+            span إنشاء مجموعة
+            small اجمع بطاقاتك حسب الدرس أو المادة
+          each g in library
+            +libraryCard(g)
+        p.no-results(hidden) لا توجد مجموعات بهذا الاسم
+
+      .library-empty(hidden=!!library.length)
+        +emptyState('fa-layer-group', 'مكتبتك فارغة', 'ابدأ بإنشاء أول مجموعة ثم أضف إليها بطاقات من أنواع مختلفة')
+          button.btn.btn-primary.create-group-btn(type='button')
+            i.fa-solid.fa-plus
+            |  إنشاء مجموعة
+
+    //- ================= المنهج =================
+    section.tab-panel(data-panel='curriculum' hidden=tab !== 'curriculum')
+      .page-hero.hero-curriculum
+        div
+          h1 المنهج
+          p مجموعات رسمية أعدها فريق المنصة لتغطي دروس المنهج
+      if user.role === 'admin'
+        .admin-bar
+          a.btn.btn-primary(href='/anki/official/new')
+            i.fa-solid.fa-plus
+            |  مجموعة رسمية جديدة
+          span.muted-note المسودات تظهر لك فقط حتى تنشرها
+      if curriculum.length
+        .toolbar
+          h2 #{curriculum.length} مجموعة رسمية
+          .search-box
+            i.fa-solid.fa-magnifying-glass
+            input.group-search(type='search' placeholder='ابحث في المنهج' aria-label='ابحث في المنهج')
+        .groups-grid
+          each g in curriculum
+            +officialCard(g)
+        p.no-results(hidden) لا توجد مجموعات بهذا الاسم
+      else
+        +emptyState('fa-graduation-cap', 'لا توجد مجموعات بعد', 'سيضيف فريق المنصة مجموعات المنهج قريباً')
+
+    //- ================= المجتمع =================
+    section.tab-panel(data-panel='community' hidden=tab !== 'community')
+      .page-hero.hero-community
+        div
+          h1 المجتمع
+          p مجموعات شاركها طلاب آخرون بعد مراجعتها من المشرفين
+      if community.length
+        .toolbar
+          h2#community-sort-title الأفضل أولاً
+          .search-box
+            i.fa-solid.fa-magnifying-glass
+            input.group-search(type='search' placeholder='ابحث في المجتمع' aria-label='ابحث في المجتمع')
+        .sort-chips(role='group' aria-label='ترتيب المجموعات')
+          button.sort-chip.active(type='button' data-sort='score' aria-pressed='true')
+            i.fa-solid.fa-trophy
+            |  الأفضل
+          button.sort-chip(type='button' data-sort='rating' aria-pressed='false')
+            i.fa-solid.fa-star
+            |  الأعلى تقييماً
+          button.sort-chip(type='button' data-sort='users' aria-pressed='false')
+            i.fa-solid.fa-users
+            |  الأكثر استخداماً
+          button.sort-chip(type='button' data-sort='published' aria-pressed='false')
+            i.fa-regular.fa-clock
+            |  الأحدث
+        p.sort-hint
+          i.fa-solid.fa-circle-info
+          |  الترتيب حسب التقييم وعدد المقيّمين وعدد المستخدمين معاً
+        .groups-grid#community-grid
+          each g, i in community
+            +communityCard(g, false, i + 1)
+        p.no-results(hidden) لا توجد مجموعات بهذا الاسم
+      else
+        +emptyState('fa-users', 'لا توجد مجموعات في المجتمع بعد', 'كن أول من يشارك! انشر إحدى مجموعاتك من المكتبة وبعد موافقة المشرفين ستظهر هنا للجميع')
+          a.btn.btn-primary(href='/anki' data-tab-link='library')
+            i.fa-solid.fa-paper-plane
+            |  انشر من مكتبتك
+
+block scripts
+  script(src='/js/anki/home.js')
+  script(src='/js/anki/rating.js')

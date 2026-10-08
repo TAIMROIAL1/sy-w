@@ -1,0 +1,209 @@
+extends _layout
+include _mixins
+
+block content
+  - const ready = { cards: group.cardsCount >= minCards, description: !!group.description }
+  main.anki-page.has-bottom-nav#library-group(data-group-id=group._id data-name=group.name data-description=group.description)
+    .container-narrow
+      a.back-link(href='/anki')
+        i.fa-solid.fa-arrow-right
+        | العودة إلى المكتبة
+
+      header.group-header
+        .group-avatar.lg(style=`--hue:${hue(group.name)}`)= firstLetter(group.name)
+        .group-header-text
+          .title-row
+            h1#group-title= group.name
+            button.icon-btn.edit-group-btn(type='button' title='تعديل الاسم والوصف' aria-label='تعديل الاسم والوصف')
+              i.fa-solid.fa-pen
+          .group-meta
+            +statusBadge(group.status)
+            span
+              i.fa-solid.fa-layer-group
+              | #{group.cardsCount} بطاقة
+            span
+              i.fa-regular.fa-clock
+              | آخر تعديل #{timeAgo(group.updatedAt)}
+
+      nav.tabs(role='tablist')
+        button.tab(type='button' role='tab' data-tab='info' class=activeTab === 'info' ? 'active' : '' aria-selected=String(activeTab === 'info'))
+          i.fa-solid.fa-circle-info
+          span معلومات
+        button.tab(type='button' role='tab' data-tab='edit' class=activeTab === 'edit' ? 'active' : '' aria-selected=String(activeTab === 'edit'))
+          i.fa-solid.fa-pen-to-square
+          span البطاقات
+          span.count= cards.length
+        button.tab(type='button' role='tab' data-tab='publish' class=activeTab === 'publish' ? 'active' : '' aria-selected=String(activeTab === 'publish'))
+          i.fa-solid.fa-paper-plane
+          span النشر
+
+      //- ============ معلومات ============
+      section.tab-panel.panel-stack(data-panel='info' role='tabpanel' hidden=activeTab !== 'info')
+        .card-box.start-box
+          div
+            h2
+              i.fa-solid.fa-bolt
+              | جاهز للمراجعة؟
+            p #{group.cardsCount} بطاقة · حوالي #{studyMinutes(group.cardsCount)} دقيقة
+          if group.cardsCount
+            +studyModes(group, progress)
+          else
+            button.btn.btn-primary.btn-lg.go-edit-btn(type='button')
+              i.fa-solid.fa-plus
+              |  أضف أول بطاقة
+
+        .stats-row.four
+          .stat-card
+            .stat-icon
+              i.fa-solid(class=typeInfo.basic.icon)
+            div
+              strong= counts.basic
+              span بسيطة
+          .stat-card
+            .stat-icon.green
+              i.fa-solid(class=typeInfo.reverse.icon)
+            div
+              strong= counts.reverse
+              span عكسية
+          .stat-card
+            .stat-icon.amber
+              i.fa-solid(class=typeInfo.cloze.icon)
+            div
+              strong= counts.cloze
+              span فراغات
+          .stat-card
+            .stat-icon.sky
+              i.fa-solid(class=typeInfo.image.icon)
+            div
+              strong= counts.image
+              span صور
+
+        .card-box
+          h2
+            i.fa-solid.fa-align-right
+            | الوصف
+          p.description#group-description-text(class=group.description ? '' : 'empty')= group.description || 'لا يوجد وصف بعد، أضفه من زر التعديل بجانب الاسم.'
+
+        .card-box
+          ul.info-list
+            li
+              span
+                i.fa-regular.fa-calendar-plus
+                | تاريخ الإنشاء
+              strong= formatDate(group.createdAt)
+            li
+              span
+                i.fa-regular.fa-calendar
+                | آخر تعديل
+              strong= formatDate(group.updatedAt)
+            li
+              span
+                i.fa-solid.fa-shield-halved
+                | الحالة
+              strong= statusInfo[group.status].label
+
+      //- ============ البطاقات (تعديل) ============
+      section.tab-panel(data-panel='edit' role='tabpanel' hidden=activeTab !== 'edit')
+        - const cardsBase = `/anki/library/${group._id}`
+        include _cardList
+
+      //- ============ النشر ============
+      section.tab-panel(data-panel='publish' role='tabpanel' hidden=activeTab !== 'publish')
+        - const stepIndex = { private: 0, rejected: 1, pending: 1, published: 2 }[group.status]
+        .stepper
+          .step(class=stepIndex > 0 ? 'done' : 'current')
+            .step-dot
+              if stepIndex > 0
+                i.fa-solid.fa-check
+              else
+                | 1
+            strong إرسال للنشر
+            small المجموعة في مكتبتك فقط
+          .step(class=[stepIndex > 1 ? 'done' : stepIndex === 1 ? 'current' : '', group.status === 'rejected' ? 'is-rejected' : ''])
+            .step-dot
+              if stepIndex > 1
+                i.fa-solid.fa-check
+              else if group.status === 'rejected'
+                i.fa-solid.fa-xmark
+              else
+                | 2
+            strong مراجعة المشرفين
+            small يتأكد المشرفون من صحة البطاقات
+          .step(class=stepIndex === 2 ? 'done is-final' : '')
+            .step-dot
+              if stepIndex === 2
+                i.fa-solid.fa-globe
+              else
+                | 3
+            strong منشورة
+            small تظهر للجميع في المجتمع
+
+        .card-box
+          if group.status === 'pending'
+            .publish-state
+              .state-icon.pending
+                i.fa-solid.fa-hourglass-half
+              h2 مجموعتك قيد المراجعة
+              p أُرسلت للمراجعة #{timeAgo(group.submittedAt)}. سيراجع المشرفون البطاقات وستظهر المجموعة في المجتمع فور الموافقة عليها.
+              button.btn.btn-ghost.unpublish-btn(type='button' data-confirm='إلغاء طلب النشر؟')
+                i.fa-solid.fa-xmark
+                |  إلغاء طلب النشر
+
+          else if group.status === 'published'
+            .publish-state
+              .state-icon.published
+                i.fa-solid.fa-globe
+              h2 مجموعتك منشورة في المجتمع
+              p منشورة منذ #{formatDate(group.publishedAt)}، يمكن لأي طالب دراستها وتقييمها.
+              .stats-row.publish-stats
+                .stat-card
+                  .stat-icon.amber
+                    i.fa-solid.fa-star
+                  div
+                    strong= group.ratingsAverage.toFixed(1)
+                    span التقييم
+                .stat-card
+                  .stat-icon
+                    i.fa-solid.fa-comment-dots
+                  div
+                    strong= group.ratingsQuantity
+                    span عدد التقييمات
+                .stat-card
+                  .stat-icon.green
+                    i.fa-solid.fa-users
+                  div
+                    strong= group.usersCount
+                    span مستخدم
+              span.section-label هكذا تظهر مجموعتك للآخرين
+              .preview-card-wrap
+                +communityCard(group, true)
+              button.btn.btn-danger-ghost.unpublish-btn(type='button' data-confirm='إلغاء نشر المجموعة؟ ستختفي من المجتمع.')
+                i.fa-solid.fa-eye-slash
+                |  إلغاء النشر
+
+          else
+            .publish-state
+              if group.status === 'rejected'
+                .alert.alert-danger
+                  i.fa-solid.fa-circle-exclamation
+                  div
+                    strong رفض المشرفون نشر المجموعة
+                    if group.reviewNote
+                      p= group.reviewNote
+              .state-icon
+                i.fa-solid.fa-paper-plane
+              h2 شارك مجموعتك مع الطلاب
+              p بعد الإرسال يراجع المشرفون المجموعة، وبعد الموافقة تظهر في المجتمع ويستطيع الآخرون دراستها وتقييمها.
+              ul.checklist
+                li(class=ready.cards ? 'ok' : '')
+                  i.fa-solid(class=ready.cards ? 'fa-circle-check' : 'fa-circle-xmark')
+                  span #{minCards} بطاقات على الأقل (#{group.cardsCount}/#{minCards})
+                li(class=ready.description ? 'ok' : '')
+                  i.fa-solid(class=ready.description ? 'fa-circle-check' : 'fa-circle-xmark')
+                  span وصف يوضح محتوى المجموعة
+              button.btn.btn-primary.btn-lg.publish-btn(type='button' disabled=!(ready.cards && ready.description))
+                i.fa-solid.fa-paper-plane
+                |  #{group.status === 'rejected' ? 'إعادة الإرسال للمراجعة' : 'نشر في المجتمع'}
+
+block scripts
+  script(src='/js/anki/group.js')

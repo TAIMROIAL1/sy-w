@@ -1,0 +1,183 @@
+mixin statusBadge(status)
+  - const st = statusInfo[status] || statusInfo.private
+  span.status-badge(class=status)
+    i.fa-solid(class=st.icon)
+    | #{st.label}
+
+mixin typeBadge(type, suffix)
+  span.type-badge(class=type)
+    i.fa-solid(class=typeInfo[type].icon)
+    | #{typeInfo[type].label}#{suffix || ''}
+
+mixin stars(avg, rateable)
+  .stars(class=rateable ? 'rateable' : '' role=rateable ? 'radiogroup' : 'img' aria-label=`التقييم ${avg} من 5`)
+    each n in [1, 2, 3, 4, 5]
+      - const icon = avg >= n ? 'fa-solid fa-star' : avg >= n - 0.5 ? 'fa-solid fa-star-half-stroke' : 'fa-regular fa-star'
+      if rateable
+        button.star(type='button' data-value=n aria-label=`${n} من 5`)
+          i(class=icon)
+      else
+        span.star
+          i(class=icon)
+
+mixin emptyState(icon, title, text)
+  .empty-state
+    .empty-illustration
+      span
+      span
+      span
+        i.fa-solid(class=icon)
+    h3= title
+    p= text
+    if block
+      block
+
+//- library group (المكتبة)
+mixin libraryCard(g)
+  - const publishLabel = { private: 'نشر للمجتمع', rejected: 'إعادة النشر', pending: 'قيد المراجعة', published: 'منشورة' }
+  article.group-card.library-card(data-group-id=g._id data-name=g.name data-description=g.description data-status=g.status data-search=g.name)
+    a.group-card-link(href=`/anki/library/${g._id}` aria-label=`فتح ${g.name}`)
+    .group-card-head
+      .group-avatar(style=`--hue:${hue(g.name)}`)= firstLetter(g.name)
+      +statusBadge(g.status)
+    h3.group-name= g.name
+    +dueChip(g)
+    .group-meta
+      span
+        i.fa-solid.fa-layer-group
+        span.cards-count= g.cardsCount
+        |  بطاقة
+      span
+        i.fa-regular.fa-clock
+        | #{timeAgo(g.updatedAt)}
+    .group-actions
+      button.btn-chip.publish-btn(type='button' disabled=(g.status === 'pending' || g.status === 'published') class=g.status === 'pending' ? 'is-pending' : g.status === 'published' ? 'is-published' : '')
+        i.fa-solid(class=g.status === 'published' ? 'fa-globe' : g.status === 'pending' ? 'fa-hourglass-half' : 'fa-paper-plane')
+        span= publishLabel[g.status]
+      button.icon-btn.edit-group-btn(type='button' title='تعديل الاسم' aria-label='تعديل الاسم')
+        i.fa-solid.fa-pen
+      button.icon-btn.danger.delete-group-btn(type='button' title='حذف المجموعة' aria-label='حذف المجموعة')
+        i.fa-solid.fa-trash
+
+//- official group (المنهج)
+mixin officialCard(g)
+  - const isAdmin = typeof user !== 'undefined' && user && user.role === 'admin'
+  article.group-card.official-card(data-group-id=g._id data-name=g.name data-search=`${g.name} ${g.subject || ''}`)
+    a.group-card-link(href=`/anki/official/${g._id}` aria-label=`فتح ${g.name}`)
+    .official-thumb
+      img(src=g.photo alt=g.name loading='lazy')
+      span.thumb-chip
+        i.fa-solid.fa-layer-group
+        |  #{g.cardsCount} بطاقة
+      if g.status !== 'published'
+        span.draft-chip.on-thumb
+          i.fa-solid.fa-eye-slash
+          |  مسودة
+    .official-body
+      if g.subject
+        span.subject= g.subject
+      h3.group-name= g.name
+      +dueChip(g)
+      .group-meta
+        if g.level
+          span
+            i.fa-solid.fa-graduation-cap
+            | #{g.level}
+        span
+          i.fa-solid.fa-users
+          | #{g.usersCount} طالب
+      if isAdmin
+        .group-actions
+          a.btn-chip(href=`/anki/official/${g._id}/edit`)
+            i.fa-solid.fa-pen
+            |  تعديل
+          a.icon-btn(href=`/anki/official/${g._id}/edit?tab=edit` title='البطاقات' aria-label='بطاقات المجموعة')
+            i.fa-solid.fa-clone
+          button.icon-btn.danger.delete-official-btn(type='button' title='حذف المجموعة' aria-label='حذف المجموعة')
+            i.fa-solid.fa-trash
+
+//- community group (المجتمع)
+//- rank = place in the "best" order; your own groups show "مجموعتك" + rank and can't be rated
+mixin communityCard(g, preview, rank)
+  - const ownerId = g.owner && (g.owner._id || g.owner)
+  - const isOwn = !preview && typeof user !== 'undefined' && user && ownerId && ownerId.toString() === user._id.toString()
+  article.group-card.community-card(class=isOwn ? 'is-own' : '' data-group-id=g._id data-search=g.name data-rate-group=isOwn ? undefined : g._id data-score=g.communityScore data-rating=g.ratingsAverage data-ratings=g.ratingsQuantity data-users=g.usersCount data-published=g.publishedAt ? new Date(g.publishedAt).getTime() : 0)
+    if !preview
+      a.group-card-link(href=isOwn ? `/anki/library/${g._id}?tab=publish` : `/anki/community/${g._id}` aria-label=`فتح ${g.name}`)
+      span.rank-badge(hidden)
+    .group-card-head
+      .group-avatar(style=`--hue:${hue(g.name)}`)= firstLetter(g.name)
+      .owner
+        span بواسطة
+        strong= isOwn || !(g.owner && g.owner.name) ? 'أنت' : g.owner.name
+    if isOwn
+      .own-chips
+        span.own-chip
+          i.fa-solid.fa-user-check
+          |  مجموعتك
+        if rank
+          span.own-chip.is-rank
+            i.fa-solid.fa-trophy
+            |  المرتبة #{rank} في المجتمع
+    h3.group-name= g.name
+    if !preview
+      +dueChip(g)
+    .community-stats
+      span(title='عدد البطاقات')
+        i.fa-solid.fa-layer-group
+        | #{g.cardsCount} بطاقة
+      span(title='عدد المستخدمين')
+        i.fa-solid.fa-users
+        span.users-count= g.usersCount
+        |  مستخدم
+    .rating-row
+      - const studied = typeof progressMap !== 'undefined' && progressMap[g._id.toString()] && progressMap[g._id.toString()].started
+      +stars(g.ratingsAverage, !preview && !isOwn && studied)
+      span.rating-value= g.ratingsAverage.toFixed(1)
+      span.rating-count (#[span.rating-quantity= g.ratingsQuantity] تقييم)
+
+//- "N ready" chip on group cards (progressMap comes from the home page)
+mixin dueChip(g)
+  - const p = typeof progressMap !== 'undefined' && progressMap[g._id.toString()]
+  if p && p.dueNow
+    span.due-chip(title='بطاقات جاهزة للمراجعة')
+      i.fa-solid.fa-rotate
+      |  #{p.dueNow} جاهزة
+  else if p && p.started
+    span.due-chip.is-done(title='لا توجد بطاقات جاهزة الآن')
+      i.fa-solid.fa-check
+      |  تمت المراجعة
+
+//- study (all cards) + revision (due cards only, locked until the first study)
+mixin studyModes(group, progress)
+  .study-modes
+    a.mode-btn.mode-study(href=`/anki/groups/${group._id}/study`)
+      span.mode-icon
+        i.fa-solid.fa-book-open
+      span.mode-text
+        strong دراسة
+        small كل البطاقات (#{group.cardsCount})
+    if progress.started
+      a.mode-btn.mode-revision(href=`/anki/groups/${group._id}/study?mode=revision` class=progress.dueNow ? 'has-due' : '')
+        span.mode-icon
+          i.fa-solid.fa-rotate
+        span.mode-text
+          strong مراجعة
+          small= progress.dueNow ? `${progress.dueNow} بطاقة جاهزة الآن` : progress.nextDueAt ? `البطاقة التالية ${dueIn(progress.nextDueAt)}` : 'لا توجد بطاقات جاهزة'
+        if progress.dueNow
+          span.due-count= progress.dueNow
+    else
+      span.mode-btn.mode-revision.is-locked(aria-disabled='true' title='ادرس المجموعة مرة واحدة أولاً')
+        span.mode-icon
+          i.fa-solid.fa-lock
+        span.mode-text
+          strong مراجعة
+          small ادرس المجموعة مرة واحدة أولاً
+  if progress.started
+    .study-progress
+      .study-progress-text
+        span درست #[strong= Math.min(progress.studied, group.cardsCount)] من #{group.cardsCount} بطاقة
+        if progress.newCards
+          span.new-cards #{progress.newCards} جديدة
+      .progress.sm
+        .progress-bar(style=`width:${group.cardsCount ? Math.min(100, progress.studied / group.cardsCount * 100) : 0}%`)

@@ -1,0 +1,111 @@
+extends _layout
+include _mixins
+
+block content
+  - const total = breakdown.reduce((sum, b) => sum + b.count, 0)
+  main.anki-page.has-bottom-nav
+    .container-narrow
+      a.back-link(href='/anki/community')
+        i.fa-solid.fa-arrow-right
+        | العودة إلى المجتمع
+
+      header.group-header.community-header
+        .group-avatar.lg(style=`--hue:${hue(group.name)}`)= firstLetter(group.name)
+        .group-header-text
+          h1= group.name
+          .group-meta
+            span
+              i.fa-solid.fa-user
+              | بواسطة #{group.owner && group.owner.name ? group.owner.name : '—'}
+            span.rank-chip(class=rank <= 3 ? `rank-${rank}` : '')
+              i.fa-solid.fa-trophy
+              |  المرتبة #{rank} في المجتمع
+            span
+              i.fa-regular.fa-calendar
+              | نُشرت #{formatDate(group.publishedAt)}
+
+      .detail-grid
+        aside.detail-side
+          .card-box
+            ul.info-list
+              li
+                span
+                  i.fa-solid.fa-layer-group
+                  | عدد البطاقات
+                strong= group.cardsCount
+              li
+                span
+                  i.fa-solid.fa-users
+                  | عدد المستخدمين
+                strong= group.usersCount
+              li
+                span
+                  i.fa-solid.fa-star
+                  | التقييم
+                strong #{group.ratingsAverage.toFixed(1)} من 5
+              li
+                span
+                  i.fa-regular.fa-clock
+                  | المدة المتوقعة
+                strong ~#{studyMinutes(group.cardsCount)} دقيقة
+              li
+                span
+                  i.fa-regular.fa-calendar
+                  | آخر تحديث
+                strong= formatDate(group.updatedAt)
+            if group.cardsCount
+              +studyModes(group, progress)
+            else
+              button.btn.btn-primary.btn-lg.btn-block(disabled) لا توجد بطاقات بعد
+
+        .detail-main
+          section.card-box
+            h2
+              i.fa-solid.fa-circle-info
+              | عن المجموعة
+            p.description= group.description || 'لم يضف صاحب المجموعة وصفاً.'
+
+          section.card-box.rating-box(data-rate-group=group._id)
+            h2
+              i.fa-solid.fa-star
+              | التقييمات
+            .rating-summary
+              .rating-big
+                strong.rating-value= group.ratingsAverage.toFixed(1)
+                +stars(group.ratingsAverage)
+                span (#[span.rating-quantity= group.ratingsQuantity] تقييم)
+              .rating-bars
+                each b in breakdown
+                  .rating-bar-row
+                    span.bar-label #{b.value}
+                      i.fa-solid.fa-star
+                    .progress.sm
+                      .progress-bar(style=`width:${total ? Math.round(b.count / total * 100) : 0}%`)
+                    span.bar-count= b.count
+            .rate-yours
+              if progress.started
+                span.rate-label قيّم هذه المجموعة
+                +stars(myRating, true)
+                small.muted
+                  if myRating
+                    | تقييمك: #[span.my-rating= myRating] من 5 · يمكنك تغييره
+                  else
+                    | تقييمك يساعد الآخرين على اختيار أفضل المجموعات
+              else
+                p.muted
+                  i.fa-solid.fa-lock
+                  |  ادرس المجموعة مرة واحدة ثم يمكنك تقييمها
+
+          section.card-box
+            h2
+              i.fa-solid.fa-shapes
+              | أنواع البطاقات
+            .type-breakdown
+              each info, type in typeInfo
+                if counts[type]
+                  span.type-badge(class=type)
+                    i.fa-solid(class=info.icon)
+                    | #{info.label}: #{counts[type]}
+
+block scripts
+  script(src='/js/anki/rating.js')

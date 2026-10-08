@@ -1,0 +1,52 @@
+extends _layout
+include _mixins
+
+block content
+  main.anki-page
+    .container-narrow
+      a.back-link(href='/anki')
+        i.fa-solid.fa-arrow-right
+        | العودة إلى البطاقات
+
+      .page-hero.hero-community
+        div
+          h1 مراجعة المجموعات
+          p مجموعات أرسلها الطلاب وتنتظر موافقتك قبل ظهورها في المجتمع
+        span.btn.btn-light
+          i.fa-solid.fa-hourglass-half
+          |  #{groups.length} بانتظار المراجعة
+
+      if groups.length
+        .review-list
+          each g in groups
+            article.card-box.review-item(data-group-id=g._id)
+              .review-head
+                .group-avatar(style=`--hue:${hue(g.name)}`)= firstLetter(g.name)
+                div
+                  h3.group-name= g.name
+                  .group-meta
+                    span
+                      i.fa-solid.fa-user
+                      | #{g.owner ? g.owner.name : '—'}
+                    span
+                      i.fa-solid.fa-layer-group
+                      | #{g.cardsCount} بطاقة
+                    span
+                      i.fa-regular.fa-clock
+                      | #{timeAgo(g.submittedAt)}
+              p.description= g.description
+              .review-actions
+                a.btn.btn-ghost(href=`/anki/groups/${g._id}/study`)
+                  i.fa-solid.fa-eye
+                  |  معاينة البطاقات
+                button.btn.btn-success.approve-btn(type='button')
+                  i.fa-solid.fa-check
+                  |  موافقة ونشر
+                button.btn.btn-danger-ghost.reject-btn(type='button')
+                  i.fa-solid.fa-xmark
+                  |  رفض
+      else
+        +emptyState('fa-shield-halved', 'لا توجد مجموعات بانتظار المراجعة', 'عندما يرسل الطلاب مجموعاتهم للنشر ستظهر هنا')
+
+block scripts
+  script(src='/js/anki/adminReview.js')

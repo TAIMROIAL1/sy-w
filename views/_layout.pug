@@ -1,0 +1,95 @@
+//- shared helpers for every anki page
+-
+  const statusInfo = {
+    private: { label: 'خاصة', icon: 'fa-lock' },
+    pending: { label: 'قيد المراجعة', icon: 'fa-hourglass-half' },
+    published: { label: 'منشورة', icon: 'fa-globe' },
+    rejected: { label: 'مرفوضة', icon: 'fa-circle-xmark' }
+  };
+  const typeInfo = {
+    basic: { label: 'بسيطة', icon: 'fa-clone', desc: 'وجه للسؤال ووجه للإجابة' },
+    reverse: { label: 'عكسية', icon: 'fa-right-left', desc: 'تنشئ بطاقتين: سؤال ← جواب والعكس' },
+    cloze: { label: 'فراغات', icon: 'fa-i-cursor', desc: 'أخفِ أجزاء من الجملة بـ [$ $]' },
+    image: { label: 'صورة', icon: 'fa-image', desc: 'ارسم مستطيلات تخفي أجزاء الصورة' }
+  };
+  const hue = str => [...String(str || '')].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+  const firstLetter = str => String(str || '؟').trim().charAt(0);
+  const escapeHtml = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const clozeHtml = text => escapeHtml(text).replace(/\[\$([\s\S]+?)\$\]/g, '<mark class="cloze-mark">$1</mark>');
+  const formatDate = d => d ? new Date(d).toLocaleDateString('ar-EG-u-nu-latn', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+  const timeAgo = d => {
+    const min = Math.floor((Date.now() - new Date(d)) / 60000);
+    if (min < 1) return 'الآن';
+    if (min < 60) return `منذ ${min} دقيقة`;
+    if (min < 1440) return `منذ ${Math.floor(min / 60)} ساعة`;
+    if (min < 43200) return `منذ ${Math.floor(min / 1440)} يوم`;
+    return formatDate(d);
+  };
+  const studyMinutes = n => Math.max(1, Math.ceil(n * 0.4));
+  const dueIn = d => {
+    const sec = (new Date(d) - Date.now()) / 1000;
+    if (sec < 60) return 'خلال دقيقة';
+    if (sec < 3600) return `بعد ${Math.ceil(sec / 60)} دقيقة`;
+    if (sec < 86400) return `بعد ${Math.ceil(sec / 3600)} ساعة`;
+    return `بعد ${Math.ceil(sec / 86400)} يوم`;
+  };
+  const domain = process.env.DOMAIN_ACTIVE === 'local' ? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+
+doctype html
+html(lang='ar' dir='rtl')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0, viewport-fit=cover')
+    meta(name='theme-color' content='#6c5ce7')
+    title #{pageTitle} | Studyou
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css')
+    link(rel='stylesheet' href='/css/anki.css')
+  body(data-domain=domain class=bodyClass)
+    //- apply dark mode before paint (external file, no inline scripts)
+    script(src='/js/anki/darkMode.js')
+
+    header.navbar
+      a.logo(href='/anki')
+        i.fa-solid.fa-graduation-cap
+        span Studyou
+        span.logo-badge البطاقات
+      .navbar-left
+        if user.role === 'admin'
+          a.nav-icon-btn(href='/anki/admin/review' title='مراجعة المجموعات' aria-label='مراجعة المجموعات')
+            i.fa-solid.fa-shield-halved
+        label.toggle(title='الوضع الليلي')
+          input#dark-toggle(type='checkbox' aria-label='الوضع الليلي')
+          span.slider
+        .student-avatar(title=user.name)= firstLetter(user.name)
+
+    block content
+
+    if tab
+      nav.bottom-nav(aria-label='أقسام البطاقات')
+        a.bottom-nav-item(href='/anki' data-tab='library' class=tab === 'library' ? 'active' : '')
+          i.fa-solid.fa-book-bookmark
+          span المكتبة
+        a.bottom-nav-item(href='/anki/curriculum' data-tab='curriculum' class=tab === 'curriculum' ? 'active' : '')
+          i.fa-solid.fa-graduation-cap
+          span المنهج
+        a.bottom-nav-item(href='/anki/community' data-tab='community' class=tab === 'community' ? 'active' : '')
+          i.fa-solid.fa-users
+          span المجتمع
+
+    //- shared dialog (confirm + forms), filled by Anki.confirm / Anki.form in common.js
+    .modal#anki-modal(hidden role='dialog' aria-modal='true' aria-labelledby='anki-modal-title')
+      .modal-backdrop(data-close)
+      form.modal-card#anki-modal-form(novalidate)
+        .modal-icon#anki-modal-icon
+          i.fa-solid.fa-layer-group
+        h2.modal-title#anki-modal-title
+        p.modal-text#anki-modal-text
+        .modal-fields#anki-modal-fields
+        .modal-actions
+          button.btn.btn-ghost(type='button' data-close) إلغاء
+          button.btn.btn-primary#anki-modal-submit(type='submit') حفظ
+
+    .toast-wrap#toast-wrap(aria-live='polite')
+
+    script(src='/js/anki/common.js')
+    block scripts

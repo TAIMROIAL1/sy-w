@@ -1,0 +1,104 @@
+extends _layout
+include _mixins
+
+block content
+  - const activeType = card ? card.type : 'basic'
+  main.anki-page.editor-page#card-editor(data-back-url=backUrl data-group-id=group._id data-card-id=card ? card._id : '' data-card=JSON.stringify(card || null))
+    a.back-link(href=backUrl)
+      i.fa-solid.fa-arrow-right
+      | العودة إلى #{group.name}
+
+    .page-hero.compact
+      div
+        h1= card ? 'تعديل بطاقة' : 'إضافة بطاقة جديدة'
+        p
+          i.fa-solid.fa-folder-open
+          |  #{group.name} · #{group.cardsCount} بطاقة
+
+    nav.type-tabs(role='tablist' aria-label='نوع البطاقة')
+      each info, type in typeInfo
+        button.type-tab(type='button' role='tab' data-type=type class=type === activeType ? 'active' : '' aria-selected=String(type === activeType) disabled=!!card && card.type !== type)
+          span.type-icon(class=type)
+            i.fa-solid(class=info.icon)
+          span.type-text
+            strong= info.label
+            small= info.desc
+
+    .editor-grid
+      form.card-box.editor-form#card-form(novalidate)
+        //- simple + reverse
+        .type-fields(data-fields='basic reverse')
+          .field
+            label.field-label(for='front') الوجه الأول #[small (السؤال)]
+            textarea#front.input(rows='3' placeholder='مثال: ما هي وحدة بناء الجهاز العصبي؟')= card ? card.front : ''
+          .field
+            label.field-label(for='back') الوجه الثاني #[small (الإجابة أو المعلومة المرتبطة)]
+            textarea#back.input(rows='3' placeholder='مثال: العصبون')= card ? card.back : ''
+          .alert.alert-info.reverse-note(data-only='reverse')
+            i.fa-solid.fa-right-left
+            span سيتم إنشاء بطاقتين: الأولى تسأل بالوجه الأول وتجيب بالثاني، والثانية بالعكس.
+
+        //- cloze
+        .type-fields(data-fields='cloze')
+          .field
+            .field-head
+              label.field-label(for='cloze-text') نص البطاقة
+              button.btn-chip#hide-selection(type='button')
+                i.fa-solid.fa-eye-slash
+                |  إخفاء النص المحدد
+            textarea#cloze-text.input(rows='5' placeholder='مثال: يتكون الجهاز العصبي المركزي من [$الدماغ$] و[$النخاع الشوكي$]')= card ? card.text : ''
+            p.hint
+              | ضع الجزء الذي تريد إخفاءه بين #[code.token [$] و #[code.token $]]، ويمكنك إخفاء أكثر من جزء.
+              |  الأجزاء المخفية: #[strong#cloze-count 0]
+
+        //- image
+        .type-fields(data-fields='image')
+          .dropzone#dropzone(role='button' tabindex='0' hidden=!!(card && card.image))
+            i.fa-solid.fa-cloud-arrow-up
+            p اسحب صورة هنا أو اضغط للاختيار
+            small PNG أو JPG أو WEBP حتى 5MB
+          input#image-input(type='file' accept='image/png,image/jpeg,image/webp,image/gif' hidden)
+          .mask-editor#mask-editor(hidden=!(card && card.image))
+            .mask-toolbar
+              p.hint
+                i.fa-solid.fa-hand-pointer
+                |  اسحب على الصورة لرسم مستطيل يخفي جزءاً منها
+              button.btn-chip#undo-mask(type='button')
+                i.fa-solid.fa-rotate-left
+                |  تراجع
+              button.btn-chip#clear-masks(type='button')
+                i.fa-solid.fa-eraser
+                |  مسح الكل
+              button.btn-chip#change-image(type='button')
+                i.fa-solid.fa-image
+                |  تغيير الصورة
+            .mask-stage#mask-stage
+              img#mask-image(alt='' src=card && card.image ? card.image : null)
+            p.hint.mask-count#mask-count
+
+        .field
+          label.field-label(for='extra') ملاحظة إضافية #[small (اختياري – تظهر مع الإجابة)]
+          textarea#extra.input(rows='2' placeholder='معلومة تساعدك على التذكر')= card ? card.extra : ''
+
+        .form-actions
+          button.btn.btn-primary.btn-lg#save-btn(type='submit')
+            i.fa-solid.fa-check
+            span= card ? 'حفظ التعديلات' : 'حفظ البطاقة'
+          if !card
+            button.btn.btn-ghost.btn-lg#save-new-btn(type='button')
+              i.fa-solid.fa-plus
+              |  حفظ وإضافة أخرى
+
+      aside.preview-col
+        .preview-head
+          h2
+            i.fa-solid.fa-eye
+            | معاينة
+          button.btn-chip#flip-preview(type='button')
+            i.fa-solid.fa-rotate
+            span إظهار الإجابة
+        .preview-stack#preview
+
+
+block scripts
+  script(src='/js/anki/cardEditor.js')

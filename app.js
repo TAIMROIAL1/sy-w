@@ -74,7 +74,8 @@ app.use(helmet.contentSecurityPolicy({
   directives: {
     defaultSrc: ["'self'"],
     frameSrc: ["https://iframe.mediadelivery.net/"],
-    connectSrc: ["'self'", process.env.CONNECT_SRC]
+    connectSrc: ["'self'", process.env.CONNECT_SRC],
+    imgSrc: ["'self'", "data:", "https://studyou-pull-zone.b-cdn.net"],
   }
 }));
 
@@ -113,6 +114,10 @@ app.get('/css/:file', (req, res) => {
 })
 app.get('/js/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'js', req.params.file))
+})
+
+app.get('/js/anki/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'js', 'anki', req.params.file));
 })
 
 app.get('/imgs/:file', (req, res) => {
@@ -164,6 +169,7 @@ app.use('/api/v1/workshops', workshopRouter);
 app.use('/api/v1/forms', excelFormRouter);
 app.use('/api/v1/notes/:subcourseId', notesRouter);
 app.use("/api/v1/saved-videos", savedVideosRouter);
+app.use('/api/v1/anki', require('./routes/ankiRoutes'));
 
 app.use(errorController);
 

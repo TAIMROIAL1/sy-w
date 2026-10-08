@@ -1,0 +1,89 @@
+extends _layout
+include _mixins
+
+block content
+  main.anki-page.has-bottom-nav
+    .container-narrow
+      a.back-link(href='/anki/curriculum')
+        i.fa-solid.fa-arrow-right
+        | العودة إلى المنهج
+
+      .official-hero
+        img(src=group.photo alt=group.name)
+        .hero-overlay
+          span.badge-official
+            i.fa-solid.fa-circle-check
+            |  مجموعة رسمية
+          h1= group.name
+          if group.subject || group.level
+            p.hero-sub= [group.subject, group.level].filter(Boolean).join(' · ')
+
+      .detail-grid
+        aside.detail-side
+          .card-box
+            ul.info-list
+              li
+                span
+                  i.fa-solid.fa-layer-group
+                  | عدد البطاقات
+                strong= group.cardsCount
+              if group.subject
+                li
+                  span
+                    i.fa-solid.fa-book
+                    | المادة
+                  strong= group.subject
+              if group.level
+                li
+                  span
+                    i.fa-solid.fa-graduation-cap
+                    | المرحلة
+                  strong= group.level
+              li
+                span
+                  i.fa-regular.fa-clock
+                  | المدة المتوقعة
+                strong ~#{studyMinutes(group.cardsCount)} دقيقة
+              li
+                span
+                  i.fa-solid.fa-users
+                  | عدد الطلاب
+                strong= group.usersCount
+              li
+                span
+                  i.fa-regular.fa-calendar
+                  | آخر تحديث
+                strong= formatDate(group.updatedAt)
+            if group.cardsCount
+              +studyModes(group, progress)
+            else
+              button.btn.btn-primary.btn-lg.btn-block(disabled) لا توجد بطاقات بعد
+
+        .detail-main
+          section.card-box
+            h2
+              i.fa-solid.fa-circle-info
+              | عن المجموعة
+            p.description= group.description
+
+          if group.topics && group.topics.length
+            section.card-box
+              h2
+                i.fa-solid.fa-list-check
+                | ماذا ستراجع
+              ul.topic-list
+                each topic in group.topics
+                  li
+                    i.fa-solid.fa-check
+                    span= topic
+
+          section.card-box
+            h2
+              i.fa-solid.fa-shapes
+              | أنواع البطاقات
+            .type-breakdown
+              each info, type in typeInfo
+                if counts[type]
+                  span.type-badge(class=type)
+                    i.fa-solid(class=info.icon)
+                    | #{info.label}: #{counts[type]}

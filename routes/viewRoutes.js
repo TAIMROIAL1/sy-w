@@ -12,6 +12,11 @@ const catchAsync = require("./../utils/catchAsync");
 const {getEditLesson, getEditQuiz, getEditVideo} = require('./../controllers/lessonController');
 
 const { checkJWT, restrictTo, checkActivatedSubcourse, checkActivatedWorkshop } = require("./../controllers/authController");
+
+const {
+  getAnkiHome, getOfficialGroup, getCommunityGroup, getLibraryGroup, getCardEditor, getStudy, getAdminReview, getOfficialEditor
+} = require('./../controllers/ankiViewController');
+
 const router = express.Router();
 
 router.get("/sign-up", checkJWT, async (req, res) => {
@@ -401,6 +406,24 @@ router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => 
   res.status(200).render('code-api');
 }))
 
-
+router.get('/anki', checkJWT, getAnkiHome('library'));
+router.get('/anki/curriculum', checkJWT, getAnkiHome('curriculum'));
+router.get('/anki/community', checkJWT, getAnkiHome('community'));
+ 
+router.get('/anki/official/new', checkJWT, restrictTo('admin'), getOfficialEditor);
+router.get('/anki/official/:groupId', checkJWT, getOfficialGroup);
+router.get('/anki/official/:groupId/edit', checkJWT, restrictTo('admin'), getOfficialEditor);
+router.get('/anki/official/:groupId/add-card', checkJWT, restrictTo('admin'), getCardEditor);
+router.get('/anki/official/:groupId/cards/:cardId/edit', checkJWT, restrictTo('admin'), getCardEditor);
+router.get('/anki/community/:groupId', checkJWT, getCommunityGroup);
+ 
+router.get('/anki/library/:groupId', checkJWT, getLibraryGroup);
+router.get('/anki/library/:groupId/add-card', checkJWT, getCardEditor);
+router.get('/anki/library/:groupId/cards/:cardId/edit', checkJWT, getCardEditor);
+ 
+router.get('/anki/groups/:groupId/study', checkJWT, getStudy);
+ 
+router.get('/anki/admin/review', checkJWT, restrictTo('admin'), getAdminReview);
+ 
 
 module.exports = router;

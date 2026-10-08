@@ -1,0 +1,90 @@
+extends _layout
+
+block content
+  - const isRevision = mode === 'revision'
+  main.study-page#study(data-group-id=group._id data-back-url=backUrl data-mode=mode)
+    header.study-top
+      a.icon-btn(href=backUrl title='إنهاء' aria-label='إنهاء')
+        i.fa-solid.fa-xmark
+      .study-title
+        span.study-mode-row
+          span.mode-pill(class=mode)= isRevision ? 'مراجعة' : 'دراسة'
+          if isRevision
+            span.live-pill#live-pill(hidden title='البطاقات الجاهزة تظهر تلقائياً')
+              span.dot
+              | مباشر
+        strong= group.name
+      span.study-counter#study-counter 0 / 0
+
+    .progress(role='progressbar' aria-valuemin='0' aria-valuemax='100')
+      .progress-bar#progress-bar
+
+    .study-stage
+      .spinner#study-loading
+      article.study-card#study-card(hidden aria-live='polite')
+
+      .study-done#study-done(hidden)
+        .done-icon#done-icon
+          i.fa-solid.fa-trophy
+        h2#done-title= isRevision ? 'أنهيت البطاقات الجاهزة' : 'أحسنت! أنهيت الدراسة'
+        p#done-summary راجعت #[strong#done-total 0] بطاقة في #[strong#done-time 0] دقيقة
+        .done-stats#done-stats
+          .done-stat.hard
+            strong#done-hard 0
+            | صعب
+          .done-stat.medium
+            strong#done-medium 0
+            | متوسط
+          .done-stat.easy
+            strong#done-easy 0
+            | سهل
+        if isRevision
+          .next-due
+            .next-due-icon
+              i.fa-regular.fa-clock
+            div
+              strong#next-due-text …
+              span ستظهر البطاقات هنا تلقائياً عندما تصبح جاهزة، بدون إعادة تحميل الصفحة
+        .done-actions
+          if !isRevision
+            a.btn.btn-success#go-revision(href=`/anki/groups/${group._id}/study?mode=revision`)
+              i.fa-solid.fa-rotate
+              |  الانتقال إلى المراجعة
+            button.btn.btn-primary#restart-btn(type='button')
+              i.fa-solid.fa-rotate-right
+              |  إعادة الدراسة
+          a.btn.btn-ghost(href=backUrl)
+            i.fa-solid.fa-arrow-right
+            |  العودة
+
+      .study-empty#study-empty(hidden)
+        .empty-state
+          .empty-illustration
+            span
+            span
+            span
+              i.fa-solid.fa-clone
+          h3 لا توجد بطاقات في هذه المجموعة
+          p أضف بطاقات أولاً ثم عد للدراسة
+          a.btn.btn-primary(href=backUrl) العودة
+
+    footer.study-actions#study-actions(hidden)
+      button.btn.btn-primary.btn-lg.btn-block#reveal-btn(type='button')
+        i.fa-solid.fa-eye
+        |  إظهار الإجابة
+        kbd Space
+      .difficulty-btns#difficulty-btns(hidden)
+        button.diff-btn.hard(type='button' data-difficulty='hard')
+          | صعب
+          span 1 دقيقة
+        button.diff-btn.medium(type='button' data-difficulty='medium')
+          | متوسط
+          span 1 يوم
+        button.diff-btn.easy(type='button' data-difficulty='easy')
+          | سهل
+          span 3 أيام
+
+block scripts
+  if isRevision
+    script(src='/socket.io/socket.io.js')
+  script(src='/js/anki/study.js')
