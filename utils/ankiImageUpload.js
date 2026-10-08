@@ -1,6 +1,6 @@
 // multer middleware for card requests: accepts JSON or multipart (field "data" = card JSON, field "image" = file)
 const multer = require('multer');
-const AppError = require('./appError');
+const AppError = require('./AppError');
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
