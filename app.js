@@ -97,9 +97,8 @@ app.use(cors({
 app.use('/', checkLink, checkJWT, overallLimiter);
 app.use('/api', checkLink, checkJWT, apiLimiter);
 
-app.use('/tests/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'tests', req.params.file));
-})
+// files in public/tests; anything else (/tests/new, /tests/:testId...) goes on to the general tests pages
+app.use('/tests', express.static(path.join(__dirname, 'public', 'tests'), { index: false, redirect: false }));
 
 app.get('/my-favicon/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public','my-favicon', req.params.file));
