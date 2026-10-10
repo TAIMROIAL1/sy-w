@@ -1038,3 +1038,9 @@ body.page-dark-mode .own-chip.is-rank { background: rgba(245, 158, 11, .16); col
     .card-item-actions { flex-wrap: wrap; justify-content: flex-end; }
     .tree-item { margin-inline-start: calc(var(--depth, 0) * 12px); }
 }
+
+.edit-compare { flex-wrap: wrap; }
+.compare-side { flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1px dashed var(--border); border-radius: 10px; }
+.compare-side.is-new { border-color: var(--primary); background: var(--primary-light); }
+.compare-label { font-size: .78rem; font-weight: 800; color: var(--muted); }
+.compare-side.is-new .compare-label { color: var(--primary); }

@@ -47,7 +47,7 @@ else
           input.card-select(type='checkbox' aria-label='تحديد البطاقة')
         span.card-index= i + 1
         .card-item-body
-          +cardPreview(card)
+          +cardPreview(card, true)
         .card-item-actions
           .reorder-btns
             button.icon-btn.sm.move-up-btn(type='button' title='تحريك للأعلى' aria-label='تحريك البطاقة للأعلى')

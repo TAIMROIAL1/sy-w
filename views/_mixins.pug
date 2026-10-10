@@ -183,10 +183,21 @@ mixin studyModes(group, progress)
         .progress-bar(style=`width:${group.cardsCount ? Math.min(100, progress.studied / group.cardsCount * 100) : 0}%`)
 
 //- body of a card in a list (library / official editor / admin review)
-mixin cardPreview(card)
+//- draft: show the edit waiting for the admin instead of the approved version
+mixin cardPreview(source, draft)
+  - const card = draft && source.pendingEdit ? Object.assign(source.toObject(), source.pendingEdit.toObject()) : source
   .card-badges
     +typeBadge(card.type, card.type === 'reverse' ? ' · بطاقتان' : '')
     +approvalBadge(card.approval)
+    if draft && source.pendingEdit
+      if source.pendingEdit.rejected
+        span.approval-badge.rejected(title='يرى الآخرون النسخة السابقة، عدّلها لإرسالها مرة أخرى')
+          i.fa-solid.fa-ban
+          |  رفض المشرف التعديل
+      else
+        span.approval-badge.pending(title='يرى الآخرون النسخة السابقة حتى يوافق المشرف')
+          i.fa-solid.fa-pen-to-square
+          |  تعديل بانتظار الموافقة
   if card.type === 'basic' || card.type === 'reverse'
     p.q= card.front
     p.a

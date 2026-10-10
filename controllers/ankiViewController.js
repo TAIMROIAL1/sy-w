@@ -213,6 +213,8 @@ exports.getCardEditor = catchAsync(async function(req, res, next) {
     card = mongoose.isValidObjectId(req.params.cardId) && await AnkiCard.findById(req.params.cardId);
     if(!card || card.isReversed || card.group.toString() !== group._id.toString())
       return next(new AppError('هذه البطاقة غير موجودة', 404));
+    // the owner keeps editing the version waiting for the admin
+    if(card.pendingEdit) card = Object.assign(card.toObject(), card.pendingEdit.toObject());
   }
 
   res.status(200).render('cardEditor', {
@@ -253,27 +255,34 @@ exports.getAdminReview = catchAsync(async function(req, res, next) {
   if (!res.locals.user) {
       return res.status(200).render("toSign");
     }
-  const [groups, pendingCards] = await Promise.all([
+  const [groups, pendingCards, editCards] = await Promise.all([
     AnkiGroup.find({ status: 'pending', isOfficial: false, parent: null })
       .populate('owner', 'name')
       .sort('submittedAt'),
-    AnkiCard.find({ approval: 'pending', isReversed: false }).sort({ updatedAt: 1, _id: 1 }).limit(300)
+    AnkiCard.find({ approval: 'pending', isReversed: false }).sort({ updatedAt: 1, _id: 1 }).limit(300),
+    AnkiCard.find({ approval: 'approved', isReversed: false, pendingEdit: { $exists: true }, 'pendingEdit.rejected': false }).sort({ 'pendingEdit.submittedAt': 1, _id: 1 }).limit(300)
   ]);
 
   // cards waiting in published groups, by group: [{ group, path, cards }]
-  const cardGroups = await AnkiGroup.find({ _id: { $in: [...new Set(pendingCards.map(c => c.group.toString()))] } }).populate('owner', 'name');
+  const cardGroups = await AnkiGroup.find({ _id: { $in: [...new Set([...pendingCards, ...editCards].map(c => c.group.toString()))] } }).populate('owner', 'name');
   const names = new Map((await AnkiGroup.find({ _id: { $in: cardGroups.flatMap(g => g.ancestors) } }).select('name')).map(g => [g._id.toString(), g.name]));
-  const pendingSections = cardGroups.map(group => ({
-    group,
-    path: [...group.ancestors.map(id => names.get(id.toString()) || ''), group.name].join(' › '),
-    cards: pendingCards.filter(c => c.group.equals(group._id))
-  }));
+  const sectionsOf = cards => cardGroups
+    .map(group => ({
+      group,
+      path: [...group.ancestors.map(id => names.get(id.toString()) || ''), group.name].join(' › '),
+      cards: cards.filter(c => c.group.equals(group._id))
+    }))
+    .filter(section => section.cards.length);
+  const pendingSections = sectionsOf(pendingCards);
+  const editSections = sectionsOf(editCards);
 
   res.status(200).render('adminReview', {
     pageTitle: 'مراجعة المجموعات',
     user: res.locals.user,
     groups,
     pendingSections,
-    pendingCount: pendingCards.length
+    pendingCount: pendingCards.length,
+    editSections,
+    editCount: editCards.length
   });
 });

@@ -49,6 +49,21 @@ const ankiCardSchema = new mongoose.Schema({
     default: 0
   },
   // cards added to / moved into a published community group are hidden from other users until an admin approves them
+  // edit of a card that others already see (published community group), waiting for an admin
+  pendingEdit: {
+    type: new mongoose.Schema({
+      front: String,
+      back: String,
+      text: String,
+      extra: String,
+      image: String,
+      imagePath: String,
+      masks: [{ x: Number, y: Number, w: Number, h: Number }],
+      rejected: { type: Boolean, default: false },
+      submittedAt: Date
+    }, { _id: false }),
+    default: undefined
+  },
   approval: {
     type: String,
     enum: ['approved', 'pending', 'rejected'],
@@ -58,6 +73,7 @@ const ankiCardSchema = new mongoose.Schema({
 
 ankiCardSchema.index({ group: 1, order: 1, createdAt: 1 });
 ankiCardSchema.index({ approval: 1 });
+ankiCardSchema.index({ 'pendingEdit.rejected': 1 }, { sparse: true });
 
 const HIDDEN = ['pending', 'rejected'];
 ankiCardSchema.statics.HIDDEN = HIDDEN;

@@ -180,7 +180,7 @@ exports.deleteGroup = catchAsync(async function(req, res, next) {
   // the group + all of its inner groups
   const ids = await AnkiGroup.subtreeIds(group._id);
   const [imageCards, photos] = await Promise.all([
-    AnkiCard.find({ group: { $in: ids }, imagePath: { $exists: true } }).select('imagePath'),
+    AnkiCard.find({ group: { $in: ids }, $or: [{ imagePath: { $exists: true } }, { 'pendingEdit.imagePath': { $exists: true } }] }).select('imagePath pendingEdit'),
     AnkiGroup.find({ _id: { $in: ids }, photoPath: { $exists: true } }).select('photoPath')
   ]);
 
@@ -188,7 +188,7 @@ exports.deleteGroup = catchAsync(async function(req, res, next) {
   await scheduler.deleteProgress({ group: { $in: ids } });
   await AnkiGroup.deleteMany({ _id: { $in: ids } });
   if(group.parent) await AnkiGroup.updateTreeCounts(group.rootId);
-  await deleteCardImages(imageCards.map(card => card.imagePath), photos.map(g => g.photoPath));
+  await deleteCardImages([...new Set(imageCards.flatMap(card => [card.imagePath, card.pendingEdit && card.pendingEdit.imagePath]).filter(Boolean))], photos.map(g => g.photoPath));
 
   res.status(200).json({
     status: 'success',
@@ -352,6 +352,7 @@ exports.reviewGroup = catchAsync(async function(req, res, next) {
   if(action === 'approve') {
     await AnkiCard.updateMany({ group: { $in: await AnkiGroup.subtreeIds(group._id) }, approval: 'pending' }, { $set: { approval: 'approved' } });
     await AnkiGroup.updateTreeCounts(group._id);
+    await applyEdits(await AnkiCard.find({ group: { $in: await AnkiGroup.subtreeIds(group._id) }, isReversed: false, ...WAITING_EDIT }));
   }
 
   res.status(200).json({
@@ -442,20 +443,57 @@ exports.editCard = catchAsync(async function(req, res, next) {
   if(req.body.type && req.body.type !== card.type)
     return next(new AppError('لا يمكن تغيير نوع البطاقة بعد إنشائها', 400, 'message'));
 
+  // what the owner sees now: the edit waiting for the admin, if there is one
+  const current = card.pendingEdit ? Object.assign(card.toObject(), card.pendingEdit.toObject()) : card.toObject();
+
   const newImage = card.type === 'image' && req.file;
-  const { data, error } = buildCardData({ ...req.body, type: card.type }, !!newImage || !!card.image);
+  const { data, error } = buildCardData({ ...req.body, type: card.type }, !!newImage || !!current.image);
   if(error) return next(new AppError(error, 400, 'message'));
 
   const fields = ['front', 'back', 'text', 'extra'];
-  const sameFields = fields.every(key => data[key] === undefined || (card[key] || '') === data[key]);
-  const sameMasks = !data.masks || JSON.stringify(card.masks.map(({ x, y, w, h }) => ({ x, y, w, h }))) === JSON.stringify(data.masks);
+  const sameFields = fields.every(key => data[key] === undefined || (current[key] || '') === data[key]);
+  const sameMasks = !data.masks || JSON.stringify((current.masks || []).map(({ x, y, w, h }) => ({ x, y, w, h }))) === JSON.stringify(data.masks);
 
   if(sameFields && sameMasks && !newImage) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
 
-  const oldImagePath = card.imagePath;
   if(newImage) {
     const { image, imagePath } = await uploadCardImage(req.file.buffer, group._id);
     Object.assign(data, { image, imagePath });
+  }
+  const draft = card.pendingEdit;
+  const draftImage = draft && draft.imagePath && draft.imagePath !== card.imagePath ? draft.imagePath : undefined;
+
+  // others keep studying the approved version until an admin accepts the edit
+  if(group.needsCardApproval() && card.approval === 'approved') {
+    card.pendingEdit = {
+      ...Object.fromEntries(fields.map(key => [key, data[key] !== undefined ? data[key] : current[key]])),
+      masks: data.masks || (current.masks || []).map(({ x, y, w, h }) => ({ x, y, w, h })),
+      image: data.image || current.image,
+      imagePath: data.imagePath || current.imagePath,
+      rejected: false,
+      submittedAt: Date.now()
+    };
+    try {
+      await card.save();
+    } catch (err) {
+      if(newImage) await deleteCardImages(data.imagePath);
+      throw err;
+    }
+    if(newImage && draftImage) await deleteCardImages(draftImage);
+    await AnkiGroup.findByIdAndUpdate(group._id, { updatedAt: Date.now() });
+
+    return res.status(200).json({
+      status: 'success',
+      message: 'تم حفظ التعديل، وسيظهر للآخرين بعد موافقة المشرف',
+      data: { card }
+    });
+  }
+
+  // a direct edit replaces any edit that was waiting
+  let replacedImage = newImage ? card.imagePath : undefined;
+  if(!newImage && draftImage) {
+    Object.assign(data, { image: draft.image, imagePath: draft.imagePath });
+    replacedImage = card.imagePath;
   }
 
   // an edited refused card goes back to the admins
@@ -463,17 +501,19 @@ exports.editCard = catchAsync(async function(req, res, next) {
   if(resubmit) data.approval = 'pending';
 
   card.set(data);
+  card.pendingEdit = undefined;
   try {
     await card.save();
   } catch (err) {
     if(newImage) await deleteCardImages(data.imagePath);
     throw err;
   }
-  if(newImage) await deleteCardImages(oldImagePath);
+  if(replacedImage) await deleteCardImages(replacedImage);
+  if(newImage && draftImage) await deleteCardImages(draftImage);
 
   const updated = [card];
   if(card.type === 'reverse') {
-    const reversed = await AnkiCard.findOneAndUpdate({ pairId: card.pairId, isReversed: true }, { front: data.back, back: data.front, extra: data.extra, approval: card.approval }, { new: true });
+    const reversed = await AnkiCard.findOneAndUpdate({ pairId: card.pairId, isReversed: true }, { front: card.back, back: card.front, extra: card.extra, approval: card.approval }, { new: true });
     if(reversed) updated.push(reversed);
   }
   ankiSocket.cardsUpdated(lineageOf(group), updated);
@@ -488,6 +528,28 @@ exports.editCard = catchAsync(async function(req, res, next) {
   });
 });
 
+// admin accepted edits: they replace the live version (and the reversed copy)
+const applyEdits = async function(cards) {
+  const updated = [];
+  const oldImages = [];
+  for(const card of cards) {
+    const edit = card.pendingEdit.toObject();
+    if(edit.imagePath && card.imagePath && edit.imagePath !== card.imagePath) oldImages.push(card.imagePath);
+    ['front', 'back', 'text', 'extra', 'image', 'imagePath'].forEach(key => { if(edit[key] !== undefined) card[key] = edit[key]; });
+    if(card.type === 'image' && edit.masks) card.masks = edit.masks;
+    card.pendingEdit = undefined;
+    await card.save();
+    updated.push(card);
+    if(card.type === 'reverse') {
+      const reversed = await AnkiCard.findOneAndUpdate({ pairId: card.pairId, isReversed: true }, { front: card.back, back: card.front, extra: card.extra }, { new: true });
+      if(reversed) updated.push(reversed);
+    }
+  }
+  if(oldImages.length) await deleteCardImages(oldImages);
+  return updated;
+};
+const WAITING_EDIT = { approval: 'approved', pendingEdit: { $exists: true }, 'pendingEdit.rejected': false };
+
 exports.deleteCard = catchAsync(async function(req, res, next) {
   const { card, group } = await findOwnedCard(req);
   if(!card) return next(cardNotFound());
@@ -495,7 +557,7 @@ exports.deleteCard = catchAsync(async function(req, res, next) {
   const removed = card.pairId ? (await AnkiCard.find({ pairId: card.pairId }).select('_id')).map(c => c._id) : [card._id];
   await AnkiCard.deleteMany({ _id: { $in: removed } });
   await scheduler.deleteProgress({ card: { $in: removed } });
-  await deleteCardImages(card.imagePath);
+  await deleteCardImages([card.imagePath, card.pendingEdit && card.pendingEdit.imagePath].filter(p => p && p !== undefined));
   ankiSocket.cardsRemoved(lineageOf(group), removed);
 
   const cardsCount = await AnkiGroup.updateCardsCount(group._id);
@@ -666,18 +728,31 @@ exports.reviewCards = catchAsync(async function(req, res, next) {
   const ids = toIds(req.body.cardIds);
   if(!ids.length || ids.length > MAX_BATCH) return next(new AppError('اختر بطاقة واحدة على الأقل', 400, 'message'));
 
-  const cards = await AnkiCard.find({ _id: { $in: ids }, isReversed: false, approval: 'pending' });
+  // new cards waiting, and edits waiting on cards others already see
+  const cards = await AnkiCard.find({ _id: { $in: ids }, isReversed: false, $or: [{ approval: 'pending' }, WAITING_EDIT] });
   if(!cards.length) return next(new AppError('هذه البطاقات ليست بانتظار المراجعة', 400, 'message'));
-
-  const filter = { $or: cards.map(pairFilter) };
-  await AnkiCard.updateMany(filter, { $set: { approval: action === 'approve' ? 'approved' : 'rejected' } });
+  const newCards = cards.filter(c => c.approval === 'pending');
+  const edits = cards.filter(c => c.approval !== 'pending');
 
   const groups = await AnkiGroup.find({ _id: { $in: [...new Set(cards.map(c => c.group.toString()))] } });
-  for(const rootId of new Set(groups.map(g => g.rootId.toString()))) await AnkiGroup.updateTreeCounts(rootId);
 
-  if(action === 'approve') {
-    const approved = await AnkiCard.find(filter).select(`${scheduler.CARD_FIELDS} group`);
-    groups.forEach(g => ankiSocket.cardsAdded(lineageOf(g), approved.filter(c => c.group.equals(g._id))));
+  if(newCards.length) {
+    const filter = { $or: newCards.map(pairFilter) };
+    await AnkiCard.updateMany(filter, { $set: { approval: action === 'approve' ? 'approved' : 'rejected' } });
+    for(const rootId of new Set(groups.map(g => g.rootId.toString()))) await AnkiGroup.updateTreeCounts(rootId);
+    if(action === 'approve') {
+      const approved = await AnkiCard.find(filter).select(`${scheduler.CARD_FIELDS} group`);
+      groups.forEach(g => ankiSocket.cardsAdded(lineageOf(g), approved.filter(c => c.group.equals(g._id))));
+    }
+  }
+
+  if(edits.length) {
+    if(action === 'approve') {
+      const updated = await applyEdits(edits);
+      groups.forEach(g => ankiSocket.cardsUpdated(lineageOf(g), updated.filter(c => c.group.equals(g._id))));
+    } else {
+      await AnkiCard.updateMany({ _id: { $in: edits.map(c => c._id) } }, { $set: { 'pendingEdit.rejected': true } });
+    }
   }
 
   res.status(200).json({
