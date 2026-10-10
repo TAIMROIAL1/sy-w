@@ -139,9 +139,9 @@ app.get('/imgs/workshops/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'imgs', 'workshops', req.params.file));
 })
 
-app.use('/.well-known/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, "public", ".well-known", req.params.file));
-})
+// app.use('/.well-known/:file', (req, res) => {
+//   res.sendFile(path.join(__dirname, "public", ".well-known", req.params.file));
+// })
 
 // app.use((req, res, next) => {
 //   console.log(req.cookies);
