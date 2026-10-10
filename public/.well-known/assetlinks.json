@@ -1,9 +1,9 @@
-// [{
-//   "relation": ["delegate_permission/common.handle_all_urls"],
-//   "target": {
-//     "namespace": "android_app",
-//     "package_name": "com.example.virtual_card_holder",
-//     "sha256_cert_fingerprints":
-//     ["16:CF:44:B2:39:83:6C:0D:21:0A:F4:CF:BD:B9:53:4F:BF:A4:0E:3D:9C:16:0B:3B:20:5E:FE:A9:88:3F:1A:DE"]
-//   }
-// }]
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.example.virtual_card_holder",
+    "sha256_cert_fingerprints":
+    ["16:CF:44:B2:39:83:6C:0D:21:0A:F4:CF:BD:B9:53:4F:BF:A4:0E:3D:9C:16:0B:3B:20:5E:FE:A9:88:3F:1A:DE"]
+  }
+}]
