@@ -14,10 +14,6 @@ const noSQLSanitizer = require('express-mongo-sanitize');
 
 const { checkJWT, checkLink } = require('./controllers/authController');
 
-app.use('/.well-known/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, "public", ".well-known", req.params.file));
-})
-
 const app = express();
 
 app.set('view engine', 'pug');
@@ -142,6 +138,11 @@ app.get('/imgs/courses/:file', (req, res) => {
 app.get('/imgs/workshops/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'imgs', 'workshops', req.params.file));
 })
+
+app.use('/.well-known/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, "public", ".well-known", req.params.file));
+})
+
 // app.use((req, res, next) => {
 //   console.log(req.cookies);
 //   next();
