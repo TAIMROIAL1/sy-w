@@ -123,6 +123,10 @@ app.get('/js/anki/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'js', 'anki', req.params.file));
 })
 
+app.get('/js/tests/:file', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'js', 'tests', req.params.file));
+})
+
 app.get('/imgs/:file', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'imgs', req.params.file))
 })
