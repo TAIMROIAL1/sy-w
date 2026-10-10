@@ -42,8 +42,33 @@ const ankiCardSchema = new mongoose.Schema({
   isReversed: {
     type: Boolean,
     default: false
+  },
+  // position in the group (both cards of a reverse pair share it)
+  order: {
+    type: Number,
+    default: 0
+  },
+  // cards added to / moved into a published community group are hidden from other users until an admin approves them
+  approval: {
+    type: String,
+    enum: ['approved', 'pending', 'rejected'],
+    default: 'approved'
   }
 }, { timestamps: true });
+
+ankiCardSchema.index({ group: 1, order: 1, createdAt: 1 });
+ankiCardSchema.index({ approval: 1 });
+
+const HIDDEN = ['pending', 'rejected'];
+ankiCardSchema.statics.HIDDEN = HIDDEN;
+// filter for the cards other users can see (old cards have no approval field)
+ankiCardSchema.statics.VISIBLE = { approval: { $nin: HIDDEN } };
+ankiCardSchema.statics.SORT = { order: 1, createdAt: 1, _id: 1 };
+
+ankiCardSchema.statics.nextOrder = async function(groupId) {
+  const last = await this.findOne({ group: groupId }).sort({ order: -1 }).select('order');
+  return last ? (last.order || 0) + 1 : 0;
+};
 
 const AnkiCard = mongoose.model('AnkiCard', ankiCardSchema);
 

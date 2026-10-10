@@ -71,7 +71,7 @@ const Anki = (() => {
   const modalSubmit = document.getElementById('anki-modal-submit');
   let closeModal = null;
 
-  // fields: [{ name, label, type: 'text' | 'textarea', value, required, maxlength, placeholder }]
+  // fields: [{ name, label, type: 'text' | 'textarea' | 'select', value, options, required, maxlength, placeholder }]
   // resolves with { name: value } (or true when there are no fields) / null when cancelled
   const dialog = function ({ title, text = '', icon = 'fa-layer-group', danger = false, submitText = 'حفظ', fields = [], onSubmit }) {
     if (closeModal) closeModal(null);
@@ -91,11 +91,18 @@ const Anki = (() => {
       const wrap = document.createElement('div');
       wrap.innerHTML = `<label class="field-label" for="${id}"></label>`;
       wrap.querySelector('label').textContent = f.label;
-      const input = document.createElement(f.type === 'textarea' ? 'textarea' : 'input');
+      const input = document.createElement(f.type === 'textarea' ? 'textarea' : f.type === 'select' ? 'select' : 'input');
       input.id = id;
       input.name = f.name;
       input.className = 'input';
-      input.value = f.value || '';
+      // select: options [{ value, label }]
+      (f.type === 'select' ? f.options || [] : []).forEach(o => {
+        const option = document.createElement('option');
+        option.value = o.value;
+        option.textContent = o.label;
+        input.appendChild(option);
+      });
+      if (f.type !== 'select' || f.value) input.value = f.value || '';
       if (f.type === 'textarea') input.rows = 3;
       if (f.maxlength) input.maxLength = f.maxlength;
       if (f.placeholder) input.placeholder = f.placeholder;
@@ -109,7 +116,7 @@ const Anki = (() => {
     document.body.style.overflow = 'hidden';
     const firstInput = modalFields.querySelector('.input');
     (firstInput || modalSubmit).focus();
-    if (firstInput && firstInput.select) firstInput.select();
+    if (firstInput && firstInput.select && firstInput.tagName !== 'SELECT') firstInput.select();
 
     return new Promise(resolve => {
       const cleanup = value => {

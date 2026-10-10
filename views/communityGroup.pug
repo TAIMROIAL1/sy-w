@@ -65,6 +65,8 @@ block content
               | عن المجموعة
             p.description= group.description || 'لم يضف صاحب المجموعة وصفاً.'
 
+          +groupTree(tree, treeProgress)
+
           section.card-box.rating-box(data-rate-group=group._id)
             h2
               i.fa-solid.fa-star

@@ -2,7 +2,8 @@
    The cards tab is handled by group.js */
 (() => {
   const page = document.getElementById('official-editor');
-  if (!page) return;
+  // inner groups have no info form (name / description are edited by group.js)
+  if (!page || !document.getElementById('official-form')) return;
 
   const $ = id => document.getElementById(id);
   const groupId = page.dataset.groupId;

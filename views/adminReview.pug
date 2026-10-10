@@ -48,5 +48,46 @@ block content
       else
         +emptyState('fa-shield-halved', 'لا توجد مجموعات بانتظار المراجعة', 'عندما يرسل الطلاب مجموعاتهم للنشر ستظهر هنا')
 
+      //- new cards in published community groups (added or moved), hidden from other users until approved
+      section.pending-cards-section
+        h2.section-title
+          i.fa-solid.fa-clone
+          |  بطاقات جديدة في مجموعات منشورة
+          span.count= pendingCount
+        if pendingSections.length
+          .review-list
+            each section in pendingSections
+              article.card-box.card-review(data-card-ids=section.cards.map(c => c._id).join(','))
+                .review-head
+                  .group-avatar(style=`--hue:${hue(section.group.name)}`)= firstLetter(section.group.name)
+                  div
+                    h3.group-name= section.path
+                    .group-meta
+                      span
+                        i.fa-solid.fa-user
+                        | #{section.group.owner ? section.group.owner.name : '—'}
+                      span
+                        i.fa-solid.fa-layer-group
+                        | #{section.cards.length} بطاقة بانتظار الموافقة
+                ul.card-list
+                  each card in section.cards
+                    li.card-item(data-card-id=card._id)
+                      .card-item-body
+                        +cardPreview(card)
+                      .card-item-actions
+                        button.icon-btn.approve-card-btn(type='button' title='موافقة' aria-label='الموافقة على البطاقة')
+                          i.fa-solid.fa-check
+                        button.icon-btn.danger.reject-card-btn(type='button' title='رفض' aria-label='رفض البطاقة')
+                          i.fa-solid.fa-xmark
+                .review-actions
+                  button.btn.btn-success.approve-all-btn(type='button')
+                    i.fa-solid.fa-check-double
+                    |  موافقة على الكل
+                  button.btn.btn-danger-ghost.reject-all-btn(type='button')
+                    i.fa-solid.fa-xmark
+                    |  رفض الكل
+        else
+          p.muted-note لا توجد بطاقات جديدة بانتظار الموافقة
+
 block scripts
   script(src='/js/anki/adminReview.js')

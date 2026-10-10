@@ -5,7 +5,7 @@ const { checkJWT, restrictTo } = require('./../controllers/authController');
 const {
   createGroup, editGroup, deleteGroup, publishGroup, unpublishGroup, reviewGroup, rateGroup,
   createCard, editCard, deleteCard, getStudyCards, reviewCard, getGroupProgress,
-  createOfficialGroup, editOfficialGroup
+  createOfficialGroup, editOfficialGroup, moveCards, reorderCards, reviewCards
 } = require('./../controllers/ankiController');
 const uploadImage = require('./../utils/ankiImageUpload');
 
@@ -30,6 +30,12 @@ router.post('/groups/:groupId/rate', rateGroup);
 router.get('/groups/:groupId/study', getStudyCards);
 router.get('/groups/:groupId/progress', getGroupProgress);
 router.post('/groups/:groupId/cards', uploadImage, createCard);
+router.patch('/groups/:groupId/cards/order', reorderCards);
+
+// body: { cardIds, groupId } (target group)
+router.post('/cards/move', moveCards);
+// admins: cards added to / moved into published community groups. body: { cardIds, action: approve | reject }
+router.patch('/cards/approval', restrictTo('admin'), reviewCards);
 
 router.route('/cards/:cardId')
   .patch(uploadImage, editCard)

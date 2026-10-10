@@ -18,6 +18,15 @@ const isEmpty = value => value === undefined || value === null || String(value).
 const clean = value => isEmpty(value) ? '' : String(value).trim();
 const round = n => Math.round(n * 100) / 100;
 
+const MAX_BATCH = 500;
+const PENDING_NOTE = 'وستظهر للآخرين بعد موافقة المشرف';
+
+const toIds = value => [...new Set((Array.isArray(value) ? value : []).filter(id => mongoose.isValidObjectId(id)).map(String))];
+// a reverse pair is always handled as one card
+const pairFilter = card => card.pairId ? { pairId: card.pairId } : { _id: card._id };
+// the group + its parents, used for the socket rooms
+const lineageOf = group => [...group.ancestors, group._id].map(String);
+
 const groupNotFound = () => new AppError('هذه المجموعة غير موجودة', 404, 'message');
 const cardNotFound = () => new AppError('هذه البطاقة غير موجودة', 404, 'message');
 
@@ -103,12 +112,40 @@ exports.createGroup = catchAsync(async function(req, res, next) {
   if(!name) return next(new AppError('الرجاء ادخال اسم المجموعة', 400, 'message'));
   if(name.length > 80) return next(new AppError('اسم المجموعة يجب ألا يتجاوز 80 حرفاً', 400, 'message'));
 
-  const group = await AnkiGroup.create({ name, description, owner: req.user._id });
+  if(isEmpty(req.body.parent)) {
+    const group = await AnkiGroup.create({ name, description, owner: req.user._id });
+    return res.status(201).json({ status: 'success', message: 'تم إنشاء المجموعة بنجاح', data: { group } });
+  }
+
+  // inner group (library or, for admins, official): same owner / type / status as its parent
+  const parent = await findGroup(req.body.parent);
+  if(!parent || !parent.canBeManagedBy(req.user)) return next(groupNotFound());
+  if(parent.ancestors.length + 1 >= AnkiGroup.MAX_DEPTH)
+    return next(new AppError(`لا يمكن إنشاء أكثر من ${AnkiGroup.MAX_DEPTH} مستويات من المجموعات`, 400, 'message'));
+
+  const group = await AnkiGroup.create({
+    name,
+    description,
+    owner: parent.owner,
+    isOfficial: parent.isOfficial,
+    status: parent.status,
+    publishedAt: parent.publishedAt,
+    parent: parent._id,
+    ancestors: [...parent.ancestors, parent._id]
+  });
+
+  // a group holds cards or inner groups: the cards of the parent move to its first inner group
+  const movedCount = await AnkiCard.countDocuments({ group: parent._id, isReversed: false });
+  if(movedCount) {
+    await AnkiCard.updateMany({ group: parent._id }, { $set: { group: group._id } });
+    await scheduler.moveProgress({ group: parent._id }, group._id);
+  }
+  await AnkiGroup.updateTreeCounts(group.rootId);
 
   res.status(201).json({
     status: 'success',
-    message: 'تم إنشاء المجموعة بنجاح',
-    data: { group }
+    message: movedCount ? `تم إنشاء المجموعة ونقل ${movedCount} بطاقة إليها` : 'تم إنشاء المجموعة بنجاح',
+    data: { group, movedCount }
   });
 });
 
@@ -140,12 +177,18 @@ exports.deleteGroup = catchAsync(async function(req, res, next) {
   const group = await findOwnedGroup(req);
   if(!group) return next(groupNotFound());
 
-  const imageCards = await AnkiCard.find({ group: group._id, imagePath: { $exists: true } }).select('imagePath');
+  // the group + all of its inner groups
+  const ids = await AnkiGroup.subtreeIds(group._id);
+  const [imageCards, photos] = await Promise.all([
+    AnkiCard.find({ group: { $in: ids }, imagePath: { $exists: true } }).select('imagePath'),
+    AnkiGroup.find({ _id: { $in: ids }, photoPath: { $exists: true } }).select('photoPath')
+  ]);
 
-  await AnkiCard.deleteMany({ group: group._id });
-  await scheduler.deleteProgress({ group: group._id });
-  await group.deleteOne();
-  await deleteCardImages(imageCards.map(card => card.imagePath), group.photoPath);
+  await AnkiCard.deleteMany({ group: { $in: ids } });
+  await scheduler.deleteProgress({ group: { $in: ids } });
+  await AnkiGroup.deleteMany({ _id: { $in: ids } });
+  if(group.parent) await AnkiGroup.updateTreeCounts(group.rootId);
+  await deleteCardImages(imageCards.map(card => card.imagePath), photos.map(g => g.photoPath));
 
   res.status(200).json({
     status: 'success',
@@ -158,6 +201,7 @@ exports.publishGroup = catchAsync(async function(req, res, next) {
   const group = await findOwnedGroup(req);
   if(!group || group.isOfficial) return next(groupNotFound());
 
+  if(group.parent) return next(new AppError('النشر يتم من المجموعة الرئيسية، وتُنشر المجموعات الداخلية معها', 400, 'message'));
   if(group.status === 'pending') return next(new AppError('المجموعة قيد المراجعة بالفعل', 400, 'message'));
   if(group.status === 'published') return next(new AppError('المجموعة منشورة بالفعل', 400, 'message'));
   if(group.cardsCount < MIN_CARDS_TO_PUBLISH)
@@ -169,6 +213,7 @@ exports.publishGroup = catchAsync(async function(req, res, next) {
   group.submittedAt = Date.now();
   group.reviewNote = undefined;
   await group.save();
+  await AnkiGroup.syncTreeStatus(group);
 
   res.status(200).json({
     status: 'success',
@@ -182,6 +227,7 @@ exports.unpublishGroup = catchAsync(async function(req, res, next) {
   const group = await findOwnedGroup(req);
   if(!group || group.isOfficial) return next(groupNotFound());
 
+  if(group.parent) return next(new AppError('النشر يتم من المجموعة الرئيسية، وتُنشر المجموعات الداخلية معها', 400, 'message'));
   if(group.status !== 'pending' && group.status !== 'published')
     return next(new AppError('المجموعة غير منشورة', 400, 'message'));
 
@@ -191,6 +237,7 @@ exports.unpublishGroup = catchAsync(async function(req, res, next) {
   group.publishedAt = undefined;
   group.submittedAt = undefined;
   await group.save();
+  await AnkiGroup.syncTreeStatus(group);
 
   res.status(200).json({ status: 'success', message, data: { group } });
 });
@@ -243,6 +290,7 @@ exports.createOfficialGroup = catchAsync(async function(req, res, next) {
 exports.editOfficialGroup = catchAsync(async function(req, res, next) {
   const group = await findGroup(req.params.groupId);
   if(!group || !group.isOfficial) return next(groupNotFound());
+  if(group.parent) return next(new AppError('المجموعات الداخلية تُعدل من زر التعديل بجانب الاسم', 400, 'message'));
 
   const { data, published, error } = buildOfficialData(req.body);
   if(error) return next(new AppError(error, 400, 'message'));
@@ -268,6 +316,7 @@ exports.editOfficialGroup = catchAsync(async function(req, res, next) {
     throw err;
   }
   if(uploaded) await deleteCardImages(oldPhotoPath);
+  await AnkiGroup.syncTreeStatus(group);
 
   res.status(200).json({
     status: 'success',
@@ -279,7 +328,7 @@ exports.editOfficialGroup = catchAsync(async function(req, res, next) {
 // stage 2 (admins): approve -> published, reject -> rejected (with a note)
 exports.reviewGroup = catchAsync(async function(req, res, next) {
   const group = await findGroup(req.params.groupId);
-  if(!group || group.isOfficial) return next(groupNotFound());
+  if(!group || group.isOfficial || group.parent) return next(groupNotFound());
   if(group.status !== 'pending') return next(new AppError('هذه المجموعة ليست قيد المراجعة', 400, 'message'));
 
   const { action } = req.body;
@@ -298,6 +347,12 @@ exports.reviewGroup = catchAsync(async function(req, res, next) {
   }
 
   await group.save();
+  await AnkiGroup.syncTreeStatus(group);
+  // the admin reviewed the whole group, so the cards still waiting are approved with it
+  if(action === 'approve') {
+    await AnkiCard.updateMany({ group: { $in: await AnkiGroup.subtreeIds(group._id) }, approval: 'pending' }, { $set: { approval: 'approved' } });
+    await AnkiGroup.updateTreeCounts(group._id);
+  }
 
   res.status(200).json({
     status: 'success',
@@ -342,9 +397,12 @@ exports.rateGroup = catchAsync(async function(req, res, next) {
 exports.createCard = catchAsync(async function(req, res, next) {
   const group = await findOwnedGroup(req);
   if(!group) return next(groupNotFound());
+  if(group.childrenCount) return next(new AppError('هذه المجموعة تحتوي على مجموعات داخلية، أضف البطاقة داخل إحداها', 400, 'message'));
 
   const { data, error } = buildCardData(req.body, !!req.file);
   if(error) return next(new AppError(error, 400, 'message'));
+  data.order = await AnkiCard.nextOrder(group._id);
+  data.approval = group.needsCardApproval() ? 'pending' : 'approved';
 
   if(data.type === 'image') {
     const { image, imagePath } = await uploadCardImage(req.file.buffer, group._id);
@@ -367,11 +425,12 @@ exports.createCard = catchAsync(async function(req, res, next) {
   }
 
   const cardsCount = await AnkiGroup.updateCardsCount(group._id);
-  ankiSocket.cardsAdded(group._id, cards);
+  ankiSocket.cardsAdded(lineageOf(group), cards);
 
+  const message = data.type === 'reverse' ? 'تمت إضافة بطاقتين (الأصلية والمعكوسة)' : 'تمت إضافة البطاقة بنجاح';
   res.status(201).json({
     status: 'success',
-    message: data.type === 'reverse' ? 'تمت إضافة بطاقتين (الأصلية والمعكوسة)' : 'تمت إضافة البطاقة بنجاح',
+    message: data.approval === 'pending' ? `${message} ${PENDING_NOTE}` : message,
     data: { cards, cardsCount }
   });
 });
@@ -399,6 +458,10 @@ exports.editCard = catchAsync(async function(req, res, next) {
     Object.assign(data, { image, imagePath });
   }
 
+  // an edited refused card goes back to the admins
+  const resubmit = card.approval === 'rejected' && group.needsCardApproval();
+  if(resubmit) data.approval = 'pending';
+
   card.set(data);
   try {
     await card.save();
@@ -410,16 +473,17 @@ exports.editCard = catchAsync(async function(req, res, next) {
 
   const updated = [card];
   if(card.type === 'reverse') {
-    const reversed = await AnkiCard.findOneAndUpdate({ pairId: card.pairId, isReversed: true }, { front: data.back, back: data.front, extra: data.extra }, { new: true });
+    const reversed = await AnkiCard.findOneAndUpdate({ pairId: card.pairId, isReversed: true }, { front: data.back, back: data.front, extra: data.extra, approval: card.approval }, { new: true });
     if(reversed) updated.push(reversed);
   }
-  ankiSocket.cardsUpdated(group._id, updated);
+  ankiSocket.cardsUpdated(lineageOf(group), updated);
+  if(resubmit) await AnkiGroup.updateCardsCount(group._id);
 
   await AnkiGroup.findByIdAndUpdate(group._id, { updatedAt: Date.now() });
 
   res.status(200).json({
     status: 'success',
-    message: 'تم تعديل البطاقة بنجاح',
+    message: resubmit ? `تم تعديل البطاقة وإرسالها للمراجعة مرة أخرى` : 'تم تعديل البطاقة بنجاح',
     data: { card }
   });
 });
@@ -432,7 +496,7 @@ exports.deleteCard = catchAsync(async function(req, res, next) {
   await AnkiCard.deleteMany({ _id: { $in: removed } });
   await scheduler.deleteProgress({ card: { $in: removed } });
   await deleteCardImages(card.imagePath);
-  ankiSocket.cardsRemoved(group._id, removed);
+  ankiSocket.cardsRemoved(lineageOf(group), removed);
 
   const cardsCount = await AnkiGroup.updateCardsCount(group._id);
 
@@ -456,13 +520,16 @@ exports.getStudyCards = catchAsync(async function(req, res, next) {
   const mode = req.query.mode === 'revision' ? 'revision' : 'study';
   const now = Date.now();
 
+  // cards waiting for an admin: only for the owner and admins
+  const options = { includeHidden: req.user.role === 'admin' || group.canBeManagedBy(req.user) };
+
   let cards;
   if(mode === 'revision') {
-    const progress = await scheduler.getProgress(req.user._id, group);
+    const progress = await scheduler.getProgress(req.user, group);
     if(!progress.started) return next(new AppError('ادرس المجموعة مرة واحدة أولاً ثم يمكنك المراجعة', 400, 'message'));
-    cards = await scheduler.getRevisionCards(req.user._id, group._id, now);
+    cards = await scheduler.getRevisionCards(req.user._id, group._id, now, options);
   } else {
-    cards = await AnkiCard.find({ group: group._id }).select(scheduler.CARD_FIELDS).sort({ createdAt: 1, _id: 1 });
+    cards = await scheduler.getStudyCards(group, options);
   }
 
   if(!group.isOwnedBy(req.user)) await AnkiGroup.addUser(group._id, req.user._id);
@@ -486,13 +553,14 @@ exports.reviewCard = catchAsync(async function(req, res, next) {
   if(!Object.keys(scheduler.INTERVALS).includes(difficulty))
     return next(new AppError('درجة الصعوبة غير صحيحة', 400, 'message'));
 
-  const card = mongoose.isValidObjectId(req.params.cardId) && await AnkiCard.findById(req.params.cardId).select('group');
+  const card = mongoose.isValidObjectId(req.params.cardId) && await AnkiCard.findById(req.params.cardId).select('group approval');
   if(!card) return next(cardNotFound());
   const group = await AnkiGroup.findById(card.group);
   if(!group || !group.canBeStudiedBy(req.user)) return next(cardNotFound());
+  if(AnkiCard.HIDDEN.includes(card.approval) && req.user.role !== 'admin' && !group.canBeManagedBy(req.user)) return next(cardNotFound());
 
   const progress = await scheduler.recordReview(req.user._id, card, difficulty);
-  ankiSocket.reschedule(req.user._id.toString(), group._id.toString());
+  ankiSocket.reschedule(req.user._id.toString(), lineageOf(group));
 
   res.status(200).json({
     status: 'success',
@@ -506,6 +574,115 @@ exports.getGroupProgress = catchAsync(async function(req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    data: { progress: await scheduler.getProgress(req.user._id, group) }
+    data: { progress: await scheduler.getProgress(req.user, group) }
+  });
+});
+
+/* =========================================
+   MOVE / ORDER / APPROVE CARDS
+========================================= */
+
+// move cards (and the other card of their reverse pair) to another group of the same library (or official, for admins)
+exports.moveCards = catchAsync(async function(req, res, next) {
+  const ids = toIds(req.body.cardIds);
+  if(!ids.length) return next(new AppError('اختر بطاقة واحدة على الأقل', 400, 'message'));
+  if(ids.length > MAX_BATCH) return next(new AppError(`لا يمكن نقل أكثر من ${MAX_BATCH} بطاقة مرة واحدة`, 400, 'message'));
+
+  const target = await findGroup(req.body.groupId);
+  if(!target || !target.canBeManagedBy(req.user)) return next(groupNotFound());
+  if(target.childrenCount)
+    return next(new AppError('لا يمكن نقل البطاقات إلى مجموعة تحتوي على مجموعات داخلية، اختر إحدى المجموعات الداخلية', 400, 'message'));
+
+  const selected = await AnkiCard.find({ _id: { $in: ids }, isReversed: false }).sort(AnkiCard.SORT);
+  if(selected.length !== ids.length) return next(cardNotFound());
+
+  const sources = await AnkiGroup.find({ _id: { $in: [...new Set(selected.map(c => c.group.toString()))] } });
+  const sourceById = new Map(sources.map(g => [g._id.toString(), g]));
+  if(selected.some(c => !sourceById.has(c.group.toString()))) return next(cardNotFound());
+  if(sources.some(g => !g.canBeManagedBy(req.user))) return next(cardNotFound());
+  if(sources.some(g => g.isOfficial !== target.isOfficial))
+    return next(new AppError('لا يمكن نقل البطاقات بين المجموعات الرسمية ومجموعات المكتبة', 400, 'message'));
+
+  const moving = selected.filter(c => !c.group.equals(target._id));
+  if(!moving.length) return next(new AppError('البطاقات موجودة في هذه المجموعة بالفعل', 400, 'message'));
+
+  // a published community group only shows the cards coming from another group after an admin approves them
+  let order = await AnkiCard.nextOrder(target._id);
+  let pending = 0;
+  const ops = moving.map(card => {
+    const sameTree = sourceById.get(card.group.toString()).rootId.equals(target.rootId);
+    const approval = !target.needsCardApproval() ? 'approved' : sameTree ? (card.approval || 'approved') : 'pending';
+    if(approval === 'pending') pending++;
+    return { updateMany: { filter: pairFilter(card), update: { $set: { group: target._id, order: order++, approval } } } };
+  });
+  await AnkiCard.bulkWrite(ops);
+
+  const moved = await AnkiCard.find({ $or: moving.map(pairFilter) }).select(`${scheduler.CARD_FIELDS} group`);
+  await scheduler.moveProgress({ card: { $in: moved.map(c => c._id) } }, target._id);
+
+  const roots = new Set([target.rootId.toString(), ...sources.map(g => g.rootId.toString())]);
+  for(const rootId of roots) await AnkiGroup.updateTreeCounts(rootId);
+
+  // live revision: removed from the old groups, added to the new one (rooms of shared parents are skipped)
+  const keyOf = card => card.pairId ? `pair:${card.pairId}` : `card:${card._id}`;
+  const sourceOf = new Map(moving.map(c => [keyOf(c), c.group.toString()]));
+  const targetRooms = lineageOf(target);
+  sources.forEach(source => {
+    const sourceRooms = lineageOf(source);
+    const cards = moved.filter(m => sourceOf.get(keyOf(m)) === source._id.toString());
+    if(!cards.length) return;
+    ankiSocket.cardsRemoved(sourceRooms.filter(id => !targetRooms.includes(id)), cards.map(c => c._id));
+    ankiSocket.cardsAdded(targetRooms.filter(id => !sourceRooms.includes(id)), cards);
+  });
+
+  res.status(200).json({
+    status: 'success',
+    message: `تم نقل ${moving.length} بطاقة إلى "${target.name}"${pending ? ` ${PENDING_NOTE}` : ''}`,
+    data: { moved: moving.map(c => c._id), pending }
+  });
+});
+
+// body: { cardIds } = every card of the group (reversed copies excluded) in the new order
+exports.reorderCards = catchAsync(async function(req, res, next) {
+  const group = await findOwnedGroup(req);
+  if(!group) return next(groupNotFound());
+
+  const ids = toIds(req.body.cardIds);
+  const cards = await AnkiCard.find({ group: group._id, isReversed: false }).select('pairId');
+  const byId = new Map(cards.map(c => [c._id.toString(), c]));
+  if(ids.length !== cards.length || ids.some(id => !byId.has(id)))
+    return next(new AppError('تغيرت بطاقات المجموعة، أعد تحميل الصفحة ثم حاول مرة أخرى', 400, 'message'));
+
+  if(ids.length) await AnkiCard.bulkWrite(ids.map((id, order) => ({ updateMany: { filter: pairFilter(byId.get(id)), update: { $set: { order } } } })));
+
+  res.status(200).json({ status: 'success', message: 'تم حفظ ترتيب البطاقات' });
+});
+
+// admins: cards waiting in published community groups
+exports.reviewCards = catchAsync(async function(req, res, next) {
+  const { action } = req.body;
+  if(action !== 'approve' && action !== 'reject') return next(new AppError('الإجراء غير صحيح', 400, 'message'));
+
+  const ids = toIds(req.body.cardIds);
+  if(!ids.length || ids.length > MAX_BATCH) return next(new AppError('اختر بطاقة واحدة على الأقل', 400, 'message'));
+
+  const cards = await AnkiCard.find({ _id: { $in: ids }, isReversed: false, approval: 'pending' });
+  if(!cards.length) return next(new AppError('هذه البطاقات ليست بانتظار المراجعة', 400, 'message'));
+
+  const filter = { $or: cards.map(pairFilter) };
+  await AnkiCard.updateMany(filter, { $set: { approval: action === 'approve' ? 'approved' : 'rejected' } });
+
+  const groups = await AnkiGroup.find({ _id: { $in: [...new Set(cards.map(c => c.group.toString()))] } });
+  for(const rootId of new Set(groups.map(g => g.rootId.toString()))) await AnkiGroup.updateTreeCounts(rootId);
+
+  if(action === 'approve') {
+    const approved = await AnkiCard.find(filter).select(`${scheduler.CARD_FIELDS} group`);
+    groups.forEach(g => ankiSocket.cardsAdded(lineageOf(g), approved.filter(c => c.group.equals(g._id))));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    message: action === 'approve' ? `تمت الموافقة على ${cards.length} بطاقة` : `تم رفض ${cards.length} بطاقة`,
+    data: { cardIds: cards.map(c => c._id) }
   });
 });

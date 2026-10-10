@@ -1,41 +1,70 @@
-//- card list of a group (library or official). needs: cards, cardsBase (/anki/library/:id or /anki/official/:id)
-.panel-toolbar
-  .search-box
-    i.fa-solid.fa-magnifying-glass
-    input#card-search(type='search' placeholder='ابحث في البطاقات' aria-label='ابحث في البطاقات')
-  a.btn.btn-primary.add-card-btn(href=`${cardsBase}/add-card`)
-    i.fa-solid.fa-plus
-    |  إضافة بطاقة
+//- content of a group (library or official): its inner groups OR its cards, never both.
+//- needs: group, children, cards, cardsBase (/anki/library/:id or /anki/official/:id), childUrl(id), moveTargets
+if children.length
+  .panel-toolbar
+    h2.panel-title
+      i.fa-solid.fa-folder-tree
+      |  المجموعات الداخلية
+    button.btn.btn-primary.create-subgroup-btn(type='button')
+      i.fa-solid.fa-folder-plus
+      |  مجموعة داخلية
+  ul.subgroup-list
+    each child in children
+      li
+        a.subgroup-item(href=childUrl(child._id))
+          .group-avatar(style=`--hue:${hue(child.name)}`)= firstLetter(child.name)
+          .subgroup-text
+            strong= child.name
+            small= child.childrenCount ? `${child.childrenCount} مجموعة داخلية · ${child.cardsCount} بطاقة` : `${child.cardsCount} بطاقة`
+          i.fa-solid.fa-chevron-left
+else
+  .panel-toolbar
+    .search-box
+      i.fa-solid.fa-magnifying-glass
+      input#card-search(type='search' placeholder='ابحث في البطاقات' aria-label='ابحث في البطاقات')
+    .toolbar-actions
+      button.btn.btn-ghost.create-subgroup-btn(type='button' data-cards=cards.length title='المجموعة تحتوي على بطاقات أو مجموعات داخلية فقط')
+        i.fa-solid.fa-folder-plus
+        |  مجموعة داخلية
+      a.btn.btn-primary.add-card-btn(href=`${cardsBase}/add-card`)
+        i.fa-solid.fa-plus
+        |  إضافة بطاقة
 
-ul.card-list#card-list(hidden=!cards.length)
-  each card, i in cards
-    - const search = [card.front, card.back, card.text, card.extra].filter(Boolean).join(' ')
-    li.card-item(data-card-id=card._id data-type=card.type data-search=search)
-      span.card-index= i + 1
-      .card-item-body
-        +typeBadge(card.type, card.type === 'reverse' ? ' · بطاقتان' : '')
-        if card.type === 'basic' || card.type === 'reverse'
-          p.q= card.front
-          p.a
-            i.fa-solid.fa-reply
-            | #{card.back}
-        else if card.type === 'cloze'
-          p.q!= clozeHtml(card.text)
-        else
-          .thumb-wrap
-            img(src=card.image alt='' loading='lazy')
-            each m in card.masks
-              span.mask(style=`left:${m.x}%;top:${m.y}%;width:${m.w}%;height:${m.h}%`)
-          p.a #{card.masks.length} منطقة مخفية
-      .card-item-actions
-        a.icon-btn(href=`${cardsBase}/cards/${card._id}/edit` title='تعديل' aria-label='تعديل البطاقة')
-          i.fa-solid.fa-pen
-        button.icon-btn.danger.delete-card-btn(type='button' title='حذف' aria-label='حذف البطاقة')
-          i.fa-solid.fa-trash
-p.no-results(hidden) لا توجد بطاقات مطابقة
+  .selection-bar#selection-bar(hidden=!cards.length)
+    label.check-all
+      input#select-all(type='checkbox')
+      span تحديد الكل
+    span.selection-count#selection-count
+    button.btn.btn-primary.btn-sm#move-cards-btn(type='button' disabled)
+      i.fa-solid.fa-right-left
+      |  نقل إلى مجموعة أخرى
 
-.cards-empty(hidden=!!cards.length)
-  +emptyState('fa-clone', 'لا توجد بطاقات بعد', 'أضف بطاقات بسيطة أو عكسية أو فراغات أو صور')
-    a.btn.btn-primary(href=`${cardsBase}/add-card`)
-      i.fa-solid.fa-plus
-      |  إضافة بطاقة
+  ul.card-list#card-list(hidden=!cards.length data-move-targets=JSON.stringify(moveTargets))
+    each card, i in cards
+      - const search = [card.front, card.back, card.text, card.extra].filter(Boolean).join(' ')
+      li.card-item(data-card-id=card._id data-type=card.type data-search=search)
+        label.card-check
+          input.card-select(type='checkbox' aria-label='تحديد البطاقة')
+        span.card-index= i + 1
+        .card-item-body
+          +cardPreview(card)
+        .card-item-actions
+          .reorder-btns
+            button.icon-btn.sm.move-up-btn(type='button' title='تحريك للأعلى' aria-label='تحريك البطاقة للأعلى')
+              i.fa-solid.fa-chevron-up
+            button.icon-btn.sm.move-down-btn(type='button' title='تحريك للأسفل' aria-label='تحريك البطاقة للأسفل')
+              i.fa-solid.fa-chevron-down
+          a.icon-btn(href=`${cardsBase}/cards/${card._id}/edit` title='تعديل' aria-label='تعديل البطاقة')
+            i.fa-solid.fa-pen
+          button.icon-btn.danger.delete-card-btn(type='button' title='حذف' aria-label='حذف البطاقة')
+            i.fa-solid.fa-trash
+  p.no-results(hidden) لا توجد بطاقات مطابقة
+
+  .cards-empty(hidden=!!cards.length)
+    +emptyState('fa-clone', 'لا توجد بطاقات بعد', 'أضف بطاقات بسيطة أو عكسية أو فراغات أو صور، أو قسّم المجموعة إلى مجموعات داخلية')
+      a.btn.btn-primary(href=`${cardsBase}/add-card`)
+        i.fa-solid.fa-plus
+        |  إضافة بطاقة
+      button.btn.btn-ghost.create-subgroup-btn(type='button' data-cards='0')
+        i.fa-solid.fa-folder-plus
+        |  مجموعة داخلية

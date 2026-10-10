@@ -3,98 +3,114 @@ include _mixins
 
 //- admins: create / edit an official group (photo uploaded to Bunny) + its cards
 block content
-  main.anki-page.has-bottom-nav#official-editor(data-group-id=group ? group._id : '' data-topics=JSON.stringify(group ? group.topics : []))
+  - const groupUrl = id => `/anki/official/${id}/edit?tab=edit`
+  - const isInner = !!(group && group.parent)
+  - const parentUrl = isInner ? groupUrl(group.parent) : group ? `/anki/official/${group._id}` : '/anki/curriculum'
+  main.anki-page.has-bottom-nav#official-editor(data-group-id=group ? group._id : '' data-topics=JSON.stringify(group ? group.topics : []) data-name=group ? group.name : '' data-description=group ? group.description : '' data-child-url='/anki/official/{id}/edit?tab=edit' data-after-delete=isInner ? groupUrl(group.parent) : '/anki/curriculum')
     .container-narrow
-      a.back-link(href=group ? `/anki/official/${group._id}` : '/anki/curriculum')
+      a.back-link(href=parentUrl)
         i.fa-solid.fa-arrow-right
-        |  #{group ? 'العودة إلى المجموعة' : 'العودة إلى المنهج'}
+        |  #{isInner ? 'العودة إلى المجموعة الأم' : group ? 'العودة إلى المجموعة' : 'العودة إلى المنهج'}
+      if group
+        +breadcrumbs(breadcrumbs, groupUrl, group.name)
 
       header.group-header
         .group-header-text
           .title-row
             h1= group ? group.name : 'مجموعة رسمية جديدة'
+            if isInner
+              button.icon-btn.edit-group-btn(type='button' title='تعديل الاسم والوصف' aria-label='تعديل الاسم والوصف')
+                i.fa-solid.fa-pen
+              button.icon-btn.danger.delete-group-btn(type='button' title='حذف المجموعة' aria-label='حذف المجموعة')
+                i.fa-solid.fa-trash
           .group-meta
             span.badge-official-sm
               i.fa-solid.fa-circle-check
               |  مجموعة رسمية
+            if children && children.length
+              span
+                i.fa-solid.fa-folder-tree
+                | #{children.length} مجموعة داخلية
             if group
               span.status-badge(class=group.status === 'published' ? 'published' : 'private')= group.status === 'published' ? 'منشورة في المنهج' : 'مسودة'
               span
                 i.fa-solid.fa-layer-group
                 | #{group.cardsCount} بطاقة
 
-      if group
+      if group && !isInner
         nav.tabs(role='tablist')
           button.tab(type='button' role='tab' data-tab='info' class=activeTab === 'info' ? 'active' : '' aria-selected=String(activeTab === 'info'))
             i.fa-solid.fa-circle-info
             span المعلومات
           button.tab(type='button' role='tab' data-tab='edit' class=activeTab === 'edit' ? 'active' : '' aria-selected=String(activeTab === 'edit'))
             i.fa-solid.fa-pen-to-square
-            span البطاقات
-            span.count= cards.length
+            span= children.length ? 'المجموعات' : 'البطاقات'
+            span.count= children.length || cards.length
 
-      section.tab-panel(data-panel='info' role='tabpanel' hidden=activeTab !== 'info')
-        form.card-box.official-form#official-form(novalidate)
-          .field
-            span.field-label صورة المجموعة
-            label.photo-drop#photo-drop(for='photo-input' class=group ? 'has-photo' : '')
-              img#photo-preview(src=group ? group.photo : '' alt='' hidden=!group)
-              span.photo-empty#photo-empty(hidden=!!group)
-                i.fa-solid.fa-image
-                strong اضغط أو اسحب صورة هنا
-                small PNG أو JPG أو WEBP حتى 5MB، يفضل أن تكون عريضة (16:9)
-              span.photo-change#photo-change(hidden=!group)
-                i.fa-solid.fa-camera
-                |  تغيير الصورة
-            input#photo-input(type='file' accept='image/png,image/jpeg,image/webp,image/gif' hidden)
-
-          .field
-            label.field-label(for='of-name') اسم المجموعة
-            input#of-name.input(type='text' maxlength='80' value=group ? group.name : '' placeholder='مثال: الجهاز العصبي')
-          .field-grid
+      if !isInner
+        section.tab-panel(data-panel='info' role='tabpanel' hidden=activeTab !== 'info')
+          form.card-box.official-form#official-form(novalidate)
             .field
-              label.field-label(for='of-subject') المادة #[small (اختياري)]
-              input#of-subject.input(type='text' maxlength='60' value=group ? group.subject : '' placeholder='مثال: علم الأحياء')
+              span.field-label صورة المجموعة
+              label.photo-drop#photo-drop(for='photo-input' class=group ? 'has-photo' : '')
+                img#photo-preview(src=group ? group.photo : '' alt='' hidden=!group)
+                span.photo-empty#photo-empty(hidden=!!group)
+                  i.fa-solid.fa-image
+                  strong اضغط أو اسحب صورة هنا
+                  small PNG أو JPG أو WEBP حتى 5MB، يفضل أن تكون عريضة (16:9)
+                span.photo-change#photo-change(hidden=!group)
+                  i.fa-solid.fa-camera
+                  |  تغيير الصورة
+              input#photo-input(type='file' accept='image/png,image/jpeg,image/webp,image/gif' hidden)
+
             .field
-              label.field-label(for='of-level') المرحلة #[small (اختياري)]
-              input#of-level.input(type='text' maxlength='60' value=group ? group.level : '' placeholder='مثال: الثالث الثانوي')
-          .field
-            label.field-label(for='of-description') الوصف
-            textarea#of-description.input(rows='4' placeholder='ماذا تغطي هذه المجموعة؟')= group ? group.description : ''
-          .field
-            label.field-label(for='topic-input') ماذا سيراجع الطالب #[small (حتى 12 موضوعاً)]
-            .topic-input-row
-              input#topic-input.input(type='text' maxlength='80' placeholder='اكتب موضوعاً ثم اضغط إضافة')
-              button.btn.btn-ghost#topic-add(type='button')
-                i.fa-solid.fa-plus
-                |  إضافة
-            ul.topic-chips#topic-chips
+              label.field-label(for='of-name') اسم المجموعة
+              input#of-name.input(type='text' maxlength='80' value=group ? group.name : '' placeholder='مثال: الجهاز العصبي')
+            .field-grid
+              .field
+                label.field-label(for='of-subject') المادة #[small (اختياري)]
+                input#of-subject.input(type='text' maxlength='60' value=group ? group.subject : '' placeholder='مثال: علم الأحياء')
+              .field
+                label.field-label(for='of-level') المرحلة #[small (اختياري)]
+                input#of-level.input(type='text' maxlength='60' value=group ? group.level : '' placeholder='مثال: الثالث الثانوي')
+            .field
+              label.field-label(for='of-description') الوصف
+              textarea#of-description.input(rows='4' placeholder='ماذا تغطي هذه المجموعة؟')= group ? group.description : ''
+            .field
+              label.field-label(for='topic-input') ماذا سيراجع الطالب #[small (حتى 12 موضوعاً)]
+              .topic-input-row
+                input#topic-input.input(type='text' maxlength='80' placeholder='اكتب موضوعاً ثم اضغط إضافة')
+                button.btn.btn-ghost#topic-add(type='button')
+                  i.fa-solid.fa-plus
+                  |  إضافة
+              ul.topic-chips#topic-chips
 
-          if group
-            .switch-row
-              div
-                strong النشر في المنهج
-                small(class=group.cardsCount ? '' : 'warn')= group.cardsCount ? 'عند التفعيل تظهر المجموعة لكل الطلاب في المنهج' : 'أضف بطاقة واحدة على الأقل قبل النشر'
-              label.switch
-                input#of-published(type='checkbox' checked=group.status === 'published' aria-label='النشر في المنهج')
-                span.switch-slider
-          else
-            .alert.alert-info
-              i.fa-solid.fa-circle-info
-              span  ستُحفظ المجموعة كمسودة لا يراها الطلاب، ثم تضيف البطاقات وتنشرها.
-
-          .form-actions
-            button.btn.btn-primary.btn-lg#of-save(type='submit')
-              i.fa-solid(class=group ? 'fa-floppy-disk' : 'fa-plus')
-              |  #{group ? 'حفظ التعديلات' : 'إنشاء المجموعة'}
             if group
-              button.btn.btn-danger-ghost#of-delete(type='button')
-                i.fa-solid.fa-trash
-                |  حذف المجموعة
+              .switch-row
+                div
+                  strong النشر في المنهج
+                  small(class=group.cardsCount ? '' : 'warn')= group.cardsCount ? 'عند التفعيل تظهر المجموعة لكل الطلاب في المنهج' : 'أضف بطاقة واحدة على الأقل قبل النشر'
+                label.switch
+                  input#of-published(type='checkbox' checked=group.status === 'published' aria-label='النشر في المنهج')
+                  span.switch-slider
+            else
+              .alert.alert-info
+                i.fa-solid.fa-circle-info
+                span  ستُحفظ المجموعة كمسودة لا يراها الطلاب، ثم تضيف البطاقات وتنشرها.
+
+            .form-actions
+              button.btn.btn-primary.btn-lg#of-save(type='submit')
+                i.fa-solid(class=group ? 'fa-floppy-disk' : 'fa-plus')
+                |  #{group ? 'حفظ التعديلات' : 'إنشاء المجموعة'}
+              if group
+                button.btn.btn-danger-ghost#of-delete(type='button')
+                  i.fa-solid.fa-trash
+                  |  حذف المجموعة
 
       if group
         section.tab-panel(data-panel='edit' role='tabpanel' hidden=activeTab !== 'edit')
           - const cardsBase = `/anki/official/${group._id}`
+          - const childUrl = groupUrl
           include _cardList
 
 block scripts

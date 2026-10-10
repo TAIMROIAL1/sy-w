@@ -151,12 +151,26 @@
   };
 
   /* ------------------ live changes (revision only) ------------------ */
+  // the 2 cards of a reverse pair never come one after the other (the card on screen is not moved)
+  const separatePairs = function (from) {
+    const fits = (j, key) => (j === 0 || cards[j - 1].pairId !== key) && (j === cards.length || cards[j].pairId !== key);
+    for (let i = Math.max(1, from); i < cards.length; i++) {
+      const key = cards[i].pairId;
+      if (!key || key !== cards[i - 1].pairId) continue;
+      const [card] = cards.splice(i, 1);
+      let j = i - 1;
+      while (j >= Math.max(1, from) && !fits(j, key)) j--;
+      cards.splice(j >= Math.max(1, from) ? j : i, 0, card);
+    }
+  };
+
   const addCards = function (list, reason) {
     const pending = new Set(cards.slice(index).map(c => c._id));
     const fresh = list.filter(c => !pending.has(c._id) && pending.add(c._id));
     if (!fresh.length) return;
 
     cards.push(...fresh);
+    separatePairs(finished ? index : index + 1);
     bumpCounter();
     if (finished) showCard();
     else updateProgress();

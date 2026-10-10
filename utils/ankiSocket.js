@@ -4,6 +4,7 @@
 const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 const AnkiGroup = require('./../models/ankiGroupModel');
+const AnkiCard = require('./../models/ankiCardModel');
 const scheduler = require('./ankiScheduler');
 
 const MAX_DELAY = 6 * 60 * 60 * 1000;
@@ -37,7 +38,7 @@ const check = async function(key) {
   clearTimeout(state.timer);
 
   const now = Date.now();
-  const cards = await scheduler.getCardsDueBetween(state.userId, state.groupId, state.since, now);
+  const cards = await scheduler.getCardsDueBetween(state.userId, state.groupId, state.since, now, { includeHidden: state.includeHidden });
   state.since = now;
   if(cards.length) nsp.to(userRoom(state.userId, state.groupId)).emit('cards:due', { groupId: state.groupId, cards });
 
@@ -98,7 +99,14 @@ exports.init = function(server, authenticate = defaultAuthenticate) {
 
         const state = revisions.get(key);
         if(state) state.since = Math.min(state.since, sinceTime);
-        else revisions.set(key, { userId, groupId: String(groupId), since: sinceTime, timer: null, chain: Promise.resolve() });
+        else revisions.set(key, {
+          userId,
+          groupId: String(groupId),
+          since: sinceTime,
+          timer: null,
+          chain: Promise.resolve(),
+          includeHidden: socket.data.user.role === 'admin' || group.canBeManagedBy(socket.data.user)
+        });
 
         await queue(key);
         reply({ ok: true });
@@ -113,22 +121,35 @@ exports.init = function(server, authenticate = defaultAuthenticate) {
   return io;
 };
 
-// call after a review changed when the user's next card is due
-exports.reschedule = function(userId, groupId) {
+// groupIds: the group of the cards + its parents (someone may be revising a parent group)
+const toRooms = groupIds => [...new Set((Array.isArray(groupIds) ? groupIds : [groupIds]).map(String))];
+// cards waiting for an admin are never pushed to the other users
+const visibleCards = cards => cards.filter(c => !AnkiCard.HIDDEN.includes(c.approval));
+const emit = function(groupIds, event, payload) {
   if(!nsp) return;
-  const key = `${userId}:${groupId}`;
-  if(revisions.has(key)) queue(key);
+  toRooms(groupIds).forEach(groupId => nsp.to(groupRoom(groupId)).emit(event, { groupId, ...payload }));
+};
+
+// call after a review changed when the user's next card is due
+exports.reschedule = function(userId, groupIds) {
+  if(!nsp) return;
+  toRooms(groupIds).forEach(groupId => {
+    const key = `${userId}:${groupId}`;
+    if(revisions.has(key)) queue(key);
+  });
 };
 
 // new cards are due right away for everyone revising the group
-exports.cardsAdded = function(groupId, cards) {
-  if(nsp && cards.length) nsp.to(groupRoom(groupId)).emit('cards:new', { groupId: String(groupId), cards });
+exports.cardsAdded = function(groupIds, cards) {
+  const visible = visibleCards(cards);
+  if(visible.length) emit(groupIds, 'cards:new', { cards: visible });
 };
 
-exports.cardsRemoved = function(groupId, cardIds) {
-  if(nsp && cardIds.length) nsp.to(groupRoom(groupId)).emit('cards:removed', { groupId: String(groupId), cardIds: cardIds.map(String) });
+exports.cardsRemoved = function(groupIds, cardIds) {
+  if(cardIds.length) emit(groupIds, 'cards:removed', { cardIds: cardIds.map(String) });
 };
 
-exports.cardsUpdated = function(groupId, cards) {
-  if(nsp && cards.length) nsp.to(groupRoom(groupId)).emit('cards:updated', { groupId: String(groupId), cards });
+exports.cardsUpdated = function(groupIds, cards) {
+  const visible = visibleCards(cards);
+  if(visible.length) emit(groupIds, 'cards:updated', { cards: visible });
 };

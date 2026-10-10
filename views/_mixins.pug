@@ -181,3 +181,71 @@ mixin studyModes(group, progress)
           span.new-cards #{progress.newCards} جديدة
       .progress.sm
         .progress-bar(style=`width:${group.cardsCount ? Math.min(100, progress.studied / group.cardsCount * 100) : 0}%`)
+
+//- body of a card in a list (library / official editor / admin review)
+mixin cardPreview(card)
+  .card-badges
+    +typeBadge(card.type, card.type === 'reverse' ? ' · بطاقتان' : '')
+    +approvalBadge(card.approval)
+  if card.type === 'basic' || card.type === 'reverse'
+    p.q= card.front
+    p.a
+      i.fa-solid.fa-reply
+      | #{card.back}
+  else if card.type === 'cloze'
+    p.q!= clozeHtml(card.text)
+  else
+    .thumb-wrap
+      img(src=card.image alt='' loading='lazy')
+      each m in card.masks
+        span.mask(style=`left:${m.x}%;top:${m.y}%;width:${m.w}%;height:${m.h}%`)
+    p.a #{card.masks.length} منطقة مخفية
+
+//- cards added to a published community group wait for an admin
+mixin approvalBadge(approval)
+  if approval === 'pending'
+    span.approval-badge.pending(title='لا تظهر لغيرك حتى يوافق عليها المشرف')
+      i.fa-solid.fa-hourglass-half
+      |  بانتظار موافقة المشرف
+  else if approval === 'rejected'
+    span.approval-badge.rejected(title='عدّل البطاقة لإرسالها للمراجعة مرة أخرى')
+      i.fa-solid.fa-ban
+      |  رفضها المشرف
+
+//- parents of an inner group. urlOf(id) -> link of a parent
+mixin breadcrumbs(crumbs, urlOf, current)
+  if crumbs && crumbs.length
+    nav.breadcrumbs(aria-label='مسار المجموعة')
+      each c in crumbs
+        a(href=urlOf(c._id))= c.name
+        i.fa-solid.fa-chevron-left(aria-hidden='true')
+      span(aria-current='page')= current
+
+//- public pages: inner groups of a group, each one can be studied alone
+mixin groupTree(tree, treeProgress)
+  if tree && tree.length
+    section.card-box
+      h2
+        i.fa-solid.fa-folder-tree
+        | محتوى المجموعة
+      ul.group-tree
+        each item in tree
+          - const g = item.group
+          - const p = treeProgress[g._id.toString()]
+          li.tree-item(style=`--depth:${item.depth - 1}`)
+            .tree-text
+              strong
+                i.fa-solid(class=g.childrenCount ? 'fa-folder-open' : 'fa-folder')
+                |  #{g.name}
+              small= g.childrenCount ? `${g.childrenCount} مجموعة · ${g.cardsCount} بطاقة` : `${g.cardsCount} بطاقة`
+            if g.cardsCount
+              .tree-actions
+                a.btn.btn-ghost.btn-sm(href=`/anki/groups/${g._id}/study`)
+                  i.fa-solid.fa-book-open
+                  |  دراسة
+                if p && p.started
+                  a.btn.btn-ghost.btn-sm(href=`/anki/groups/${g._id}/study?mode=revision`)
+                    i.fa-solid.fa-rotate
+                    |  مراجعة
+                    if p.dueNow
+                      span.due-count= p.dueNow
