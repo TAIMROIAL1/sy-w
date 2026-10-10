@@ -78,6 +78,8 @@ menu.addEventListener('click', (e) => {
     const menuBtn = e.target.closest('.menu-item');
 
     if(!menuBtn || menuBtn.classList.contains('active')) return;
+    // plain links (anki, tests) just navigate
+    if(menuBtn.classList.contains('menu-link')) return;
 
     if(menuBtn.classList.contains("logout-btn")) {
       return handleLogout();

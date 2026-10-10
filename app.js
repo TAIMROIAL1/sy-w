@@ -175,6 +175,7 @@ app.use('/api/v1/forms', excelFormRouter);
 app.use('/api/v1/notes/:subcourseId', notesRouter);
 app.use("/api/v1/saved-videos", savedVideosRouter);
 app.use('/api/v1/anki', require('./routes/ankiRoutes'));
+app.use('/api/v1/tests', require('./routes/generalTestRoutes'));
 
 app.use(errorController);
 

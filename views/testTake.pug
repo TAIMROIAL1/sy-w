@@ -1,0 +1,82 @@
+extends _layout
+
+block content
+  main.anki-page.test-take#test-take(data-test-id=test._id)
+    .container-narrow
+      a.back-link(href='/tests')
+        i.fa-solid.fa-arrow-right
+        |  العودة إلى الاختبارات
+
+      section.card-box.test-intro#test-intro
+        h1= test.title
+        if test.description
+          p.test-desc= test.description
+        .test-facts
+          .fact
+            i.fa-solid.fa-list-ol
+            strong= questionsCount
+            span سؤال
+          .fact
+            i.fa-regular.fa-clock
+            strong= test.duration
+            span دقيقة
+          .fact
+            i.fa-solid.fa-flag-checkered
+            strong
+              time(data-time=test.endAt.toISOString())
+            span وقت النهاية
+
+        if state === 'upcoming'
+          .alert.alert-info
+            i.fa-solid.fa-calendar-days
+            span
+              | يبدأ الاختبار بعد 
+              strong(data-countdown=test.startAt.toISOString() data-reload) —
+        else if attemptState === 'done'
+          .alert.alert-success
+            i.fa-solid.fa-circle-check
+            span
+              | لقد سلّمت هذا الاختبار. تظهر النتائج وأوائل الاختبار بعد 
+              strong(data-countdown=test.endAt.toISOString()) —
+        else
+          ul.test-rules
+            li يمكنك تقديم الاختبار مرة واحدة فقط.
+            li يبدأ وقتك عند الضغط على "ابدأ" ولا يتوقف إذا أغلقت الصفحة، ويمكنك العودة لإكمال الاختبار قبل انتهاء وقتك.
+            if attemptState === 'new' && availableMinutes < test.duration
+              li.warn
+                i.fa-solid.fa-triangle-exclamation
+                |  بقي على نهاية الاختبار أقل من مدته، سيكون وقتك #{availableMinutes < 1 ? 'أقل من دقيقة' : `${Math.floor(availableMinutes)} دقيقة`} فقط.
+            li تُحفظ إجاباتك تلقائياً، ويُسلَّم الاختبار تلقائياً عند انتهاء الوقت.
+            li تظهر النتائج بعد انتهاء وقت الاختبار.
+          button.btn.btn-primary.btn-lg#start-test-btn(type='button')
+            i.fa-solid.fa-play
+            |  #{attemptState === 'started' ? 'متابعة الاختبار' : 'ابدأ الاختبار'}
+
+      section.test-runner#test-runner(hidden)
+        .runner-bar
+          .runner-progress#runner-progress
+          .runner-timer#runner-timer
+            i.fa-regular.fa-clock
+            span#timer-text(dir='ltr') --:--
+          button.btn.btn-success.submit-test-btn(type='button')
+            i.fa-solid.fa-paper-plane
+            |  تسليم
+        ol.question-list#question-list
+        .runner-footer
+          span.save-state#save-state
+          button.btn.btn-success.btn-lg.submit-test-btn(type='button')
+            i.fa-solid.fa-paper-plane
+            |  تسليم الاختبار
+
+      section.card-box.test-done#test-done(hidden)
+        .done-icon
+          i.fa-solid.fa-circle-check
+        h2 تم تسليم الاختبار
+        p
+          | تظهر النتائج وأوائل الاختبار بعد انتهاء وقته: 
+          time(data-time=test.endAt.toISOString())
+        a.btn.btn-ghost(href='/tests') العودة إلى الاختبارات
+
+block scripts
+  script(src='/js/tests/tests.js')
+  script(src='/js/tests/take.js')

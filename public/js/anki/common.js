@@ -20,7 +20,8 @@ const Anki = (() => {
     const isForm = body instanceof FormData;
     let res;
     try {
-      res = await fetch(`${API}${path}`, {
+      // '/api/...' = another api (tests), else a path under /api/v1/anki
+      res = await fetch(path.startsWith('/api/') ? `${domain}${path}` : `${API}${path}`, {
         method,
         headers: body && !isForm ? { 'Content-Type': 'application/json' } : {},
         body: isForm ? body : body ? JSON.stringify(body) : undefined

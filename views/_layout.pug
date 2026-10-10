@@ -44,17 +44,27 @@ html(lang='ar' dir='rtl')
     title #{pageTitle} | Studyou
     link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css')
     link(rel='stylesheet' href='/css/anki.css')
+    each href in (styles || [])
+      link(rel='stylesheet' href=href)
   body(data-domain=domain class=bodyClass)
     //- apply dark mode before paint (external file, no inline scripts)
     script(src='/js/anki/darkMode.js')
 
     header.navbar
-      a.logo(href='/anki')
-        i.fa-solid.fa-graduation-cap
+      a.logo(href=brandHref || '/anki')
+        i.fa-solid(class=brandIcon || 'fa-graduation-cap')
         span Studyou
-        span.logo-badge البطاقات
+        span.logo-badge= brandBadge || 'البطاقات'
       .navbar-left
-        if user.role === 'admin'
+        a.nav-icon-btn(href='/' title='الصفحة الرئيسية' aria-label='الصفحة الرئيسية')
+          i.fa-solid.fa-house
+        if brandHref
+          a.nav-icon-btn(href='/anki' title='البطاقات' aria-label='البطاقات')
+            i.fa-solid.fa-layer-group
+        else
+          a.nav-icon-btn(href='/tests' title='الاختبارات' aria-label='الاختبارات')
+            i.fa-solid.fa-file-pen
+        if user.role === 'admin' && !brandHref
           a.nav-icon-btn(href='/anki/admin/review' title='مراجعة المجموعات' aria-label='مراجعة المجموعات')
             i.fa-solid.fa-shield-halved
         label.toggle(title='الوضع الليلي')

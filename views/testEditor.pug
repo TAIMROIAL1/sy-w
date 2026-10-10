@@ -1,0 +1,62 @@
+extends _layout
+
+block content
+  - const data = test ? { title: test.title, description: test.description, startAt: test.startAt, endAt: test.endAt, duration: test.duration, shuffle: test.shuffle, showAnswers: test.showAnswers, questions: test.questions.map(q => ({ text: q.text, choices: q.choices, correct: q.correct })) } : null
+  main.anki-page.test-editor#test-editor(data-test-id=test ? test._id : '' data-test=JSON.stringify(data) data-locked=String(locked))
+    .container-narrow
+      a.back-link(href='/tests')
+        i.fa-solid.fa-arrow-right
+        |  العودة إلى الاختبارات
+      h1.editor-title= test ? 'تعديل اختبار' : 'اختبار عام جديد'
+      if locked
+        .alert.alert-info
+          i.fa-solid.fa-lock
+          span بدأ #{test.attemptsCount} طالب بتقديم الاختبار، لذلك لا يمكن تغيير الأسئلة أو المدة أو وقت البداية.
+
+      form#test-form(novalidate)
+        section.card-box
+          h2.section-title
+            i.fa-solid.fa-circle-info
+            |  معلومات الاختبار
+          .field
+            label.field-label(for='title') العنوان
+            input#title.input(maxlength='120' placeholder='مثال: اختبار الوحدة الأولى')
+          .field
+            label.field-label(for='description') الوصف #[small (اختياري)]
+            textarea#description.input(rows='3' maxlength='1000' placeholder='ما الذي يشمله الاختبار؟')
+          .field-grid
+            .field
+              label.field-label(for='startAt') وقت البداية
+              input#startAt.input(type='datetime-local')
+            .field
+              label.field-label(for='endAt') وقت النهاية
+              input#endAt.input(type='datetime-local')
+          .field
+            label.field-label(for='duration') مدة الاختبار #[small (بالدقائق)]
+            input#duration.input(type='number' min='1' max='600' value='30')
+            small.field-hint إذا بدأ الطالب متأخراً وبقي على النهاية أقل من المدة، يحصل على الوقت المتبقي فقط.
+          label.check-row
+            input#shuffle(type='checkbox')
+            span ترتيب عشوائي للأسئلة والخيارات لكل طالب
+          label.check-row
+            input#showAnswers(type='checkbox')
+            span إظهار الإجابات الصحيحة للطلاب بعد انتهاء الاختبار
+
+        section.card-box
+          h2.section-title
+            i.fa-solid.fa-list-ol
+            |  الأسئلة
+            span.count#questions-count 0
+          ol.editor-questions#questions
+          if !locked
+            button.btn.btn-ghost#add-question(type='button')
+              i.fa-solid.fa-plus
+              |  إضافة سؤال
+
+        .form-actions.sticky-actions
+          button.btn.btn-primary.btn-lg(type='submit')
+            i.fa-solid.fa-floppy-disk
+            |  حفظ الاختبار
+
+block scripts
+  script(src='/js/tests/editor.js')

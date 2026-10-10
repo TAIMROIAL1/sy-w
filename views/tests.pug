@@ -1,0 +1,103 @@
+extends _layout
+include _mixins
+
+block content
+  main.anki-page.tests-page#tests-page
+    .container-narrow
+      .page-hero.hero-tests
+        div
+          h1 الاختبارات العامة
+          p اختبارات بوقت محدد يقدمها كل طالب مرة واحدة، وتظهر النتائج وأوائل الاختبار بعد انتهاء وقته
+        if user.role === 'admin'
+          a.btn.btn-light(href='/tests/new')
+            i.fa-solid.fa-plus
+            |  اختبار جديد
+
+      mixin testItem(t, state)
+        - const s = status[t._id.toString()]
+        article.test-item(class=`is-${state}`)
+          .test-item-icon
+            i.fa-solid(class=state === 'live' ? 'fa-tower-broadcast' : state === 'upcoming' ? 'fa-calendar-days' : 'fa-flag-checkered')
+          .test-item-body
+            h3= t.title
+            if t.description
+              p.test-desc= t.description
+            .test-meta
+              span
+                i.fa-regular.fa-clock
+                |  #{t.duration} دقيقة
+              span
+                i.fa-solid.fa-list-ol
+                |  #{t.questions.length} سؤال
+              if state === 'live'
+                span.live-ends
+                  | ينتهي بعد 
+                  span(data-countdown=t.endAt.toISOString() data-reload) —
+              else if state === 'upcoming'
+                span
+                  | يبدأ 
+                  time(data-time=t.startAt.toISOString())
+              else
+                span
+                  | انتهى 
+                  time(data-time=t.endAt.toISOString())
+              if user.role === 'admin'
+                span
+                  i.fa-solid.fa-users
+                  |  #{t.attemptsCount} طالب
+          .test-item-actions
+            if state === 'live'
+              if s === 'done'
+                span.chip-done
+                  i.fa-solid.fa-check
+                  |  تم التسليم
+              else
+                a.btn.btn-primary(href=`/tests/${t._id}`)
+                  i.fa-solid.fa-play
+                  |  #{s === 'started' ? 'متابعة الاختبار' : 'ابدأ الاختبار'}
+            else if state === 'upcoming'
+              a.btn.btn-ghost(href=`/tests/${t._id}`) التفاصيل
+            else
+              a.btn.btn-ghost(href=`/tests/${t._id}/results`)
+                i.fa-solid.fa-trophy
+                |  النتائج
+            if user.role === 'admin'
+              a.icon-btn(href=`/tests/${t._id}/edit` title='تعديل' aria-label='تعديل الاختبار')
+                i.fa-solid.fa-pen
+              button.icon-btn.danger.delete-test-btn(type='button' data-test-id=t._id title='حذف' aria-label='حذف الاختبار')
+                i.fa-solid.fa-trash
+
+      section.tests-section
+        h2.section-title
+          span.live-dot
+          |  مباشر الآن
+        if live.length
+          .tests-list
+            each t in live
+              +testItem(t, 'live')
+        else
+          p.muted-note لا يوجد اختبار مباشر الآن
+
+      if upcoming.length
+        section.tests-section
+          h2.section-title
+            i.fa-solid.fa-calendar-days
+            |  قادمة
+          .tests-list
+            each t in upcoming
+              +testItem(t, 'upcoming')
+
+      if ended.length
+        section.tests-section
+          h2.section-title
+            i.fa-solid.fa-flag-checkered
+            |  منتهية
+          .tests-list
+            each t in ended
+              +testItem(t, 'ended')
+
+      if !live.length && !upcoming.length && !ended.length
+        +emptyState('fa-file-pen', 'لا توجد اختبارات بعد', 'ستظهر هنا الاختبارات العامة عند إضافتها')
+
+block scripts
+  script(src='/js/tests/tests.js')

@@ -1,0 +1,114 @@
+extends _layout
+
+block content
+  main.anki-page.test-results
+    .container-narrow
+      a.back-link(href='/tests')
+        i.fa-solid.fa-arrow-right
+        |  العودة إلى الاختبارات
+      .page-hero.hero-tests.compact
+        div
+          h1= test.title
+          p نتائج الاختبار
+
+      if pending
+        .card-box.results-pending
+          i.fa-solid.fa-hourglass-half
+          h2 تظهر النتائج بعد انتهاء وقت الاختبار
+          p
+            | بعد 
+            strong(data-countdown=test.endAt.toISOString() data-reload) —
+      else
+        if mine
+          .my-result
+            .stat-card
+              .stat-icon
+                i.fa-solid.fa-star
+              div
+                strong #{mine.score} / #{total}
+                span علامتك
+            .stat-card
+              .stat-icon.amber
+                i.fa-solid.fa-ranking-star
+              div
+                strong= mine.rank
+                span ترتيبك
+            .stat-card
+              .stat-icon.green
+                i.fa-solid.fa-percent
+              div
+                strong #{total ? Math.round(mine.score / total * 100) : 0}%
+                span النسبة
+        else
+          .alert.alert-info
+            i.fa-solid.fa-circle-info
+            span لم تقدّم هذا الاختبار
+
+        section.tests-section
+          h2.section-title
+            i.fa-solid.fa-trophy
+            |  الأوائل
+          if podium.length
+            .podium
+              each p in podium
+                .podium-place(class=`rank-${p.rank}`)
+                  .medal
+                    i.fa-solid.fa-medal
+                    span= p.rank
+                  .podium-score #{p.score} / #{total}
+                  ul.podium-names
+                    each name in p.names
+                      li= name
+          else
+            p.muted-note لم يقدّم أحد هذا الاختبار
+          p.muted-note #{participants} طالب قدّموا الاختبار
+
+        if review
+          section.tests-section
+            h2.section-title
+              i.fa-solid.fa-list-check
+              |  إجاباتك
+            ol.review-list-test
+              each q in review
+                li.card-box.review-q(class=q.chosen === q.correct ? 'is-right' : 'is-wrong')
+                  p.q-text= q.text
+                  ul.review-choices
+                    each c, ci in q.choices
+                      li(class=ci === q.correct ? 'correct' : ci === q.chosen ? 'chosen-wrong' : '')
+                        if ci === q.correct
+                          i.fa-solid.fa-check
+                        else if ci === q.chosen
+                          i.fa-solid.fa-xmark
+                        |  #{c}
+                  if q.chosen < 0
+                    p.unanswered لم تجب عن هذا السؤال
+
+        if all.length
+          section.card-box.tests-section
+            h2.section-title
+              i.fa-solid.fa-table-list
+              |  كل النتائج (للمشرف)
+            .table-wrap
+              table.results-table
+                thead
+                  tr
+                    th الترتيب
+                    th الاسم
+                    th رقم الطالب
+                    th العلامة
+                    th وقت التسليم
+                tbody
+                  each a in all
+                    tr
+                      td= a.rank
+                      td= a.user ? a.user.name : '—'
+                      td= a.user ? a.user.studentId : '—'
+                      td #{a.score} / #{total}
+                      td
+                        if a.submittedAt
+                          time(data-time=a.submittedAt.toISOString())
+                        else
+                          | انتهى الوقت
+
+block scripts
+  script(src='/js/tests/tests.js')

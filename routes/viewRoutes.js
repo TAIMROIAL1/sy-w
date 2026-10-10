@@ -406,6 +406,13 @@ router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => 
   res.status(200).render('code-api');
 }))
 
+const { getTests, getTest, getResults, getTestEditor } = require('./../controllers/generalTestViewController');
+router.get('/tests', checkJWT, getTests);
+router.get('/tests/new', checkJWT, restrictTo('admin'), getTestEditor);
+router.get('/tests/:testId', checkJWT, getTest);
+router.get('/tests/:testId/edit', checkJWT, restrictTo('admin'), getTestEditor);
+router.get('/tests/:testId/results', checkJWT, getResults);
+
 router.get('/anki', checkJWT, getAnkiHome('library'));
 router.get('/anki/curriculum', checkJWT, getAnkiHome('curriculum'));
 router.get('/anki/community', checkJWT, getAnkiHome('community'));

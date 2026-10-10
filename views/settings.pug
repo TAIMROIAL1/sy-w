@@ -44,6 +44,12 @@ body(data-domain=domain)
         a.menu-item.item-number-5(role="button")
           span.menu-icon ✎
           span الملاحظات المحفوظة
+        a.menu-item.menu-link(href='/anki')
+          span.menu-icon ▦
+          span البطاقات
+        a.menu-item.menu-link(href='/tests')
+          span.menu-icon ✓
+          span الاختبارات
         a.menu-item.logout-btn(role="button")
           span.menu-icon X
           span تسجيل الخروج
@@ -150,3 +156,4 @@ body(data-domain=domain)
               li قم بنسخ الكود و لصقه هنا
               li تأكد من صحة الكود قبل التفعيل
   script(src='/js/settings.js')
+  script(src='/js/tests/liveBanner.js')
