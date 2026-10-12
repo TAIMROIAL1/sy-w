@@ -1,10 +1,12 @@
 doctype html
+include _siteNav
 head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   meta(name='theme-color' content='#432071')
   title &#x644;&#x648;&#x62D;&#x629; &#x627;&#x644;&#x62A;&#x62D;&#x643;&#x645; &#x627;&#x644;&#x62A;&#x639;&#x644;&#x64A;&#x645;&#x64A;&#x629;
   link(rel='stylesheet' href='/css/settings.css')
+  link(rel='stylesheet' href='/css/siteNav.css')
   <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png?v=20260916" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg?v=20260916" />
   <link rel="shortcut icon" href="/my-favicon/favicon.ico?v=20260916" />
@@ -50,6 +52,9 @@ body(data-domain=domain)
         a.menu-item.menu-link(href='/tests')
           span.menu-icon ✓
           span الاختبارات
+        a.menu-item.menu-link(href='/')
+          span.menu-icon ⌂
+          span الصفحة الرئيسية
         a.menu-item.logout-btn(role="button")
           span.menu-icon X
           span تسجيل الخروج
@@ -62,6 +67,7 @@ body(data-domain=domain)
           .avatar= user.name[0]
           .profile-name= user.name
         .header-actions
+          +siteNav([{href: `${domain}/`, icon: '→', label: 'العودة للرئيسية', primary: true}])
           label.mobile-menu-button(for='menu-toggle' aria-label='فتح القائمة')
             span
             span

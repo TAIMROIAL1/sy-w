@@ -1,0 +1,6 @@
+mixin siteNav(links)
+  nav.site-nav(aria-label='التنقل')
+    each l in links
+      a.site-nav-link(href=l.href, class=l.primary ? 'site-nav-back' : null, title=l.label, aria-label=l.label)
+        span.site-nav-icon(aria-hidden='true')= l.icon
+        span.site-nav-label= l.label
