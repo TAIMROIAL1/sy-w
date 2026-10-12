@@ -100,9 +100,12 @@ app.use('/api', checkLink, checkJWT, apiLimiter);
 // files in public/tests; anything else (/tests/new, /tests/:testId...) goes on to the general tests pages
 app.use('/tests', express.static(path.join(__dirname, 'public', 'tests'), { index: false, redirect: false }));
 
-app.get('/my-favicon/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public','my-favicon', req.params.file));
-})
+// root makes send() reject '..' so encoded paths like /css/..%2F..%2Fconfig.env can't leave the folder
+const servePublic = (...dir) => (req, res, next) => {
+  res.sendFile(req.params.file, { root: path.join(__dirname, 'public', ...dir) }, err => err && next());
+};
+
+app.get('/my-favicon/:file', servePublic('my-favicon'))
 
 app.get('/xml/sitemap.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap.xml'))
@@ -112,39 +115,21 @@ app.get('/xml/sitemap2.xml', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'xml', 'sitemap2.xml'))
 })
 
-app.get('/css/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'css', req.params.file));
-})
-app.get('/js/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'js', req.params.file))
-})
+app.get('/css/:file', servePublic('css'))
+app.get('/js/:file', servePublic('js'))
 
-app.get('/js/anki/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'js', 'anki', req.params.file));
-})
+app.get('/js/anki/:file', servePublic('js', 'anki'))
 
-app.get('/js/tests/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'js', 'tests', req.params.file));
-})
+app.get('/js/tests/:file', servePublic('js', 'tests'))
 
-app.get('/imgs/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'imgs', req.params.file))
-})
+app.get('/imgs/:file', servePublic('imgs'))
 
-app.get('/imgs/classes/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'imgs', 'classes', req.params.file))
-})
-app.get('/imgs/subcourses/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'imgs', 'subcourses', req.params.file))
-})
+app.get('/imgs/classes/:file', servePublic('imgs', 'classes'))
+app.get('/imgs/subcourses/:file', servePublic('imgs', 'subcourses'))
 
-app.get('/imgs/courses/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'imgs', 'courses', req.params.file))
-})
+app.get('/imgs/courses/:file', servePublic('imgs', 'courses'))
 
-app.get('/imgs/workshops/:file', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'imgs', 'workshops', req.params.file));
-})
+app.get('/imgs/workshops/:file', servePublic('imgs', 'workshops'))
 
 // app.use('/.well-known/:file', (req, res) => {
 //   res.sendFile(path.join(__dirname, "public", ".well-known", req.params.file));
