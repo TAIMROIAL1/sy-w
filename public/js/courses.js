@@ -176,3 +176,10 @@ document.querySelectorAll('.course-lesson-header').forEach(header => {
     document.body.classList.toggle("page-dark-mode");
   }
 })();
+const mobileMenu = document.getElementById('mobileMenu');
+document.querySelector('.mobile-menu-btn')?.addEventListener('click', () => {
+  mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+});
+document.addEventListener('click', e => {
+  if(!e.target.closest('.mobile-menu-btn, #mobileMenu')) mobileMenu.style.display = 'none';
+});

@@ -1,5 +1,4 @@
 doctype html
-include _siteNav
 html(lang="ar" dir="rtl")
   head
     meta(charset="UTF-8")
@@ -8,7 +7,6 @@ html(lang="ar" dir="rtl")
     
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css")
     link(rel="stylesheet" href="/css/video.css")
-    link(rel="stylesheet" href="/css/siteNav.css")
     <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png?v=20260916" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg?v=20260916" />
     <link rel="shortcut icon" href="/my-favicon/favicon.ico?v=20260916" />
@@ -30,9 +28,12 @@ html(lang="ar" dir="rtl")
         i.fa-solid.fa-graduation-cap
         span Studyou - د/ إياد سكر
 
-      - const navLinks = [course ? {href: `${domain}/courses/${course._id}/view`, icon: 'back', label: 'العودة للكورس', primary: true} : null, {href: `${domain}/`, icon: 'home', label: 'الرئيسية'}, {href: `${domain}/settings`, icon: 'settings', label: 'الإعدادات'}, {href: '/tests', icon: 'tests', label: 'الاختبارات'}].filter(Boolean)
-      +siteNav(navLinks)
       .navbar-left
+        - if(course)
+          a.back-to-course(href=`${domain}/courses/${course._id}/view`)
+            i.fa-solid.fa-arrow-right
+            span.back-full العودة للكورس
+            span.back-short الكورس
         label.toggle
           input#dark-toggle(type='checkbox')
           span.slider

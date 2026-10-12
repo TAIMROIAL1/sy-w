@@ -1684,3 +1684,44 @@ body[data-is-admin="admin"] .content-area {
 .page-dark-mode .admin-delete:focus-visible {
     background: transparent;
 }
+
+.back-to-course {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 42px;
+    padding: 0 16px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s, color .2s;
+}
+
+.back-to-course:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.back-short {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .navbar-left {
+        gap: 10px;
+    }
+    .back-to-course {
+        padding: 0 12px;
+        gap: 6px;
+    }
+    .back-full {
+        display: none;
+    }
+    .back-short {
+        display: inline;
+    }
+}

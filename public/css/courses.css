@@ -1020,3 +1020,11 @@ footer {
 }
 
 /* ===== Make Courses Page Header Match Main Page Navbar ===== */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .mobile-menu-btn {
+    display: flex;
+  }
+}

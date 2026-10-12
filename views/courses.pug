@@ -1,5 +1,4 @@
 doctype html
-include _siteNav
 head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
@@ -8,7 +7,6 @@ head
   link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
   link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap' rel='stylesheet')
   link(rel='stylesheet' href='/css/courses.css')
-  link(rel='stylesheet' href='/css/siteNav.css')
   <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png?v=20260916" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg?v=20260916" />
   <link rel="shortcut icon" href="/my-favicon/favicon.ico?v=20260916" />
@@ -32,8 +30,12 @@ body(data-domain=domain, data-course-id=course._id.toString())
         div
           .logo-text د/ إياد سكر
           .logo-sub &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628; &#x628;&#x633;&#x64A;&#x637;
-      - const navLinks = [{href: `${domain}/`, icon: 'home', label: 'الرئيسية'}, user ? {href: `${domain}/settings`, icon: 'settings', label: 'الإعدادات'} : {href: `${domain}/sign-up`, icon: 'signup', label: 'التسجيل'}, {href: '/anki', icon: 'cards', label: 'البطاقات'}, {href: '/tests', icon: 'tests', label: 'الاختبارات'}]
-      +siteNav(navLinks)
+      .nav-links
+        a(href=`${domain}/`) الرئيسية
+        a(href='/anki') البطاقات
+        a(href='/tests') الاختبارات
+        - if(user)
+          a(href=`${domain}/settings`) اعدادات الحساب
       - if(!user)
         button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
       - if(user)
@@ -41,9 +43,20 @@ body(data-domain=domain, data-course-id=course._id.toString())
           div ATP 
           .balance= `${user.value}`
       .menu-toggle-wrap
+        button.mobile-menu-btn(aria-label='القائمة')
+          svg(width='28' height='28' viewbox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2')
+            line(x1='3' y1='12' x2='21' y2='12')
+            line(x1='3' y1='6' x2='21' y2='6')
+            line(x1='3' y1='18' x2='21' y2='18')
         label.toggle
           input#darkModeSwitch(type='checkbox')
           span.slider     
+    #mobileMenu.mobile-menu
+      a(href=`${domain}/`) الرئيسية
+      a(href='/anki') البطاقات
+      a(href='/tests') الاختبارات
+      - if(user)
+        a(href=`${domain}/settings`) اعدادات الحساب
   //- // Header
   //- header
   //-   .logo
