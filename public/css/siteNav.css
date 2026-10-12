@@ -64,9 +64,12 @@
     order: 99;
     flex-basis: 100%;
     justify-content: flex-start;
+    gap: 10px;
     overflow-x: auto;
     scrollbar-width: none;
-    padding: 0 0 10px;
+    margin-top: 6px;
+    padding: 10px 2px 12px;
+    border-top: 1px solid var(--border, #dedfe5);
   }
 
   .navbar-inner > .site-nav::-webkit-scrollbar,
@@ -75,8 +78,8 @@
   }
 
   .site-nav-link {
-    height: 32px;
-    padding: 0 12px;
-    font-size: 13px;
+    height: 38px;
+    padding: 0 16px;
+    font-size: 14px;
   }
 }
