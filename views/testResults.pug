@@ -25,7 +25,7 @@ block content
               .stat-icon
                 i.fa-solid.fa-star
               div
-                strong #{mine.score} / #{total}
+                strong(dir='ltr') #{mine.score} / #{total}
                 span علامتك
             .stat-card
               .stat-icon.amber
@@ -55,7 +55,7 @@ block content
                   .medal
                     i.fa-solid.fa-medal
                     span= p.rank
-                  .podium-score #{p.score} / #{total}
+                  .podium-score(dir='ltr') #{p.score} / #{total}
                   ul.podium-names
                     each name in p.names
                       li= name
@@ -103,7 +103,8 @@ block content
                       td= a.rank
                       td= a.user ? a.user.name : '—'
                       td= a.user ? a.user.studentId : '—'
-                      td #{a.score} / #{total}
+                      td
+                        bdi(dir='ltr') #{a.score} / #{total}
                       td
                         if a.submittedAt
                           time(data-time=a.submittedAt.toISOString())
