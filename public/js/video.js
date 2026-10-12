@@ -386,7 +386,7 @@ btnPrimary.addEventListener("click", () => {
     [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
     nextRes.closest('.lesson').classList.add('active');
 
-    updateUserProgress(nextRes.dataset.num, inNextLesson? currentLesson.nextElementSibling.dataset.num: currentLesson.dataset.num);
+    updateUserProgress(Number(currentRes.dataset.num) + 1, currentLesson.dataset.num);
     currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
     currentRes.querySelector('.state-mark').classList.remove('resource-action');
     currentRes.querySelector('.state-mark').classList.add('fa-circle-check');
@@ -688,6 +688,7 @@ async function calculateResult() {
     else
         newRes = currentRes.previousElementSibling;
   if(percentage >= 80){
+  if(newRes) {
   newRes.classList.remove('locked');
   if(newRes.classList.contains('video-resource')) {
     newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-play'></i>";
@@ -696,7 +697,8 @@ async function calculateResult() {
   else if(newRes.classList.contains('quiz-resource')) {
      newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-clipboard-question'></i>"
   }
-  updateUserProgress(isLastRes? Number(currentRes.dataset.num) : newRes.dataset.num, inNextLesson? currentLesson.nextElementSibling.dataset.num: currentLesson.dataset.num)
+  }
+  updateUserProgress(Number(currentRes.dataset.num) + 1, currentLesson.dataset.num)
   currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
     currentRes.querySelector('.state-mark').classList.remove('resource-action');
     currentRes.querySelector('.state-mark').classList.add('fa-circle-check');

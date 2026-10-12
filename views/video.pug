@@ -17,9 +17,11 @@ html(lang="ar" dir="rtl")
     <link rel="manifest" href="/my-favicon/site.webmanifest?v=20260916" />
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   - const totalVideos = lessons.reduce((sum,lesson) => { return sum + lesson.videos.length;}, 0);
-  - const achievedLesson = courseProgress.achievedVideos.lessonNum;
-  - const achievedRes = courseProgress.achievedVideos.videoNumber;
-  - const toRes = resNum && lessonNum && (lessonNum < achievedLesson || (lessonNum == achievedLesson && resNum < achievedRes))? true: false;
+  - const achievedLesson = resumeLesson;
+  - const achievedRes = resumeRes;
+  - const achievedCount = courseProgress?.achievedVideos?.achievedVideosCount || 0;
+  - const pointerOf = num => lessonPointers[num] ?? 0;
+  - const toRes = resNum && lessonNum && Number(resNum) <= pointerOf(lessonNum) ? true : false;
   - const isAdmin = user.role == "admin";
   body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson data-to-res= toRes? '1':null, data-is-admin= isAdmin? "admin" : null)
     // ================= NAVBAR =================
@@ -60,12 +62,12 @@ html(lang="ar" dir="rtl")
             span
               i.fa-solid.fa-book-open
               | تقدمك في الكورس
-            .progress-percentage(style="color: var(--accent);")= `${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`
+            .progress-percentage(style="color: var(--accent);")= `${Math.ceil((achievedCount/totalVideos) * 100)}%`
 
           .progress
-            span(style=`width: ${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`)
+            span(style=`width: ${Math.ceil((achievedCount/totalVideos) * 100)}%`)
 
-          small.progress-sentence= `${courseProgress.achievedVideos.achievedVideosCount} من ${totalVideos} درس مكتمل`
+          small.progress-sentence= `${achievedCount} من ${totalVideos} درس مكتمل`
 
         // Lessons
         .lessons-list
@@ -92,7 +94,7 @@ html(lang="ar" dir="rtl")
                   button.lesson-resource(
                     class=[
                       video.fileType + "-resource",
-                      achievedLesson < i + 1 || (achievedLesson == i + 1 && achievedRes < j)? "locked":"",
+                      j > pointerOf(lesson.num) ? "locked" : "",
                       toRes && resNum == j && lessonNum == i + 1? "active":""
                     ]
 
@@ -105,7 +107,7 @@ html(lang="ar" dir="rtl")
                     data-description=(video.fileType === "video"? video.info : null)
                   )
                     span.resource-icon(class=video.fileType)
-                      if (achievedLesson < i + 1|| (achievedLesson == i + 1 && achievedRes < j))
+                      if j > pointerOf(lesson.num)
                         i.fa-solid.fa-lock.resource-action
                       else if video.fileType === "video"
                         i.fa-solid.fa-play
@@ -128,7 +130,7 @@ html(lang="ar" dir="rtl")
                           i.fa-solid.fa-pen
                         span.admin-btn.admin-delete(role="button" tabindex="0" title="حذف" data-action="delete-video")
                           i.fa-solid.fa-trash
-                    i.state-mark.fa-solid(class=[achievedLesson < i + 1|| (achievedLesson == i + 1 && achievedRes <= j)? "fa-chevron-left resource-aciton" : "fa-circle-check completed"])
+                    i.state-mark.fa-solid(class=[j >= pointerOf(lesson.num) ? "fa-chevron-left resource-aciton" : "fa-circle-check completed"])
                     // Action icon
                     //- if video.fileType === "video"
                     //-   i.fa-solid

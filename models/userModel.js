@@ -136,7 +136,13 @@ referral: {
     videoNumber: { type: Number, default: 0 },
     lessonNum: { type: Number, default: 1 }
   },
-  achievedPercentage: { type: Number, default: 0 }
+  achievedPercentage: { type: Number, default: 0 },
+  lessons: [{
+    _id: false,
+    lessonNum: Number,
+    videoNumber: { type: Number, default: 0 }
+  }],
+  lastLesson: Number
   }],
   notes: [{
     _id: {

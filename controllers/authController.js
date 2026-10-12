@@ -7,6 +7,8 @@ const sendMail = require('./../utils/email.js');
 const crypto = require('crypto');
 const { promisify } = require('util');
 const Workshop = require('./../models/workshopsModel.js');
+const Lesson = require('./../models/lessonModel');
+const { lessonPointer } = require('./../utils/courseProgress');
 
 const signToken = user => jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {expiresIn: process.env.JWT_EXPIRES_IN});
 
@@ -391,20 +393,29 @@ exports.addPackage = catchAsync(async function(req, res, next) {
 
 exports.updateProgress = catchAsync(async function(req, res, next) {
   const { user } = req;
-  const {newRes, newLesson, subcourseId} = req.body;
+  const { subcourseId } = req.body;
+  const lessonNum = Number(req.body.newLesson);
+  const newRes = Number(req.body.newRes);
+
+  const progress = user.courseProgress.find(course => course.courseId == subcourseId);
+  if(!progress || !Number.isInteger(lessonNum) || !Number.isInteger(newRes)) return next(new AppError('بيانات التقدم غير صحيحة', 400));
+
+  const lesson = await Lesson.findOne({ subcourse: subcourseId, num: lessonNum });
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
+
+  const current = lessonPointer(progress, lessonNum, lesson.videos.length);
 
   let updatedCourseProgress;
+  if(newRes === current + 1 && newRes <= lesson.videos.length) {
+    const saved = progress.lessons.find(l => l.lessonNum === lessonNum);
+    if(saved) saved.videoNumber = newRes;
+    else progress.lessons.push({ lessonNum, videoNumber: newRes });
+    progress.achievedVideos.achievedVideosCount++;
+    updatedCourseProgress = progress;
+  }
+  progress.lastLesson = lessonNum;
 
-  user.courseProgress.forEach((course,i) => {
-    if(course.courseId == subcourseId && (user.courseProgress[i].achievedVideos.lessonNum < newLesson || (user.courseProgress[i].achievedVideos.lessonNum == newLesson && user.courseProgress[i].achievedVideos.videoNumber < newRes))){
-      user.courseProgress[i].achievedVideos.videoNumber = newRes;
-      user.courseProgress[i].achievedVideos.lessonNum = newLesson;
-      user.courseProgress[i].achievedVideos.achievedVideosCount++;
-      updatedCourseProgress = user.courseProgress[i];
-    }
-  })
-
-  user.save({validateBeforeSave: false});
+  await user.save({validateBeforeSave: false});
 
   res.status(200).json({
     status: "success",

@@ -8,6 +8,7 @@ const Question = require('./../models/questionModel')
 const Subourse = require("./../models/subcourseModel");
 const Workshop = require('./../models/workshopsModel');
 const catchAsync = require("./../utils/catchAsync");
+const { lessonPointer } = require('./../utils/courseProgress');
 
 const {getEditLesson, getEditQuiz, getEditVideo} = require('./../controllers/lessonController');
 
@@ -173,6 +174,13 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     
     const courseProgress = user.courseProgress.find(course => course.courseId == subcourseId);
 
+    const lessonPointers = {};
+    lessons.forEach(l => lessonPointers[l.num] = lessonPointer(courseProgress, l.num, l.videos.length));
+
+    const resumeLesson = courseProgress?.lastLesson ?? courseProgress?.achievedVideos?.lessonNum ?? 1;
+    const resumeLength = lessons.find(l => l.num == resumeLesson)?.videos.length || 0;
+    const resumeRes = Math.max(0, Math.min(lessonPointers[resumeLesson] ?? 0, resumeLength - 1));
+
     res.status(200).render("video", {
       user,
       course,
@@ -180,6 +188,9 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
       resNum,
       lessonNum,
       courseProgress,
+      lessonPointers,
+      resumeLesson,
+      resumeRes,
       title: "الدروس",
       metaContent: "هنا تفهم العلوم!"
     });
