@@ -81,7 +81,7 @@ router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) =>
         const ids = foundSubcourses.map(fsc => fsc._id.toString());
         subcourses.push(ids);
       }
-    res.status(200).render("courses", {
+    res.status(200).render("oldCourses", {
       user,
       courses,
       subcourses,
