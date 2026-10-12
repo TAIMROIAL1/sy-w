@@ -231,6 +231,7 @@ body {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     height: calc(100vh - 122px);
+    height: calc(100dvh - 122px);
     position: sticky;
     top: 97px;
     overflow: hidden;
@@ -319,6 +320,7 @@ body {
 
 .lessons-list {
     overflow-y: auto;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     padding: 0 15px 20px;
 }
 
@@ -1088,6 +1090,7 @@ body {
         right: -100%;
         width: min(380px, 90%);
         height: 100vh;
+        height: 100dvh;
         z-index: 1000;
         border-radius: 0;
         transition: right .3s ease;
