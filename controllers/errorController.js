@@ -34,6 +34,9 @@ const sendErrorDev = function(err, res) {
   })
 }
 
+const isKnownError = err => err.isOperational || err.expose || err.code === 11000 ||
+  ['CastError', 'ValidationError', 'JsonWebTokenError', 'TokenExpiredError'].includes(err.name);
+
 const sendErrorProd = function(err, res, req) {
   let path;
   if(err.name === 'CastError') path = handleCastingErrorDB(err, res);
@@ -43,6 +46,10 @@ const sendErrorProd = function(err, res, req) {
     // if(err.statusCode === 401 && !req.originalUrl.startsWith('/api')) return handlerUnauthorized(res);
     if(err.name === 'JsonWebTokenError') handleJsonWebTokenError(err, res);
     if(err.name ==='TokenExpiredError') handleJsonWebTokenExpired(err, res);
+  if(!isKnownError(err)) {
+    console.error('ERROR:', err);
+    err.message = 'حدث خطأ، حاول مرة أخرى';
+  }
   res.status(400).json({
     status: 'fail',
     message: err.message,
@@ -52,5 +59,5 @@ const sendErrorProd = function(err, res, req) {
 
 module.exports = function(err, req, res, next) {
   if(process.env.NODE_ENV === 'development') return sendErrorDev(err, res);
-  if(process.env.NODE_ENV === 'production') return sendErrorProd(err, res, req);
+  sendErrorProd(err, res, req);
 }

@@ -9,12 +9,15 @@ const cookieParser = require('cookie-parser');
 
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
-const xssProtecter = require('xss-clean');
+const xssProtecter = require('./utils/xssClean');
 const noSQLSanitizer = require('express-mongo-sanitize');
 
 const { checkJWT, checkLink } = require('./controllers/authController');
 
 const app = express();
+
+// behind Render's proxy: req.ip is the visitor, not the proxy
+app.set('trust proxy', 1);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'))
@@ -22,61 +25,34 @@ app.set('views', path.join(__dirname, 'views'))
 dotenv.config({path: './config.env'});
 
 //SEC Middleware
-const overallLimiter = rateLimit({
-  max: 110,
-  windowMs: 6 * 1000,
-  message: 'تم حظر جهازك من استخدام الموقع',
-  handler: async (req, res) => {
-    const user = req.user ?? res.locals.user;
-
-    if(!user || user.active === false) return res.status(400).send('too many requests');
-
-    user.active = false;
-    user.reasonToBlock = 'طلبات متكررة على صفحات الموقع'
-    await user.save({validateBeforeSave: false});
-
-    res.status(400).json({
-      status: 'banned',
-      message: 'Your account has been banned'
-    })
-  }
+// sign.js shows message.slice(17), so keep the "Validation Error: " prefix
+const tooManyRequests = (req, res) => res.status(429).json({
+  status: 'fail',
+  message: 'Validation Error: طلبات كثيرة جدا، انتظر قليلا ثم حاول مجددا',
+  path: 'name'
 });
+const userOrIp = (req, res) => String((req.user ?? res.locals.user)?._id ?? req.ip);
+const limiter = options => rateLimit({ handler: tooManyRequests, standardHeaders: 'draft-7', legacyHeaders: false, ...options });
 
-const apiLimiter = rateLimit({
-  max: 15,
-  windowMs: 6 * 1000,
-  message: 'تم حظر جهازك  من استخدام الموقع',
-  handler: async (req, res) => {
-    const user = req.user ?? res.locals.user;
+const overallLimiter = limiter({ windowMs: 6 * 1000, limit: 110, keyGenerator: userOrIp });
+const apiLimiter = limiter({ windowMs: 6 * 1000, limit: 15, keyGenerator: userOrIp });
+const loginLimiter = limiter({ windowMs: 15 * 60 * 1000, limit: 10, skipSuccessfulRequests: true });
+const signupLimiter = limiter({ windowMs: 60 * 60 * 1000, limit: 20 });
 
-    if(!user || user.active === false) return res.status(400).send('too many requests');
+app.use('/api/v1/users/signup', signupLimiter);
+app.use('/api/v1/users/login', loginLimiter);
 
-    user.active = false;
-    user.reasonToBlock = 'طلبات متكررة لل أي بي أي'
-    await user.save({validateBeforeSave: false});
-
-    res.status(400).json({
-      status: 'banned',
-      message: 'تم حظر حسابك'
-    })
-  }
-})
-const signLimiter = rateLimit({
-  max:3,
-  windowMs: 6 * 1000,
-  message: 'تم جظر جهازك من استخدام الموقع'
-})
-
-app.use('/api/v1/users/signup', signLimiter);
-app.use('/api/v1/users/login', signLimiter);
-
-app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    frameSrc: ["https://iframe.mediadelivery.net/"],
-    connectSrc: ["'self'", process.env.CONNECT_SRC],
-    imgSrc: ["'self'", "data:", "https://studyou-pull-zone.b-cdn.net"],
-  }
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      frameSrc: ["https://iframe.mediadelivery.net/"],
+      connectSrc: ["'self'", process.env.CONNECT_SRC],
+      imgSrc: ["'self'", "data:", "https://studyou-pull-zone.b-cdn.net"],
+    }
+  },
+  // the Bunny video iframe may check the referrer
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
 }));
 
 
@@ -89,8 +65,10 @@ app.use(xssProtecter());
 
 app.use(cookieParser());
 app.use(morgan('dev'));
+const allowedOrigins = ['https://studyou.online', 'https://sy-w.onrender.com'];
+if(process.env.NODE_ENV !== 'production') allowedOrigins.push('http://127.0.0.1:3000', 'http://127.0.0.1:8080');
 app.use(cors({
-  origin: ['https://studyou.online', 'https://sy-w.onrender.com', 'http://127.0.0.1:3000', 'http://127.0.0.1:8080', "https://cdn.jsdelivr.net/npm/nanoid/nanoid.js"],
+  origin: allowedOrigins,
   credentials: true
 }));
 
