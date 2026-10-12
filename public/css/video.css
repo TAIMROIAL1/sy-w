@@ -320,8 +320,7 @@ body {
 
 .lessons-list {
     overflow-y: auto;
-    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    padding: 0 15px 20px;
+    padding: 0 15px calc(20px + env(safe-area-inset-bottom, 0px));
 }
 
 .lesson {
