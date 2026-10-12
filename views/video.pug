@@ -30,9 +30,9 @@ html(lang="ar" dir="rtl")
         i.fa-solid.fa-graduation-cap
         span Studyou - د/ إياد سكر
 
+      - const navLinks = [course ? {href: `${domain}/courses/${course._id}/view`, icon: 'back', label: 'العودة للكورس', primary: true} : null, {href: `${domain}/`, icon: 'home', label: 'الرئيسية'}, {href: `${domain}/settings`, icon: 'settings', label: 'الإعدادات'}, {href: '/tests', icon: 'tests', label: 'الاختبارات'}].filter(Boolean)
+      +siteNav(navLinks)
       .navbar-left
-        - const navLinks = [course ? {href: `${domain}/courses/${course._id}/view`, icon: '→', label: 'العودة للكورس', primary: true} : null, {href: `${domain}/`, icon: '⌂', label: 'الرئيسية'}, {href: `${domain}/settings`, icon: '⚙', label: 'الإعدادات'}, {href: '/tests', icon: '✓', label: 'الاختبارات'}].filter(Boolean)
-        +siteNav(navLinks)
         label.toggle
           input#dark-toggle(type='checkbox')
           span.slider

@@ -1,52 +1,82 @@
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.site-nav::-webkit-scrollbar {
-  display: none;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  padding: 0 16px;
 }
 
 .site-nav-link {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 7px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border, #dedfe5);
-  background: transparent;
+  gap: 7px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: rgba(67, 32, 113, .06);
   color: var(--text, #29252e);
-  font: inherit;
+  font-family: inherit;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
+  line-height: 1;
   text-decoration: none;
   white-space: nowrap;
-  transition: background .2s, color .2s, border-color .2s;
+  flex-shrink: 0;
+  transition: background .2s, color .2s;
+}
+
+.site-nav-icon {
+  flex-shrink: 0;
+  opacity: .85;
 }
 
 .site-nav-link:hover,
 .site-nav-link:focus-visible,
-.site-nav-back {
+.site-nav-primary {
   background: var(--accent, #432071);
-  border-color: var(--accent, #432071);
   color: #fff;
 }
 
-.site-nav-icon {
-  font-size: 15px;
-  line-height: 1;
+.site-nav-link:hover .site-nav-icon,
+.site-nav-primary .site-nav-icon {
+  opacity: 1;
 }
 
-@media (max-width: 850px) {
-  .site-nav-label {
+/* settings top bar: a single button next to the menu button */
+.header-actions .site-nav {
+  flex: none;
+  padding: 0;
+}
+
+/* course and video headers: on small screens the links get their own scrollable row */
+@media (max-width: 900px) {
+  .navbar-inner,
+  header.navbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 64px;
+  }
+
+  .navbar-inner > .site-nav,
+  header.navbar > .site-nav {
+    order: 99;
+    flex-basis: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 0 10px;
+  }
+
+  .navbar-inner > .site-nav::-webkit-scrollbar,
+  header.navbar > .site-nav::-webkit-scrollbar {
     display: none;
   }
 
   .site-nav-link {
-    padding: 8px 10px;
+    height: 32px;
+    padding: 0 12px;
+    font-size: 13px;
   }
 }

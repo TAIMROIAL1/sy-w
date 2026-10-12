@@ -32,6 +32,8 @@ body(data-domain=domain, data-course-id=course._id.toString())
         div
           .logo-text د/ إياد سكر
           .logo-sub &#x627;&#x644;&#x639;&#x644;&#x648;&#x645; &#x628;&#x623;&#x633;&#x644;&#x648;&#x628; &#x628;&#x633;&#x64A;&#x637;
+      - const navLinks = [{href: `${domain}/`, icon: 'home', label: 'الرئيسية'}, user ? {href: `${domain}/settings`, icon: 'settings', label: 'الإعدادات'} : {href: `${domain}/sign-up`, icon: 'signup', label: 'التسجيل'}, {href: '/anki', icon: 'cards', label: 'البطاقات'}, {href: '/tests', icon: 'tests', label: 'الاختبارات'}]
+      +siteNav(navLinks)
       - if(!user)
         button.nav-cta &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
       - if(user)
@@ -39,8 +41,6 @@ body(data-domain=domain, data-course-id=course._id.toString())
           div ATP 
           .balance= `${user.value}`
       .menu-toggle-wrap
-        - const navLinks = [{href: `${domain}/`, icon: '⌂', label: 'الرئيسية'}, user ? {href: `${domain}/settings`, icon: '⚙', label: 'الإعدادات'} : {href: `${domain}/sign-up`, icon: '➜', label: 'التسجيل'}, {href: '/anki', icon: '▦', label: 'البطاقات'}, {href: '/tests', icon: '✓', label: 'الاختبارات'}]
-        +siteNav(navLinks)
         label.toggle
           input#darkModeSwitch(type='checkbox')
           span.slider     
