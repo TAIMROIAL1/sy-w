@@ -204,13 +204,13 @@ exports.publishGroup = catchAsync(async function(req, res, next) {
   const group = await findOwnedGroup(req);
   if(!group || group.isOfficial) return next(groupNotFound());
 
-  if(group.parent) return next(new AppError('النشر يتم من المجموعة الرئيسية، وتُنشر المجموعات الداخلية معها', 400, 'message'));
+  if(group.parent) return next(new AppError('انشر المجموعة الرئيسية، وستُنشر هذه المجموعة معها', 400, 'message'));
   if(group.status === 'pending') return next(new AppError('المجموعة قيد المراجعة بالفعل', 400, 'message'));
   if(group.status === 'published') return next(new AppError('المجموعة منشورة بالفعل', 400, 'message'));
   if(group.cardsCount < MIN_CARDS_TO_PUBLISH)
     return next(new AppError(`يجب أن تحتوي المجموعة على ${MIN_CARDS_TO_PUBLISH} بطاقات على الأقل قبل النشر`, 400, 'message'));
   if(!group.description)
-    return next(new AppError('أضف وصفاً للمجموعة قبل النشر حتى يعرف الآخرون محتواها', 400, 'message'));
+    return next(new AppError('أضف وصفاً للمجموعة قبل النشر', 400, 'message'));
 
   group.status = 'pending';
   group.submittedAt = Date.now();
@@ -220,7 +220,7 @@ exports.publishGroup = catchAsync(async function(req, res, next) {
 
   res.status(200).json({
     status: 'success',
-    message: 'تم إرسال المجموعة للمراجعة، ستُنشر بعد موافقة المشرفين',
+    message: 'تم إرسال المجموعة، وستظهر في المجتمع بعد الموافقة عليها',
     data: { group }
   });
 });
@@ -230,7 +230,7 @@ exports.unpublishGroup = catchAsync(async function(req, res, next) {
   const group = await findOwnedGroup(req);
   if(!group || group.isOfficial) return next(groupNotFound());
 
-  if(group.parent) return next(new AppError('النشر يتم من المجموعة الرئيسية، وتُنشر المجموعات الداخلية معها', 400, 'message'));
+  if(group.parent) return next(new AppError('انشر المجموعة الرئيسية، وستُنشر هذه المجموعة معها', 400, 'message'));
   if(group.status !== 'pending' && group.status !== 'published')
     return next(new AppError('المجموعة غير منشورة', 400, 'message'));
 
@@ -515,7 +515,7 @@ exports.editCard = catchAsync(async function(req, res, next) {
 
     return res.status(200).json({
       status: 'success',
-      message: 'تم حفظ التعديل، وسيظهر للآخرين بعد موافقة المشرف',
+      message: 'تم حفظ التعديل، وسيظهر للآخرين بعد الموافقة عليه',
       data: { card }
     });
   }

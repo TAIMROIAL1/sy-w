@@ -7,7 +7,7 @@ block content
       .page-hero.hero-tests
         div
           h1 الاختبارات العامة
-          p اختبارات بوقت محدد يقدمها كل طالب مرة واحدة، وتظهر النتائج وأوائل الاختبار بعد انتهاء وقته
+          p اختبارات بوقت محدد، وتظهر نتائج كل اختبار بعد انتهائه
         if user.role === 'admin'
           a.btn.btn-light(href='/tests/new')
             i.fa-solid.fa-plus
@@ -97,7 +97,7 @@ block content
               +testItem(t, 'ended')
 
       if !live.length && !upcoming.length && !ended.length
-        +emptyState('fa-file-pen', 'لا توجد اختبارات بعد', 'ستظهر هنا الاختبارات العامة عند إضافتها')
+        +emptyState('fa-file-pen', 'لا توجد اختبارات بعد', 'ستظهر الاختبارات هنا عند إضافتها')
 
 block scripts
   script(src='/js/tests/tests.js')

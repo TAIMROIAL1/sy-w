@@ -50,7 +50,7 @@
     let created;
     await Anki.dialog({
       title: 'مجموعة داخلية جديدة',
-      text: cardsCount ? `ستنتقل كل البطاقات الحالية (${cardsCount}) إلى المجموعة الجديدة، ويمكنك بعدها نقلها إلى مجموعات داخلية أخرى.` : '',
+      text: cardsCount ? `ستنتقل البطاقات الحالية (${cardsCount}) إلى المجموعة الجديدة.` : '',
       icon: 'fa-folder-plus',
       submitText: 'إنشاء',
       fields: [
@@ -183,7 +183,7 @@
       let moved;
       await Anki.dialog({
         title: chosen.length === 1 ? 'نقل البطاقة' : `نقل ${chosen.length} بطاقات`,
-        text: 'اختر المجموعة التي ستنتقل إليها. البطاقة العكسية تنتقل مع نسختها المعكوسة.',
+        text: 'اختر المجموعة التي ستنتقل إليها البطاقات.',
         icon: 'fa-right-left',
         submitText: 'نقل',
         fields: [{ name: 'groupId', label: 'المجموعة', type: 'select', required: true, options: targets.map(t => ({ value: t._id, label: t.path })) }],
@@ -206,10 +206,10 @@
   if (publishBtn) publishBtn.addEventListener('click', async () => {
     let res;
     await Anki.confirm({
-      title: 'إرسال المجموعة للمراجعة؟',
-      text: 'سيراجع المشرفون البطاقات، وبعد الموافقة ستظهر المجموعة في المجتمع.',
+      title: 'نشر المجموعة في المجتمع؟',
+      text: 'ستظهر في المجتمع بعد الموافقة عليها.',
       icon: 'fa-paper-plane',
-      submitText: 'إرسال',
+      submitText: 'نشر',
       onSubmit: async () => { res = await Anki.api(`/groups/${groupId}/publish`, 'POST'); }
     });
     if (!res) return;

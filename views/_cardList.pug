@@ -23,7 +23,7 @@ else
       i.fa-solid.fa-magnifying-glass
       input#card-search(type='search' placeholder='ابحث في البطاقات' aria-label='ابحث في البطاقات')
     .toolbar-actions
-      button.btn.btn-ghost.create-subgroup-btn(type='button' data-cards=cards.length title='المجموعة تحتوي على بطاقات أو مجموعات داخلية فقط')
+      button.btn.btn-ghost.create-subgroup-btn(type='button' data-cards=cards.length title='إنشاء مجموعة داخلية')
         i.fa-solid.fa-folder-plus
         |  مجموعة داخلية
       a.btn.btn-primary.add-card-btn(href=`${cardsBase}/add-card`)
@@ -61,7 +61,7 @@ else
   p.no-results(hidden) لا توجد بطاقات مطابقة
 
   .cards-empty(hidden=!!cards.length)
-    +emptyState('fa-clone', 'لا توجد بطاقات بعد', 'أضف بطاقات بسيطة أو عكسية أو فراغات أو صور، أو قسّم المجموعة إلى مجموعات داخلية')
+    +emptyState('fa-clone', 'لا توجد بطاقات بعد', 'أضف بطاقات أو قسّم المجموعة إلى مجموعات داخلية')
       a.btn.btn-primary(href=`${cardsBase}/add-card`)
         i.fa-solid.fa-plus
         |  إضافة بطاقة

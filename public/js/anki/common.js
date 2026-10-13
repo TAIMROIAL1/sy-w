@@ -33,7 +33,7 @@ const Anki = (() => {
     let data = {};
     try { data = await res.json(); } catch (err) { /* empty body */ }
 
-    if (!res.ok || data.status !== 'success') throw new Error(data.message || 'حدث خطأ, الرجاء المحاولة مجددا');
+    if (!res.ok || data.status !== 'success') throw new Error(data.message || 'حدث خطأ، حاول مرة أخرى');
     return data;
   };
 

@@ -63,7 +63,7 @@ block content
             h2
               i.fa-solid.fa-circle-info
               | عن المجموعة
-            p.description= group.description || 'لم يضف صاحب المجموعة وصفاً.'
+            p.description= group.description || 'لا يوجد وصف'
 
           +groupTree(tree, treeProgress)
 
@@ -96,7 +96,7 @@ block content
               else
                 p.muted
                   i.fa-solid.fa-lock
-                  |  ادرس المجموعة مرة واحدة ثم يمكنك تقييمها
+                  |  ادرس المجموعة أولاً لتتمكن من تقييمها
 
           section.card-box
             h2

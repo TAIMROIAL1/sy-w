@@ -109,9 +109,9 @@
       let published;
       await Anki.confirm({
         title: 'نشر المجموعة في المجتمع؟',
-        text: `سيتم إرسال "${card.dataset.name}" للمشرفين للمراجعة، وبعد الموافقة ستظهر لجميع الطلاب.`,
+        text: `ستظهر "${card.dataset.name}" في المجتمع بعد الموافقة عليها.`,
         icon: 'fa-paper-plane',
-        submitText: 'إرسال للمراجعة',
+        submitText: 'نشر',
         onSubmit: async () => { published = await Anki.api(`/groups/${id}/publish`, 'POST'); }
       });
       if (!published) return;

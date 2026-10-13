@@ -36,17 +36,17 @@ block content
           .alert.alert-success
             i.fa-solid.fa-circle-check
             span
-              | لقد سلّمت هذا الاختبار. تظهر النتائج وأوائل الاختبار بعد 
+              | سلّمت هذا الاختبار. تظهر النتائج بعد 
               strong(data-countdown=test.endAt.toISOString()) —
         else
           ul.test-rules
             li يمكنك تقديم الاختبار مرة واحدة فقط.
-            li يبدأ وقتك عند الضغط على "ابدأ" ولا يتوقف إذا أغلقت الصفحة، ويمكنك العودة لإكمال الاختبار قبل انتهاء وقتك.
+            li يبدأ وقتك عند الضغط على "ابدأ الاختبار" ولا يتوقف إذا أغلقت الصفحة.
             if attemptState === 'new' && availableMinutes < test.duration
               li.warn
                 i.fa-solid.fa-triangle-exclamation
-                |  بقي على نهاية الاختبار أقل من مدته، سيكون وقتك #{availableMinutes < 1 ? 'أقل من دقيقة' : `${Math.floor(availableMinutes)} دقيقة`} فقط.
-            li تُحفظ إجاباتك تلقائياً، ويُسلَّم الاختبار تلقائياً عند انتهاء الوقت.
+                |  الاختبار ينتهي قريباً، لذلك وقتك #{availableMinutes < 1 ? 'أقل من دقيقة' : `${Math.floor(availableMinutes)} دقيقة`} فقط.
+            li تُحفظ إجاباتك تلقائياً، ويُسلَّم الاختبار عند انتهاء الوقت.
             li تظهر النتائج بعد انتهاء وقت الاختبار.
           button.btn.btn-primary.btn-lg#start-test-btn(type='button')
             i.fa-solid.fa-play
@@ -73,7 +73,7 @@ block content
           i.fa-solid.fa-circle-check
         h2 تم تسليم الاختبار
         p
-          | تظهر النتائج وأوائل الاختبار بعد انتهاء وقته: 
+          | تظهر النتائج بعد انتهاء الاختبار: 
           time(data-time=test.endAt.toISOString())
         a.btn.btn-ghost(href='/tests') العودة إلى الاختبارات
 

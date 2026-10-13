@@ -92,7 +92,7 @@ block content
           h2
             i.fa-solid.fa-align-right
             | الوصف
-          p.description#group-description-text(class=group.description ? '' : 'empty')= group.description || 'لا يوجد وصف بعد، أضفه من زر التعديل بجانب الاسم.'
+          p.description#group-description-text(class=group.description ? '' : 'empty')= group.description || 'لا يوجد وصف بعد'
 
         .card-box
           ul.info-list
@@ -126,7 +126,7 @@ block content
               .state-icon
                 i.fa-solid.fa-folder-tree
               h2 النشر يتم من المجموعة الرئيسية
-              p هذه مجموعة داخلية في "#{root.name}"، وتُنشر مع كل مجموعاتها الداخلية عند نشر المجموعة الرئيسية.
+              p هذه المجموعة جزء من "#{root.name}"، وتُنشر معها.
               +statusBadge(root.status)
               a.btn.btn-primary(href=`/anki/library/${root._id}?tab=publish`)
                 i.fa-solid.fa-paper-plane
@@ -140,8 +140,8 @@ block content
                   i.fa-solid.fa-check
                 else
                   | 1
-              strong إرسال للنشر
-              small المجموعة في مكتبتك فقط
+              strong الإرسال
+              small المجموعة في مكتبتك
             .step(class=[stepIndex > 1 ? 'done' : stepIndex === 1 ? 'current' : '', group.status === 'rejected' ? 'is-rejected' : ''])
               .step-dot
                 if stepIndex > 1
@@ -150,8 +150,8 @@ block content
                   i.fa-solid.fa-xmark
                 else
                   | 2
-              strong مراجعة المشرفين
-              small يتأكد المشرفون من صحة البطاقات
+              strong المراجعة
+              small قبل الظهور في المجتمع
             .step(class=stepIndex === 2 ? 'done is-final' : '')
               .step-dot
                 if stepIndex === 2
@@ -159,7 +159,7 @@ block content
                 else
                   | 3
               strong منشورة
-              small تظهر للجميع في المجتمع
+              small تظهر في المجتمع
 
           .card-box
             if group.status === 'pending'
@@ -167,7 +167,7 @@ block content
                 .state-icon.pending
                   i.fa-solid.fa-hourglass-half
                 h2 مجموعتك قيد المراجعة
-                p أُرسلت للمراجعة #{timeAgo(group.submittedAt)}. سيراجع المشرفون البطاقات وستظهر المجموعة في المجتمع فور الموافقة عليها.
+                p أُرسلت #{timeAgo(group.submittedAt)}، وستظهر في المجتمع بعد الموافقة عليها.
                 button.btn.btn-ghost.unpublish-btn(type='button' data-confirm='إلغاء طلب النشر؟')
                   i.fa-solid.fa-xmark
                   |  إلغاء طلب النشر
@@ -210,13 +210,13 @@ block content
                   .alert.alert-danger
                     i.fa-solid.fa-circle-exclamation
                     div
-                      strong رفض المشرفون نشر المجموعة
+                      strong لم تُقبل المجموعة للنشر
                       if group.reviewNote
                         p= group.reviewNote
                 .state-icon
                   i.fa-solid.fa-paper-plane
                 h2 شارك مجموعتك مع الطلاب
-                p بعد الإرسال يراجع المشرفون المجموعة، وبعد الموافقة تظهر في المجتمع ويستطيع الآخرون دراستها وتقييمها.
+                p انشرها في المجتمع ليدرسها الطلاب الآخرون ويقيّموها.
                 ul.checklist
                   li(class=ready.cards ? 'ok' : '')
                     i.fa-solid(class=ready.cards ? 'fa-circle-check' : 'fa-circle-xmark')
@@ -226,7 +226,7 @@ block content
                     span وصف يوضح محتوى المجموعة
                 button.btn.btn-primary.btn-lg.publish-btn(type='button' disabled=!(ready.cards && ready.description))
                   i.fa-solid.fa-paper-plane
-                  |  #{group.status === 'rejected' ? 'إعادة الإرسال للمراجعة' : 'نشر في المجتمع'}
+                  |  #{group.status === 'rejected' ? 'إعادة الإرسال' : 'نشر في المجتمع'}
 
 block scripts
   script(src='/js/anki/group.js')

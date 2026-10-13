@@ -211,13 +211,13 @@ mixin cardPreview(source, draft)
     +approvalBadge(card.approval)
     if draft && source.pendingEdit
       if source.pendingEdit.rejected
-        span.approval-badge.rejected(title='يرى الآخرون النسخة السابقة، عدّلها لإرسالها مرة أخرى')
+        span.approval-badge.rejected(title='عدّل البطاقة لإرسالها مرة أخرى')
           i.fa-solid.fa-ban
-          |  رفض المشرف التعديل
+          |  لم يُقبل التعديل
       else
-        span.approval-badge.pending(title='يرى الآخرون النسخة السابقة حتى يوافق المشرف')
+        span.approval-badge.pending(title='يرى الآخرون النسخة السابقة حتى تتم الموافقة على التعديل')
           i.fa-solid.fa-pen-to-square
-          |  تعديل بانتظار الموافقة
+          |  التعديل قيد المراجعة
   if card.type === 'basic' || card.type === 'reverse'
     p.q= card.front
     p.a
@@ -235,13 +235,13 @@ mixin cardPreview(source, draft)
 //- cards added to a published community group wait for an admin
 mixin approvalBadge(approval)
   if approval === 'pending'
-    span.approval-badge.pending(title='لا تظهر لغيرك حتى يوافق عليها المشرف')
+    span.approval-badge.pending(title='لا تظهر لغيرك حتى تتم الموافقة عليها')
       i.fa-solid.fa-hourglass-half
-      |  بانتظار موافقة المشرف
+      |  قيد المراجعة
   else if approval === 'rejected'
-    span.approval-badge.rejected(title='عدّل البطاقة لإرسالها للمراجعة مرة أخرى')
+    span.approval-badge.rejected(title='عدّل البطاقة لإرسالها مرة أخرى')
       i.fa-solid.fa-ban
-      |  رفضها المشرف
+      |  لم تُقبل
 
 //- parents of an inner group. urlOf(id) -> link of a parent
 mixin breadcrumbs(crumbs, urlOf, current)
