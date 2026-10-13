@@ -120,6 +120,7 @@
       level: $('of-level').value.trim(),
       description: $('of-description').value.trim(),
       topics,
+      subcourse: $('of-subcourse') ? $('of-subcourse').value : '',
       published: $('of-published') ? $('of-published').checked : false
     };
     const payload = new FormData();

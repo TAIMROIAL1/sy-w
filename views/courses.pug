@@ -93,6 +93,8 @@ body(data-domain=domain, data-course-id=course._id.toString())
           .course-btn.subscribe-btn &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
         - if(user && checkCourse)
           .course-btn.enter-course-btn دخول الكورس
+        - if(ankiGroups && ankiGroups.length)
+          a.course-btn.anki-course-btn(href=ankiGroups.length === 1 ? `/anki/official/${ankiGroups[0]._id}` : '/anki/curriculum') بطاقات الكورس
     .course-about
       h2 &#x639;&#x646; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;
       p= course.description

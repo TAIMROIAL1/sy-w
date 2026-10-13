@@ -31,6 +31,12 @@ const ankiGroupSchema = new mongoose.Schema({
     type: String
   },
   topics: [String],
+  // official groups: only students who bought this subcourse can open it (null = free)
+  subcourse: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Subcourse',
+    default: null
+  },
 
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -138,8 +144,15 @@ ankiGroupSchema.methods.canBeManagedBy = function(user) {
   return this.isOwnedBy(user) || (this.isOfficial && !!user && user.role === 'admin');
 };
 
+// official group linked to a course the user didn't buy (works with a populated subcourse too)
+ankiGroupSchema.methods.isLockedFor = function(user) {
+  if(!this.isOfficial || !this.subcourse || !user || user.role === 'admin') return false;
+  const id = String(this.subcourse._id || this.subcourse);
+  return !(user.subcourses || []).some(s => String(s) === id);
+};
+
 ankiGroupSchema.methods.canBeStudiedBy = function(user) {
-  if(this.isOfficial) return this.status === 'published' || user.role === 'admin';
+  if(this.isOfficial) return (this.status === 'published' || user.role === 'admin') && !this.isLockedFor(user);
   if(this.isOwnedBy(user)) return true;
   if(this.status === 'published') return true;
   return this.status === 'pending' && user.role === 'admin';
@@ -219,7 +232,7 @@ ankiGroupSchema.statics.updateCardsCount = async function(groupId) {
 
 // inner groups follow the publish status of the root
 ankiGroupSchema.statics.syncTreeStatus = async function(root) {
-  await this.updateMany({ ancestors: root._id }, { status: root.status, publishedAt: root.publishedAt });
+  await this.updateMany({ ancestors: root._id }, { status: root.status, publishedAt: root.publishedAt, subcourse: root.subcourse || null });
 };
 
 // count every user (other than the owner) once

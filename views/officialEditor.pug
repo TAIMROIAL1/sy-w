@@ -74,6 +74,12 @@ block content
                 label.field-label(for='of-level') المرحلة #[small (اختياري)]
                 input#of-level.input(type='text' maxlength='60' value=group ? group.level : '' placeholder='مثال: الثالث الثانوي')
             .field
+              label.field-label(for='of-subcourse') من يستطيع الدخول
+              select#of-subcourse.input
+                option(value='' selected=!(group && group.subcourse)) مجانية: لكل الطلاب
+                each sc in subcourses
+                  option(value=String(sc._id) selected=!!(group && group.subcourse && String(group.subcourse) === String(sc._id)))= `لمشتركي: ${sc.course && sc.course.title ? sc.course.title + ' › ' : ''}${sc.title}`
+            .field
               label.field-label(for='of-description') الوصف
               textarea#of-description.input(rows='4' placeholder='ماذا تغطي هذه المجموعة؟')= group ? group.description : ''
             .field

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const AnkiGroup = require('./../models/ankiGroupModel');
 const AnkiCard = require('./../models/ankiCardModel');
+const Subcourse = require('./../models/subcourseModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 const { uploadCardImage, uploadGroupPhoto, deleteCardImages } = require('./../utils/ankiImageStorage');
@@ -128,6 +129,7 @@ exports.createGroup = catchAsync(async function(req, res, next) {
     description,
     owner: parent.owner,
     isOfficial: parent.isOfficial,
+    subcourse: parent.subcourse || null,
     status: parent.status,
     publishedAt: parent.publishedAt,
     parent: parent._id,
@@ -252,6 +254,7 @@ const buildOfficialData = function(body) {
   const subject = clean(body.subject);
   const level = clean(body.level);
   const topics = [...new Set((Array.isArray(body.topics) ? body.topics : []).map(clean).filter(Boolean))];
+  const subcourse = isEmpty(body.subcourse) ? null : String(body.subcourse);
 
   if(!name) return { error: 'الرجاء ادخال اسم المجموعة' };
   if(name.length > 80) return { error: 'اسم المجموعة يجب ألا يتجاوز 80 حرفاً' };
@@ -259,14 +262,16 @@ const buildOfficialData = function(body) {
   if(subject.length > 60 || level.length > 60) return { error: 'المادة والمرحلة يجب ألا تتجاوز 60 حرفاً' };
   if(topics.length > 12) return { error: 'لا يمكن إضافة أكثر من 12 موضوعاً' };
   if(topics.some(topic => topic.length > 80)) return { error: 'كل موضوع يجب ألا يتجاوز 80 حرفاً' };
+  if(subcourse && !mongoose.isValidObjectId(subcourse)) return { error: 'هذا الكورس غير موجود' };
 
-  return { data: { name, description, subject, level, topics }, published: body.published === true || body.published === 'true' };
+  return { data: { name, description, subject, level, topics, subcourse }, published: body.published === true || body.published === 'true' };
 };
 
 // new official groups start as a draft (status private): add the cards, then publish
 exports.createOfficialGroup = catchAsync(async function(req, res, next) {
   const { data, error } = buildOfficialData(req.body);
   if(error) return next(new AppError(error, 400, 'message'));
+  if(data.subcourse && !(await Subcourse.exists({ _id: data.subcourse }))) return next(new AppError('هذا الكورس غير موجود', 400, 'message'));
   if(!req.file) return next(new AppError('الرجاء رفع صورة للمجموعة', 400, 'message'));
 
   const _id = new mongoose.Types.ObjectId();
@@ -294,6 +299,7 @@ exports.editOfficialGroup = catchAsync(async function(req, res, next) {
 
   const { data, published, error } = buildOfficialData(req.body);
   if(error) return next(new AppError(error, 400, 'message'));
+  if(data.subcourse && !(await Subcourse.exists({ _id: data.subcourse }))) return next(new AppError('هذا الكورس غير موجود', 400, 'message'));
   if(published && !group.cardsCount) return next(new AppError('أضف بطاقة واحدة على الأقل قبل نشر المجموعة في المنهج', 400, 'message'));
 
   const oldPhotoPath = group.photoPath;

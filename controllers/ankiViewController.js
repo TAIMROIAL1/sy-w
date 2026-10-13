@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const AnkiGroup = require('./../models/ankiGroupModel');
 const AnkiCard = require('./../models/ankiCardModel');
+const Subcourse = require('./../models/subcourseModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 const { MIN_CARDS_TO_PUBLISH } = require('./ankiController');
@@ -9,6 +10,10 @@ const scheduler = require('./../utils/ankiScheduler');
 const TABS = { library: 'المكتبة', curriculum: 'المنهج', community: 'المجتمع' };
 
 const groupNotFound = () => new AppError('هذه المجموعة غير موجودة', 404);
+
+// published official group of a course the student didn't buy: send him to the course page
+const lockedCourseUrl = (group, user) =>
+  group && group.isOfficial && group.status === 'published' && group.isLockedFor(user) ? `/courses/${group.subcourse}/view` : null;
 
 // cards of the group and of its inner groups
 const countByType = async function(groupId, includeHidden = true) {
@@ -75,7 +80,7 @@ exports.getAnkiHome = tab => catchAsync(async function(req, res, next) {
     }
   const [library, curriculum, community] = await Promise.all([
     AnkiGroup.find({ owner: res.locals.user._id, isOfficial: false, parent: null }).sort('-updatedAt'),
-    AnkiGroup.find(res.locals.user.role === 'admin' ? { isOfficial: true, parent: null } : { isOfficial: true, status: 'published', parent: null }).sort('createdAt'),
+    AnkiGroup.find(res.locals.user.role === 'admin' ? { isOfficial: true, parent: null } : { isOfficial: true, status: 'published', parent: null }).populate('subcourse', 'title').sort('createdAt'),
     AnkiGroup.find({ isOfficial: false, status: 'published', parent: null })
       .populate('owner', 'name')
       .sort('-communityScore -ratingsQuantity -usersCount')
@@ -101,6 +106,8 @@ exports.getOfficialGroup = catchAsync(async function(req, res, next) {
       return res.status(200).render("toSign");
     }
   const group = await findGroup(req.params.groupId);
+  const lockedUrl = lockedCourseUrl(group, res.locals.user);
+  if(lockedUrl) return res.redirect(lockedUrl);
   if(!group || !group.isOfficial || !group.canBeStudiedBy(res.locals.user)) return next(groupNotFound());
   if(group.parent) return res.redirect(`/anki/official/${group.rootId}`);
 
@@ -194,6 +201,7 @@ exports.getOfficialEditor = catchAsync(async function(req, res, next) {
     tab: 'curriculum',
     activeTab: group && (req.query.tab === 'edit' || group.parent) ? 'edit' : 'info',
     group,
+    subcourses: await Subcourse.find().select('title course'),
     ...content
   });
 });
@@ -231,6 +239,8 @@ exports.getStudy = catchAsync(async function(req, res, next) {
       return res.status(200).render("toSign");
     }
   const group = await findGroup(req.params.groupId);
+  const lockedUrl = lockedCourseUrl(group, res.locals.user);
+  if(lockedUrl) return res.redirect(lockedUrl);
   if(!group || !group.canBeStudiedBy(res.locals.user)) return next(groupNotFound());
 
   const backUrl = group.isOfficial ? (group.parent && res.locals.user.role === 'admin' ? `/anki/official/${group._id}/edit?tab=edit` : `/anki/official/${group.rootId}`) :

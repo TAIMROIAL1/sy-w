@@ -7,6 +7,7 @@ const Lesson = require("./../models/lessonModel");
 const Question = require('./../models/questionModel')
 const Subourse = require("./../models/subcourseModel");
 const Workshop = require('./../models/workshopsModel');
+const AnkiGroup = require('./../models/ankiGroupModel');
 const catchAsync = require("./../utils/catchAsync");
 const { lessonPointer } = require('./../utils/courseProgress');
 
@@ -133,9 +134,14 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
       message: 'هذا الكورس غير موجود'
     });
 
+    const ankiGroups = user?.subcourses.includes(course._id.toString()) || user?.role === 'admin'
+      ? await AnkiGroup.find({ isOfficial: true, parent: null, status: 'published', subcourse: course._id }).select('name')
+      : [];
+
     res.status(200).render("courses", {
       user,
       course,
+      ankiGroups,
       lessons,
       title: course.title,
       active: course.active,

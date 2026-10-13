@@ -62,13 +62,19 @@ mixin libraryCard(g)
 //- official group (المنهج)
 mixin officialCard(g)
   - const isAdmin = typeof user !== 'undefined' && user && user.role === 'admin'
-  article.group-card.official-card(data-group-id=g._id data-name=g.name data-search=`${g.name} ${g.subject || ''}`)
-    a.group-card-link(href=`/anki/official/${g._id}` aria-label=`فتح ${g.name}`)
+  - const locked = typeof user !== 'undefined' && g.isLockedFor && g.isLockedFor(user)
+  - const courseTitle = g.subcourse && g.subcourse.title
+  article.group-card.official-card(data-group-id=g._id data-name=g.name data-search=`${g.name} ${g.subject || ''}` class=locked ? 'is-locked' : null)
+    a.group-card-link(href=locked ? `/courses/${g.subcourse._id || g.subcourse}/view` : `/anki/official/${g._id}` aria-label=locked ? `شراء ${courseTitle || 'الكورس'}` : `فتح ${g.name}`)
     .official-thumb
       img(src=g.photo alt=g.name loading='lazy')
       span.thumb-chip
         i.fa-solid.fa-layer-group
         |  #{g.cardsCount} بطاقة
+      if locked
+        span.lock-chip.on-thumb
+          i.fa-solid.fa-lock
+          |  مقفلة
       if g.status !== 'published'
         span.draft-chip.on-thumb
           i.fa-solid.fa-eye-slash
@@ -77,7 +83,12 @@ mixin officialCard(g)
       if g.subject
         span.subject= g.subject
       h3.group-name= g.name
-      +dueChip(g)
+      if courseTitle
+        span.course-chip(class=locked ? 'locked' : null)
+          i.fa-solid(class=locked ? 'fa-lock' : 'fa-book-open')
+          |  #{locked ? 'متاحة لمشتركي:' : 'بطاقات كورس:'} #{courseTitle}
+      if !locked
+        +dueChip(g)
       .group-meta
         if g.level
           span
