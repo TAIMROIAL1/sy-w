@@ -1,0 +1,22 @@
+doctype html
+html(lang='ar' dir='rtl')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='referrer' content='no-referrer')
+    title انضم إلى قناة التلغرام | Studyou
+    link(href='https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap' rel='stylesheet')
+    link(rel='stylesheet' href='/css/joinTelegram.css')
+  body
+    script(src='/js/anki/darkMode.js')
+    main.join-card
+      .join-icon
+        svg(viewBox='0 0 24 24' width='44' height='44' aria-hidden='true')
+          path(fill='currentColor' d='M9.04 15.47 8.87 19.6c.4 0 .58-.17.79-.38l1.9-1.82 3.94 2.88c.72.4 1.24.19 1.43-.67l2.6-12.18c.24-1.07-.38-1.5-1.08-1.24L3.17 11.1c-1.05.41-1.03 1-.18 1.26l3.92 1.22 9.1-5.74c.43-.28.82-.12.5.16l-7.47 6.47z')
+      h1 انضم إلى قناة الكورس
+      p.join-text كل التحديثات والملفات والمواعيد تُنشر في قناة التلغرام.
+      a.join-btn.join-btn-primary(href='/join-telegram/go' target='_blank' rel='noopener noreferrer') الانضمام إلى القناة
+      form(method='POST' action='/join-telegram/done')
+        button.join-btn.join-btn-ghost(type='submit') نعم، انضممت
+      if mustOpenFirst
+        p.join-error اضغط على زر الانضمام أولا

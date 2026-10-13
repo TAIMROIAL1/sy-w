@@ -21,6 +21,12 @@ const {
 
 const router = express.Router();
 
+const { telegramGate, getJoinPage, goToTelegram, confirmJoined } = require('./../controllers/telegramController');
+router.use(telegramGate);
+router.get('/join-telegram', checkJWT, getJoinPage);
+router.get('/join-telegram/go', checkJWT, goToTelegram);
+router.post('/join-telegram/done', checkJWT, confirmJoined);
+
 router.get("/sign-up", checkJWT, async (req, res) => {
   if (res.locals.user || req.user) {
     return res.status(200).render("toMain");

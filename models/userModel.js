@@ -117,6 +117,19 @@ referral: {
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
   }],
+  // one-time telegram channel page shown after the first purchase
+  telegramJoined: {
+    type: Boolean,
+    default: false
+  },
+  telegramOpenedAt: {
+    type: Date,
+    select: false
+  },
+  telegramInviteLink: {
+    type: String,
+    select: false
+  },
   // official anki groups bought separately with ATP
   ankiGroups: [{
     type: mongoose.Schema.ObjectId,
