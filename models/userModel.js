@@ -117,6 +117,11 @@ referral: {
     type: mongoose.Schema.ObjectId,
     ref: 'Subcourse'
   }],
+  // official anki groups bought separately with ATP
+  ankiGroups: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'AnkiGroup'
+  }],
   screenWidth: {
     type: String
   },

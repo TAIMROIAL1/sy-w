@@ -5,7 +5,7 @@ const { checkJWT, restrictTo } = require('./../controllers/authController');
 const {
   createGroup, editGroup, deleteGroup, publishGroup, unpublishGroup, reviewGroup, rateGroup,
   createCard, editCard, deleteCard, getStudyCards, reviewCard, getGroupProgress,
-  createOfficialGroup, editOfficialGroup, moveCards, reorderCards, reviewCards
+  createOfficialGroup, editOfficialGroup, buyOfficialGroup, moveCards, reorderCards, reviewCards
 } = require('./../controllers/ankiController');
 const uploadImage = require('./../utils/ankiImageUpload');
 
@@ -23,6 +23,7 @@ router.route('/groups/:groupId/publish')
 // official groups (admins), deleted with DELETE /groups/:groupId
 router.post('/official', restrictTo('admin'), uploadImage, createOfficialGroup);
 router.patch('/official/:groupId', restrictTo('admin'), uploadImage, editOfficialGroup);
+router.post('/official/:groupId/buy', buyOfficialGroup);
 
 router.patch('/groups/:groupId/review', restrictTo('admin'), reviewGroup);
 router.post('/groups/:groupId/rate', rateGroup);

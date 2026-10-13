@@ -11,9 +11,9 @@ const TABS = { library: 'المكتبة', curriculum: 'المنهج', community:
 
 const groupNotFound = () => new AppError('هذه المجموعة غير موجودة', 404);
 
-// published official group of a course the student didn't buy: send him to the course page
+// published official group the student has no access to: send him to the curriculum to buy it
 const lockedCourseUrl = (group, user) =>
-  group && group.isOfficial && group.status === 'published' && group.isLockedFor(user) ? `/courses/${group.subcourse}/view` : null;
+  group && group.isOfficial && group.status === 'published' && group.isLockedFor(user) ? '/anki/curriculum' : null;
 
 // cards of the group and of its inner groups
 const countByType = async function(groupId, includeHidden = true) {

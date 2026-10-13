@@ -100,6 +100,11 @@
 
   form.addEventListener('input', e => e.target.classList.remove('invalid'));
 
+  const subcourseSelect = $('of-subcourse');
+  if (subcourseSelect) subcourseSelect.addEventListener('change', () => {
+    $('of-price-field').hidden = !subcourseSelect.value;
+  });
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
     for (const [id, message] of required) {
@@ -121,6 +126,7 @@
       description: $('of-description').value.trim(),
       topics,
       subcourse: $('of-subcourse') ? $('of-subcourse').value : '',
+      price: $('of-price') ? Number($('of-price').value || 0) : 0,
       published: $('of-published') ? $('of-published').checked : false
     };
     const payload = new FormData();

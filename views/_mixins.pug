@@ -89,6 +89,15 @@ mixin officialCard(g)
           |  #{locked ? 'متاحة لمشتركي:' : 'بطاقات كورس:'} #{courseTitle}
       if !locked
         +dueChip(g)
+      if locked
+        .group-actions.buy-actions
+          if g.price > 0
+            button.btn-chip.buy-group-btn(type='button' data-price=g.price)
+              i.fa-solid.fa-cart-shopping
+              |  شراء بـ #{g.price} ATP
+          a.btn-chip.course-link-btn(href=`/courses/${g.subcourse._id || g.subcourse}/view`)
+            i.fa-solid.fa-book-open
+            |  شراء الكورس
       .group-meta
         if g.level
           span

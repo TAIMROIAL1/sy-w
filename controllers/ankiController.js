@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const AnkiGroup = require('./../models/ankiGroupModel');
 const AnkiCard = require('./../models/ankiCardModel');
 const Subcourse = require('./../models/subcourseModel');
+const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 const { uploadCardImage, uploadGroupPhoto, deleteCardImages } = require('./../utils/ankiImageStorage');
@@ -255,6 +256,7 @@ const buildOfficialData = function(body) {
   const level = clean(body.level);
   const topics = [...new Set((Array.isArray(body.topics) ? body.topics : []).map(clean).filter(Boolean))];
   const subcourse = isEmpty(body.subcourse) ? null : String(body.subcourse);
+  const price = isEmpty(body.price) ? 0 : Number(body.price);
 
   if(!name) return { error: 'الرجاء ادخال اسم المجموعة' };
   if(name.length > 80) return { error: 'اسم المجموعة يجب ألا يتجاوز 80 حرفاً' };
@@ -263,9 +265,32 @@ const buildOfficialData = function(body) {
   if(topics.length > 12) return { error: 'لا يمكن إضافة أكثر من 12 موضوعاً' };
   if(topics.some(topic => topic.length > 80)) return { error: 'كل موضوع يجب ألا يتجاوز 80 حرفاً' };
   if(subcourse && !mongoose.isValidObjectId(subcourse)) return { error: 'هذا الكورس غير موجود' };
+  if(!Number.isInteger(price) || price < 0 || price > 100000) return { error: 'سعر المجموعة يجب أن يكون رقماً صحيحاً بين 0 و 100000' };
 
-  return { data: { name, description, subject, level, topics, subcourse }, published: body.published === true || body.published === 'true' };
+  return { data: { name, description, subject, level, topics, subcourse, price: subcourse ? price : 0 }, published: body.published === true || body.published === 'true' };
 };
+
+// a student buys a course-linked official group with ATP instead of the course
+exports.buyOfficialGroup = catchAsync(async function(req, res, next) {
+  const group = await findGroup(req.params.groupId);
+  if(!group || !group.isOfficial || group.parent || group.status !== 'published') return next(groupNotFound());
+  if(!group.isLockedFor(req.user)) return next(new AppError('لديك وصول لهذه المجموعة بالفعل', 400, 'message'));
+  if(!(group.price > 0)) return next(new AppError('هذه المجموعة متاحة فقط لمشتركي الكورس', 400, 'message'));
+
+  // atomic: never charge twice or below zero
+  const user = await User.findOneAndUpdate(
+    { _id: req.user._id, value: { $gte: group.price }, ankiGroups: { $ne: group._id } },
+    { $inc: { value: -group.price }, $push: { ankiGroups: group._id } },
+    { new: true }
+  );
+  if(!user) return next(new AppError('لا تمتلك نقاط كافية لشراء هذه المجموعة', 400, 'message'));
+
+  res.status(200).json({
+    status: 'success',
+    message: 'لقد اشتريت المجموعة بنجاح',
+    data: { value: user.value }
+  });
+});
 
 // new official groups start as a draft (status private): add the cards, then publish
 exports.createOfficialGroup = catchAsync(async function(req, res, next) {

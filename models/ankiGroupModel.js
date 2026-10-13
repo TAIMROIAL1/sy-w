@@ -37,6 +37,12 @@ const ankiGroupSchema = new mongoose.Schema({
     ref: 'Subcourse',
     default: null
   },
+  // ATP price to buy a course-linked group without the course (0 = only through the course)
+  price: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
 
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -148,7 +154,10 @@ ankiGroupSchema.methods.canBeManagedBy = function(user) {
 ankiGroupSchema.methods.isLockedFor = function(user) {
   if(!this.isOfficial || !this.subcourse || !user || user.role === 'admin') return false;
   const id = String(this.subcourse._id || this.subcourse);
-  return !(user.subcourses || []).some(s => String(s) === id);
+  if((user.subcourses || []).some(s => String(s) === id)) return false;
+  // or bought the (root) group itself with ATP
+  const rootId = String(this.ancestors && this.ancestors.length ? this.ancestors[0] : this._id);
+  return !(user.ankiGroups || []).some(g => String(g) === rootId);
 };
 
 ankiGroupSchema.methods.canBeStudiedBy = function(user) {

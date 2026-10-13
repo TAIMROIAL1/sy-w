@@ -79,6 +79,9 @@ block content
                 option(value='' selected=!(group && group.subcourse)) مجانية: لكل الطلاب
                 each sc in subcourses
                   option(value=String(sc._id) selected=!!(group && group.subcourse && String(group.subcourse) === String(sc._id)))= `لمشتركي: ${sc.course && sc.course.title ? sc.course.title + ' › ' : ''}${sc.title}`
+            .field#of-price-field(hidden=!(group && group.subcourse))
+              label.field-label(for='of-price') سعر شراء المجموعة وحدها بالـ ATP #[small (0 = فقط لمشتركي الكورس)]
+              input#of-price.input(type='number' min='0' max='100000' step='1' value=group && group.price ? group.price : 0)
             .field
               label.field-label(for='of-description') الوصف
               textarea#of-description.input(rows='4' placeholder='ماذا تغطي هذه المجموعة؟')= group ? group.description : ''

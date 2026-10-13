@@ -1050,3 +1050,32 @@ body.page-dark-mode .own-chip.is-rank { background: rgba(245, 158, 11, .16); col
 .course-chip { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 3px 10px; border-radius: 999px; background: var(--primary-light); color: var(--primary); font-size: .78rem; font-weight: 700; }
 .course-chip.locked { background: var(--amber-light); color: var(--amber-dark); }
 .official-card.is-locked .official-thumb img { filter: grayscale(.6) brightness(.85); }
+
+/* ATP balance + buy popup (same look as the main and courses pages) */
+.atp-balance { display: inline-flex; align-items: center; gap: 6px; align-self: center; padding: 8px 16px; border-radius: 12px; background: rgba(255, 255, 255, .2); color: #fff; font-weight: 700; white-space: nowrap; }
+.atp-balance strong { font-size: 1.1rem; }
+.official-form .field[hidden] { display: none; }
+.buy-actions { flex-wrap: wrap; }
+.official-card .buy-actions .btn-chip { margin-inline-end: 0; }
+.btn-chip.course-link-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+
+.buy-backdrop { position: fixed; inset: 0; background-color: rgba(0, 0, 0, .3); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 110; }
+.buy-backdrop.hidden, .buy-backdrop .hidden { display: none; }
+.buy-backdrop .popup-message { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300px; max-width: calc(100% - 32px); padding: 30px 40px; border-radius: 10px; background-color: #fff; box-shadow: 0 5px 15px rgba(0, 0, 0, .2); text-align: center; }
+.buy-backdrop .popup-message h2 { margin-top: 0; color: #333; font-size: 1.3rem; }
+.buy-backdrop .popup-detail { margin-top: 8px; color: #555; font-weight: 600; }
+.buy-backdrop .buttons { margin-top: 25px; display: flex; justify-content: space-around; }
+.buy-backdrop .buttons button { padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font: inherit; font-size: 16px; font-weight: bold; color: #fff; transition: background-color .3s ease; }
+.buy-backdrop .confirm-btn { background-color: #28a745; }
+.buy-backdrop .confirm-btn:hover { background-color: #218838; }
+.buy-backdrop .cancel-btn { background-color: #dc3545; }
+.buy-backdrop .cancel-btn:hover { background-color: #c82333; }
+
+.buy-notifi { position: fixed; top: -150px; left: 50%; transform: translateX(-50%); display: flex; justify-content: center; align-items: center; width: 200px; height: 125px; border-radius: 10px; z-index: 200; }
+.buy-notifi .notifi-message { width: 95%; color: #000; text-align: center; }
+.buy-notifi.show-notifi { animation: buy-notifi-in 1s ease-out forwards; }
+.buy-notifi.hide-notifi { animation: buy-notifi-out 1s ease-out forwards; }
+.buy-notifi.red { background-color: rgb(233, 49, 3); }
+.buy-notifi.green { background-color: #42fa9e; }
+@keyframes buy-notifi-in { from { top: -150px; } to { top: 15px; } }
+@keyframes buy-notifi-out { from { top: 15px; } to { top: -150px; } }
