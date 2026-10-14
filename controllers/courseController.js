@@ -1,4 +1,5 @@
 const Course = require('./../models/coursesModel');
+const User = require('./../models/userModel');
 const Subcourse = require('./../models/subcourseModel')
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
@@ -75,27 +76,22 @@ exports.activateCourse = catchAsync(async function(req, res, next) {
 
   const course = await Course.findById(courseId);
 
-  if(!course) return next('هذا الكورس غير موجود', 400);
+  if(!course) return next(new AppError('هذا الكورس غير موجود', 400));
 
   const { user } = req;
-  const subcourses = await Subcourse.find({course: courseId});
+  const ids = (await Subcourse.find({course: courseId}).select('_id')).map(sc => sc._id);
 
-  for(const sc of subcourses) {
-    if(user.subcourses.includes(sc._id)) return next(new AppError('لقد اشتريت هذا الكورس او جزء منه', 400));
-  }
+  if(ids.some(id => user.subcourses.includes(id))) return next(new AppError('لقد اشتريت هذا الكورس او جزء منه', 400));
 
-  if(course.price > user.value) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400));
+  const price = course.price || 0;
+  if(price > user.value) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400));
 
-  user.value -= course.price;
-
-  subcourses.forEach(sc => {
-    user.subcourses.push(sc._id)
-
-  });
-
-
-
-  await user.save({validateBeforeSave: false});
+  // one atomic update re-checks balance + ownership, so parallel requests can't buy with the same points
+  const bought = await User.findOneAndUpdate(
+    { _id: user._id, value: { $gte: price }, subcourses: { $nin: ids } },
+    { $inc: { value: -price }, $push: { subcourses: { $each: ids } } }
+  );
+  if(!bought) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400));
 
   res.status(200).json({
     status: "success",

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 // const Course = require('./../models/coursesModel');
 const Subcourse = require('./../models/subcourseModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -364,24 +365,19 @@ exports.deleteQuestion = catchAsync(async function(req, res, next) {
   })
 })
 
+// the lesson must belong to the course the student owns (checkActivatedSubcourse checked req.body.subcourseId)
+const findQuizResource = async ({ lessonId, resourceNum, subcourseId }) => {
+  if(!mongoose.isValidObjectId(lessonId) || !mongoose.isValidObjectId(subcourseId)) return null;
+  const lesson = await Lesson.findOne({ _id: lessonId, subcourse: subcourseId }).populate({ path: 'videos.questions', model: 'Question' });
+  return lesson?.videos.find(vid => vid.num == resourceNum) || null;
+};
+
 exports.getQuestions = catchAsync(async function(req, res, next) {
-  const { lessonId, resourceNum } = req.body;
+  const resource = await findQuizResource(req.body);
+  if(!resource) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
-  if(!lessonId || !resourceNum) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
-
-  const lesson = await Lesson.findById(lessonId)
-  .populate({
-    path: "videos.questions",
-    model: "Question"
-  }).exec();
-
-
-  const questions = lesson.videos.find(vid => vid.num == resourceNum).questions.map(question => {
-    delete question.correctAnswer;
-    return question;
-  });
-
-  if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  // never send correctAnswer to the student
+  const questions = resource.questions.map(({ _id, text, answers }) => ({ _id, text, answers }));
 
   res.status(200).json({
     status: 'success',
@@ -393,22 +389,16 @@ exports.getQuestions = catchAsync(async function(req, res, next) {
 })
 
 exports.solveQuestions = catchAsync(async function(req, res, next) {
-  const { lessonId, resourceNum, solvedQuestions } = req.body;
-
-  if(!lessonId || !resourceNum || !solvedQuestions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
-
-  const {questions} = (await Lesson.findById(lessonId).populate({
-    path: "videos.questions",
-    model: "Question"
-  }).exec()).videos[resourceNum];
-
-  if(!questions) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
+  const { solvedQuestions } = req.body;
+  const resource = Array.isArray(solvedQuestions) && await findQuizResource(req.body);
+  if(!resource) return next(new AppError('حدث خطأ, الرجاء المحاولة مجددا', 400));
 
   const feedBack = [];
   let correct = 0;
 
   solvedQuestions.forEach(sq => {
-    const foundQuestion = questions.find(q => sq.questionId == q._id.toString());
+    const foundQuestion = resource.questions.find(q => sq.questionId == q._id.toString());
+    if(!foundQuestion) return;
 
     if(foundQuestion.correctAnswer == sq.index)
       correct++;
@@ -416,7 +406,7 @@ exports.solveQuestions = catchAsync(async function(req, res, next) {
       feedBack.push({
       answerIndex: sq.index,
       answerText: foundQuestion.answers[sq.index],
-      questionText: foundQuestion.text,  
+      questionText: foundQuestion.text,
     })
     }
   })

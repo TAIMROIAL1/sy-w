@@ -1,3 +1,5 @@
 /config.env
 node_modules/
 .vs
+server.key
+server.cert

@@ -8,7 +8,7 @@ exports.activateWorkshop = catchAsync(async function(req, res, next) {
 
   const workshop = await Workshop.findById(workshopId);
 
-  if(!workshop) return next('هذه الورشة غير موجودة', 400);
+  if(!workshop) return next(new AppError('هذه الورشة غير موجودة', 400));
 
   const { user } = req;
 

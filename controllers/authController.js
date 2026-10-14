@@ -366,6 +366,7 @@ exports.activateUser = catchAsync(async function(req, res, next) {
   const { username } = req.body;
   console.log(username);
   const user = await User.findOne({name: username});
+  if(!user) return next(new AppError('هذا المستخدم غير موجود', 404));
 
   user.active = true;
   await user.save({validateBeforeSave: false});
@@ -380,9 +381,10 @@ exports.addPackage = catchAsync(async function(req, res, next) {
   const { username } = req.body;
 
   const user = await User.findOne({name: username});
+  if(!user) return next(new AppError('هذا المستخدم غير موجود', 404));
 
   user.solveBook = true;
-  user.subcourses.push('69f5aa26233985ae8767a9f8')
+  if(!user.subcourses.includes('69f5aa26233985ae8767a9f8')) user.subcourses.push('69f5aa26233985ae8767a9f8')
   await user.save({validateBeforeSave: false});
 
   res.status(200).json({

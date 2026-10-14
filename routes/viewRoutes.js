@@ -160,7 +160,7 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
 );
 
 router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse, catchAsync(async (req, res) => {
-    if (!res.locals.user) {z
+    if (!res.locals.user) {
       return res.status(200).render("toSign");
     }
 

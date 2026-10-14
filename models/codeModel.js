@@ -31,64 +31,38 @@ const codeSchema = new mongoose.Schema({
   }
 })
 
+const WORKSHOP_SUBCOURSES = ['69ed6fb1ad45e39f4a699ff0', '69ed6fc7ad45e39f4a699ff1', '69ed6fecad45e39f4a699ff2', '69ed7003ad45e39f4a699ff3', '69ed7023ad45e39f4a699ff4'];
+
 codeSchema.methods.activateCode = async function(userId) {
+  // claim the code first: only one request can flip activated false -> true
+  const claimed = await this.constructor.findOneAndUpdate({ _id: this._id, activated: false }, { activated: true, activatedBy: userId });
+  if(!claimed) return false;
 
   try {
-    const user = await User.findById(userId);
-  
-  const activatioinCode = await this.constructor.findOneAndUpdate({_id: this._id}, {activated: true, activatedBy: userId});
+    const category = this.category.trim();
+    let update;
 
-  if(!activatioinCode) return false;
+    if(category.startsWith('workshop')) {
+      update = { $addToSet: { subcourses: { $each: WORKSHOP_SUBCOURSES } } };
+    }
+    else if(category.startsWith('courses')) {
+      const ids = [];
+      for(const courseId of category.split(':')[1].split(',').map(id => id.trim())) {
+        if(!(await Course.findById(courseId))) throw new Error(`Course ${courseId} not found`);
+        (await Subcourse.find({ course: courseId }).select('_id')).forEach(sc => ids.push(sc._id));
+      }
+      update = { $addToSet: { subcourses: { $each: ids } } };
+    }
+    else {
+      update = { $inc: { value: this.value } };
+    }
 
-  if(this.category.trim().startsWith('workshop')) {
-    // const workshopId = this.category.split(':')[1].trim();
-    // user.workshops.push(workshopId);
-    const subcourses = ['69ed6fb1ad45e39f4a699ff0', '69ed6fc7ad45e39f4a699ff1', '69ed6fecad45e39f4a699ff2', '69ed7003ad45e39f4a699ff3', '69ed7023ad45e39f4a699ff4'];
-    user.subcourses.push(...subcourses);
-     const result = await user.save({validateBeforeSave: false});
-
-  }
-
-  else if(this.category.trim().startsWith('courses')) {
-    const coursesIds = this.category.split(':')[1].split(',');
-
-    console.log("IDs : ", coursesIds);
-    for(let i = 0; i < coursesIds.length; i++) {
-      const cId = coursesIds[i];
-      const courseId = cId.trim();
-       const course = await Course.findById(courseId);
-
-       console.log("Course : ", course);
-  if(!course) throw new Error();
-
-  const subcourses = await Subcourse.find({course: courseId});
-
-  console.log("Subcourses : ", subcourses);
-  subcourses.forEach(sc =>{ 
-    if(!user.subcourses.includes(sc._id))
-    user.subcourses.push(sc._id)
-  });
-  
-  const result = await user.save({validateBeforeSave: false});
-}
-  }
-  else {
-    user.value += this.value;
-     const result = await user.save({validateBeforeSave: false});
-
-  }
-  
-  
-  this.activated = true;
-  this.activatedBy = userId;
-  await this.save({validateBeforeSave: false});
-
-  return true;
+    await User.updateOne({ _id: userId }, update);
+    return true;
   } catch(err) {
-
+    await this.constructor.updateOne({ _id: this._id }, { activated: false, $unset: { activatedBy: 1 } });
     return false;
   }
-  
 }
 
 

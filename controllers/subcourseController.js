@@ -1,4 +1,5 @@
 const Course = require('./../models/coursesModel');
+const User = require('./../models/userModel');
 const Subcourse = require('./../models/subcourseModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
@@ -42,28 +43,32 @@ exports.activateSubcourse = catchAsync(async function(req, res, next) {
 
   const { subcourseId } = req.params;
   if(!subcourseId) return next(new AppError('الرجاء اختيار كورس', 400, 'message'));
-  
+
   if(user.subcourses.includes(subcourseId)) return next(new AppError('لقد اشتريت هذا الكورس بالفعل', 400, 'message'));
 
   const subcourse = await Subcourse.findById(subcourseId);
-  if(!subcourse) return next('هذا الكورس غير موجود', 400, 'message');
+  if(!subcourse) return next(new AppError('هذا الكورس غير موجود', 400, 'message'));
 
-  if(user.value < subcourse.price) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400, 'message'))
+  const price = subcourse.price || 0;
+  if(user.value < price) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400, 'message'))
 
-  user.value -= subcourse.price;
-  user.subcourses.push(subcourseId);
-  const course ={
-    courseId: subcourseId,
-    achievedPercentage: 0,
-    achievedVideos: {
-      achievedVideosCount: 0,
-      videoNumber: 0,
-      lessonNum: 1
+  // one atomic update re-checks balance + ownership, so parallel requests can't buy with the same points
+  const bought = await User.findOneAndUpdate(
+    { _id: user._id, value: { $gte: price }, subcourses: { $ne: subcourse._id } },
+    {
+      $inc: { value: -price },
+      $push: {
+        subcourses: subcourse._id,
+        courseProgress: {
+          courseId: subcourse._id,
+          achievedPercentage: 0,
+          achievedVideos: { achievedVideosCount: 0, videoNumber: 0, lessonNum: 1 }
+        }
+      }
     }
-  }; 
-  user.courseProgress.push(course);
+  );
+  if(!bought) return next(new AppError('لا تمتلك نقاط كافية لشراء هذا الكورس', 400, 'message'));
 
-  await user.save({ validateBeforeSave: false });
   res.status(200).json({
     status: 'success',
     message: 'لقد اشتريت الكورس بنجاح',

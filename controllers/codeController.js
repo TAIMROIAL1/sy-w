@@ -28,11 +28,10 @@ exports.createCode = catchAsync(async function(req, res, next) {
 });
 
 exports.createCodes = catchAsync(async function(req, res, next) {
-  const {codes} = req.body;
-  codes.forEach(async c => {
-    const { code, value, category } = c;
-    await Code.create({code, value, category});
-  })
+  const { codes } = req.body;
+  if(!Array.isArray(codes) || !codes.length) return next(new AppError('الرجاء ادخال الأكواد', 400));
+
+  await Code.create(codes.map(({ code, value, category }) => ({ code, value, category })));
 
   res.status(201).json({
     status: "success",
