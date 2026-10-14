@@ -1,3 +1,4 @@
+include _bottomNav
 //- shared helpers for every anki page
 -
   const statusInfo = {
@@ -46,6 +47,8 @@ html(lang='ar' dir='rtl')
     link(rel='stylesheet' href='/css/anki.css')
     each href in (styles || [])
       link(rel='stylesheet' href=href)
+    if typeof siteTab !== 'undefined' && siteTab
+      link(rel='stylesheet' href='/css/bottomNav.css')
   body(data-domain=domain class=bodyClass)
     //- apply dark mode before paint (external file, no inline scripts)
     script(src='/js/anki/darkMode.js')
@@ -85,6 +88,9 @@ html(lang='ar' dir='rtl')
         a.bottom-nav-item(href='/anki/community' data-tab='community' class=tab === 'community' ? 'active' : '')
           i.fa-solid.fa-users
           span المجتمع
+
+    if typeof siteTab !== 'undefined' && siteTab
+      +bottomNav(siteTab)
 
     //- shared dialog (confirm + forms), filled by Anki.confirm / Anki.form in common.js
     .modal#anki-modal(hidden role='dialog' aria-modal='true' aria-labelledby='anki-modal-title')

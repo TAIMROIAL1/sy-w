@@ -401,7 +401,7 @@ router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => 
 }))
 
 const { getTests, getTest, getResults, getTestEditor } = require('./../controllers/generalTestViewController');
-router.get('/tests', checkJWT, getTests);
+router.get('/tests', (req, res, next) => { res.locals.siteTab = 'tests'; next(); }, checkJWT, getTests);
 router.get('/tests/new', checkJWT, restrictTo('admin'), getTestEditor);
 router.get('/tests/:testId', checkJWT, getTest);
 router.get('/tests/:testId/edit', checkJWT, restrictTo('admin'), getTestEditor);

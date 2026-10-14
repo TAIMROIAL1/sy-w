@@ -1,0 +1,56 @@
+/* phone-only bottom navigation (views/_bottomNav.pug) */
+.app-bottom-nav,
+.app-bottom-nav-spacer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .app-bottom-nav-spacer {
+    display: block;
+    height: calc(68px + env(safe-area-inset-bottom));
+  }
+  .app-bottom-nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 900;
+    display: flex;
+    justify-content: space-around;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+    background: #fff;
+    border-top: 1px solid rgba(15, 23, 42, .08);
+    box-shadow: 0 -6px 24px rgba(15, 23, 42, .08);
+    font-family: inherit;
+  }
+  .app-bottom-nav-item {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 2px;
+    border-radius: 14px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .app-bottom-nav-item.active {
+    color: #6c5ce7;
+    background: rgba(108, 92, 231, .1);
+  }
+  .page-dark-mode .app-bottom-nav {
+    background: #1e1e2e;
+    border-top-color: rgba(255, 255, 255, .08);
+  }
+  .page-dark-mode .app-bottom-nav-item { color: #a0a0b8; }
+  .page-dark-mode .app-bottom-nav-item.active { color: #a29bfe; background: rgba(162, 155, 254, .14); }
+
+  /* the bar replaces the ☰ menu on phones */
+  .mobile-menu-btn,
+  .mobile-menu { display: none !important; }
+
+  .app-bottom-nav ~ .live-test-banner { bottom: calc(80px + env(safe-area-inset-bottom)); }
+}

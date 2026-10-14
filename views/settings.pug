@@ -1,5 +1,6 @@
 doctype html
 include _siteNav
+include _bottomNav
 head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
@@ -7,6 +8,7 @@ head
   title &#x644;&#x648;&#x62D;&#x629; &#x627;&#x644;&#x62A;&#x62D;&#x643;&#x645; &#x627;&#x644;&#x62A;&#x639;&#x644;&#x64A;&#x645;&#x64A;&#x629;
   link(rel='stylesheet' href='/css/settings.css')
   link(rel='stylesheet' href='/css/siteNav.css')
+  link(rel='stylesheet' href='/css/bottomNav.css')
   <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png?v=20260916" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg?v=20260916" />
   <link rel="shortcut icon" href="/my-favicon/favicon.ico?v=20260916" />
@@ -164,5 +166,6 @@ body(data-domain=domain)
             ul
               li قم بنسخ الكود و لصقه هنا
               li تأكد من صحة الكود قبل التفعيل
+  +bottomNav('account')
   script(src='/js/settings.js')
   script(src='/js/tests/liveBanner.js')

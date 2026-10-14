@@ -1,3 +1,4 @@
+include _bottomNav
 doctype html
 head
   meta(charset='UTF-8')
@@ -7,6 +8,7 @@ head
   link(rel='preconnect' href='https://fonts.gstatic.com' crossorigin='')
   link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap' rel='stylesheet')
   link(rel='stylesheet' href='/css/courses.css')
+  link(rel='stylesheet' href='/css/bottomNav.css')
   <link rel="icon" type="image/png" href="/my-favicon/favicon-96x96.png?v=20260916" sizes="96x96" />
   <link rel="icon" type="image/svg+xml" href="/my-favicon/favicon.svg?v=20260916" />
   <link rel="shortcut icon" href="/my-favicon/favicon.ico?v=20260916" />
@@ -183,5 +185,6 @@ body(data-domain=domain, data-course-id=course._id.toString())
             li
               a(href=`${domain}/sign-up`) التسجيل
     p.rights &copy; 2026 &#x62C;&#x645;&#x64A;&#x639; &#x627;&#x644;&#x62D;&#x642;&#x648;&#x642; &#x645;&#x62D;&#x641;&#x648;&#x638;&#x629;
+  +bottomNav('courses')
   script(src='/js/courses.js')
   script(src='/js/tests/liveBanner.js')
