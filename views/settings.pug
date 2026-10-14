@@ -117,12 +117,15 @@ body(data-domain=domain)
                 strong= user.role === 'admin'? "ادمن":"طالب"
             // إعادة تعيين كلمة المرور
             .password-box
-              .info-icon.password-icon &#x1F512;
+              .info-icon.password-icon
+                svg(viewBox='0 0 24 24' width='20' height='20' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-hidden='true')
+                  rect(x='5' y='11' width='14' height='10' rx='2')
+                  path(d='M8 11V7a4 4 0 0 1 8 0v4')
               .password-content
-                span.label &#x643;&#x644;&#x645;&#x629; &#x627;&#x644;&#x645;&#x631;&#x648;&#x631;
-                input.reset-password-input(type='text')
-                button.reset-password-btn(type='button')
-                  | &#x625;&#x639;&#x627;&#x62F;&#x629; &#x62A;&#x639;&#x64A;&#x64A;&#x646; &#x643;&#x644;&#x645;&#x629; &#x627;&#x644;&#x645;&#x631;&#x648;&#x631;
+                label.label(for='newPassword') تغيير كلمة المرور
+                .password-row
+                  input#newPassword.reset-password-input(type='password' autocomplete='new-password' placeholder='كلمة المرور الجديدة')
+                  button.reset-password-btn(type='button') حفظ
         section.card.color-card.section-1
           h2 &#x627;&#x644;&#x648;&#x636;&#x639; &#x627;&#x644;&#x645;&#x638;&#x644;&#x645;
           .color-row

@@ -94,13 +94,16 @@ exports.editSubcourse = catchAsync(async function(req, res, next) {
   const checkDescription = subcourseToEdit.description === description;
   const checkPhotoUrl = subcourseToEdit.photoUrl === photoUrl;
   const checkPrice = subcourseToEdit.price === Number(price);
+  const comingSoon = req.body.comingSoon === true;
+  const checkSoon = !!subcourseToEdit.comingSoon === comingSoon;
 
-  if(checkTitle && checkDescription && checkPhotoUrl && checkPrice) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
+  if(checkTitle && checkDescription && checkPhotoUrl && checkPrice && checkSoon) return next(new AppError('لم تقم بتعديل اي شيء', 400, 'message'));
 
   subcourseToEdit.title = title;
   subcourseToEdit.description = description;
   subcourseToEdit.photoUrl = photoUrl;
   subcourseToEdit.price = price;
+  subcourseToEdit.comingSoon = comingSoon;
 
   await subcourseToEdit.save({ validateBeforeSave: false });
 

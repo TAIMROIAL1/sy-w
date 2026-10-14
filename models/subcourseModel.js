@@ -20,6 +20,11 @@ const subcourseSchema = new mongoose.Schema({
   },
   startDate: {
     type: String,
+  },
+  // shown on the home page as "قريبا" and can't be bought yet
+  comingSoon: {
+    type: Boolean,
+    default: false
   }
 })
 

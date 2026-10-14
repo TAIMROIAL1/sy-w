@@ -10,6 +10,7 @@ const Workshop = require('./../models/workshopsModel');
 const AnkiGroup = require('./../models/ankiGroupModel');
 const catchAsync = require("./../utils/catchAsync");
 const { lessonPointer } = require('./../utils/courseProgress');
+const { resourceCounts, progressOf } = require('./../utils/courseStats');
 
 const {getEditLesson, getEditQuiz, getEditVideo} = require('./../controllers/lessonController');
 
@@ -36,68 +37,34 @@ router.get("/sign-up", checkJWT, async (req, res) => {
   });
 });
 
+const PACKAGE_SUBCOURSE_ID = '69f5aa26233985ae8767a9f8';
+const HOME_COURSE_ID = process.env.HOME_COURSE_ID || '6a9eac3201a147cc688bb5ee';
+
 router.get("/", checkJWT, catchAsync(async (req, res) => {
-  let user = undefined;
-    if (res.locals.user) {
-        user  = res.locals.user;
-    }
+  const { user } = res.locals;
 
-    const classes = await Class.find();
-    let courses = undefined;
-    if(user){
-    const subcourses =  [];
-    for(let i = 0; i < user.subcourses.length; i++) {
-      if(user.subcourses[i].toString() === "69f5aa26233985ae8767a9f8"){
-        continue;
-      }
-      const sc = await Subcourse.findById(user.subcourses[i]);
-      if(sc) subcourses.push(sc);
-    }
-    courses = [...new Set(subcourses.map(sc => sc.course._id.toString()))];
-} 
+  const homeCourses = await Subcourse.find({ course: HOME_COURSE_ID, _id: { $ne: PACKAGE_SUBCOURSE_ID } }).sort({ _id: 1 });
 
-res.status(200).render("mainpage", {
-      user,
-      classes,
-      courses,
-      title: "الصفحة الرئيسية",
-      metaContent: `الدكتور إياد سكر
-كورسات للصف الثالث ثانوي`
-    });
-  })
-);
-
-router.get("/classes/:classId/courses", checkJWT, catchAsync(async (req, res) => {
-  let user = undefined;
-  if (res.locals.user) {
-      user  = res.locals.user;
+  let myCourses = [];
+  if(user) {
+    const ownedIds = user.subcourses.map(String).filter(id => id !== PACKAGE_SUBCOURSE_ID);
+    const owned = await Subcourse.find({ _id: { $in: ownedIds } });
+    const totals = await resourceCounts(owned.map(c => c._id));
+    myCourses = owned.map(course => ({ course, ...progressOf(user, course._id, totals[course._id.toString()] || 0) }));
   }
 
-    const { classId } = req.params;
-    const className = await Class.findById(classId);
-    if(!className) return res.status(400).json({
-      status: 'fail',
-      message: 'هذا الصف غير موجود'
-    });
+  res.status(200).render("mainpage", {
+    user,
+    homeCourses,
+    myCourses,
+    title: "الصفحة الرئيسية",
+    metaContent: `الدكتور إياد سكر
+كورسات للصف الثالث ثانوي`
+  });
+}));
 
-    const courses = await Course.find({ class: classId });
-
-    const subcourses = [];
-
-      for(const c of courses) {
-        const foundSubcourses = await Subcourse.find({course: c._id});
-        const ids = foundSubcourses.map(fsc => fsc._id.toString());
-        subcourses.push(ids);
-      }
-    res.status(200).render("oldCourses", {
-      user,
-      courses,
-      subcourses,
-      title: className.title,
-      metaContent: `جميع كورسات ${className.title}`
-    });
-  })
-);
+// old class page (no longer linked anywhere)
+router.get("/classes/:classId/courses", (req, res) => res.redirect('/#courses'));
 
 router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
   let user = undefined;
@@ -107,6 +74,10 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
 
     const { courseId } = req.params;
     const course = await Subcourse.findById(courseId);
+    if(!course) return res.status(400).json({
+      status: 'fail',
+      message: 'هذا الكورس غير موجود'
+    });
 
     const lessons = (await Lesson.find({subcourse: course._id}).select('+videos.num'));
 
@@ -135,10 +106,9 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
       }
     }
 
-    if(!course) return res.status(400).json({
-      status: 'fail',
-      message: 'هذا الكورس غير موجود'
-    });
+    const progress = user?.subcourses.includes(course._id.toString())
+      ? progressOf(user, course._id, lessons.reduce((sum, l) => sum + l.videos.length, 0))
+      : null;
 
     const ankiGroups = user?.subcourses.includes(course._id.toString()) || user?.role === 'admin'
       ? await AnkiGroup.find({ isOfficial: true, parent: null, status: 'published', subcourse: course._id }).select('name')
@@ -149,6 +119,7 @@ router.get("/courses/:courseId/view", checkJWT, catchAsync(async (req, res) => {
       course,
       ankiGroups,
       lessons,
+      progress,
       title: course.title,
       active: course.active,
       metaContent: `الشرح لكامل لمنهاج الكتاب

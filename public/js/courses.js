@@ -99,6 +99,7 @@ agreeBtn.addEventListener("click", async (e) => {
   document.body.style.overflow = "auto";
   layer.classList.add("hidden");
 
+  if (data.status === "success") setTimeout(() => location.reload(), 1200);
   return showNotification(data.message, data.status);
 });
 

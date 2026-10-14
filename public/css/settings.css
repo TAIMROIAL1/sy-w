@@ -1469,3 +1469,49 @@ h2 {
 .sv-card .saved-video-course {
     margin-top: 4px;
 }
+
+
+/* ===== password card ===== */
+.info-grid .password-box {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+}
+.password-box .password-content {
+    flex: 1 1 auto;
+    gap: 8px;
+}
+.password-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+.password-box .reset-password-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s ease;
+}
+.password-box .reset-password-input:focus {
+    border-color: var(--green);
+}
+.password-box .reset-password-btn {
+    flex: 0 0 auto;
+    padding: 0 18px;
+    border: none;
+    border-radius: 10px;
+    background: var(--green);
+    color: #fff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+}
+.password-box .reset-password-btn:hover {
+    background: var(--green-dark);
+}

@@ -428,6 +428,7 @@ if(response.status === 'success' && response.data) {
     progressPercentage.textContent = `${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`;
     progressBar.querySelector('span').style.width = `${Math.ceil((courseProgress.achievedVideos.achievedVideosCount/totalVideos) * 100)}%`;
     progressSentence.textContent = `${courseProgress.achievedVideos.achievedVideosCount} من ${totalVideos} درس مكتمل`
+    updateMobileProgress(courseProgress.achievedVideos.achievedVideosCount, totalVideos);
 };
 }
 /* =========================================
@@ -1022,3 +1023,13 @@ darkToggle.addEventListener('change', () => {
 });
 
 init();
+
+function updateMobileProgress(done, total) {
+  const strip = document.querySelector('.mobile-progress');
+  if(!strip) return;
+  const pct = total ? Math.ceil((done / total) * 100) : 0;
+  strip.querySelector('.mobile-progress-text').textContent = `${done} من ${total} درس مكتمل`;
+  strip.querySelector('.mobile-progress-bar span').style.width = `${pct}%`;
+}
+
+document.getElementById('openLessonsBtn')?.addEventListener('click', () => openSidebar.click());

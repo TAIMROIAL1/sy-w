@@ -1725,3 +1725,42 @@ body[data-is-admin="admin"] .content-area {
         display: inline;
     }
 }
+
+
+/* ===== mobile progress strip ===== */
+.mobile-progress {
+    display: none;
+}
+@media (max-width: 850px) {
+    .mobile-progress {
+        display: block;
+        background: var(--primary-light);
+        border-radius: 12px;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+    }
+    .mobile-progress-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent);
+    }
+    .mobile-lessons-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: 1px solid var(--accent);
+        background: transparent;
+        color: var(--accent);
+        border-radius: 8px;
+        padding: 6px 10px;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+}

@@ -78,6 +78,13 @@ body(data-domain= domain)
             br
             | هنا تفهم الأحياء..هنا تصنع الأوائل🏅
 
+          .hero-actions
+            a.hero-cta.hero-cta-primary(href='#courses') تصفح الكورسات
+            if !user
+              a.hero-cta.hero-cta-ghost(href='/sign-up') إنشاء حساب
+            else if myCourses.length
+              a.hero-cta.hero-cta-ghost(href='#my-courses') كورساتي
+
           .hero-stats
             .hero-stat
               .hero-stat-num +4.5K
@@ -90,6 +97,22 @@ body(data-domain= domain)
             img.hero-img(src='/imgs/hero-img.jpg')
       .hero-deco-1
       .hero-deco-2
+    if user && myCourses.length
+      section#my-courses.section.my-courses-section
+        .section-inner
+          h2.section-title كورساتي
+          .my-courses-grid
+            each m in myCourses
+              a.my-course-card(href=`/subcourses/${m.course._id}/lessons`)
+                img.my-course-img(src=`/imgs/courses/${m.course.photoUrl}` alt='' loading='lazy')
+                .my-course-body
+                  h3= m.course.title
+                  .my-course-bar
+                    span(style=`width: ${m.percent}%`)
+                  .my-course-meta
+                    span= `${m.done} من ${m.total} درس`
+                    span= `${m.percent}%`
+                  span.my-course-cta= m.started ? 'تابع من حيث توقفت' : 'ابدأ الكورس'
     // Why Subscribe Section
     section.section.why-section
       .section-inner
@@ -136,78 +159,33 @@ body(data-domain= domain)
             h3 &#x645;&#x62C;&#x62A;&#x645;&#x639; &#x637;&#x644;&#x627;&#x628;&#x64A; &#x636;&#x62E;&#x645;
             p انضم الى مجتمع ضخم من الطلاب المتميزين و الأوائل
     // Courses Section
-    section.section.courses-section.section-number-2
+    section#courses.section.courses-section.section-number-2
       .section-inner
         h2.section-title &#x643;&#x648;&#x631;&#x633;&#x627;&#x62A;&#x646;&#x627; &#x627;&#x644;&#x645;&#x62A;&#x627;&#x62D;&#x629;
         p.section-subtitle &#x644;&#x644;&#x639;&#x627;&#x645; 2026/2027
         .courses-grid
-          .course-card(data-active-state="active" data-course-id="6a9eac6701a147cc688bb5f0")
-            .course-img-container(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
-              img.course-img(src="/imgs/courses/neurology.jpg")
-              //- .course-badge(style='background: #10b981')
-              //-   | مجاني
-      
-            .course-body
-              h3 &#x643;&#x648;&#x631;&#x633; &#x627;&#x644;&#x639;&#x635;&#x628;&#x64A;&#x629;
-              p &#x634;&#x631;&#x62D; &#x645;&#x641;&#x635;&#x644; &#x644;&#x628;&#x62D;&#x62B; &#x627;&#x644;&#x639;&#x635;&#x628;&#x64A;&#x629;
-              .course-footer
-                - if(!(user && user.subcourses.includes("6a9eac6701a147cc688bb5f0")))
-                  span.course-price(style='color: #7c3aed') 150 ATP
-                  button.course-btn(style='\
-                  background: linear-gradient(135deg, #7c3aed, #8b5cf6);\
-                  ')
-                    | &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
-          .course-card
-            .course-img-container(style='background: linear-gradient(135deg, #10b981, #34d399)')
-              img.course-img(src="/imgs/courses/hormones.jpg")
-              .course-badge(style='background: #7c3aed')
-                | مقفل
-            .course-body
-              h3 &#x628;&#x62D;&#x62B; &#x627;&#x644;&#x647;&#x631;&#x645;&#x648;&#x646;&#x627;&#x62A;
-              p شرح مفصل لبحث الهرمونات
-              .course-footer
-                span.course-price(style='color: #10b981') 75 ATP
-          .course-card
-            .course-img-container(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
-              img.course-img(src="/imgs/courses/receptors.jpg")
-              .course-badge(style='background: #7c3aed')
-                | مقفل
-            .course-body
-              h3 كورس السمتقبلات
-              p شرح مفصل لبحث المستقبلات
-              .course-footer
-                span.course-price(style='color: #10b981') 90 ATP
-          .course-card
-            .course-img-container(style='background: linear-gradient(135deg, #10b981, #34d399)')
-              img.course-img(src="/imgs/courses/reproductive.jpg")
-              .course-badge(style='background: #7c3aed')
-                | مقفل
-            .course-body
-              h3 كورس تكاثر الأحياء
-              p شرح مفصل لبحث تكاثر الأحياء
-              .course-footer
-                span.course-price(style='color: #10b981') 90 ATP
-          .course-card
-            .course-img-container(style='background: linear-gradient(135deg, #7c3aed, #8b5cf6)')
-              img.course-img(src="/imgs/courses/reproductive.jpg")
-              .course-badge(style='background: #7c3aed')
-                | مقفل
-            .course-body
-              h3 كورس تكاثر الإنسان
-              p شرح مفصل لبحث تكاثر الإنسان
-              .course-footer
-                span.course-price(style='color: #10b981') 150 ATP
-          .course-card
-            .course-img-container(style='background: linear-gradient(135deg, #10b981, #34d399)')
-              img.course-img(src="/imgs/courses/inheritance.jpg")
-              .course-badge(style='background: #7c3aed')
-                | مقفل
-            .course-body
-              h3 كورس الوراثة
-              p شرح مفصل لبحث الوراثة
-              .course-footer
-                span.course-price(style='color: #10b981') 75 ATP
-   
+          if !homeCourses.length
+            p.courses-empty سيتم نشر الكورسات قريبا
+          each c in homeCourses
+            - const owned = user && user.subcourses.map(String).includes(c._id.toString())
+            .course-card(data-active-state=c.comingSoon ? null : 'active' data-course-id=c._id.toString() data-parent-id=(c.course && c.course._id ? c.course._id : c.course).toString() class=c.comingSoon ? 'is-soon' : null)
+              .course-img-container
+                img.course-img(src=`/imgs/courses/${c.photoUrl}` alt=c.title loading='lazy')
+                if c.comingSoon
+                  .course-badge.badge-soon قريبا
+                else if owned
+                  .course-badge.badge-owned مشترك
+              .course-body
+                h3= c.title
+                p= c.description
+                .course-footer
+                  if owned && !c.comingSoon
+                    a.course-enter(href=`/subcourses/${c._id}/lessons`) ادخل الكورس
+                  else
+                    span.course-price= `${c.price || 0} ATP`
+                    if !c.comingSoon
+                      button.course-btn اشترك الآن
+
     // Features Detail Section
     section.section.features-section
       .section-inner

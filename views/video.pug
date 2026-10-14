@@ -18,6 +18,7 @@ html(lang="ar" dir="rtl")
   - const achievedLesson = resumeLesson;
   - const achievedRes = resumeRes;
   - const achievedCount = courseProgress?.achievedVideos?.achievedVideosCount || 0;
+  - const pct = totalVideos ? Math.ceil((achievedCount/totalVideos) * 100) : 0;
   - const pointerOf = num => lessonPointers[num] ?? 0;
   - const toRes = resNum && lessonNum && Number(resNum) <= pointerOf(lessonNum) ? true : false;
   - const isAdmin = user.role == "admin";
@@ -63,10 +64,10 @@ html(lang="ar" dir="rtl")
             span
               i.fa-solid.fa-book-open
               | تقدمك في الكورس
-            .progress-percentage(style="color: var(--accent);")= `${Math.ceil((achievedCount/totalVideos) * 100)}%`
+            .progress-percentage(style="color: var(--accent);")= `${pct}%`
 
           .progress
-            span(style=`width: ${Math.ceil((achievedCount/totalVideos) * 100)}%`)
+            span(style=`width: ${pct}%`)
 
           small.progress-sentence= `${achievedCount} من ${totalVideos} درس مكتمل`
 
@@ -189,6 +190,14 @@ html(lang="ar" dir="rtl")
               //- span فيديو المحاضرة الأولى
 
           .video-details-card
+            .mobile-progress
+              .mobile-progress-top
+                span.mobile-progress-text= `${achievedCount} من ${totalVideos} درس مكتمل`
+                button.mobile-lessons-btn#openLessonsBtn(type="button")
+                  i.fa-solid.fa-list
+                  | كل الدروس
+              .progress.mobile-progress-bar
+                span(style=`width: ${pct}%`)
             .video-header-info
               div
                 span.badge.video-badge

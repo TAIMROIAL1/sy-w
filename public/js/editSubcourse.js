@@ -43,7 +43,7 @@ editBtn.addEventListener('click', async (e) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({title, description, photoUrl, price})
+        body: JSON.stringify({title, description, photoUrl, price, comingSoon: document.getElementById('coming-soon').checked})
     })
 
     const data = await res.json();

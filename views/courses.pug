@@ -15,6 +15,11 @@ head
   <link rel="manifest" href="/my-favicon/site.webmanifest?v=20260916" />
 - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
 - const checkCourse = user?.subcourses.includes(course._id.toString());
+- const canEnter = checkCourse || user?.role === 'admin';
+mixin lockIcon
+  svg.lock-icon(viewBox='0 0 24 24' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-label='مقفل')
+    rect(x='5' y='11' width='14' height='10' rx='2')
+    path(d='M8 11V7a4 4 0 0 1 8 0v4')
 body(data-domain=domain, data-course-id=course._id.toString())
   .notifi
     .notifi-message
@@ -88,11 +93,19 @@ body(data-domain=domain, data-course-id=course._id.toString())
           .course-price= course.price
             span ATP
         p.lessons-label= `يشمل جميع دروس ${course.title}`
+      if progress
+        .course-progress-box
+          .cp-top
+            span تقدمك في الكورس
+            strong= `${progress.percent}%`
+          .cp-bar
+            span(style=`width: ${progress.percent}%`)
+          small= `أكملت ${progress.done} من ${progress.total} درس`
       .course-btn-container
         - if(!(user && checkCourse))
           .course-btn.subscribe-btn &#x627;&#x634;&#x62A;&#x631;&#x643; &#x627;&#x644;&#x622;&#x646;
         - if(user && checkCourse)
-          .course-btn.enter-course-btn دخول الكورس
+          .course-btn.enter-course-btn= progress && progress.started ? 'تابع من حيث توقفت' : 'ابدأ الكورس'
         - if(ankiGroups && ankiGroups.length)
           a.course-btn.anki-course-btn(href=ankiGroups.length === 1 ? `/anki/official/${ankiGroups[0]._id}` : '/anki/curriculum') بطاقات الكورس
     .course-about
@@ -107,8 +120,10 @@ body(data-domain=domain, data-course-id=course._id.toString())
             .lesson-name-index
               span= lesson.title
               span.lesson-index= `${lesson.num > 10? "." + lesson.num : ".0" + lesson.num}`
-            - if (lesson.videos.length > 0)
+            if lesson.videos.length > 0
               span.lesson-arrow &#x2304;
+            else if !canEnter
+              +lockIcon
           .course-lesson-content
             ul.lesson-list
               each video, i in lesson.videos
@@ -116,23 +131,29 @@ body(data-domain=domain, data-course-id=course._id.toString())
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
-                    - if(user)
+                    if canEnter
                       button.enter-lesson(data-res-num=video.num data-lesson-num=lesson.num)
                         | &#x25B6; فيديو
+                    else
+                      +lockIcon
                 - if (video.fileType === "quiz")
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
-                    - if(user)
+                    if canEnter
                       button.enter-lesson(data-res-num=video.num data-lesson-num=lesson.num)
                         | 🖊️ اختبار 
+                    else
+                      +lockIcon
                 - if (video.fileType === "pdf")
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
-                    - if(user)
+                    if canEnter
                       button
                         | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+                    else
+                      +lockIcon
       
   // Footer
   footer

@@ -175,8 +175,12 @@ footerLinksContainer.addEventListener('click', (e) => {
 coursesContainer.addEventListener('click', (e) => {
   const clicked = e.target;
 
+  if(clicked.closest('a')) return;
+
   if(clicked.closest('.course-btn')) {
     e.preventDefault();
+    if(!atpNum) return location.assign(`${domain}/sign-up`);
+    agreeBtn.setAttribute('data-parentid', clicked.closest('.course-card').dataset.parentId);
     layer.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     return agreeBtn.setAttribute('data-courseid', clicked.closest('.course-card').dataset.courseId);
@@ -200,36 +204,21 @@ cancelBtn.addEventListener('click', (e) => {
 });
 
 agreeBtn.addEventListener('click', async (e) => {
-  const courseId = agreeBtn.dataset.courseid;
+  const { courseid, parentid } = agreeBtn.dataset;
 
   agreeBtn.classList.add('hidden');
   cancelBtn.classList.add('hidden');
-  const data = await ajaxCall(`${domain}/api/v1/courses/6a9eac3201a147cc688bb5ee/subcourses/${courseId}/activate-subcourse`, 'POST')
+  const data = await ajaxCall(`${domain}/api/v1/courses/${parentid}/subcourses/${courseid}/activate-subcourse`, 'POST');
 
-  const boughtCourseContainer = [...coursesContainer.querySelectorAll('.course-card')].find(c => c.dataset.courseId === agreeBtn.dataset.courseid);
-
-  const price = boughtCourseContainer.querySelector('.course-price');
-  const buyBtn = boughtCourseContainer.querySelector('.course-btn');
-  
-  if(data.status === 'success') {  
-    atpNum.textContent = Number(atpNum.textContent) - parseInt(price.textContent);
-
-
-    price.remove();
-    buyBtn.remove();
-  }
-  if(data.message === `لقد اشتريت هذا الكورس او جزء منه`){
-    price.remove();
-    buyBtn.remove();
-  }
   agreeBtn.classList.remove('hidden');
   cancelBtn.classList.remove('hidden');
-  
   agreeBtn.removeAttribute('data-courseid');
+  agreeBtn.removeAttribute('data-parentid');
   document.body.style.overflow = 'auto';
   layer.classList.add('hidden');
 
-  return showNotification(data.message, data.status);
+  showNotification(data.message, data.status);
+  if(data.status === 'success') setTimeout(() => location.reload(), 1200);
 });
 
 // Init
