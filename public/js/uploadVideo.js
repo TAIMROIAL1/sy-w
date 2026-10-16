@@ -24,6 +24,25 @@ const notifcationMsg = document.querySelector('.correct-message');
 
 const domain = document.body.dataset.domain;
 
+const header = document.querySelector('.upload-class');
+const fileChosen = document.getElementById('fileChosen');
+const fileChosenSize = document.getElementById('fileChosenSize');
+const filePicker = document.querySelector('.file-picker');
+
+document.getElementById('backLink').href = `${domain}/subcourses/${location.href.split('/')[4]}/lessons`;
+
+const formatSize = bytes =>
+  bytes >= 1024 * 1024 ? `${(bytes / (1024 * 1024)).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+
+const showChosenFile = function () {
+  const file = lessonFileInput.files[0];
+  filePicker.classList.toggle('has-file', !!file);
+  fileChosen.textContent = file ? file.name : 'اختر ملف';
+  fileChosenSize.textContent = file ? formatSize(file.size) : 'اضغط لاختيار ملف من جهازك';
+};
+
+lessonFileInput.addEventListener('change', showChosenFile);
+
 const showNotification = function (msg, type) {
   notifcation.classList.remove('hidden');
 
@@ -133,6 +152,7 @@ const uploadFile = async function (url) {
       fileNameInput.value = '';
       fileInfoInput.value = '';
       lessonFileInput.value = '';
+      showChosenFile();
     }
   } catch (err) {
     showNotification('حدث خطأ, الرجاء المحاولة مجددا', 'error');
@@ -166,7 +186,10 @@ uploadBtn.addEventListener('click', async () => {
     const info = infoInput.value;
     const duration = durationInput.value;
 
-    if (!title || !info || !videoUrl || !duration || !subTitle) return;
+    if (!title || !info || !videoUrl || !duration || !subTitle) {
+      showNotification('املأ كل حقول الفيديو', 'error');
+      return;
+    }
 
     body = { title, subTitle, info, videoUrl, duration, fileType: "video" };
   }
@@ -196,5 +219,7 @@ fileTypeBtns.forEach(btn =>
     videoFields.classList.toggle('hidden', !this.classList.contains('video-res'));
     quizFields.classList.toggle('hidden', !this.classList.contains('quiz-res'));
     fileFields.classList.toggle('hidden', !this.classList.contains('file-res'));
+
+    header.textContent = this.classList.contains('quiz-res') ? 'رفع اختبار' : this.classList.contains('file-res') ? 'رفع ملف' : 'رفع فيديو';
   })
 );

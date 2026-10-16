@@ -1,88 +1,113 @@
 doctype html
-html(lang='ar')
+html(lang='ar', dir='rtl')
   head
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadVideo.css')
-    title Document
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css")
+    link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap' rel='stylesheet')
+    link(rel='stylesheet', href='/css/uploadResource.css')
+    link(rel='icon', type='image/svg+xml', href='/my-favicon/favicon.svg?v=20260916')
+    title رفع محتوى
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
   body(data-domain = `${domain}`)
     .c
       .correct.hidden
-        .correct-message you buy it 
-    .center
-      .header
-        .upload-class ارفع فيديو
-      .container
+        .correct-message
+
+    main.upload-shell
+      a.back-link#backLink(href='#')
+        i.fa-solid.fa-arrow-right
+        | العودة للدروس
+
+      .upload-card
+        .upload-head
+          .upload-icon
+            i.fa-solid.fa-cloud-arrow-up
+          h1.upload-class رفع فيديو
+          p.upload-sub اختر نوع المحتوى ثم املأ البيانات
+
         .form
           .file-type.btns-container
-            button.file-type-btn.video-res.active(type='button') فيديو
-            button.file-type-btn.quiz-res(type='button') اختبار
-            button.file-type-btn.file-res(type='button') ملف
+            button.file-type-btn.video-res.active(type='button')
+              i.fa-solid.fa-play
+              span فيديو
+            button.file-type-btn.quiz-res(type='button')
+              i.fa-solid.fa-clipboard-question
+              span اختبار
+            button.file-type-btn.file-res(type='button')
+              i.fa-solid.fa-file-arrow-down
+              span ملف
 
           .video-fields
-            .label-input
-              label(for='video-name', dir='rtl', lang='ar') عنوان الفيديو
-            input#video-name.input(type='text')
-            .label-input
-              label(for='video-sub-name', dir='rtl', lang='ar') عنوان فرعي الفيديو
-            input#video-sub-name.input(type='text')
-            .label-input
-              label(for='video-url', dir='rtl', lang='ar') رابط الفيديو
-            input#video-url.input(type='text', dir='rtl', lang='en')
-            .label-input
-              label(for='info', dir='rtl', lang='ar') معلومات الفيديو
-            input#info.input(type='text', dir='rtl', lang='en')
-            .label-input
-              label(for='duration', dir='rtl', lang='ar') مدة الفيديو
-            input#duration.input(type='text', dir='rtl', lang='en')
+            .field
+              label(for='video-name') عنوان الفيديو
+              input#video-name.input(type='text')
+            .field
+              label(for='video-sub-name') العنوان الفرعي
+              input#video-sub-name.input(type='text')
+            .field
+              label(for='video-url') رابط الفيديو
+              input#video-url.input(type='text', dir='ltr')
+            .field
+              label(for='info') معلومات الفيديو
+              input#info.input(type='text')
+            .field
+              label(for='duration') مدة الفيديو
+              input#duration.input(type='text', dir='ltr', placeholder='12:30')
 
           .file-fields.hidden
-            .label-input
-              label(for='file-name', dir='rtl', lang='ar') عنوان الملف
-            input#file-name.input(type='text')
-            .label-input
-              label(for='file-info', dir='rtl', lang='ar') وصف الملف (اختياري)
-            input#file-info.input(type='text', dir='rtl')
-            .label-input
-              label(for='lesson-file', dir='rtl', lang='ar') الملف (PDF، Word، PowerPoint، Excel، ZIP أو صورة - حتى 25MB)
-            input#lesson-file.input(type='file', accept='.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,image/*')
+            .field
+              label(for='file-name') عنوان الملف
+              input#file-name.input(type='text')
+            .field
+              label(for='file-info') وصف الملف (اختياري)
+              input#file-info.input(type='text')
+            .field
+              span.field-label الملف
+              label.file-picker(for='lesson-file')
+                span.file-picker-icon
+                  i.fa-solid.fa-paperclip
+                span.file-picker-text
+                  strong#fileChosen اختر ملف
+                  small#fileChosenSize اضغط لاختيار ملف من جهازك
+              input#lesson-file.file-input(type='file')
 
           .quiz-fields.hidden
-            .label-input
-              label(for='quiz-name', dir='rtl', lang='ar') عنوان الاختبار
-            input#quiz-name.input(type='text')
+            .field
+              label(for='quiz-name') عنوان الاختبار
+              input#quiz-name.input(type='text')
             .questions
-            .btn
-              button.add-question-btn(type='button', dir='rtl', lang='ar') أضف سؤال
+            button.add-question-btn(type='button')
+              i.fa-solid.fa-plus
+              | أضف سؤال
 
-        .btn
-          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
+          button.btn-sub(type='button') رفع
 
     //- template used by the JS to build one question block
     template#question-template
-      .question(dir='rtl')
+      .question
         .question-header
           span.question-number السؤال
-          button.remove-question-btn(type='button') &times;
-        .label-input
-          label(dir='rtl', lang='ar') نص السؤال
-        input.input.question-text(type='text', dir='rtl', lang='ar')
-        .label-input
-          label(dir='rtl', lang='ar') الإجابة 1
-        input.input.answer-input(type='text', dir='rtl', lang='ar')
-        .label-input
-          label(dir='rtl', lang='ar') الإجابة 2
-        input.input.answer-input(type='text', dir='rtl', lang='ar')
-        .label-input
-          label(dir='rtl', lang='ar') الإجابة 3
-        input.input.answer-input(type='text', dir='rtl', lang='ar')
-        .label-input
-          label(dir='rtl', lang='ar') الإجابة 4
-        input.input.answer-input(type='text', dir='rtl', lang='ar')
-        .label-input
-          label(dir='rtl', lang='ar') الإجابة الصحيحة (1-4)
-        input.input.correct-answer(type='number', min='1', max='4', dir='rtl', lang='en')
+          button.remove-question-btn(type='button', aria-label='حذف السؤال')
+            i.fa-solid.fa-xmark
+        .field
+          label نص السؤال
+          input.input.question-text(type='text')
+        .answers-grid
+          .field
+            label الإجابة 1
+            input.input.answer-input(type='text')
+          .field
+            label الإجابة 2
+            input.input.answer-input(type='text')
+          .field
+            label الإجابة 3
+            input.input.answer-input(type='text')
+          .field
+            label الإجابة 4
+            input.input.answer-input(type='text')
+        .field
+          label الإجابة الصحيحة (1-4)
+          input.input.correct-answer(type='number', min='1', max='4')
 
     script(defer, src='/js/uploadVideo.js')
