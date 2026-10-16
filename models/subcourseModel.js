@@ -25,6 +25,11 @@ const subcourseSchema = new mongoose.Schema({
   comingSoon: {
     type: Boolean,
     default: false
+  },
+  // set by an admin once no more lessons will be added; only then the last resource says "إنهاء الكورس"
+  finished: {
+    type: Boolean,
+    default: false
   }
 })
 

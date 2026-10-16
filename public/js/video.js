@@ -294,6 +294,8 @@ const previousButton = document.getElementById("prevQuestion");
 const nextButton = document.getElementById("nextQuestion");
 
 const btnPrimary = document.getElementById("nextLesson");
+// lessons may still be added until an admin marks the course as finished
+const courseFinished = document.body.dataset.courseFinished === '1';
 
 const lessonsList = document.querySelector(".lessons-list");
 
@@ -457,7 +459,7 @@ btnPrimary.addEventListener("click", () => {
   const nextRes = nextOf(currentRes);
   // last resource of the course: nothing to move to, just finish it
   if(!nextRes) {
-    btnPrimary.innerHTML = "تم إكمال الكورس <i class='fa-solid fa-circle-check'></i>";
+    btnPrimary.innerHTML = `${courseFinished ? 'تم إكمال الكورس' : 'تم إكمال الدرس'} <i class='fa-solid fa-circle-check'></i>`;
     btnPrimary.disabled = true;
     return;
   }
@@ -720,7 +722,7 @@ async function calculateResult() {
   }
 
   const isLastRes = !nextOf(currentRes);
-  resultBtn.textContent = percentage >= 80 && !isLastRes? "الدرس التالي" : "العودة الى الدرس";
+  resultBtn.textContent = percentage >= 80 && !isLastRes? "الدرس التالي" : percentage >= 80 && courseFinished ? "تم إكمال الكورس" : "العودة الى الدرس";
   
   resultBtn.setAttribute("action", percentage >= 80 && !isLastRes? "next" : "back");
 
@@ -841,7 +843,9 @@ function updateVideoView(video) {
     btnPrimary.disabled = false;
     btnPrimary.innerHTML = nextOf(video)
       ? "الدرس التالي <i class='fa-solid fa-arrow-left'></i>"
-      : "إنهاء الكورس <i class='fa-solid fa-flag-checkered'></i>";
+      : courseFinished
+        ? "إنهاء الكورس <i class='fa-solid fa-flag-checkered'></i>"
+        : "إكمال الدرس <i class='fa-solid fa-check'></i>";
     
 }
 

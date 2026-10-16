@@ -25,7 +25,7 @@ html(lang="ar" dir="rtl")
   - const pointerOf = num => lessonPointers[num] ?? 0;
   - const toRes = resNum && lessonNum && Number(resNum) <= pointerOf(lessonNum) ? true : false;
   - const isAdmin = user.role == "admin";
-  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson data-to-res= toRes? '1':null, data-is-admin= isAdmin? "admin" : null)
+  body(data-domain=domain, data-achieved-resource= achievedRes, data-achieved-lesson= achievedLesson data-to-res= toRes? '1':null, data-is-admin= isAdmin? "admin" : null, data-course-finished= course && course.finished ? '1' : null)
     // ================= NAVBAR =================
     header.navbar
       .logo

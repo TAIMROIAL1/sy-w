@@ -32,6 +32,9 @@ html(lang='ar')
           .label-input
             label(for='coming-soon', dir='rtl', lang='ar') قريبا (يظهر في الصفحة الرئيسية بدون إمكانية الشراء)
           input#coming-soon(type='checkbox', checked=!!cToEdit.comingSoon)
+          .label-input
+            label(for='course-finished', dir='rtl', lang='ar') الكورس مكتمل (لن تضاف دروس جديدة)
+          input#course-finished(type='checkbox', checked=!!cToEdit.finished)
         .btn
           button.btn-sub(dir='rtl', lang='ar') تعديل
     script(defer, src='/js/editSubcourse.js')
