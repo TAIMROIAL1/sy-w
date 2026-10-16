@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
 
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Cairo', sans-serif;
 }
 
 :root{
@@ -255,7 +255,7 @@ form.signup.active {
   border-bottom-width: 2px;
 
   font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Cairo', sans-serif;
   transition: all 0.3s ease;
   appearance: none;
   -webkit-appearance: none;

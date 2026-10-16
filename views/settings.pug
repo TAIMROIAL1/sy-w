@@ -6,6 +6,7 @@ head
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   meta(name='theme-color' content='#432071')
   title &#x644;&#x648;&#x62D;&#x629; &#x627;&#x644;&#x62A;&#x62D;&#x643;&#x645; &#x627;&#x644;&#x62A;&#x639;&#x644;&#x64A;&#x645;&#x64A;&#x629;
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css')
   link(rel='stylesheet' href='/css/settings.css')
   link(rel='stylesheet' href='/css/siteNav.css')
   link(rel='stylesheet' href='/css/bottomNav.css')
@@ -34,31 +35,40 @@ body(data-domain=domain)
         label.close-menu(for='menu-toggle' aria-label='إغلاق القائمة') &times;
       nav.menu
         a.menu-item.active.item-number-1(role="button")
-          span.menu-icon &#x2302;
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-user')
           span &#x627;&#x644;&#x645;&#x639;&#x644;&#x648;&#x645;&#x627;&#x62A; &#x627;&#x644;&#x631;&#x626;&#x64A;&#x633;&#x64A;&#x629;
         a.menu-item.item-number-2(role="button")
-          span.menu-icon &#x25A3;
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-book-open')
           span &#x627;&#x644;&#x643;&#x648;&#x631;&#x633;&#x627;&#x62A; &#x627;&#x644;&#x645;&#x641;&#x639;&#x644;&#x629;
         a.menu-item.item-number-3(role="button")
-          span.menu-icon ?
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-ticket')
           span &#x62A;&#x641;&#x639;&#x64A;&#x644; &#x627;&#x644;&#x623;&#x643;&#x648;&#x627;&#x62F;
         a.menu-item.item-number-4(role="button")
-          span.menu-icon ▶
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-bookmark')
           span الفيديوهات المحفوظة
         a.menu-item.item-number-5(role="button")
-          span.menu-icon ✎
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-note-sticky')
           span الملاحظات المحفوظة
         a.menu-item.menu-link(href='/anki')
-          span.menu-icon ▦
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-layer-group')
           span البطاقات
         a.menu-item.menu-link(href='/tests')
-          span.menu-icon ✓
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-list-check')
           span الاختبارات
         a.menu-item.menu-link(href='/')
-          span.menu-icon ⌂
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-house')
           span الصفحة الرئيسية
         a.menu-item.logout-btn(role="button")
-          span.menu-icon X
+          span.menu-icon(aria-hidden='true')
+            i(class='fa-solid fa-right-from-bracket')
           span تسجيل الخروج
     .page
       .notifi.hidden
@@ -103,17 +113,20 @@ body(data-domain=domain)
           h2 &#x627;&#x644;&#x645;&#x639;&#x644;&#x648;&#x645;&#x627;&#x62A; &#x627;&#x644;&#x634;&#x62E;&#x635;&#x64A;&#x629;
           .info-grid
             .info-box
-              .info-icon &#x2659;
+              .info-icon(aria-hidden='true')
+                i(class='fa-solid fa-user')
               .info-text
                 span.label &#x627;&#x644;&#x627;&#x633;&#x645; &#x627;&#x644;&#x643;&#x627;&#x645;&#x644;
                 strong= user.name
             .info-box
-              .info-icon &#x2709;
+              .info-icon(aria-hidden='true')
+                i(class='fa-solid fa-envelope')
               .info-text
                 span.label &#x627;&#x644;&#x628;&#x631;&#x64A;&#x62F; &#x627;&#x644;&#x625;&#x644;&#x643;&#x62A;&#x631;&#x648;&#x646;&#x64A;
                 strong= user.email
             .info-box
-              .info-icon &#x2667;
+              .info-icon(aria-hidden='true')
+                i(class='fa-solid fa-id-badge')
               .info-text
                 span.label &#x646;&#x648;&#x639; &#x627;&#x644;&#x62D;&#x633;&#x627;&#x628;
                 strong= user.role === 'admin'? "ادمن":"طالب"

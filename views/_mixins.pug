@@ -67,7 +67,12 @@ mixin officialCard(g)
   article.group-card.official-card(data-group-id=g._id data-name=g.name data-search=`${g.name} ${g.subject || ''}` class=locked ? 'is-locked' : null)
     a.group-card-link(href=locked ? `/courses/${g.subcourse._id || g.subcourse}/view` : `/anki/official/${g._id}` aria-label=locked ? `شراء ${courseTitle || 'الكورس'}` : `فتح ${g.name}`)
     .official-thumb
-      img(src=g.photo alt=g.name loading='lazy')
+      if g.photo
+        img(src=g.photo alt=g.name loading='lazy')
+      else
+        .thumb-fallback(aria-hidden='true')
+          i.fa-solid.fa-layer-group
+          span= (g.name || '').trim().charAt(0)
       span.thumb-chip
         i.fa-solid.fa-layer-group
         |  #{g.cardsCount} بطاقة

@@ -1515,3 +1515,24 @@ h2 {
 .password-box .reset-password-btn:hover {
     background: var(--green-dark);
 }
+
+/* ===== Icon polish ===== */
+.menu-icon { font-size: 16px; display: inline-grid; place-items: center; height: 23px; }
+.menu-item { transition: background .2s ease, transform .2s ease; }
+.menu-item:hover { transform: translateX(-3px); }
+.menu-item.active { box-shadow: inset -3px 0 0 #a78bfa; }
+.info-icon {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    font-size: 17px;
+    border-radius: 12px;
+    box-shadow: 0 6px 14px rgba(16, 185, 129, .25);
+}
+.page-dark-mode .info-icon { background: linear-gradient(135deg, #7c3aed, #6a4bc4); box-shadow: 0 6px 14px rgba(124, 58, 237, .3); }
+.avatar { background: linear-gradient(135deg, #7c3aed, #10b981); box-shadow: 0 4px 12px rgba(124, 58, 237, .3); }
+.profile { min-width: 0; }
+.profile-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 40vw; }
+::selection { background: rgba(124, 58, 237, .22); }
+.notifi { width: auto; min-width: 220px; max-width: calc(100% - 32px); height: auto; min-height: 56px; padding: 14px 22px; border-radius: 14px; box-shadow: 0 14px 34px rgba(0, 0, 0, .18); }
+.notifi-message { color: #fff; font-weight: 700; line-height: 1.6; }
+.notifi.green { background: linear-gradient(135deg, #10b981, #0e9f6e); }
+.notifi.red { background: linear-gradient(135deg, #ef4444, #dc2626); }
