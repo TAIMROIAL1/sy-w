@@ -1,33 +1,25 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadCourse.css')
-    title Document
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`)
-    .c
-      .correct.hidden
-        .correct-message you buy it 
-    .center
-      .header
-        .upload-class تعديل كورس
-      .container
-        .form
-          .label-input
-            label(for='course-name', dir='rtl', lang='ar') &#x627;&#x633;&#x645; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633; 
-          input#course-name.input(type='text', value=`${cToEdit.title}`)
-          .label-input
-            label.label(for='course-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
-          textarea#course-des.input(type='text',rows='auto',cols='40 ', value=`${cToEdit.description}`)
-          .label-input
-            label(for='image', dir='rtl', lang='ar') &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
-          input#image.input(type='text', value=`${cToEdit.photoUrl}`)
-          .label-input
-            label(for='price', dir='rtl', lang='ar') &#x627;&#x644;&#x633;&#x639;&#x631;
-          input#price.input(type='number', dir='rtl', lang='en', value=`${cToEdit.price}`)
-        .btn
-          button.btn-sub(dir='rtl', lang='ar') تعديل
-    script(defer, src='/js/editCourse.js')
+extends _adminForm
+
+block vars
+  - var pageTitle = 'تعديل كورس'
+  - var pageIcon = 'fa-book-open'
+  - var pageSub = ''
+  - var pageScript = 'editCourse'
+  - var bodyData = {}
+
+block form
+    .container
+      .form
+        .field
+          label(for='course-name') اسم الكورس
+          input#course-name.input(type='text', value=cToEdit.title)
+        .field
+          label(for='course-des') الوصف
+          textarea#course-des.input(rows='4')= cToEdit.description
+        .field
+          label(for='image') رابط الصورة
+          input#image.input(type='text', value=cToEdit.photoUrl, dir='ltr')
+        .field
+          label(for='price') السعر
+          input#price.input(type='number', value=cToEdit.price)
+        button.btn-sub(type='button') حفظ التعديلات

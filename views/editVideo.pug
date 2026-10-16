@@ -1,40 +1,31 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadVideo.css')
-    title تعديل فيديو
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}` data-subcourse-id=lesson.subcourse.toString() data-lesson-id=lesson._id.toString() data-video-num=video.num)
-    .c
-      .correct.hidden
-        .correct-message
-    .center
-      .header
-        .upload-class تعديل فيديو
-      .container
-        .form
-          .video-fields
-            .label-input
-              label(for='video-name', dir='rtl', lang='ar') عنوان الفيديو
-            input#video-name.input(type='text', value=video.title)
-            .label-input
-              label(for='video-sub-name', dir='rtl', lang='ar') عنوان فرعي الفيديو
-            input#video-sub-name.input(type='text', value=video.subtitle || '')
-            .label-input
-              label(for='video-url', dir='rtl', lang='ar') رابط الفيديو
-            input#video-url.input(type='text', dir='rtl', lang='en', value=video.videoUrl || '')
-            .label-input
-              label(for='info', dir='rtl', lang='ar') معلومات الفيديو
-            input#info.input(type='text', dir='rtl', lang='en', value=video.info || '')
-            .label-input
-              label(for='duration', dir='rtl', lang='ar') مدة الفيديو
-            input#duration.input(type='text', dir='rtl', lang='en', value=video.duration || '')
-            .label-input
-              label(for='num', dir='rtl', lang='ar') ترتيب الفيديو في الدرس
-            input#num.input(type='number', min='0', dir='rtl', lang='en', value=video.num)
-        .btn
-          button.btn-sub(type='button', dir='rtl', lang='ar') تعديل
-    script(defer, src='/js/editVideo.js')
+extends _adminForm
+
+block vars
+  - var pageTitle = 'تعديل فيديو'
+  - var pageIcon = 'fa-play'
+  - var pageSub = ''
+  - var pageScript = 'editVideo'
+  - var bodyData = {'data-subcourse-id': lesson.subcourse.toString(), 'data-lesson-id': lesson._id.toString(), 'data-video-num': video.num}
+
+block form
+    .container
+      .form
+        .field
+          label(for='video-name') عنوان الفيديو
+          input#video-name.input(type='text', value=video.title)
+        .field
+          label(for='video-sub-name') العنوان الفرعي
+          input#video-sub-name.input(type='text', value=video.subtitle || '')
+        .field
+          label(for='video-url') رابط الفيديو
+          input#video-url.input(type='text', value=video.videoUrl || '', dir='ltr')
+        .field
+          label(for='info') معلومات الفيديو
+          input#info.input(type='text', value=video.info || '')
+        .field
+          label(for='duration') مدة الفيديو
+          input#duration.input(type='text', value=video.duration || '', dir='ltr')
+        .field
+          label(for='num') ترتيب الفيديو في الدرس
+          input#num.input(type='number', value=video.num, min='0')
+        button.btn-sub(type='button') حفظ التعديلات

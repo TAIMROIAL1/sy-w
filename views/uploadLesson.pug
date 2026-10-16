@@ -1,30 +1,22 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadLesson.css')
-    title Document
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`, data-lesson-num=lessonNum)
-    .c
-      .correct.hidden
-        .correct-message
-    .center
-      .header
-        .upload-class ارفع درس
-      .container
-        .form
-          .label-input
-            label(for='lesson-name', dir='rtl', lang='ar') عنوان الدرس
+extends _adminForm
+
+block vars
+  - var pageTitle = 'رفع درس'
+  - var pageIcon = 'fa-layer-group'
+  - var pageSub = 'أضف درسا جديدا للكورس'
+  - var pageScript = 'uploadLesson'
+  - var bodyData = {'data-lesson-num': lessonNum}
+
+block form
+    .container
+      .form
+        .field
+          label(for='lesson-name') عنوان الدرس
           input#lesson-name.input(type='text')
-          .label-input
-            label(for='capital-name', dir='rtl', lang='ar') عنوان الوحدة
+        .field
+          label(for='capital-name') عنوان الوحدة
           input#capital-name.input(type='text')
-          .label-input
-            label(for='num', dir='rtl', lang='ar') رقم الدرس
-          input#num.input(type='number', dir='rtl', lang='en')
-        .btn
-          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
-    script(defer, src='/js/uploadLesson.js')
+        .field
+          label(for='num') رقم الدرس
+          input#num.input(type='number')
+        button.btn-sub(type='button') رفع

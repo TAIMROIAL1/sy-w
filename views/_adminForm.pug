@@ -1,0 +1,29 @@
+block vars
+doctype html
+html(lang='ar', dir='rtl')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css")
+    link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap' rel='stylesheet')
+    link(rel='stylesheet', href='/css/uploadResource.css')
+    link(rel='icon', type='image/svg+xml', href='/my-favicon/favicon.svg?v=20260916')
+    title= pageTitle
+  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
+  body(data-domain=domain)&attributes(bodyData)
+    .c
+      .correct.hidden
+        .correct-message
+
+    main.upload-shell
+      .upload-card
+        .upload-head
+          .upload-icon
+            i(class=`fa-solid ${pageIcon}`)
+          h1.upload-class= pageTitle
+          if pageSub
+            p.upload-sub= pageSub
+        block form
+
+    block extra
+    script(defer, src=`/js/${pageScript}.js`)

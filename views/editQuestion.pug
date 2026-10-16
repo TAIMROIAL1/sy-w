@@ -1,39 +1,31 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadQuestion.css')
-    title Document
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(dir='rtl', lang='ar', data-domain = `${domain}`)
-    .c
-      .correct.hidden
-        .correct-message you buy it 
-    .center
-      .header
-        .upload-class تعديل سؤال
-      .container( dir='rtl', lang='ar')
-        .form
-          .label-input.big
-            label(for='question') &#x627;&#x644;&#x633;&#x624;&#x627;&#x644;:
-          input#question.input-question(type='text', value=`${question.text}`)
-          .label-input
-            label(for='answer-1') &#x627;&#x644;&#x62E;&#x64A;&#x627;&#x631; &#x627;&#x644;&#x627;&#x648;&#x644;
-          input#answer-1.input(type='text', value= `${question.answers[0]}`, dir='rtl', lang='ar')
-          .label-input
-            label(for='answer-2') &#x627;&#x644;&#x62E;&#x64A;&#x627;&#x631; &#x627;&#x644;&#x62B;&#x627;&#x646;&#x64A; 
-          input#answer-2.input(type='text',  value= `${question.answers[1]}`)
-          .label-input
-            label(for='answer-3') &#x627;&#x644;&#x62E;&#x64A;&#x627;&#x631; &#x627;&#x644;&#x62B;&#x627;&#x644;&#x62B; 
-          input#answer-3.input(type='text',  value= `${question.answers[2]}`)
-          .label-input
-            label(for='answer-4') &#x627;&#x644;&#x62E;&#x64A;&#x627;&#x631; &#x627;&#x644;&#x631;&#x627;&#x628;&#x639; 
-          input#answer-4.input(type='text',  value= `${question.answers[3]}`)
-          .label-input
-            label(for='correct-answer') &#x627;&#x644;&#x627;&#x62C;&#x627;&#x628;&#x629; &#x627;&#x644;&#x635;&#x62D;&#x64A;&#x62D;&#x629;
-          input#correct-answer.input(type='number',  value= `${question.correctAnswer}`)
-          .btn
-            button.btn-sub.upload-questions-btn(dir='rtl', lang='ar') تعديل
-    script(defer, src='/js/editQuestion.js')
+extends _adminForm
+
+block vars
+  - var pageTitle = 'تعديل سؤال'
+  - var pageIcon = 'fa-circle-question'
+  - var pageSub = ''
+  - var pageScript = 'editQuestion'
+  - var bodyData = {}
+
+block form
+    .container
+      .form
+        .field
+          label(for='question') السؤال
+          input#question.input-question(type='text', value=question.text)
+        .field
+          label(for='answer-1') الخيار الأول
+          input#answer-1.input(type='text', value=question.answers[0])
+        .field
+          label(for='answer-2') الخيار الثاني
+          input#answer-2.input(type='text', value=question.answers[1])
+        .field
+          label(for='answer-3') الخيار الثالث
+          input#answer-3.input(type='text', value=question.answers[2])
+        .field
+          label(for='answer-4') الخيار الرابع
+          input#answer-4.input(type='text', value=question.answers[3])
+        .field
+          label(for='correct-answer') الإجابة الصحيحة
+          input#correct-answer.input(type='number', value=question.correctAnswer)
+        button.btn-sub.upload-questions-btn(type='button') حفظ التعديلات

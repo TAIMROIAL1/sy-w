@@ -1,30 +1,22 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadLesson.css')
-    title تعديل درس
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}` data-subcourse-id=lesson.subcourse.toString() data-lesson-id=lesson._id.toString())
-    .c
-      .correct.hidden
-        .correct-message
-    .center
-      .header
-        .upload-class تعديل درس
-      .container
-        .form
-          .label-input
-            label(for='lesson-name', dir='rtl', lang='ar') عنوان الدرس
+extends _adminForm
+
+block vars
+  - var pageTitle = 'تعديل درس'
+  - var pageIcon = 'fa-layer-group'
+  - var pageSub = ''
+  - var pageScript = 'editLesson'
+  - var bodyData = {'data-subcourse-id': lesson.subcourse.toString(), 'data-lesson-id': lesson._id.toString()}
+
+block form
+    .container
+      .form
+        .field
+          label(for='lesson-name') عنوان الدرس
           input#lesson-name.input(type='text', value=lesson.title)
-          .label-input
-            label(for='lesson-sub-name', dir='rtl', lang='ar') عنوان فرعي
+        .field
+          label(for='lesson-sub-name') عنوان فرعي
           input#lesson-sub-name.input(type='text', value=lesson.subtitle || '')
-          .label-input
-            label(for='num', dir='rtl', lang='ar') رقم الدرس
-          input#num.input(type='number', min='1', dir='rtl', lang='en', value=lesson.num)
-        .btn
-          button.btn-sub(type='button', dir='rtl', lang='ar') تعديل
-    script(defer, src='/js/editLesson.js')
+        .field
+          label(for='num') رقم الدرس
+          input#num.input(type='number', value=lesson.num, min='1')
+        button.btn-sub(type='button') حفظ التعديلات

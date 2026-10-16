@@ -1,23 +1,17 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadQuestion.css')
-    title Document
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`,dir='rtl', lang='ar')
-    .c
-      .correct.hidden
-        .correct-message you buy it 
-    .center
-      .header
-        .upload-class &#x627;&#x631;&#x641;&#x639; &#x633;&#x624;&#x627;&#x644; 
-      .container
-        
-        .btn.first-btn
-          button.btn-sub.add-question-btn(dir='rtl', lang='ar') &#x627;&#x636;&#x641; &#x633;&#x624;&#x627;&#x644;
-        .btn
-          button.btn-sub.upload-questions-btn(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
-    script(defer, src='/js/uploadQuestion.js')
+extends _adminForm
+
+block vars
+  - var pageTitle = 'رفع أسئلة'
+  - var pageIcon = 'fa-circle-question'
+  - var pageSub = 'أضف الأسئلة ثم اضغط رفع'
+  - var pageScript = 'uploadQuestion'
+  - var bodyData = {}
+
+block form
+    .container.q-list
+      .btn.first-btn
+        button.btn-sub.add-question-btn(type='button')
+          i.fa-solid.fa-plus
+          |  أضف سؤال
+      .btn
+        button.btn-sub.upload-questions-btn(type='button') رفع

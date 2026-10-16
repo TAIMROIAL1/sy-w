@@ -1,36 +1,28 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadCourse.css')
-    title Document
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`)
-    .c
-      .correct.hidden
-        .correct-message you buy it 
-    .center
-      .header
-        .upload-class &#x627;&#x631;&#x641;&#x639; &#x643;&#x648;&#x631;&#x633; 
-      .container
-        .form
-          .label-input
-            label(for='class-name', dir='rtl', lang='ar') &#x627;&#x633;&#x645; &#x627;&#x644;&#x643;&#x648;&#x631;&#x633; 
+extends _adminForm
+
+block vars
+  - var pageTitle = 'رفع كورس'
+  - var pageIcon = 'fa-book-open'
+  - var pageSub = 'أضف كورسا جديدا'
+  - var pageScript = 'uploadCourse'
+  - var bodyData = {}
+
+block form
+    .container
+      .form
+        .field
+          label(for='class-name') اسم الكورس
           input#class-name.input(type='text')
-          .label-input
-            label.label(for='class-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
-          textarea#class-des.input(type='text' rows='auto' cols='40')
-          .label-input
-            label(for='image', dir='rtl', lang='ar') &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
-          input#image.input(type='text')
-          .label-input
-            label(for='num', dir='rtl', lang='ar') &#x627;&#x644;&#x633;&#x639;&#x631;
-          input#num.input(type='number', dir='rtl', lang='en')
-          .label-input
-            label(for='time', dir='rtl', lang='ar') موعد نشر الكورس
-          input#time.input(type='text', dir='rtl', lang='en')
-        .btn
-          button.btn-sub(dir='rtl', lang='ar') &#x627;&#x631;&#x641;&#x639;
-    script(defer, src='/js/uploadCourse.js')
+        .field
+          label(for='class-des') الوصف
+          textarea#class-des.input(rows='4')
+        .field
+          label(for='image') رابط الصورة
+          input#image.input(type='text', dir='ltr')
+        .field
+          label(for='num') السعر
+          input#num.input(type='number')
+        .field
+          label(for='time') موعد نشر الكورس
+          input#time.input(type='text')
+        button.btn-sub(type='button') رفع

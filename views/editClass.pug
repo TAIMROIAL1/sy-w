@@ -1,30 +1,22 @@
-doctype html
-html(lang='ar')
-  head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(http-equiv='Content-Type', content='text/html;charset=UTF-8')
-    link(rel='stylesheet', href='/css/uploadClass.css')
-    title Document
-  - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  body(data-domain = `${domain}`)
-    .c
-      .correct.hidden
-        .correct-message you buy it 
-    .center
-      .header
-        .upload-class تعديل صف 
-      .container
-        .form
-          .label-input
-            label(for='class-name', dir='rtl', lang='ar') &#x627;&#x633;&#x645; &#x627;&#x644;&#x635;&#x641; 
-          input#class-name.input(type='text', value=`${cToEdit.title}`)
-          .label-input
-            label.label(for='class-des', dir='rtl', lang='ar') &#x627;&#x644;&#x648;&#x635;&#x641;
-          input#class-des.input(type='text', value=`${cToEdit.description}`)
-          .label-input
-            label(for='image', dir='rtl', lang='ar') &#x631;&#x641;&#x639; &#x627;&#x644;&#x635;&#x648;&#x631;&#x629;
-          input#image.input(type='text', value=`${cToEdit.photoUrl}`)
-        .btn
-          button.btn-sub(dir='rtl', lang='ar') تعديل
-    script(defer, src='/js/editClass.js')
+extends _adminForm
+
+block vars
+  - var pageTitle = 'تعديل صف'
+  - var pageIcon = 'fa-school'
+  - var pageSub = ''
+  - var pageScript = 'editClass'
+  - var bodyData = {}
+
+block form
+    .container
+      .form
+        .field
+          label(for='class-name') اسم الصف
+          input#class-name.input(type='text', value=cToEdit.title)
+        .field
+          label(for='class-des') الوصف
+          input#class-des.input(type='text', value=cToEdit.description)
+        .field
+          label(for='image') رابط الصورة
+          input#image.input(type='text', value=cToEdit.photoUrl, dir='ltr')
+        button.btn-sub(type='button') حفظ التعديلات
