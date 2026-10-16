@@ -5,6 +5,17 @@ const catchAsync = require('./../utils/catchAsync');
 const AppError = require('./../utils/AppError');
 const Lesson = require('./../models/lessonModel');
 const Question = require('./../models/questionModel');
+const { uploadLessonFile, deleteCardImages } = require('./../utils/ankiImageStorage');
+const { lessonPointer, isFile } = require('./../utils/courseProgress');
+
+const filePathsOf = videos => videos.filter(isFile).map(vid => vid.filePath);
+
+// multer reads multipart file names as latin1
+const decodeFileName = function(name = '') {
+  const decoded = Buffer.from(name, 'latin1').toString('utf8');
+  const clean = (decoded.includes('\uFFFD') ? name : decoded).split(/[\\/]/).pop();
+  return clean.slice(0, 150);
+};
 
 exports.getlessons = catchAsync(async function(req, res, next) {
   const { subcourseId } = req.params;
@@ -71,6 +82,7 @@ exports.deleteLesson = catchAsync(async function(req, res, next) {
   if(questionIds.length) await Question.deleteMany({ _id: { $in: questionIds } });
 
   await Lesson.findByIdAndDelete(lessonId);
+  await deleteCardImages(filePathsOf(lesson.videos));
   await reorderLessons(lesson.subcourse);
 
   res.status(200).json({
@@ -140,11 +152,25 @@ exports.addVideo = catchAsync(async function(req, res, next) {
 
     lesson.videos.push({fileType, title, questions, date: new Date(), num: lesson.videos.length - 1});
   }
+  else if(fileType === 'file') {
+    const title = String(req.body.title || '').trim();
+    const info = String(req.body.info || '').trim();
+
+    if(!title) return next(new AppError('الرجاء كتابة عنوان الملف', 400, 'message'));
+    if(!req.file) return next(new AppError('الرجاء اختيار ملف', 400, 'message'));
+
+    const fileName = decodeFileName(req.file.originalname);
+    const { fileUrl, filePath } = await uploadLessonFile(req.file.buffer, fileName, lesson._id);
+
+    lesson.videos.push({fileType, title, info, fileUrl, filePath, fileName, fileSize: req.file.size, date: new Date()});
+  }
+  else return next(new AppError('نوع الملف غير صحيح', 400, 'message'));
+
   await lesson.save({validateBeforeSave: false})
 
   res.status(201).json({
     status: "success",
-    message: 'تم رفع الفيديو بنجاح'
+    message: fileType === 'file' ? 'تم رفع الملف بنجاح' : 'تم رفع الفيديو بنجاح'
   })
 });
 
@@ -298,15 +324,39 @@ exports.deleteVideo = catchAsync(async function(req, res, next) {
   const questionIds = getQuizQuestionIds([lesson.videos[videoIndex]]);
   if(questionIds.length) await Question.deleteMany({ _id: { $in: questionIds } });
 
-  lesson.videos.splice(videoIndex, 1);
+  const [removed] = lesson.videos.splice(videoIndex, 1);
 
   await lesson.save({ validateBeforeSave: false });
+  if(isFile(removed)) await deleteCardImages(removed.filePath);
 
   res.status(200).json({
     status: 'success',
     message: 'تم حذف الفيديو بنجاح'
   })
 })
+
+// files open only once reached; the CDN url is never put in the page
+exports.openFile = catchAsync(async function(req, res, next) {
+  const { subcourseId, lessonId, videoNum } = req.params;
+  const { user } = req;
+  const isAdmin = user.role === 'admin';
+
+  if(!isAdmin && !user.subcourses.includes(subcourseId)) return next(new AppError('لم تشتري هذا الكورس', 403, 'message'));
+
+  const lesson = await Lesson.findOne({ _id: lessonId, subcourse: subcourseId });
+  if(!lesson) return next(new AppError('هذا الدرس غير موجود', 404, 'message'));
+
+  const index = findVideoIndex(lesson.videos, videoNum);
+  const file = lesson.videos[index];
+  if(!file || !isFile(file) || !file.fileUrl) return next(new AppError('هذا الملف غير موجود', 404, 'message'));
+
+  if(!isAdmin) {
+    const progress = user.courseProgress.find(course => course.courseId == subcourseId);
+    if(index > lessonPointer(progress, lesson.num, lesson.videos)) return next(new AppError('أكمل الدروس السابقة أولاً', 403, 'message'));
+  }
+
+  res.redirect(302, file.fileUrl);
+});
 
 exports.addQuestions = catchAsync(async function(req, res, next) {
   const { questions } = req.body;

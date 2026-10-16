@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Lesson = require('./../models/lessonModel');
 
-// total resources (videos + quizzes) per subcourse, in one query
+// total counted resources (videos + quizzes, files excluded) per subcourse, in one query
 exports.resourceCounts = async ids => {
   const rows = await Lesson.aggregate([
     { $match: { subcourse: { $in: ids.map(id => new mongoose.Types.ObjectId(String(id))) } } },
-    { $group: { _id: '$subcourse', total: { $sum: { $size: { $ifNull: ['$videos', []] } } } } }
+    { $group: { _id: '$subcourse', total: { $sum: { $size: { $filter: { input: { $ifNull: ['$videos', []] }, as: 'v', cond: { $ne: ['$$v.fileType', 'file'] } } } } } } }
   ]);
   return Object.fromEntries(rows.map(r => [r._id.toString(), r.total]));
 };

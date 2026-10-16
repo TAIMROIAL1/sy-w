@@ -158,7 +158,7 @@ router.get("/subcourses/:subcourseId/lessons", checkJWT, checkActivatedSubcourse
     const courseProgress = user.courseProgress.find(course => course.courseId == subcourseId);
 
     const lessonPointers = {};
-    lessons.forEach(l => lessonPointers[l.num] = lessonPointer(courseProgress, l.num, l.videos.length));
+    lessons.forEach(l => lessonPointers[l.num] = lessonPointer(courseProgress, l.num, l.videos));
 
     const resumeLesson = courseProgress?.lastLesson ?? courseProgress?.achievedVideos?.lessonNum ?? 1;
     const resumeLength = lessons.find(l => l.num == resumeLesson)?.videos.length || 0;

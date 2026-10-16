@@ -9,6 +9,7 @@ const AppError = require('./AppError');
 
 const FOLDER = 'ankiPrivateGroupsCardImages';
 const PHOTO_FOLDER = 'ankiOfficialGroupPhotos';
+const LESSON_FILE_FOLDER = 'lessonFiles';
 
 // read on every call so it works whenever dotenv is loaded
 const config = function() {
@@ -65,12 +66,64 @@ exports.uploadCardImage = async function(buffer, groupId, folder = FOLDER) {
   return { image: `${cdnUrl}/${imagePath}`, imagePath, contentType: CONTENT_TYPES[ext] };
 };
 
+// lesson attachments (pdf, office, zip, images), detected from the first bytes
+const ZIP_EXTS = ['docx', 'pptx', 'xlsx', 'zip'];
+const OLE_EXTS = ['doc', 'ppt', 'xls'];
+const FILE_CONTENT_TYPES = {
+  ...CONTENT_TYPES,
+  pdf: 'application/pdf',
+  zip: 'application/zip',
+  docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  doc: 'application/msword',
+  ppt: 'application/vnd.ms-powerpoint',
+  xls: 'application/vnd.ms-excel'
+};
+
+const detectFileExtension = function(buffer, originalName = '') {
+  const nameExt = (originalName.split('.').pop() || '').toLowerCase();
+  if(buffer.length >= 5 && buffer.toString('ascii', 0, 5) === '%PDF-') return 'pdf';
+  if(buffer.length >= 4 && buffer[0] === 0x50 && buffer[1] === 0x4B && buffer[2] === 0x03 && buffer[3] === 0x04)
+    return ZIP_EXTS.includes(nameExt) ? nameExt : 'zip';
+  if(buffer.length >= 8 && buffer.slice(0, 8).equals(Buffer.from([0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1])))
+    return OLE_EXTS.includes(nameExt) ? nameExt : null;
+  return detectExtension(buffer);
+};
+
+// returns { fileUrl, filePath }
+exports.uploadLessonFile = async function(buffer, originalName, lessonId) {
+  const ext = detectFileExtension(buffer, originalName);
+  if(!ext) throw new AppError('نوع الملف غير مدعوم (PDF أو Word أو PowerPoint أو Excel أو ZIP أو صورة)', 400, 'message');
+
+  const { storageBase, password, cdnUrl } = config();
+  const filePath = `${LESSON_FILE_FOLDER}/${lessonId}/${Date.now()}-${crypto.randomBytes(8).toString('hex')}.${ext}`;
+
+  let res;
+  try {
+    res = await fetch(`${storageBase}/${filePath}`, {
+      method: 'PUT',
+      headers: { AccessKey: password, 'Content-Type': FILE_CONTENT_TYPES[ext] || 'application/octet-stream' },
+      body: buffer
+    });
+  } catch (err) {
+    console.error('Bunny upload failed:', err.message);
+  }
+
+  if(!res || !res.ok) {
+    if(res) console.error('Bunny upload failed:', res.status, await res.text().catch(() => ''));
+    throw new AppError('تعذر رفع الملف، الرجاء المحاولة مجددا', 502, 'message');
+  }
+
+  return { fileUrl: `${cdnUrl}/${filePath}`, filePath };
+};
+
 // photo of an official group, same return value as uploadCardImage
 exports.uploadGroupPhoto = (buffer, groupId) => exports.uploadCardImage(buffer, groupId, PHOTO_FOLDER);
 
 // best effort: a failed delete only leaves an unused file, it never fails the request
 exports.deleteCardImages = async function(...paths) {
-  const toDelete = paths.flat().filter(p => typeof p === 'string' && [FOLDER, PHOTO_FOLDER].some(folder => p.startsWith(`${folder}/`)));
+  const toDelete = paths.flat().filter(p => typeof p === 'string' && [FOLDER, PHOTO_FOLDER, LESSON_FILE_FOLDER].some(folder => p.startsWith(`${folder}/`)));
   if(!toDelete.length) return;
 
   let cfg;

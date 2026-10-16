@@ -1764,3 +1764,118 @@ body[data-is-admin="admin"] .content-area {
         cursor: pointer;
     }
 }
+
+/* =========================================
+   FILE RESOURCE
+========================================= */
+
+.resource-icon.file {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.file-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 42px 40px 30px;
+    text-align: center;
+    color: var(--text);
+}
+
+.file-icon {
+    width: 86px;
+    height: 86px;
+    border-radius: 24px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--green));
+    box-shadow: 0 12px 26px rgba(108, 92, 231, .28);
+}
+
+.file-title {
+    font-size: 26px;
+    margin: 12px 0 8px;
+    color: var(--text);
+}
+
+.file-description {
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.file-description:empty {
+    display: none;
+}
+
+.file-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    margin: 22px 0;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.file-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    direction: ltr;
+}
+
+.file-size {
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.file-size:empty,
+.file-name:empty {
+    display: none;
+}
+
+.file-open-btn {
+    text-decoration: none;
+    padding: 13px 28px;
+    font-size: 16px;
+    box-shadow: 0 10px 22px rgba(108, 92, 231, .25);
+}
+
+.file-card .navigation-buttons {
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+}
+
+.file-lessons-btn {
+    display: none;
+}
+
+@media (max-width: 850px) {
+    .file-card .file-lessons-btn {
+        display: inline-flex;
+        margin-bottom: 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .file-card {
+        padding: 28px 18px 22px;
+    }
+
+    .file-title {
+        font-size: 21px;
+    }
+}

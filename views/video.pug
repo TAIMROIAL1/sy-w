@@ -15,7 +15,9 @@ html(lang="ar" dir="rtl")
     <meta name="apple-mobile-web-app-title" content="Studyou" />
     <link rel="manifest" href="/my-favicon/site.webmanifest?v=20260916" />
   - const domain = process.env.DOMAIN_ACTIVE === 'local'? process.env.DOMAIN_LOCAL : process.env.DOMAIN_RENDER;
-  - const totalVideos = lessons.reduce((sum,lesson) => { return sum + lesson.videos.length;}, 0);
+  - const totalVideos = lessons.reduce((sum,lesson) => { return sum + lesson.videos.filter(v => v.fileType !== 'file').length;}, 0);
+  - const fmtSize = b => !b ? '' : b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB';
+  - const hasDetails = t => t === 'video' || t === 'file';
   - const achievedLesson = resumeLesson;
   - const achievedRes = resumeRes;
   - const achievedCount = courseProgress?.achievedVideos?.achievedVideosCount || 0;
@@ -104,18 +106,20 @@ html(lang="ar" dir="rtl")
                     data-quiz=(video.fileType === "quiz" ? "lesson1" : null)
                     data-video-url=(video.fileType === "video"? video.videoUrl : null)
                     data-num= video.num
-                    data-badge=(video.fileType === "video"? lesson.title : null)
-                    data-title=(video.fileType === "video"? video.title : null)
+                    data-badge=(hasDetails(video.fileType)? lesson.title : null)
+                    data-title=(hasDetails(video.fileType)? video.title : null)
                     data-duration=(video.fileType === "video"? video.duration : null)
-                    data-description=(video.fileType === "video"? video.info : null)
+                    data-description=(hasDetails(video.fileType)? video.info : null)
+                    data-file-name=(video.fileType === "file"? video.fileName : null)
+                    data-file-size=(video.fileType === "file"? fmtSize(video.fileSize) : null)
                   )
                     span.resource-icon(class=video.fileType)
                       if j > pointerOf(lesson.num)
                         i.fa-solid.fa-lock.resource-action
                       else if video.fileType === "video"
                         i.fa-solid.fa-play
-                      else if video.fileType === "pdf"
-                        i.fa-solid.fa-file-pdf
+                      else if video.fileType === "file"
+                        i.fa-solid.fa-file-arrow-down
                       else if video.fileType === "quiz"
                         i.fa-solid.fa-clipboard-question
 
@@ -123,14 +127,15 @@ html(lang="ar" dir="rtl")
                       strong= video.title
                       if video.fileType === "video"
                         small= video.duration
-                      if video.fileType === "pdf"
-                        small= video.title
+                      if video.fileType === "file"
+                        small= ['ملف', fmtSize(video.fileSize)].filter(Boolean).join(' · ')
                       if video.fileType === "quiz"
                         small= `${video.questions.length} أسألة`
                     if isAdmin
                       span.admin-actions
-                        span.admin-btn.admin-edit(role="button" tabindex="0" title="تعديل" data-action="edit-video")
-                          i.fa-solid.fa-pen
+                        if video.fileType !== "file"
+                          span.admin-btn.admin-edit(role="button" tabindex="0" title="تعديل" data-action="edit-video")
+                            i.fa-solid.fa-pen
                         span.admin-btn.admin-delete(role="button" tabindex="0" title="حذف" data-action="delete-video")
                           i.fa-solid.fa-trash
                     i.state-mark.fa-solid(class=[j >= pointerOf(lesson.num) ? "fa-chevron-left resource-aciton" : "fa-circle-check completed"])
@@ -254,6 +259,33 @@ html(lang="ar" dir="rtl")
 
               button.btn.btn-primary#nextLesson
                 | الدرس التالي
+                i.fa-solid.fa-arrow-left
+
+        // ================= FILE VIEW =================
+        #fileView.page-view
+          .file-card
+            button.mobile-lessons-btn.file-lessons-btn#fileLessonsBtn(type="button")
+              i.fa-solid.fa-list
+              | كل الدروس
+            .file-icon
+              i.fa-solid.fa-file-arrow-down
+            span.badge.file-badge
+            h1.file-title
+            p.file-description
+            .file-meta
+              i.fa-solid.fa-paperclip
+              span.file-name
+              span.file-size
+            div
+              a.btn.btn-primary.file-open-btn#fileOpenBtn(href="#" target="_blank" rel="noopener")
+                i.fa-solid.fa-arrow-up-right-from-square
+                | فتح الملف
+            .navigation-buttons
+              button.btn.btn-secondary#filePrev(type="button")
+                i.fa-solid.fa-arrow-right
+                | السابق
+              button.btn.btn-primary#fileNext(type="button")
+                | التالي
                 i.fa-solid.fa-arrow-left
 
         // ================= QUIZ VIEW =================

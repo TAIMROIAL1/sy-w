@@ -23,6 +23,15 @@ const lessonSchema = new mongoose.Schema({
     filePath: {
       type: String
     },
+    fileUrl: {
+      type: String
+    },
+    fileName: {
+      type: String
+    },
+    fileSize: {
+      type: Number
+    },
     num: {
       type: Number
     },

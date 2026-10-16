@@ -306,6 +306,80 @@ const videoDuration = document.querySelector('.fa-regular');
 const videoDescription = document.querySelector('.video-description');
 const prevLessonBtn = document.getElementById('prevLesson');
 
+const fileView = document.getElementById('fileView');
+const fileOpenBtn = document.getElementById('fileOpenBtn');
+const filePrevBtn = document.getElementById('filePrev');
+const fileNextBtn = document.getElementById('fileNext');
+
+/* =========================================
+   RESOURCE ORDER HELPERS
+========================================= */
+
+const allRes = () => [...document.querySelectorAll('.lesson-resource')];
+const activeRes = () => document.querySelector('.lesson-resource.active');
+const nextOf = res => { const all = allRes(); return all[all.indexOf(res) + 1] || null; };
+const prevOf = res => { const all = allRes(); return all.indexOf(res) > 0 ? all[all.indexOf(res) - 1] : null; };
+const isFileRes = res => res.classList.contains('file-resource');
+
+const RES_ICONS = { video: 'fa-play', quiz: 'fa-clipboard-question', file: 'fa-file-arrow-down' };
+
+function unlockRes(res) {
+  res.classList.remove('locked');
+  const type = Object.keys(RES_ICONS).find(t => res.classList.contains(`${t}-resource`));
+  if(type) res.querySelector('.resource-icon').innerHTML = `<i class='fa-solid ${RES_ICONS[type]}'></i>`;
+}
+
+// the resource after a completed one opens; files never block what comes after them
+function unlockAfter(res) {
+  let next = nextOf(res);
+  while(next) {
+    unlockRes(next);
+    if(!isFileRes(next)) break;
+    next = nextOf(next);
+  }
+}
+
+function setActive(res) {
+  allRes().forEach(r => r.classList.remove('active'));
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  res.classList.add('active');
+  res.closest('.lesson').classList.add('active');
+}
+
+function completeRes(res) {
+  updateUserProgress(Number(res.dataset.num) + 1, res.closest('.lesson').dataset.num);
+  const mark = res.querySelector('.state-mark');
+  mark.classList.remove('fa-chevron-left', 'resource-action', 'resource-aciton');
+  mark.classList.add('fa-circle-check', 'completed');
+  unlockAfter(res);
+}
+
+function goTo(res) {
+  if(!res || res.classList.contains('locked')) return;
+  setActive(res);
+  moveToRes(res);
+  closeMobileSidebar();
+}
+
+function showFileView(res) {
+  const { badge, title, description, fileName, fileSize, num } = res.dataset;
+  const { lessonId } = res.closest('.lesson').dataset;
+
+  fileView.querySelector('.file-badge').textContent = badge || '';
+  fileView.querySelector('.file-title').textContent = title || '';
+  fileView.querySelector('.file-description').textContent = description || '';
+  fileView.querySelector('.file-name').textContent = fileName || '';
+  fileView.querySelector('.file-size').textContent = fileSize || '';
+  fileOpenBtn.href = `${domain}/api/v1/subcourses/${location.href.split('/')[4]}/lessons/${lessonId}/files/${num}`;
+
+  filePrevBtn.classList.toggle('hidden', !prevOf(res));
+  fileNextBtn.classList.toggle('hidden', !nextOf(res));
+  showView(fileView);
+}
+
+filePrevBtn.addEventListener('click', () => goTo(prevOf(activeRes())));
+fileNextBtn.addEventListener('click', () => goTo(nextOf(activeRes())));
+
 // Loader View Elements
 const loaderTitle = document.querySelector('.lodaer-title');
 const lodaerDescription = document.querySelector('.loader-description');
@@ -367,53 +441,31 @@ lessonsList.addEventListener("click", async function (e) {
     quizTitle.textContent = lessonRes.querySelector('strong').textContent;
         startQuiz(questions);
     }
-    // PDF Resource
-    else {
+    else if (isFileRes(lessonRes)) {
+      showFileView(lessonRes);
+      closeMobileSidebar();
     }
   }
 });
 
-btnPrimary.addEventListener("click", () => { 
-  const currentRes = [...document.querySelectorAll(".lesson-resource")].find(res => res.classList.contains('active'));
-  const currentLesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active'));
-  let inNextLesson = false;
-  let nextRes = currentRes.nextElementSibling;
-  [...document.querySelectorAll('.lesson-resource')].forEach(res => res.classList.remove('active'));
-    if(!nextRes) {nextRes = currentLesson.nextElementSibling.querySelector('.lesson-resource');
-        inNextLesson = true;
-}
-    nextRes.classList.add('active');
-    [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
-    nextRes.closest('.lesson').classList.add('active');
+btnPrimary.addEventListener("click", () => {
+  const currentRes = activeRes();
+  if(!currentRes) return;
 
-    updateUserProgress(Number(currentRes.dataset.num) + 1, currentLesson.dataset.num);
-    currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
-    currentRes.querySelector('.state-mark').classList.remove('resource-action');
-    currentRes.querySelector('.state-mark').classList.add('fa-circle-check');
-    currentRes.querySelector('.state-mark').classList.add('completed');
-  moveToRes(nextRes);
+  completeRes(currentRes);
 
-  closeMobileSidebar();
+  const nextRes = nextOf(currentRes);
+  // last resource of the course: nothing to move to, just finish it
+  if(!nextRes) {
+    btnPrimary.innerHTML = "تم إكمال الكورس <i class='fa-solid fa-circle-check'></i>";
+    btnPrimary.disabled = true;
+    return;
+  }
+
+  goTo(nextRes);
 });
 
-prevLessonBtn.addEventListener('click', function() {
-  const currentRes = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
-
-  let prevRes;
-
-  if(currentRes.dataset.num == 0)
-    prevRes = currentRes.closest('.lesson').previousElementSibling.lastElementChild.lastElementChild;
-  else
-    prevRes = currentRes.previousElementSibling;
-
-
-  [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
-  prevRes.closest('.lesson').classList.add('active');
-
-  currentRes.classList.remove('active');
-  prevRes.classList.add('active');
-  moveToRes(prevRes);
-})
+prevLessonBtn.addEventListener('click', () => goTo(prevOf(activeRes())));
 
 async function updateUserProgress(newRes, newLesson) {
 const response = await ajaxCall(`${domain}/api/v1/users/update-progress`, {subcourseId: location.href.split('/')[4], newRes, newLesson});
@@ -667,44 +719,12 @@ async function calculateResult() {
     message.textContent = "لا بأس، حاول مراجعة الدرس وإعادة الاختبار.";
   }
 
-  const isLastRes = currentRes === [...document.querySelectorAll('.lesson-resource')].pop();
+  const isLastRes = !nextOf(currentRes);
   resultBtn.textContent = percentage >= 80 && !isLastRes? "الدرس التالي" : "العودة الى الدرس";
   
   resultBtn.setAttribute("action", percentage >= 80 && !isLastRes? "next" : "back");
 
-  let newRes;
-  let inNextLesson = false;
-    
-    if(resultBtn.getAttribute('action') === "next") {
-        newRes = currentRes.nextElementSibling;
-        if(!newRes){
-            let nextLesson = currentLesson.nextElementSibling;
-            inNextLesson = true;
-        if(!nextLesson){
-            newRes = currentRes.previousElementSibling;
-        }
-        newRes = nextLesson.querySelector('.lesson-resource');
-        }
-    }
-    else
-        newRes = currentRes.previousElementSibling;
-  if(percentage >= 80){
-  if(newRes) {
-  newRes.classList.remove('locked');
-  if(newRes.classList.contains('video-resource')) {
-    newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-play'></i>";
-  } 
-  
-  else if(newRes.classList.contains('quiz-resource')) {
-     newRes.querySelector('.resource-icon').innerHTML = "<i class='fa-solid fa-clipboard-question'></i>"
-  }
-  }
-  updateUserProgress(Number(currentRes.dataset.num) + 1, currentLesson.dataset.num)
-  currentRes.querySelector('.state-mark').classList.remove('fa-chevron-left');
-    currentRes.querySelector('.state-mark').classList.remove('resource-action');
-    currentRes.querySelector('.state-mark').classList.add('fa-circle-check');
-    currentRes.querySelector('.state-mark').classList.add('completed');
-}
+  if(percentage >= 80) completeRes(currentRes);
   showView(resultView);
 }
 
@@ -755,33 +775,9 @@ function renderWrongAnswers(feedBack) {
 }
 
 resultBtn.addEventListener('click', () => {
-    const currentRes = [...document.querySelectorAll('.lesson-resource')].find(res => res.classList.contains('active'));
-    const currentLesson = [...document.querySelectorAll('.lesson')].find(lesson => lesson.classList.contains('active'));
-
-    let newRes;
-    let inNextLesson = false;
-    
-    if(resultBtn.getAttribute('action') === "next") {
-        newRes = currentRes.nextElementSibling;
-        if(!newRes){
-            let nextLesson = currentLesson.nextElementSibling;
-            inNextLesson = true;
-        if(!nextLesson){
-            newRes = currentRes.previousElementSibling;
-        }
-        newRes = nextLesson.querySelector('.lesson-resource');
-        }
-    }
-    else
-        newRes = currentRes.previousElementSibling;
-
-    [...document.querySelectorAll('.lesson-resource')].forEach(res => res.classList.remove('active'));
-
-    newRes.classList.add('active');
-    [...document.querySelectorAll('.lesson')].forEach(lesson => lesson.classList.remove('active'));
-    newRes.closest('.lesson').classList.add('active');
-
-    
+    const currentRes = activeRes();
+    const newRes = (resultBtn.getAttribute('action') === "next" ? nextOf(currentRes) : prevOf(currentRes)) || currentRes;
+    setActive(newRes);
     moveToRes(newRes);
 })
 
@@ -840,12 +836,12 @@ function updateVideoView(video) {
     const resNum = video.dataset.num;
     const lessonNum = video.closest('.lesson').dataset.num;
 
-    if(lessonNum == 1 && resNum == 0) prevLessonBtn.classList.add('hidden')
-      else
-    prevLessonBtn.classList.remove('hidden');
+    prevLessonBtn.classList.toggle('hidden', !prevOf(video));
 
-    if(video === [...document.querySelectorAll('.lesson-resource')].pop()) btnPrimary.classList.add('hidden');
-    else btnPrimary.classList.remove('hidden');
+    btnPrimary.disabled = false;
+    btnPrimary.innerHTML = nextOf(video)
+      ? "الدرس التالي <i class='fa-solid fa-arrow-left'></i>"
+      : "إنهاء الكورس <i class='fa-solid fa-flag-checkered'></i>";
     
 }
 
@@ -1010,6 +1006,12 @@ else if(res.classList.contains('quiz-resource')) {
     quizTitle.textContent = res.querySelector('strong').textContent;
     startQuiz(questions);
 }
+
+else if(isFileRes(res)) {
+    unlockRes(res);
+    showFileView(res);
+    closeMobileSidebar();
+}
 }
 
 darkToggle.addEventListener('change', () => {
@@ -1033,3 +1035,4 @@ function updateMobileProgress(done, total) {
 }
 
 document.getElementById('openLessonsBtn')?.addEventListener('click', () => openSidebar.click());
+document.getElementById('fileLessonsBtn')?.addEventListener('click', () => openSidebar.click());

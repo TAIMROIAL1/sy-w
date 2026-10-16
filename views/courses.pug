@@ -147,13 +147,13 @@ body(data-domain=domain, data-course-id=course._id.toString())
                         | 🖊️ اختبار 
                     else
                       +lockIcon
-                - if (video.fileType === "pdf")
+                - if (video.fileType === "file")
                   li(data-video-num= video.num)
                     span.lesson-index=`${video.num > 10? "." + (video.num + 1) : ".0" + (video.num + 1)}`
                     span.lesson-name= video.title
                     if canEnter
-                      button
-                        | &#xF4D8; &#x62A;&#x62D;&#x645;&#x64A;&#x644;
+                      button.enter-lesson(data-res-num=video.num data-lesson-num=lesson.num)
+                        | 📄 ملف
                     else
                       +lockIcon
       

@@ -405,14 +405,14 @@ exports.updateProgress = catchAsync(async function(req, res, next) {
   const lesson = await Lesson.findOne({ subcourse: subcourseId, num: lessonNum });
   if(!lesson) return next(new AppError('هذا الدرس غير موجود', 400));
 
-  const current = lessonPointer(progress, lessonNum, lesson.videos.length);
+  const current = lessonPointer(progress, lessonNum, lesson.videos);
 
   let updatedCourseProgress;
   if(newRes === current + 1 && newRes <= lesson.videos.length) {
     const saved = progress.lessons.find(l => l.lessonNum === lessonNum);
     if(saved) saved.videoNumber = newRes;
     else progress.lessons.push({ lessonNum, videoNumber: newRes });
-    progress.achievedVideos.achievedVideosCount++;
+    if(lesson.videos[newRes - 1].fileType !== 'file') progress.achievedVideos.achievedVideosCount++;
     updatedCourseProgress = progress;
   }
   progress.lastLesson = lessonNum;
