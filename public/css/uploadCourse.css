@@ -51,7 +51,10 @@
   }
   
   .container{
-
+   min-height: 370px;
+   height: auto;
+   padding: 20px 0;
+   box-sizing: border-box;
    background-color:var(--blue);
   }
   label{
@@ -151,6 +154,20 @@
 
 
   
+.check-row{
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  width: 250px;
+  margin: 12px 0 0;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.check-row input{
+  flex: none;
+  margin-top: 4px;
+}
+
 .hidden{
   display: none;
 }
