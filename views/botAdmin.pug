@@ -1,0 +1,310 @@
+doctype html
+html(lang='ar' dir='rtl')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    title لوحة تحكم البوت | Studyou
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css')
+    link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap' rel='stylesheet')
+    link(rel='stylesheet' href='/css/botAdmin.css')
+    link(rel='icon' type='image/svg+xml' href='/my-favicon/favicon.svg?v=20260916')
+  body
+    header.top
+      .top-inner
+        a.home-link(href='/' title='الصفحة الرئيسية' aria-label='الصفحة الرئيسية')
+          i.fa-solid.fa-house
+        .top-title
+          .top-icon
+            i.fa-brands.fa-telegram
+          div
+            h1 لوحة تحكم البوت
+            p تحكم بأزرار البوت ومنشوراته وأسئلة الطلاب
+        .stats
+          .stat
+            i.fa-solid.fa-users
+            b#stat-subscribers —
+            span مشترك
+          .stat
+            i.fa-solid.fa-circle-question
+            b#stat-questions —
+            span سؤال جديد
+
+    .page
+      .alert.hidden#config-alert
+        i.fa-solid.fa-triangle-exclamation
+        span#config-alert-text
+
+      nav.tabs(role='tablist')
+        button.tab.active(type='button' data-tab='menus')
+          i.fa-solid.fa-table-cells-large
+          span الأزرار
+        button.tab(type='button' data-tab='posts')
+          i.fa-solid.fa-bullhorn
+          span المنشورات
+        button.tab(type='button' data-tab='questions')
+          i.fa-solid.fa-circle-question
+          span الأسئلة
+          span.tab-badge.hidden#questions-badge
+        button.tab(type='button' data-tab='subscribers')
+          i.fa-solid.fa-users
+          span المشتركون
+        button.tab(type='button' data-tab='settings')
+          i.fa-solid.fa-gear
+          span الإعدادات
+
+      //- ---------- menus ----------
+      section.panel#tab-menus
+        nav.crumbs#crumbs(aria-label='مسار القوائم')
+        .menus-layout
+          .card
+            .card-head
+              h2#menu-title الصفحة الرئيسية
+              button.btn.btn-primary#add-button(type='button')
+                i.fa-solid.fa-plus
+                span إضافة زر
+            .menu-settings
+              label.field
+                span رسالة القائمة
+                textarea#menu-message(rows='3' maxlength='4096' placeholder='النص الذي يظهر عند فتح القائمة')
+              .menu-settings-row
+                label.field.field-inline
+                  span عدد الأزرار في السطر
+                  select#menu-columns
+                    option(value='1') 1
+                    option(value='2') 2
+                    option(value='3') 3
+                    option(value='4') 4
+                button.btn.btn-soft#save-menu(type='button')
+                  i.fa-solid.fa-floppy-disk
+                  span حفظ القائمة
+            ul.button-list#button-list
+            .empty.hidden#buttons-empty
+              i.fa-regular.fa-square-plus
+              p لا يوجد أزرار في هذه القائمة بعد
+
+          .phone-wrap
+            .phone
+              .phone-head
+                .phone-avatar
+                  i.fa-solid.fa-robot
+                div
+                  b Studyou Bot
+                  small معاينة
+              .phone-chat#preview-chat
+              .phone-keyboard#preview-keyboard
+            p.phone-hint اضغط على أزرار المعاينة لتجربة البوت
+
+      //- ---------- posts ----------
+      section.panel.hidden#tab-posts
+        .posts-layout
+          .card
+            .card-head
+              h2 منشور جديد
+            p.card-sub يصل المنشور إلى كل من اشترك في البوت
+            .items-editor#post-items
+            .add-items(data-for='post-items')
+              button.btn.btn-ghost(type='button' data-add='text')
+                i.fa-solid.fa-font
+                span نص
+              button.btn.btn-ghost(type='button' data-add='photo')
+                i.fa-solid.fa-image
+                span صورة
+              button.btn.btn-ghost(type='button' data-add='video')
+                i.fa-solid.fa-video
+                span فيديو
+              button.btn.btn-ghost(type='button' data-add='document')
+                i.fa-solid.fa-file-lines
+                span ملف
+            .link-fields
+              label.field
+                span زر رابط (اختياري)
+                input#post-link-text(type='text' maxlength='60' placeholder='نص الزر، مثلا: سجل الآن')
+              label.field
+                span الرابط
+                input#post-link-url(type='url' dir='ltr' maxlength='500' placeholder='https://studyou.online')
+            .actions
+              button.btn.btn-soft#preview-post(type='button')
+                i.fa-solid.fa-eye
+                span إرسال تجريبي لي
+              button.btn.btn-primary#send-post(type='button')
+                i.fa-solid.fa-paper-plane
+                span إرسال للجميع
+          .card
+            .card-head
+              h2 المنشورات السابقة
+            .post-list#post-list
+            .empty.hidden#posts-empty
+              i.fa-regular.fa-paper-plane
+              p لم يتم إرسال أي منشور بعد
+
+      //- ---------- questions ----------
+      section.panel.hidden#tab-questions
+        .filters#question-filters
+          button.chip.active(type='button' data-status='open') جديدة
+          button.chip(type='button' data-status='answered') تم الرد
+          button.chip(type='button' data-status='all') الكل
+        .question-list#question-list
+        .empty.hidden#questions-empty
+          i.fa-regular.fa-face-smile
+          p لا يوجد أسئلة هنا
+
+      //- ---------- subscribers ----------
+      section.panel.hidden#tab-subscribers
+        .card
+          .card-head
+            h2
+              span المشتركون
+              small.muted#subscribers-total
+            label.search
+              i.fa-solid.fa-magnifying-glass
+              input#subscriber-search(type='search' placeholder='ابحث بالاسم أو المعرف أو الرقم')
+          .table-wrap
+            table.table
+              thead
+                tr
+                  th الاسم
+                  th المعرف
+                  th رقم المحادثة
+                  th تاريخ الاشتراك
+                  th آخر نشاط
+                  th الحالة
+              tbody#subscribers-body
+          .pager
+            button.btn.btn-ghost#subscribers-prev(type='button')
+              i.fa-solid.fa-chevron-right
+            span#subscribers-page 1 / 1
+            button.btn.btn-ghost#subscribers-next(type='button')
+              i.fa-solid.fa-chevron-left
+
+      //- ---------- settings ----------
+      section.panel.hidden#tab-settings
+        form.card.settings-form#settings-form(novalidate)
+          .card-head
+            h2 إعدادات البوت
+          label.field
+            span رسالة الترحيب (عند /start)
+            textarea(name='start_message' rows='2' maxlength='4096')
+          label.field
+            span رسالة الصفحة الرئيسية
+            textarea(name='main_message' rows='2' maxlength='4096')
+          .grid-2
+            label.field
+              span نص زر الرجوع
+              input(name='back_label' type='text' maxlength='120')
+            label.field
+              span عدد أزرار السطر في الصفحة الرئيسية
+              select(name='main_columns')
+                option(value='1') 1
+                option(value='2') 2
+                option(value='3') 3
+                option(value='4') 4
+          label.field
+            span الرد على رسالة غير مفهومة
+            textarea(name='unknown_message' rows='2' maxlength='4096')
+          label.field
+            span رسالة بعد إرسال سؤال
+            textarea(name='question_thanks' rows='2' maxlength='4096')
+          label.field
+            span بداية الرد على السؤال
+            input(name='answer_header' type='text' maxlength='200')
+          label.field
+            span رقم حساب الإدارة في تيليغرام (Chat ID)
+            input(name='admin_chat_id' type='text' dir='ltr' inputmode='numeric')
+            small.muted تصل إليه أسئلة الطلاب والنسخ التجريبية، ويمكنه الرد على السؤال من تيليغرام بكتابة «رد» ثم الجواب في سطر جديد
+          .actions
+            button.btn.btn-primary(type='submit')
+              i.fa-solid.fa-floppy-disk
+              span حفظ الإعدادات
+
+    //- ---------- button editor ----------
+    dialog.modal#button-modal
+      form.modal-card#button-form(method='dialog' novalidate)
+        .modal-head
+          h2#button-modal-title زر جديد
+          button.icon-btn(type='button' data-close aria-label='إغلاق')
+            i.fa-solid.fa-xmark
+        label.field
+          span اسم الزر
+          input#button-label(type='text' maxlength='120' required placeholder='مثلا: كورسات العلوم')
+        .field
+          span نوع الزر
+          .type-picker
+            label.type-option
+              input(type='radio' name='button-type' value='menu')
+              i.fa-solid.fa-folder-open
+              b قائمة
+              small تفتح أزراراً جديدة
+            label.type-option
+              input(type='radio' name='button-type' value='content')
+              i.fa-solid.fa-message
+              b محتوى
+              small يرسل نصاً أو صوراً أو ملفات
+            label.type-option
+              input(type='radio' name='button-type' value='question')
+              i.fa-solid.fa-circle-question
+              b سؤال
+              small يستقبل سؤال الطالب
+        .type-fields(data-type='menu')
+          label.field
+            span رسالة القائمة
+            textarea#button-menu-message(rows='3' maxlength='4096' placeholder='النص الذي يظهر عند فتح القائمة')
+          label.field.field-inline
+            span عدد الأزرار في السطر
+            select#button-columns
+              option(value='1') 1
+              option(value='2' selected) 2
+              option(value='3') 3
+              option(value='4') 4
+        .type-fields(data-type='content')
+          .items-editor#button-items
+          .add-items(data-for='button-items')
+            button.btn.btn-ghost(type='button' data-add='text')
+              i.fa-solid.fa-font
+              span نص
+            button.btn.btn-ghost(type='button' data-add='photo')
+              i.fa-solid.fa-image
+              span صورة
+            button.btn.btn-ghost(type='button' data-add='video')
+              i.fa-solid.fa-video
+              span فيديو
+            button.btn.btn-ghost(type='button' data-add='document')
+              i.fa-solid.fa-file-lines
+              span ملف
+        .type-fields(data-type='question')
+          label.field
+            span رسالة طلب السؤال
+            textarea#button-question-message(rows='2' maxlength='4096' placeholder='أرسل لنا سؤالك برسالة واحدة فقط..')
+        label.check
+          input#button-hidden(type='checkbox')
+          span إخفاء الزر عن الطلاب
+        .modal-actions
+          button.btn.btn-ghost(type='button' data-close) إلغاء
+          button.btn.btn-primary#button-save(type='submit')
+            i.fa-solid.fa-floppy-disk
+            span حفظ
+
+    dialog.modal#move-modal
+      form.modal-card.modal-sm#move-form(method='dialog' novalidate)
+        .modal-head
+          h2 نقل الزر
+          button.icon-btn(type='button' data-close aria-label='إغلاق')
+            i.fa-solid.fa-xmark
+        label.field
+          span إلى القائمة
+          select#move-target
+        .modal-actions
+          button.btn.btn-ghost(type='button' data-close) إلغاء
+          button.btn.btn-primary(type='submit') نقل
+
+    dialog.modal#confirm-modal
+      form.modal-card.modal-sm#confirm-form(method='dialog' novalidate)
+        .modal-head
+          h2#confirm-title تأكيد
+        p.confirm-text#confirm-text
+        .modal-actions
+          button.btn.btn-ghost(type='button' data-close) إلغاء
+          button.btn.btn-danger#confirm-ok(type='submit') تأكيد
+
+    .toast-wrap#toast-wrap(aria-live='polite')
+
+    script(src='/js/botAdmin.js')

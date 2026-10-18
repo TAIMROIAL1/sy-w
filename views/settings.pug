@@ -130,6 +130,13 @@ body(data-domain=domain)
               .info-text
                 span.label &#x646;&#x648;&#x639; &#x627;&#x644;&#x62D;&#x633;&#x627;&#x628;
                 strong= user.role === 'admin'? "ادمن":"طالب"
+            if user.role === 'admin'
+              a.info-box(href='/bot-admin' style='text-decoration: none; color: inherit;')
+                .info-icon(aria-hidden='true')
+                  i(class='fa-brands fa-telegram')
+                .info-text
+                  span.label بوت تيليغرام
+                  strong لوحة تحكم البوت
             // إعادة تعيين كلمة المرور
             .password-box
               .info-icon.password-icon

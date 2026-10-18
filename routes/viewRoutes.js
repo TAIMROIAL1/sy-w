@@ -396,6 +396,11 @@ router.get('/admin-users', checkJWT, restrictTo('admin'), catchAsync((req, res) 
   res.status(200).render('adminUsers');
 }))
 
+// Telegram bot control panel (menus, posts, questions, subscribers, settings)
+router.get('/bot-admin', checkJWT, restrictTo('admin'), (req, res) => {
+  res.status(200).render('botAdmin');
+});
+
 router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
   res.status(200).render('code-api');
 }))
