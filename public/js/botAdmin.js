@@ -629,12 +629,11 @@
     const { data } = await api('/stats/monthly');
     const body = $('#monthly-body');
     body.innerHTML = '';
-    if(!data.months.length) body.append(el('tr', {}, el('td', { colspan: 4, class: 'muted', text: 'لا توجد بيانات شهرية بعد' })));
+    if(!data.months.length) body.append(el('tr', {}, el('td', { colspan: 3, class: 'muted', text: 'لا توجد بيانات شهرية بعد' })));
     data.months.forEach(m => body.append(el('tr', {},
       el('td', { class: 'ltr', text: m.month }),
       el('td', { text: m.active }),
-      el('td', { text: m.new }),
-      el('td', { text: m.blocked })
+      el('td', { text: m.new })
     )));
   }
   let searchTimer;

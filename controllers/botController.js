@@ -261,14 +261,13 @@ const dateMonth = field => [
 ];
 
 exports.getMonthlyStats = catchAsync(async (req, res) => {
-  const [active, added, blocked] = await Promise.all([
+  const [active, added] = await Promise.all([
     countByMonth([{ $unwind: '$active_months' }, { $project: { month: '$active_months' } }]),
-    countByMonth(dateMonth('started_at')),
-    countByMonth([{ $match: { blocked: true } }, ...dateMonth('blocked_at')])
+    countByMonth(dateMonth('started_at'))
   ]);
-  const months = [...new Set([...Object.keys(active), ...Object.keys(added), ...Object.keys(blocked)])]
+  const months = [...new Set([...Object.keys(active), ...Object.keys(added)])]
     .sort().reverse().slice(0, 12)
-    .map(month => ({ month, active: active[month] || 0, new: added[month] || 0, blocked: blocked[month] || 0 }));
+    .map(month => ({ month, active: active[month] || 0, new: added[month] || 0 }));
   res.status(200).json({ status: 'success', data: { months } });
 });
 
