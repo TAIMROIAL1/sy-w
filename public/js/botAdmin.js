@@ -615,14 +615,13 @@
     $('#subscribers-next').disabled = data.page >= data.pages;
     const body = $('#subscribers-body');
     body.innerHTML = '';
-    if(!data.subscribers.length) body.append(el('tr', {}, el('td', { colspan: 6, class: 'muted', text: 'لا يوجد مشتركون' })));
+    if(!data.subscribers.length) body.append(el('tr', {}, el('td', { colspan: 5, class: 'muted', text: 'لا يوجد مشتركون' })));
     data.subscribers.forEach(s => body.append(el('tr', {},
       el('td', { text: [s.first_name, s.last_name].filter(Boolean).join(' ') || '—' }),
       el('td', { class: 'ltr', text: s.username ? `@${s.username}` : '—' }),
       el('td', { class: 'ltr', text: s.chat_id }),
       el('td', { text: formatDate(s.started_at) }),
-      el('td', { text: timeAgo(s.last_seen) }),
-      el('td', {}, s.blocked ? el('span', { class: 'badge-bad', text: 'أوقف البوت' }) : el('span', { class: 'badge-ok', text: 'نشط' }))
+      el('td', { text: timeAgo(s.last_seen) })
     )));
   }
   async function loadMonthly() {
