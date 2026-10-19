@@ -227,6 +227,27 @@ exports.updateSettings = catchAsync(async (req, res) => {
 
 const PAGE_SIZE = 50;
 
+const countByMonth = async pipeline => {
+  const rows = await BotSubscriber.aggregate([...pipeline, { $group: { _id: '$month', n: { $sum: 1 } } }]);
+  return Object.fromEntries(rows.map(r => [r._id, r.n]));
+};
+const dateMonth = field => [
+  { $match: { [field]: { $type: 'date' } } },
+  { $project: { month: { $dateToString: { format: '%Y-%m', date: `$${field}` } } } }
+];
+
+exports.getMonthlyStats = catchAsync(async (req, res) => {
+  const [active, added, blocked] = await Promise.all([
+    countByMonth([{ $unwind: '$active_months' }, { $project: { month: '$active_months' } }]),
+    countByMonth(dateMonth('started_at')),
+    countByMonth([{ $match: { blocked: true } }, ...dateMonth('blocked_at')])
+  ]);
+  const months = [...new Set([...Object.keys(active), ...Object.keys(added), ...Object.keys(blocked)])]
+    .sort().reverse().slice(0, 12)
+    .map(month => ({ month, active: active[month] || 0, new: added[month] || 0, blocked: blocked[month] || 0 }));
+  res.status(200).json({ status: 'success', data: { months } });
+});
+
 exports.getSubscribers = catchAsync(async (req, res) => {
   const filter = { chat_id: { $ne: null } };
   const q = text(req.query.q, 60);
@@ -328,7 +349,7 @@ const runPost = async post => {
     } catch(err) {
       if(err instanceof telegram.TelegramError && err.code === 403) {
         counts.blocked++;
-        await BotSubscriber.updateOne({ chat_id: chatIds[i] }, { blocked: true });
+        await BotSubscriber.updateOne({ chat_id: chatIds[i] }, { blocked: true, blocked_at: new Date() });
       } else counts.failed++;
     }
     if(i % 10 === 9) await BotPost.updateOne({ _id: post._id }, counts);
