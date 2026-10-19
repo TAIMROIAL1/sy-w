@@ -14,7 +14,8 @@ const DEFAULT_SETTINGS = {
   unknown_message: 'اختر من الأزرار في الأسفل 👇',
   question_thanks: 'تم إيصال رسالتك إلى الفريق العلمي, سيتم الرد في أقرب وقت ممكن.',
   answer_header: 'ردا على سؤالك:',
-  admin_chat_id: 7399110187
+  admin_chat_id: 7399110187,
+  stats_description: '👥 {total} مشترك · {active} نشط هذا الشهر'
 };
 const SETTING_TEXTS = ['start_message', 'main_message', 'back_label', 'unknown_message', 'question_thanks', 'answer_header'];
 const ITEM_KINDS = ['text', 'photo', 'video', 'document'];
@@ -205,6 +206,20 @@ exports.getSettings = catchAsync(async (req, res) => {
   res.status(200).json({ status: 'success', data: { settings: await getSettings() } });
 });
 
+const refreshDescription = async template => {
+  let description = '';
+  if(template) {
+    const [total, active] = await Promise.all([
+      BotSubscriber.countDocuments({ chat_id: { $ne: null }, blocked: { $ne: true } }),
+      BotSubscriber.countDocuments({ active_months: new Date().toISOString().slice(0, 7) })
+    ]);
+    description = template.replace(/\{total\}/g, total.toLocaleString('en-US'))
+      .replace(/\{active\}/g, active.toLocaleString('en-US')).slice(0, 120);
+  }
+  await telegram.call('setMyShortDescription', { short_description: description });
+  await BotSettings.updateOne({ _id: 'main' }, { description_updated_at: new Date() });
+};
+
 exports.updateSettings = catchAsync(async (req, res) => {
   const update = {};
   SETTING_TEXTS.forEach(key => {
@@ -218,9 +233,18 @@ exports.updateSettings = catchAsync(async (req, res) => {
     if(!Number.isSafeInteger(chatId) || chatId === 0) throw fail('رقم حساب الإدارة غير صالح');
     update.admin_chat_id = chatId;
   }
+  if(req.body.stats_description !== undefined) update.stats_description = text(req.body.stats_description, 120);
   if(update.back_label && await BotButton.exists({ label: update.back_label })) throw fail('يوجد زر بنفس اسم زر الرجوع');
   const settings = await BotSettings.findByIdAndUpdate('main', { $set: update }, { new: true, upsert: true, lean: true });
-  res.status(200).json({ status: 'success', message: 'تم حفظ الإعدادات', data: { settings: { ...DEFAULT_SETTINGS, ...settings } } });
+  let message = 'تم حفظ الإعدادات';
+  if(update.stats_description !== undefined) {
+    try {
+      await refreshDescription(update.stats_description);
+    } catch(err) {
+      message = `تم حفظ الإعدادات، لكن تعذر تحديث وصف البوت: ${err.message}`;
+    }
+  }
+  res.status(200).json({ status: 'success', message, data: { settings: { ...DEFAULT_SETTINGS, ...settings } } });
 });
 
 // ---------- subscribers ----------
