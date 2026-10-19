@@ -18,6 +18,7 @@ router.post('/upload', bot.uploadMiddleware, bot.uploadFile);
 router.route('/settings').get(bot.getSettings).patch(bot.updateSettings);
 
 router.get('/subscribers', bot.getSubscribers);
+router.get('/stats/monthly', bot.getMonthlyStats);
 
 router.get('/questions', bot.getQuestions);
 router.post('/questions/:id/answer', bot.answerQuestion);
