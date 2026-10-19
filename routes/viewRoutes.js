@@ -401,6 +401,11 @@ router.get('/bot-admin', checkJWT, restrictTo('admin'), (req, res) => {
   res.status(200).render('botAdmin');
 });
 
+// PDF splitter (hidden admin tool, not linked anywhere); splitting happens in the browser
+router.get('/pdf-split', checkJWT, restrictTo('admin'), (req, res) => {
+  res.status(200).render('pdfSplit');
+});
+
 router.get('/code-api', checkJWT, restrictTo('admin'), catchAsync((req, res) => {
   res.status(200).render('code-api');
 }))

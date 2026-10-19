@@ -100,6 +100,16 @@ app.get('/js/anki/:file', servePublic('js', 'anki'))
 
 app.get('/js/tests/:file', servePublic('js', 'tests'))
 
+// browser builds of npm packages, whitelisted by name
+const vendorFiles = {
+  'pdf-lib.min.js': 'pdf-lib/dist/pdf-lib.min.js',
+  'jszip.min.js': 'jszip/dist/jszip.min.js'
+};
+app.get('/js/vendor/:file', (req, res, next) => {
+  if(!Object.hasOwn(vendorFiles, req.params.file)) return next();
+  res.sendFile(vendorFiles[req.params.file], { root: path.join(__dirname, 'node_modules') }, err => err && next());
+})
+
 app.get('/imgs/:file', servePublic('imgs'))
 
 app.get('/imgs/classes/:file', servePublic('imgs', 'classes'))
