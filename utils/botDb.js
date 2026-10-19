@@ -39,6 +39,8 @@ const settingsSchema = new mongoose.Schema({
   question_thanks: String,
   answer_header: String,
   admin_chat_id: Number,
+  stats_description: String,
+  description_updated_at: Date,
   seeded: Boolean
 }, { collection: 'bot_settings', versionKey: false });
 

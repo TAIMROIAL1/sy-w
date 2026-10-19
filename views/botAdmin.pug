@@ -225,6 +225,10 @@ html(lang='ar' dir='rtl')
             span رقم حساب الإدارة في تيليغرام (Chat ID)
             input(name='admin_chat_id' type='text' dir='ltr' inputmode='numeric')
             small.muted تصل إليه أسئلة الطلاب والنسخ التجريبية، ويمكنه الرد على السؤال من تيليغرام بكتابة «رد» ثم الجواب في سطر جديد
+          label.field
+            span وصف البوت المختصر (يظهر في صفحة البوت وقبل الضغط على ابدأ)
+            input(name='stats_description' type='text' maxlength='120')
+            small.muted اكتب {total} لعدد المشتركين و {active} لعدد النشطين هذا الشهر. يتحدّث تلقائياً كل 3 ساعات تقريباً، واتركه فارغاً لإيقافه.
           .actions
             button.btn.btn-primary(type='submit')
               i.fa-solid.fa-floppy-disk
