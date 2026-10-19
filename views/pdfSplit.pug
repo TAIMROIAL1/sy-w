@@ -1,0 +1,84 @@
+doctype html
+html(lang='ar' dir='rtl')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    meta(name='robots' content='noindex, nofollow')
+    title تقسيم ملفات PDF | Studyou
+    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css')
+    link(href='https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap' rel='stylesheet')
+    link(rel='stylesheet' href='/css/pdfSplit.css')
+    link(rel='icon' type='image/svg+xml' href='/my-favicon/favicon.svg?v=20260916')
+  body
+    header.top
+      .top-inner
+        a.home-link(href='/' title='الصفحة الرئيسية' aria-label='الصفحة الرئيسية')
+          i.fa-solid.fa-house
+        .top-title
+          .top-icon
+            i.fa-solid.fa-file-pdf
+          div
+            h1 تقسيم ملفات PDF
+            p ارفع ملف PDF، حدد نطاقات الصفحات، ثم نزّل الملفات الجديدة. يتم التقسيم داخل المتصفح ولا يُرفع الملف إلى الخادم.
+
+    .page
+      section.card
+        h2
+          span.step 1
+          | اختر الملف
+        label.drop#drop(for='pdf-input')
+          i.fa-solid.fa-cloud-arrow-up
+          b اسحب ملف PDF إلى هنا أو اضغط للاختيار
+          span.muted#file-info لم يتم اختيار ملف
+          input#pdf-input(type='file' accept='application/pdf,.pdf' hidden)
+
+      section.card.disabled#ranges-card
+        h2
+          span.step 2
+          | حدد النطاقات
+          span.badge#page-count
+        .tools
+          .tool
+            label(for='every-n') تقسيم كل
+            input#every-n(type='number' min='1' value='10')
+            span صفحات
+            button.btn.ghost#btn-every(type='button')
+              i.fa-solid.fa-wand-magic-sparkles
+              | تطبيق
+          .tool.grow
+            label(for='ranges-text') أو اكتب النطاقات
+            input#ranges-text(type='text' dir='ltr' placeholder='1-5, 6-12, 13, 14-20')
+            button.btn.ghost#btn-text(type='button')
+              i.fa-solid.fa-check
+              | تطبيق
+        .ranges-head
+          span #
+          span اسم الملف
+          span من صفحة
+          span إلى صفحة
+          span
+        #ranges
+        .row-actions
+          button.btn.ghost#btn-add(type='button')
+            i.fa-solid.fa-plus
+            | إضافة نطاق
+          button.btn.ghost.danger#btn-clear(type='button')
+            i.fa-solid.fa-trash
+            | حذف الكل
+        p.error.hidden#ranges-error
+        button.btn.primary.big#btn-split(type='button')
+          i.fa-solid.fa-scissors
+          | تقسيم الملف
+
+      section.card.hidden#results-card
+        h2
+          span.step 3
+          | تنزيل الملفات
+          button.btn.primary#btn-zip(type='button')
+            i.fa-solid.fa-file-zipper
+            | تنزيل الكل (ZIP)
+        #results
+
+    script(src='/js/vendor/pdf-lib.min.js')
+    script(src='/js/vendor/jszip.min.js')
+    script(src='/js/pdfSplit.js')
