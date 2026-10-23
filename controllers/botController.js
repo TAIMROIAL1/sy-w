@@ -178,6 +178,7 @@ const MAX_FILE_MB = 50; // Bot API upload limit
 
 exports.uploadMiddleware = (req, res, next) => multer({
   storage: multer.memoryStorage(),
+  defParamCharset: 'utf8',
   limits: { fileSize: MAX_FILE_MB * 1024 * 1024, files: 1, fields: 3 }
 }).single('file')(req, res, err => {
   if(err instanceof multer.MulterError)
